@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="EUC-KR">
+	<title th:text="${title}"></title>
+	<link th:href="@{assets/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{assets/plugins/jquery-ui/jquery-ui.css}" rel="stylesheet}">
+    <link th:href="@{assets/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{assets/plugins/selectbox/select_option1.css}" rel="stylesheet">
+    <link th:href="@{assets/plugins/fancybox/jquery.fancybox.min.css}" rel="stylesheet">
+    <link th:href="@{assets/plugins/rateyo/jquery.rateyo.min.css}" rel="stylesheet">
+    <link th:href="@{assets/plugins/iziToast/css/iziToast.css}" rel="stylesheet">
+    <link th:href="@{assets/plugins/prismjs/prism.css}" rel="stylesheet">
+    <link th:href="@{assets/plugins/revolution/css/settings.css}" rel="stylesheet">
+    <link th:href="@{assets/plugins/animate/animate.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{assets/plugins/slick/slick.css}" media="screen">
+    <link rel="stylesheet" type="text/css" th:href="@{assets/plugins/slick/slick-theme.css}" media="screen">
+
+
+    <!-- CUSTOM CSS -->
+    <link th:href="@{assets/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{assets/css/default.css}" id="option_style">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" th:href="@{assets/img/favicon.png}">
+</head>
+<body>
+	<div id="wrapper">
+		<!-- navibar(상단메뉴) start -->
+		<div th:replace="~{fragments/naviFragment :: naviFragment}"></div>
+		<!-- navibar(상단메뉴) end -->
+		
+		<!-- aside(왼쪽메뉴) start -->
+		<div th:replace="~{fragments/asideFragment :: asideFragment}"></div>
+		<!-- aside(왼쪽메뉴) end -->
+		<!-- contents start -->
+		<div id="rightcolumn">
+			<!-- 페이지마다 변경되는 contents -->
+			<th:block layout:fragment="customContents"></th:block>
+		</div>
+		
+		<!-- footer(하단메뉴) start -->
+		<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
+		<!-- footer(하단메뉴) end -->
+	</div>
+	
+		<!-- 사용자 지정 js 파일 -->
+		<th:block layout:fragment="customJs"></th:block>
+		<!-- 사용자 지정 js script -->
+		<th:block layout:fragment="customScript">
+			<script src="assets/plugins/jquery/jquery.min.js"></script>
+			<script src="assets/plugins/jquery/jquery-migrate-3.0.0.min.js"></script>
+			<script src="assets/plugins/jquery-ui/jquery-ui.js"></script>
+			<script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+			<script src="assets/plugins/revolution/js/jquery.themepunch.tools.min.js"></script>
+			<script src="assets/plugins/revolution/js/jquery.themepunch.revolution.min.js"></script>
+			<script src="assets/plugins/slick/slick.js"></script>
+			<script src="assets/plugins/fancybox/jquery.fancybox.min.js"></script>
+			<script src="assets/plugins/iziToast/js/iziToast.js"></script>
+			<script src="assets/plugins/prismjs/prism.js"></script>
+			<script src="assets/plugins/selectbox/jquery.selectbox-0.1.3.min.js"></script>
+			<script src="assets/plugins/countdown/jquery.syotimer.js"></script>
+			<script src="assets/plugins/velocity/velocity.min.js"></script>
+			<script src="assets/plugins/rateyo/jquery.rateyo.min.js"></script>
+			<script src="assets/js/custom.js"></script>
+		</th:block>
+		<!-- contents end -->
+
+</body>
+</html>
