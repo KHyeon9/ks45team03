@@ -1,4 +1,4 @@
-package ks45team03.rentravel.controller;
+package ks45team03.rentravel.user.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
