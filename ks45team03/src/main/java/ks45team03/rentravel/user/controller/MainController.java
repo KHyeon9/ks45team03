@@ -11,6 +11,6 @@ public class MainController {
 	@GetMapping("/")
 	public String main(Model model) {
 		model.addAttribute("title", "메인화면");
-		return "main";
+		return "user/main";
 	}
 }
