@@ -1,4 +1,4 @@
-package rentravel;
+package ks45team03.rentravel;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
