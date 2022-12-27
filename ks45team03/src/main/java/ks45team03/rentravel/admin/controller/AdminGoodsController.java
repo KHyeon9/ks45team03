@@ -5,16 +5,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
-@RequestMapping("/admin")
-public class AdminMainController {
+@RequestMapping("/admin/goods")
+public class AdminGoodsController {
 	
-	@GetMapping("/")
-	public String adminMain(Model model) {
-		model.addAttribute("title", "관리자 메인화면");
-		return "admin/main";
+	@GetMapping("/adminGoodsList")
+	public String adminGoodsList(Model model) {
+		model.addAttribute("title","관리자 상품 관리 화면");
+		return "admin/goods/adminGoodsList";
 	}
-	
-
 }
