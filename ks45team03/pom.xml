@@ -8,11 +8,11 @@
 		<version>3.0.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ksmart</groupId>
-	<artifactId>mybatis</artifactId>
+	<groupId>ks45team03</groupId>
+	<artifactId>rentravel</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mybatis</name>
-	<description>mybatis project for Spring Boot</description>
+	<name>rentravel</name>
+	<description>ksmart45 team03 project (rentravel)</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
