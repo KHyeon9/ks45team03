@@ -5,16 +5,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
-@RequestMapping("/admin")
-public class AdminMainController {
+@RequestMapping("/admin/review")
+public class AdminReviewController {
 	
-	@GetMapping("")
-	public String adminMain(Model model) {
-		model.addAttribute("title", "관리자 메인화면");
-		return "admin/main";
+	@GetMapping("/adminReviewList")
+	public String adminReviewList(Model model) {
+		model.addAttribute("title","관리자 상품평 관리 화면입니다.");
+		return "admin/review/adminReviewList";
 	}
-	
-
 }

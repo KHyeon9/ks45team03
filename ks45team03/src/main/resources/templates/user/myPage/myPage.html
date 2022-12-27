@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	  <th:block layout:fragment="customContents">
+		<h1>마이페이지 화면입니다.</h1>
+		<h2><a th:href="@{/user/myPage/myGoodsList}" style="color:blue;">내 상품</a></h2>
+		<h2><a th:href="@{/user/myPage/myReviewList}" style="color:blue;">내 리뷰</a></h2>
+		<h2><a th:href="@{/user/myPage/myWishList}" style="color:blue;">내 관심상품</a></h2>
+		<h2><a th:href="@{/user/myPage/myOrderHistory}" style="color:blue;">내 주문 내역</a></h2>
+	</th:block>
 </html>
