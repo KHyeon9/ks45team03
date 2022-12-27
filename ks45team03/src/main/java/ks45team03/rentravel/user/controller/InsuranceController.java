@@ -11,7 +11,7 @@ public class InsuranceController {
 
 	@GetMapping("/userInsuranceList")
 	public String getUserInsuranceList(Model model) {
-		System.out.println("InsureanceController userInsuranceList 보험리스트");
+		System.out.println("InsuranceController userInsuranceList 보험리스트");
 		
 		model.addAttribute("title", "보험리스트");
 		
@@ -20,7 +20,7 @@ public class InsuranceController {
 	
 	@GetMapping("/userInsuranceBillList")
 	public String getUserInsuranceRequestList(Model model) {
-		System.out.println("InsureanceController userInsuranceBillList 보험청구서리스트");
+		System.out.println("InsuranceController userInsuranceBillList 보험청구서리스트");
 		
 		model.addAttribute("title", "보험청구서리스트");
 		
@@ -29,7 +29,7 @@ public class InsuranceController {
 	
 	@GetMapping("/userInsuranceBillPayoutList")
 	public String getUserInsurancePayoutList(Model model) {
-		System.out.println("InsureanceController userInsuranceBillPayoutList 보험금지급내역");
+		System.out.println("InsuranceController userInsuranceBillPayoutList 보험금지급내역");
 		
 		model.addAttribute("title", "보험금지급내역");
 		
