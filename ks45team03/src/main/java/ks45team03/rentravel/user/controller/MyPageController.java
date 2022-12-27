@@ -9,10 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user/myPage")
 public class MyPageController {
 	
-	@GetMapping("")
-	public String myPage(Model model) {
-		model.addAttribute("title","마이페이지 화면");
+	@GetMapping("/myInfo")
+	private String myInfo() {
+		
 		return "user/myPage/myPage";
+	}
+	
+	@GetMapping("/modifyUser")
+	private String modifyUser() {
+		
+		return "user/myPage/modifyUser";
+	}
+	
+	@GetMapping("/removeUser")
+	private String removeUser() {
+		
+		return "user/myPage/removeUser";
 	}
 	
 	@GetMapping("/myGoodsList")
