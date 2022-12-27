@@ -15,4 +15,11 @@ public class OrderController {
 		
 		return "user/order/userPayment";
 	}
+	
+	@GetMapping("/userWaybill")
+	public String addWaybill(Model model) {
+		model.addAttribute("title", "운송장 번호 입력");
+		
+		return "user/order/userWaybill";
+	}
 }
