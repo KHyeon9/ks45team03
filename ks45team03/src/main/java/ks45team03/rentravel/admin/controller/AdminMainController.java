@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class AdminMainController {
+	
 	@GetMapping("/")
 	public String adminMain(Model model) {
 		model.addAttribute("title", "관리자 메인화면");
 		return "admin/main";
 	}
+	
+
 }
