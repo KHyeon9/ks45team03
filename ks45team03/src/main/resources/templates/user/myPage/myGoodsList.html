@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	마이페이지 내 상품 화면입니다.
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	<th:block layout:fragment="customContents">
+		<h1>마이페이지 내 상품 화면입니다.</h1>
+	</th:block>
 </html>
