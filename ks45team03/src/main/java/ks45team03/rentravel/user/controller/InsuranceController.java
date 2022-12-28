@@ -9,54 +9,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user/insurance")
 public class InsuranceController {
 
-	@GetMapping("/userInsuranceList")
+	@GetMapping("/insuranceList")
 	public String getInsuranceList(Model model) {		
 		model.addAttribute("title", "보험리스트");
 		
-		return "user/insurance/userInsuranceList";
+		return "user/insurance/insuranceList";
 	}
 	
-	@GetMapping("/userInsuranceBillList")
+	@GetMapping("/insuranceBillList")
 	public String getInsuranceRequestList(Model model) {		
 		model.addAttribute("title", "보험청구서리스트");
 		
-		return "user/insurance/userInsuranceBillList";
+		return "user/insurance/insuranceBillList";
 	}
 	
-	@GetMapping("/userInsuranceAddBill")
+	@GetMapping("/insuranceAddBill")
 	public String addInsuranceRequest(Model model) {
 		
 		model.addAttribute("title", "보상금청구서등록");
 		
-		return "user/insurance/userInsuranceAddBill";
+		return "user/insurance/insuranceAddBill";
 	}
 	
-	@GetMapping("/userInsuranceModifyBill")
+	@GetMapping("/insuranceModifyBill")
 	public String modifyInsuranceRequest(Model model) {		
 		model.addAttribute("title", "보상금청구서수정");
 		
-		return "user/insurance/userInsuranceModifyBill";
+		return "user/insurance/insuranceModifyBill";
 	}
 	
-	@GetMapping("/userInsuranceRemoveBill")
+	@GetMapping("/insuranceRemoveBill")
 	public String removeInsuranceRequestById(Model model) {
 		model.addAttribute("title", "보상금청구서삭제");
 		
-		return "user/insurance/userInsuranceRemoveBill";
+		return "user/insurance/insuranceRemoveBill";
 	}
 	
-	@GetMapping("/userInsuranceBillListDetail")
+	@GetMapping("/insuranceBillListDetail")
 	public String getInsuranceRequestInfoByCode(Model model) {
 		model.addAttribute("title", "보상금청구서상세화면");
 		
-		return "user/insurance/userInsuranceBillListDetail";
+		return "user/insurance/insuranceBillListDetail";
 	}
 	
-	@GetMapping("/userInsuranceBillPayoutList")
+	@GetMapping("/insuranceBillPayoutList")
 	public String getInsurancePayoutList(Model model) {		
 		model.addAttribute("title", "보상금지급내역");
 		
-		return "user/insurance/userInsuranceBillPayoutList";
+		return "user/insurance/insuranceBillPayoutList";
 	}
 	
 }
