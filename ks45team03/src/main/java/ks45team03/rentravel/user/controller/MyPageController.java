@@ -62,4 +62,10 @@ public class MyPageController {
 		return "user/myPage/userEvaluated";
 	}
 	
+	@GetMapping("/myBlockList")
+	public String getUserBlockrList(Model model) {
+		model.addAttribute("title","나의 차단 리스트");
+		return "user/myPage/myBlockList";
+	}
+	
 }
