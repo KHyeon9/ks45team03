@@ -2,7 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
-	  
+	  <head>
+		<style type="text/css">
+			table {
+				border: 1px solid black;
+				width: 100%;
+				table-layout: auto;
+				text-align: center;
+			}
+			th {
+				border: 1px solid black;
+				background-color: cornflowerblue;
+				color: azure;
+				height: 30px;
+			}
+			td {
+				border: 1px solid black;
+				height: 30px;
+			}
+			#rightcolumn {
+				overflow:scroll
+			}
+		</style>
+	</head>
 	  <th:block layout:fragment="customContents">
 	  	<h1>정보 게시판 리스트</h1>
 	  	<div id="tableDiv">
@@ -18,25 +40,15 @@
 				  	</tr>
 				  </thead>
 				  <tbody>
-				  	<tr th:unless="${#lists.isEmpty(goodsList)}" th:each="goods : ${goodsList}">
-				  		<td th:text="${goods.goodsCode}"></td>
-				  		<td th:text="${goods.goodsName}"></td>
-				  		<td th:text="${'₩' + #numbers.formatInteger(goods.goodsPrice, 3, 'COMMA')}"></td>
-				  		<td th:text="${goods.goodsSellerId}"></td>
-				  		<th:block th:object="${goods.member}">
-				  			<td th:text="*{memberName}"></td>
-				  			<td th:text="*{memberEmail}"></td>
-				  		</th:block>
-				  		<td th:text="${goods.goodsRegDate}"></td>
-				  		<td>
-				  			<a th:href="@{/goods/modifyGoods(goodsCode=${goods.goodsCode})}">수정</a>
-				  		</td>
-				  		<td>
-				  			<a th:href="@{/goods/removeGoods/{goodsCode}(goodsCode=${goods.goodsCode})}">삭제</a>
-				  		</td>
+				  	<tr th:unless="${#lists.isEmpty(infoBoardList)}" th:each="info : ${infoBoardList}">
+				  		<td th:text="${info.infoBoardTitle}"></td>
+				  		<td th:text="${info.user.userNickName}"></td>
+				  		<td th:text="${info.infoBoardLikeCnt}"></td>
+				  		<td th:text="${info.infoBoardViewCnt}"></td>
+				  		<td th:text="${info.infoBoardRegTime}"></td>
 				  	</tr>
-				  	<tr th:if="${#lists.isEmpty(goodsList)}">
-						<td colspan="9">등록한 상품이 없습니다.</td>
+				  	<tr th:if="${#lists.isEmpty(infoBoardList)}">
+						<td colspan="5">등록한 게시글이 없습니다.</td>
 					</tr>
 				  </tbody>
 				</table>
