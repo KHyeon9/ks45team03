@@ -2,9 +2,82 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/layout/default}">
-
+	 <head>
+		<style type="text/css">
+			table {
+				border: 1px solid black;
+				width: 100%;
+				table-layout: auto;
+				text-align: center;
+			}
+			th {
+				border: 1px solid black;
+				background-color: cornflowerblue;
+				color: azure;
+				height: 30px;
+			}
+			td {
+				border: 1px solid black;
+				height: 30px;
+			}
+			#rightcolumn {
+				overflow:scroll
+			}
+		</style>
+	</head>
 	<th:block layout:fragment="customContents">
 		<h1>관리자 주문 내역 관리</h1>
+		<div id="tableDiv">
+			<div>
+				<table>
+				  <thead>
+				  	<tr>
+				  		<th>상품명</th>
+				  		<th>렌탈시작일</th>
+				  		<th>렌탈종료일</th>
+				  		<th>택배이용여부</th>
+				  		<th>주소</th>
+				  		<th>카드,계좌 번호</th>
+				  		<th>결제기관</th>
+				  		<th>지불방법</th>
+				  		<th>결제예정금액</th>
+				  		<th>플랫폼결제수수료금액</th>
+				  		<th>적립금사용금액</th>
+				  		<th>적립되는적립금</th>
+				  		<th>적립금을제외한금액</th>
+				  		<th>렌탈오너정산금액</th>
+				  		<th>렌탈상태</th>
+				  		<th>결제시간</th>
+				  	</tr>
+				  </thead>
+				  <tbody>
+				  	<tr th:unless="${#lists.isEmpty(orderHistory)}" th:each="order : ${orderHistory}">
+				  		<td th:text="${order.goodsName}"></td>
+				  		<td th:text="${order.rentalStartDate}"></td>
+				  		<td th:text="${order.rentalEndDate}"></td>
+				  		<td th:text="${order.selectDelivery}"></td>
+				  		<td th:text="${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
+				  		<th:block th:object="${order.payment}">
+					  		<td th:text="*{paymentAccountOrCardNumber}"></td>
+					  		<td th:text="*{paymentAgency}"></td>
+					  		<td th:text="*{paymentType}"></td>
+				  			<td th:text="*{expectedPaymentAmount}"></td>
+					  		<td th:text="*{goodsCommisionTotalPrice}"></td>
+					  		<td th:text="*{mileageUsePrice}"></td>
+					  		<td th:text="*{saveMileage}"></td>
+					  		<td th:text="*{amountExcludingMileage}"></td>
+					  		<td th:text="*{settlementAmount}"></td>
+					  		<td th:text="*{paymentTime}"></td>
+				  		</th:block>
+				  		<td th:text="${order.orderStateName}"></td>
+				  	</tr>
+				  	<tr th:if="${#lists.isEmpty(orderHistory)}">
+						<td colspan="5">등록한 게시글이 없습니다.</td>
+					</tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
 		<a th:href="@{/admin/order/adminOrderModify}" style="color: blue;">관리자 주문 내역 수정</a>
 	</th:block>
 

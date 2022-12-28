@@ -10,7 +10,7 @@ public class Payment {
 	private String paymentAccountOrCardNumber;
 	private String paymentAgency;
 	private String paymentType;
-	private int ExpectedPaymentAmount;
+	private int expectedPaymentAmount;
 	private int goodsCommisionTotalPrice;
 	private int mileageUsePrice;
 	private int saveMileage;
@@ -76,10 +76,10 @@ public class Payment {
 		this.paymentType = paymentType;
 	}
 	public int getExpectedPaymentAmount() {
-		return ExpectedPaymentAmount;
+		return expectedPaymentAmount;
 	}
 	public void setExpectedPaymentAmount(int expectedPaymentAmount) {
-		ExpectedPaymentAmount = expectedPaymentAmount;
+		this.expectedPaymentAmount = expectedPaymentAmount;
 	}
 	public int getGoodsCommisionTotalPrice() {
 		return goodsCommisionTotalPrice;
