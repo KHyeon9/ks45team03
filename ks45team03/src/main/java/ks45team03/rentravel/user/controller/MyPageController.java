@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MyPageController {
 	
 	@GetMapping("/myInfo")
-	private String myInfo() {
-		
+	private String myInfo(Model model) {
+		model.addAttribute("title", "내 정보");
 		return "user/myPage/myPage";
 	}
 	
 	@GetMapping("/modifyUser")
-	private String modifyUser() {
-		
+	private String modifyUser(Model model) {
+		model.addAttribute("title", "회원정보 수정");
 		return "user/myPage/modifyUser";
 	}
 	
 	@GetMapping("/removeUser")
-	private String removeUser() {
-		
+	private String removeUser(Model model) {
+		model.addAttribute("title", "탈퇴 화면");
 		return "user/myPage/removeUser";
 	}
 	
@@ -49,4 +49,17 @@ public class MyPageController {
 		model.addAttribute("title","마이페이지 주문 내역");
 		return "user/myPage/myOrderHistory";
 	}
+	
+	@GetMapping("/userEvaluation")
+	public String userEvaluation(Model model) {
+		model.addAttribute("title","내 평가");
+		return "user/myPage/userEvaluation";
+	}
+	
+	@GetMapping("/userEvaluated")
+	public String userEvaluated(Model model) {
+		model.addAttribute("title","내가 한 평가");
+		return "user/myPage/userEvaluated";
+	}
+	
 }

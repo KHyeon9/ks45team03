@@ -101,6 +101,4 @@ public class InsuranceRequest {
 				+ ", insuranceEvidence=" + insuranceEvidence + ", bankName=" + bankName + ", accountHolder="
 				+ accountHolder + ", accountNumber=" + accountNumber + ", requestDate=" + requestDate + "]";
 	}
-	
-	
 }

@@ -9,31 +9,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user/insurance")
 public class InsuranceController {
 
-	@GetMapping("/userInsuranceList")
-	public String getUserInsuranceList(Model model) {
-		System.out.println("InsuranceController userInsuranceList 보험리스트");
-		
+	@GetMapping("/insuranceList")
+	public String getInsuranceList(Model model) {		
 		model.addAttribute("title", "보험리스트");
 		
-		return "user/insurance/userInsuranceList";
+		return "user/insurance/insuranceList";
 	}
 	
-	@GetMapping("/userInsuranceBillList")
-	public String getUserInsuranceRequestList(Model model) {
-		System.out.println("InsuranceController userInsuranceBillList 보험청구서리스트");
-		
+	@GetMapping("/insuranceBillList")
+	public String getInsuranceRequestList(Model model) {		
 		model.addAttribute("title", "보험청구서리스트");
 		
-		return "user/insurance/userInsuranceBillList";
+		return "user/insurance/insuranceBillList";
 	}
 	
-	@GetMapping("/userInsuranceBillPayoutList")
-	public String getUserInsurancePayoutList(Model model) {
-		System.out.println("InsuranceController userInsuranceBillPayoutList 보험금지급내역");
+	@GetMapping("/insuranceAddBill")
+	public String addInsuranceRequest(Model model) {
 		
-		model.addAttribute("title", "보험금지급내역");
+		model.addAttribute("title", "보상금청구서등록");
 		
-		return "user/insurance/userInsuranceBillPayoutList";
+		return "user/insurance/insuranceAddBill";
+	}
+	
+	@GetMapping("/insuranceModifyBill")
+	public String modifyInsuranceRequest(Model model) {		
+		model.addAttribute("title", "보상금청구서수정");
+		
+		return "user/insurance/insuranceModifyBill";
+	}
+	
+	@GetMapping("/insuranceRemoveBill")
+	public String removeInsuranceRequestById(Model model) {
+		model.addAttribute("title", "보상금청구서삭제");
+		
+		return "user/insurance/insuranceRemoveBill";
+	}
+	
+	@GetMapping("/insuranceBillListDetail")
+	public String getInsuranceRequestInfoByCode(Model model) {
+		model.addAttribute("title", "보상금청구서상세화면");
+		
+		return "user/insurance/insuranceBillListDetail";
+	}
+	
+	@GetMapping("/insuranceBillPayoutList")
+	public String getInsurancePayoutList(Model model) {		
+		model.addAttribute("title", "보상금지급내역");
+		
+		return "user/insurance/insuranceBillPayoutList";
 	}
 	
 }
