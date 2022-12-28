@@ -29,9 +29,11 @@ public class AdminUserController {
 	@SuppressWarnings("unchecked")
 	@GetMapping("/userList")
 	public String userList(Model model
-			 ,@RequestParam(value="currentPage", defaultValue = "1", required = false) int currentPage) {
+			 ,@RequestParam(value="currentPage", defaultValue = "1", required = false) int currentPage
+			 ,@RequestParam(value="searchKey", required = false) String searchKey
+			 ,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
 		
-		Map<String, Object> paramMap = adminUserService.userList(currentPage);
+		Map<String, Object> paramMap = adminUserService.userList(currentPage, searchKey, searchValue);
 		int lastPage = (int) paramMap.get("lastPage");
 		List<User> userList = (List<User>) paramMap.get("userList");
 		
