@@ -5,6 +5,47 @@
 	  
 	  <th:block layout:fragment="customContents">
 	  	<h1>정보 게시판 리스트</h1>
+	  	<div id="tableDiv">
+			<div>
+				<table>
+				  <thead>
+				  	<tr>
+				  		<th>상품코드</th>
+				  		<th>상품이름</th>
+				  		<th>상품가격</th>
+				  		<th>상품판매자아이디</th>
+				  		<th>상품판매자</th>
+				  		<th>상품판매자이메일</th>
+				  		<th>상품등록일자</th>
+				  		<th>수정</th>
+				  		<th>삭제</th>
+				  	</tr>
+				  </thead>
+				  <tbody>
+				  	<tr th:unless="${#lists.isEmpty(goodsList)}" th:each="goods : ${goodsList}">
+				  		<td th:text="${goods.goodsCode}"></td>
+				  		<td th:text="${goods.goodsName}"></td>
+				  		<td th:text="${'₩' + #numbers.formatInteger(goods.goodsPrice, 3, 'COMMA')}"></td>
+				  		<td th:text="${goods.goodsSellerId}"></td>
+				  		<th:block th:object="${goods.member}">
+				  			<td th:text="*{memberName}"></td>
+				  			<td th:text="*{memberEmail}"></td>
+				  		</th:block>
+				  		<td th:text="${goods.goodsRegDate}"></td>
+				  		<td>
+				  			<a th:href="@{/goods/modifyGoods(goodsCode=${goods.goodsCode})}">수정</a>
+				  		</td>
+				  		<td>
+				  			<a th:href="@{/goods/removeGoods/{goodsCode}(goodsCode=${goods.goodsCode})}">삭제</a>
+				  		</td>
+				  	</tr>
+				  	<tr th:if="${#lists.isEmpty(goodsList)}">
+						<td colspan="9">등록한 상품이 없습니다.</td>
+					</tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
 	  	<h3><a th:href="@{/infoboard/infoBoardDetail}" style="color:blue;">정보게시판 상세</a></h3>
 	  	<h3><a th:href="@{/infoboard/infoBoardAdd}" style="color:blue;">정보게시판 등록</a></h3>
 	  </th:block>
