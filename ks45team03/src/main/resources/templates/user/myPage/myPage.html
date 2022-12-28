@@ -5,6 +5,7 @@
 	  
   	<th:block layout:fragment="customContents">
 		내 프로필 페이지입니다.
+
 		<a th:href="@{/user/myPage/modifyUser}" style="color:blue;">수정</a>
 		<a th:href="@{/user/myPage/removeUser}" style="color:blue;">탈퇴</a>
 		<h3><a th:href="@{/user/myPage/myGoodsList}" style="color:blue;">내 상품</a></h3>
@@ -15,5 +16,6 @@
 		<h3><a th:href="@{/user/myPage/userEvaluated}" style="color:blue;">내가 한 평가</a></h3>
 		<h3><a th:href="@{/user/myPage/myBlockList}" style="color:blue;">나의 차단 목록</a></h3>
 		<h3><a th:href="@{/user/myPage/myProfitList}" style="color:blue;">나의 수익 목록</a></h3>
+
 	</th:block>
 </html>
