@@ -2,8 +2,174 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{user/layout/default}">
-
 	<th:block layout:fragment="customContents">
-		회원가입페이지입니다.
-	</th:block>
+	
+	<head>
+		<style type="text/css">
+			table {
+				width: 100%;	
+				table-layout: auto;
+			}
+			td {
+				height: 60px;
+			}
+			#addUserForm input {
+				width: 99%;
+				height: 90%;
+				font-size: 20px;
+				padding-left: 14px;
+			}
+			#submitBtn {
+				width: 99%;
+				height: 90%;
+				font-size: 14px;
+			}
+			#checkBtn {
+				width: 95%;				
+				height: 54px;
+				padding: 8px;
+				margin-bottom: 34px;
+				font-size: 14px;
+			}
+			#addUserForm label {
+				font-size: 14px;
+				font-weight: 900;	
+			}
+			#addUserForm #logo {
+				font-weight: 900;
+				font-size: 60px;
+			}
+			#logo-td {
+				text-align: center;
+				padding-bottom: 60px;
+			}
+			#addUserForm #logo > span {
+				color: #47BAC1;
+			}
+			#addUserForm #alert {
+				font-size: 14px;
+				color: red;
+			}
+		</style>	
+	</head>
+	<form id="addUserForm" th:action="@{/addMember}" method="post">
+			<table th:object="${address}">
+				<tbody>
+					<tr>
+						<td colspan="2" id="logo-td">
+							<span id="logo"><span>RENT</span>ravel</span>
+						</td>
+					<tr>
+						<td>
+						<label for="userId">아이디</label>
+							<input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요." />
+						</td>
+						<td width="100px" rowspan="2">
+							<button type="button" id="checkBtn" class="btn btn-success">중복체크</button>
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span>asdasd</span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="userPw">비밀번호</label>
+							<input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력해주세요" />
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="userPwCheck">비밀번호 재확인</label>
+							<input type="password" id="userPwCheck" name="userPwCheck" placeholder="비밀번호를 다시 입력해주세요" />
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="userName">이름</label>
+							<input type="text" id="userName" name="userName" placeholder="이름을 입력해주세요" />
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="userNickName">닉네임</label>
+							<input type="text" id="userNickName" name="userNickName" placeholder="닉네임을 입력해주세요" />
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="userEmail">이메일</label>
+							<input type="text" id="userEmail" name="userEmail" placeholder="이메일을 입력해주세요" />
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="userPhoneNumber">전화번호</label>
+							<input type="text" id="userPhoneNumber" name="userPhoneNumber" placeholder="전화번호를 입력해주세요." />
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="regionSggCode">주소</label>
+							<input type="text"  id="regionSggCode" name="regionSggCode" placeholder="주소를 입력해주세요." th:value="*{regionPlus}" />
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="userAddrDesc">상세주소</label>
+							<input type="text" id="userAddrDesc" name="userAddrDesc" placeholder="상세주소를 입력해주세요." />
+						</td>
+					</tr>
+					<tr>
+						<td id="alert">
+							<span></span>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2">
+							<button type="button" id="submitBtn" class="btn btn-success">회원가입</button>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+		</th:block>
 </html>

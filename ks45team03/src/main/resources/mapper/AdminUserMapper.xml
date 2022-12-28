@@ -59,7 +59,7 @@
 	</select>
 
 	<select id="getUserListCnt" resultType="int">
-		/* 회원목록 테이블의 전체 행의 갯수 */
+		/* 회원목록 테이블의 전체 행의 갯수 검색시 바뀐데이터의 갯수에 맞춰 페이징을 넣기 위해 where절 추가 */
 		SELECT
 			COUNT(1)
 		FROM

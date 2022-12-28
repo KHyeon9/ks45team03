@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.UserMapper">
+	<resultMap type="RegionSido" id="sidoResultMap">
+	<id property="regionSidoCode" column="region_sido_code" />
+		<result property="regionSidoName" column="region_sido_name" />
+		<association property="regionSgg" javaType="RegionSgg">
+			<id property="regionSggCode" column="region_sgg_code"></id>
+  	  		<result property="regionSidoCode" column="region_sido_code" />
+  	  		<result property="regionSggName" column="region_sgg_name" />
+		</association>
+	</resultMap>
+	
+	<select id="regionSidoList" resultMap="sidoResultMap">
+  		/* 주소조회 */
+		SELECT 
+			 sido.region_sido_code
+			,sido.region_sido_name
+		FROM
+			tb_region_sido AS sido;
+  	</select>
+  	
+   <select id="regionSggList" parameterType="String" resultMap="sidoResultMap">
+   	SELECT
+   		 sgg.region_sgg_code
+   		,sgg.region_sgg_name
+   	FROM 
+   		tb_region_sgg AS sgg
+   	WHERE
+   		sgg.region_sido_code = #{regionSidoCode};	
+   </select>
+   
+   <select id="address" parameterType="String" resultMap="sidoResultMap">
+   SELECT
+   		CONCAT_WS(' ', sido.region_sido_name, sgg.region_sgg_name) AS region
+	FROM 
+		tb_region_sgg AS sgg
+		INNER JOIN
+		tb_region_sido AS sido
+		ON 
+		sgg.region_sido_code = sido.region_sido_code
+	WHERE
+		sgg.region_sgg_code = #{regionSggCode};
+   </select>
+</mapper>
