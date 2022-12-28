@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{admin/layout/default}">
+	  
+	  <th:block layout:fragment="customContents">
+	  	<h1>관리자보험리스트</h1><br>
+	  	<a th:href="@{/admin/insurance/adminAddInsuranceBillPayout}" style="color:blue;">관리자보상금지급내역등록</a>
+		<br>
+		<a th:href="@{/admin/insurance/adminInsuranceBillList}" style="color:blue;">관리자보험청구서리스트</a>
+		<br>
+		<a th:href="@{/admin/insurance/adminInsuranceBillPayoutList}" style="color:blue;">관리자보상금지급내역</a>
+		<br>
+		<a th:href="@{/admin/insurance/adminRemoveInsurance}" style="color:blue;">관리자보험삭제</a>
+		<br>
+	  </th:block>
+	  
+</html>

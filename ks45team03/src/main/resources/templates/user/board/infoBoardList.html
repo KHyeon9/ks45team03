@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	  <th:block layout:fragment="customContents">
+	  	<h1>정보 게시판 리스트</h1>
+	  	<h3><a th:href="@{/infoboard/infoBoardDetail}" style="color:blue;">정보게시판 상세</a></h3>
+	  	<h3><a th:href="@{/infoboard/infoBoardAdd}" style="color:blue;">정보게시판 등록</a></h3>
+	  </th:block>
+</html>

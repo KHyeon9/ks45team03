@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+  	<th:block layout:fragment="customContents">
+		내 프로필 페이지입니다.
+		<a th:href="@{/user/myPage/modifyUser}" style="color:blue;">수정</a>
+		<a th:href="@{/user/myPage/removeUser}" style="color:blue;">탈퇴</a>
+		<h3><a th:href="@{/user/myPage/myGoodsList}" style="color:blue;">내 상품</a></h3>
+		<h3><a th:href="@{/user/myPage/myReviewList}" style="color:blue;">내 리뷰</a></h3>
+		<h3><a th:href="@{/user/myPage/myWishList}" style="color:blue;">내 관심상품</a></h3>
+		<h3><a th:href="@{/user/myPage/myOrderHistory}" style="color:blue;">내 주문 내역</a></h3>
+		<h3><a th:href="@{/user/myPage/userEvaluation}" style="color:blue;">내 평가</a></h3>
+		<h3><a th:href="@{/user/myPage/userEvaluated}" style="color:blue;">내가 한 평가</a></h3>
+	</th:block>
+</html>

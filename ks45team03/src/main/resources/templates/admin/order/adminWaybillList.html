@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<th:block layout:fragment="customContents">
+		<h1>관리자 운송번호 관리</h1>
+		<a th:href="@{/admin/order/adminWaybillModify}" style="color: blue;">관리자 주문 내역 수정</a>
+	</th:block>
+
+</html>
