@@ -28,4 +28,11 @@ public class InfoBoardController {
 		
 		return "user/board/infoBoardModify";
 	}
+	
+	@GetMapping("/infoBoardAdd")
+	public String infoBoardAdd(Model model) {
+		model.addAttribute("title", "정보게시판등록");
+		
+		return "user/board/infoBoardAdd";
+	}
 }
