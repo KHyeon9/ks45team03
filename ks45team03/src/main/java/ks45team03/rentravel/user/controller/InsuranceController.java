@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/insurance")
 public class InsuranceController {
+	
+	@GetMapping("/insuranceMain")
+	public String insuranceMain(Model model) {		
+		model.addAttribute("title", "보험리스트");
+		
+		return "user/insurance/insuranceMain";
+	}
 
 	@GetMapping("/insuranceList")
 	public String getInsuranceList(Model model) {		
