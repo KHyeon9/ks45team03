@@ -22,17 +22,17 @@ public class InfoBoardController {
 		return "user/board/infoBoardDetail";
 	}
 	
-	@GetMapping("/infoBoardModify")
-	public String infoBoardModify(Model model) {
+	@GetMapping("/modifyInfoBoard")
+	public String modifyInfoBoard(Model model) {
 		model.addAttribute("title", "정보게시판수정");
 		
-		return "user/board/infoBoardModify";
+		return "user/board/modifyInfoBoard";
 	}
 	
-	@GetMapping("/infoBoardAdd")
-	public String infoBoardAdd(Model model) {
+	@GetMapping("/addInfoBoard")
+	public String addInfoBoard(Model model) {
 		model.addAttribute("title", "정보게시판등록");
 		
-		return "user/board/infoBoardAdd";
+		return "user/board/addInfoBoard";
 	}
 }

@@ -68,4 +68,10 @@ public class MyPageController {
 		return "user/myPage/myBlockList";
 	}
 	
+	@GetMapping("/myProfitList")
+	public String getUserProfitList(Model model) {
+		model.addAttribute("title","나의 수익목록 리스트");
+		return "user/myPage/myProfitList";
+	}
+	
 }

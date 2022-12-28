@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<th:block layout:fragment="customContents">
+	관리자: 회원 수익 목록(조회)
+	<br>
+	<a th:href="@{/admin/profit/adminModifyProfit}" style="color: blue;">회원 수익 수정</a>
+	</th:block>
+</html>
