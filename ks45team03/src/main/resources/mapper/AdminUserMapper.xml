@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.AdminUserMapper">
+	<resultMap type="User" id="userResultMap">
+		<id property="userId" column="user_id" />
+		<result property="userPw" column="user_pw" />
+		<result property="userName" column="user_name" />
+		<result property="userNickName" column="user_nickname" />
+		<result property="userLevelName" column="user_level_Name" />
+		<result property="userLevelCode" column="user_level_code" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhoneNumber" column="user_phone_number" />
+		<result property="userImage" column="user_image" />
+		<result property="regionSggCode" column="region_sgg_code" />
+		<result property="userAddrDesc" column="user_addr_desc" />
+		<result property="totalExp" column="total_exp" />
+		<result property="totalMileage" column="total_mileage" />
+		<result property="userCreateDate" column="user_create_date" />
+	</resultMap>
+	<select id="userList" parameterType="map" resultMap="userResultMap">
+		/* 회원 목록 조회 */
+		SELECT
+			 u.user_id
+			,u.user_pw
+			,u.user_name
+			,u.user_nickname
+			,ul.user_level_name
+			,u.user_email
+			,u.user_phone_number
+			,u.user_image
+			,u.total_exp
+			,CONCAT_WS(' ', si.region_sido_name, sgg.region_sgg_name, u.user_addr_desc) AS region
+			,u.total_mileage
+			,u.user_create_date
+		FROM
+			tb_user AS u	
+			INNER JOIN
+			tb_user_level AS ul
+			ON 
+			u.user_level_code = ul.user_level_code
+			INNER join
+			tb_region_sgg AS sgg
+			ON 
+			u.region_sgg_code = sgg.region_sgg_code
+			INNER join
+			tb_region_sido AS si
+			ON 
+			sgg.region_sido_code = si.region_sido_code
+		<if test="startRowNum != null and startRowNum > -1">
+			LIMIT #{startRowNum}, #{rowPerPage};
+		</if>
+	</select>
+
+	<select id="getUserListCnt" resultType="int">
+		/* 회원목록 테이블의 전체 행의 갯수 */
+		SELECT
+			COUNT(1)
+		FROM
+			tb_user;
+	</select>
+	
+	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">
+		/* 특정 회원 정보 조회 */
+		SELECT
+			 u.user_id
+			,u.user_pw
+			,u.user_name
+			,u.user_nickname
+			,u.user_level_code
+			,u.user_email
+			,u.user_phone_number
+			,u.region_sgg_code
+			,u.user_addr_desc
+			,u.total_exp
+			,u.total_mileage
+		FROM
+			tb_user AS u
+		WHERE	
+			u.user_id = #{userId};
+	</select>
+	
+	<select id="getUserLevelList" resultType="UserLevel">
+  		/* 회원등급조회 */
+		SELECT
+			 ul.user_level_code AS userLevelCode
+			,ul.user_level_name AS userLevelName
+		FROM
+			tb_user_level AS ul;
+	  	</select>
+	  	
+  	<update id="modifyUser" parameterType="User">
+	  	UPDATE tb_user
+	  	<trim prefix="SET" prefixOverrides=",">
+	  	<if test="userPw != null and userPw != ''">
+	  		user_pw = #{userPw}
+	  	</if>
+	  	<if test="userName != null and userName != ''">
+	  		,user_name = #{userName}
+	  	</if>
+	  	<if test="userNickName != null and userNickName != ''">
+	  		,user_nickname = #{userNickName}
+	  	</if>
+	  	<if test="userLevelCode != null and userLevelCode != ''">
+	  		,user_level_code = #{userLevelCode}
+	  	</if>
+	  	<if test="userEmail != null and userEmail != ''">
+	  		,user_email = #{userEmail}
+	  	</if>
+	  	<if test="userPhoneNumber != null and userPhoneNumber != ''">
+	  		,user_phone_number = #{userPhoneNumber}
+	  	</if>
+	  	<if test="totalExp != null and totalExp != ''">
+	  		,total_exp = #{totalExp}
+	  	</if>
+	  	<if test="regionSggCode != null and regionSggCode != ''">
+	  		,region_sgg_code = #{regionSggCode}
+	  	</if>
+	  		<if test="totalMileage != null and totalMileage != ''">
+	  		,total_mileage = #{totalMileage}
+	  	</if>
+	  	</trim>
+	  	WHERE
+	  		user_id = #{userId};
+  	</update>
+</mapper>
