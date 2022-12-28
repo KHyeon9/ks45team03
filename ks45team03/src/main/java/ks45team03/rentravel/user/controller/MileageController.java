@@ -6,12 +6,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user/block")
-public class UserBlockController {
+@RequestMapping("/myPage")
+public class MileageController {
+	
+	
+	
+	@GetMapping("/myMileageList")
+	public String getMyMileageList(Model model) {
+		model.addAttribute("title", "적립금 적립/사용 내역");
 
-	@GetMapping("/removeBlock")
-	public String removeUserBlock (Model model) {
-		model.addAttribute("title","회원 아이디 차단 삭제");
-		return "user/block/removeBlock";
+		return "/user/myPage/myMileageList";
 	}
+
+	
+	
 }

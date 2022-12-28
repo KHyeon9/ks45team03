@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	  <th:block layout:fragment="customContents">
+	  	<h1>1 대 1 문의 게시글(조회)</h1>
+	  	<h2><a th:href="@{/board/modifyInquiry}" style="color:blue;">1 대 1 문의 게시글 수정</a></h2>
+	  	<h2><a th:href="@{/board/removeInquiry}" style="color:blue;">1 대 1 문의 게시글 삭제</a></h2>
+	  	
+	  </th:block>
+</html>
