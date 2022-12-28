@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user/myPage")
+@RequestMapping("/myPage")
 public class MyPageController {
 	
 	@GetMapping("/myInfo")
@@ -60,6 +60,12 @@ public class MyPageController {
 	public String userEvaluated(Model model) {
 		model.addAttribute("title","내가 한 평가");
 		return "user/myPage/userEvaluated";
+	}
+	
+	@GetMapping("/myBlockList")
+	public String getUserBlockrList(Model model) {
+		model.addAttribute("title","나의 차단 리스트");
+		return "user/myPage/myBlockList";
 	}
 	
 }
