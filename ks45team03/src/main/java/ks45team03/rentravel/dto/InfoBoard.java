@@ -5,9 +5,10 @@ public class InfoBoard {
 	private String userId;
 	private String infoBoardTitle;
 	private String infoBoardContent;
-	private int infoBoardLikeCount;
+	private int infoBoardLikeCnt;
 	private int infoBoardViewCnt;
 	private String infoBoardRegTime;
+	private User user;
 	
 	public String getInfoBoardCode() {
 		return infoBoardCode;
@@ -34,10 +35,10 @@ public class InfoBoard {
 		this.infoBoardContent = infoBoardContent;
 	}
 	public int getInfoBoardLikeCount() {
-		return infoBoardLikeCount;
+		return infoBoardLikeCnt;
 	}
 	public void setInfoBoardLikeCount(int infoBoardLikeCount) {
-		this.infoBoardLikeCount = infoBoardLikeCount;
+		this.infoBoardLikeCnt = infoBoardLikeCount;
 	}
 	public int getInfoBoardViewCnt() {
 		return infoBoardViewCnt;
@@ -51,5 +52,13 @@ public class InfoBoard {
 	public void setInfoBoardRegTime(String infoBoardRegTime) {
 		this.infoBoardRegTime = infoBoardRegTime;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 	
 }
