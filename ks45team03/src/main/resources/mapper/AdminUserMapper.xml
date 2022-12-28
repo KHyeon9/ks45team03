@@ -48,9 +48,14 @@
 			tb_region_sido AS si
 			ON 
 			sgg.region_sido_code = si.region_sido_code
-		<if test="startRowNum != null and startRowNum > -1">
-			LIMIT #{startRowNum}, #{rowPerPage};
-		</if>
+			<where>
+			<if test="searchKey != null and searchValue != ''">
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+			</if>
+			</where>
+			<if test="startRowNum != null and startRowNum > -1">
+				LIMIT #{startRowNum}, #{rowPerPage};
+			</if>
 	</select>
 
 	<select id="getUserListCnt" resultType="int">
@@ -58,7 +63,16 @@
 		SELECT
 			COUNT(1)
 		FROM
-			tb_user;
+			tb_user AS u
+			INNER JOIN
+			tb_user_level AS ul
+			ON 
+			u.user_level_code = ul.user_level_code
+		<where>
+			<if test="searchKey != null and searchValue != ''">
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%');
+			</if>
+		</where>	
 	</select>
 	
 	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">

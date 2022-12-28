@@ -8,6 +8,10 @@ public class Rental {
 	private String rentalEndDate;
 	private String selectDelivery;
 	private String rentalOrderDate;
+	private String goodsName;
+	private String sigunguName;
+	private String orderStateName;
+	private Payment payment;
 	
 	public String getRentalCode() {
 		return rentalCode;
@@ -51,5 +55,59 @@ public class Rental {
 	public void setRentalOrderDate(String rentalOrderDate) {
 		this.rentalOrderDate = rentalOrderDate;
 	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+	public String getGoodsName() {
+		return goodsName;
+	}
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+	public String getSigunguName() {
+		return sigunguName;
+	}
+	public void setSigunguName(String sigunguName) {
+		this.sigunguName = sigunguName;
+	}
+	public String getOrderStateName() {
+		return orderStateName;
+	}
+	public void setOrderStateName(String orderStateName) {
+		this.orderStateName = orderStateName;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Rental [rentalCode=");
+		builder.append(rentalCode);
+		builder.append(", goodsCode=");
+		builder.append(goodsCode);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", rentalStartDate=");
+		builder.append(rentalStartDate);
+		builder.append(", rentalEndDate=");
+		builder.append(rentalEndDate);
+		builder.append(", selectDelivery=");
+		builder.append(selectDelivery);
+		builder.append(", rentalOrderDate=");
+		builder.append(rentalOrderDate);
+		builder.append(", payment=");
+		builder.append(payment);
+		builder.append(", goodsName=");
+		builder.append(goodsName);
+		builder.append(", sigunguName=");
+		builder.append(sigunguName);
+		builder.append(", orderStateName=");
+		builder.append(orderStateName);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 	
 }

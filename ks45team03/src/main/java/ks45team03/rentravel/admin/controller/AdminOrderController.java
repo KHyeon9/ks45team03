@@ -1,17 +1,52 @@
 package ks45team03.rentravel.admin.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import ks45team03.rentravel.admin.service.AdminOrderService;
+import ks45team03.rentravel.dto.Rental;
 
 @Controller
 @RequestMapping("/admin/order")
 public class AdminOrderController {
 	
+	private final AdminOrderService adminOrderService;
+	
+	public AdminOrderController(AdminOrderService adminOrderService) {
+		this.adminOrderService = adminOrderService;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/adminOrderHistory")
-	public String adminOrderHistory(Model model) {
+	public String adminOrderHistory(@RequestParam(value = "int currentPage", defaultValue = "1", required = false) int currentPage, 
+									Model model) {
+		
+		Map<String, Object> paramMap = adminOrderService.getOrderHistory(currentPage);
+		
+		List<Rental> orderHistory = (List<Rental>) paramMap.get("orderHistory");
+		int lastPage = (int) paramMap.get("lastPage");
+		int startPageNum = (int) paramMap.get("startPageNum");
+		int endPageNum = (int) paramMap.get("endPageNum");
+		int nextPage = (int) paramMap.get("nextPage");
+		int prevPage = (int) paramMap.get("prevPage");
+		
 		model.addAttribute("title","관리자 주문 내역");
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("orderHistory", orderHistory);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("nextPage", nextPage);
+		model.addAttribute("prevPage", prevPage);
+		
+		
 		return "admin/order/adminOrderHistory";
 	}
 	

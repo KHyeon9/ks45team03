@@ -52,12 +52,12 @@ public class InfoBoardService {
 		paramMap.put("startRowNum", startRowNum);
 		paramMap.put("rowPerPage", rowPerPage);
 		
-		// 유저목록 data
-		List<InfoBoard> userList = infoBoardMapper.getInfoBoardList(paramMap);
+		// 정보 게시판 목록 data
+		List<InfoBoard> infoBoardList = infoBoardMapper.getInfoBoardList(paramMap);
 		
 		// controller에 전달하기 위한 파라미터 셋팅
 		paramMap.clear();
-		paramMap.put("infoBoardList", userList);
+		paramMap.put("infoBoardList", infoBoardList);
 		paramMap.put("lastPage", lastPage);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);

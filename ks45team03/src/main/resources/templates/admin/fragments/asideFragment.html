@@ -72,10 +72,12 @@
                      <li><a href="other_charts.html">Other Charts</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
+                 <li><a th:href="@{/admin/insurance/adminInsuranceList}"><i class="fa fa-clone"></i>보험<span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
-                     <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                     <li><a href="fixed_footer.html">Fixed Footer</a></li>
+                     <li><a th:href="@{/admin/insurance/adminInsuranceList}">관리자보험리스트</a></li>
+                     <li><a th:href="@{/admin/insurance/adminInsuranceBillList}">관리자보험청구서리스트</a></li>
+                     <li><a th:href="@{/admin/insurance/adminInsuranceBillPayoutList}">관리자보상금지급내역</a></li>
+                     <li><a th:href="@{/admin/insurance/adminAddInsuranceBillPayout}">관리자보상금지급내역등록</a></li>
                    </ul>
                  </li>
                </ul>
