@@ -38,11 +38,48 @@
 			LIMIT #{startRowNum}, #{rowPerPage};
 		</if>
 	</select>
+	
 	<!-- 정보 게시판 리스트 총 개수-->
 	<select id="getInfoBoardListCnt" resultType="int">
 		SELECT
 			COUNT(1)
 		FROM
 			tb_info_board;
+	</select>
+	
+	<select id="getInfoBoardDetail" parameterType="String" resultType="InfoBoard">
+		SELECT
+			info.user_id,
+			info.info_board_code,
+			info.info_board_title,
+			info.info_board_content,
+			info.info_board_like_cnt,
+			info.info_board_view_cnt,
+			info.info_board_reg_time,
+			img.info_img
+		FROM
+			tb_info_board AS info
+			INNER JOIN
+			tb_info_board_img AS img
+			ON
+			img.info_board_code = info.info_board_code
+		WHERE
+			info.user_id = #{userId};
+	</select>
+	
+	<select id="getInfoBoardComment" parameterType="String" resultType="InfoBoardComment">
+		SELECT
+			comm.info_board_comment_code,
+			comm.user_id,
+			comm.info_board_comment_content,
+			comm.info_board_comment_reg_time
+		FROM
+			tb_info_board AS info
+			INNER JOIN
+			tb_info_board_comment AS comm
+			ON
+			info.info_board_code = comm.info_board_code
+		WHERE
+			comm.user_id = #{userId};
 	</select>
 </mapper>
