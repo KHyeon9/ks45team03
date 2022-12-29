@@ -4,6 +4,7 @@
 	layout:decorate="~{admin/layout/default}">
 </head>
 <th:block layout:fragment="customContents">
+	<div id="rightcolumn" class="right_col" role="main">
 	<form id="modifyUserForm"
 		th:action="@{/admin/userManagement/modifyUser}" method="post">
 		<table th:object="${userInfo}">
@@ -74,5 +75,6 @@
 			</tfoot>
 		</table>
 	</form>
+	</div>
 </th:block>
 </html>

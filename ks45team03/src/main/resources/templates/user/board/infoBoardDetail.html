@@ -33,21 +33,27 @@
 		    <div class="row">
 		      <div class="col-md-12">
 		        <div class="thumbnail">
-		          <img src="/user/assets/img/blog/blog-01.jpg" alt="blog-image">
 		          <div class="caption">
 		            <div class="row">
 		              <div class="col-md-3 order-md-12">
-		                <h5>Details</h5>
+		                <h5>Infomation</h5>
 		                <ul class="list-unstyled">
 		                  <li>
-		                    <i class="fa fa-user" aria-hidden="true"></i>Adam Smith</li>
+		                    <i class="fa fa-user" aria-hidden="true"></i><span th:text="${infoBoardDetail.user.userNickName}"></span>
+		                  </li>
 		                  <li>
-		                    <i class="fa fa-calendar" aria-hidden="true"></i>Mar 20, 2016</li>
-		                  <li>
-		                    <i class="fa fa-tags" aria-hidden="true"></i>Travel</li>
+		                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${infoBoardDetail.infoBoardRegTime}"></span>
+	                      </li>
+	                      <li>
+	                      	<i class="bi bi-hand-thumbs-up-fill"></i><span th:text="${infoBoardDetail.infoBoardLikeCnt}"></span>
+	                      </li>
+	                      <li>
+	                      	<i class="bi bi-eye-fill"></i><span th:text="${infoBoardDetail.infoBoardViewCnt}"></span>
+	                      	</li>
 		                  <li>
 		                    <i class="fa fa-envelope" aria-hidden="true"></i>8 comments</li>
 		                </ul>
+		                
 		                <h5>Share</h5>
 		                <ul class="list-inline">
 		                  <li>
@@ -73,34 +79,9 @@
 		                </ul>
 		              </div>
 		              <div class="col-md-9 order-md-1">
-		                <h3>Praesent justo dolor, lobortis quis, lobortis dignissim </h3>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-		                  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-		                  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-		                  nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-		                  anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-		                  laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-		                  dicta sunt explicabo.</p>
-		
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-		                  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-		                  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-		                  nulla pariatur. </p>
-		
-		                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-		                  rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-		                  </p>
-		
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-		                  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-		                  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-		                  nulla pariatur. </p>
-		
-		                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-		                  rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-		                  </p>
+		                <h3 th:text="${infoBoardDetail.infoBoardTitle}"></h3>
+		                <img src="/user/assets/img/blog/blog-01.jpg" alt="blog-image">
+		                <p th:text="${infoBoardDetail.infoBoardContent}"></p>
 		              </div>
 		            </div>
 		          </div>
@@ -114,74 +95,25 @@
 		          </ul>
 		          <div class="commentsArea">
 		            <h3>4 Comments</h3>
-		            <div class="media flex-wrap">
-		              <a class="media-left" href="#">
-		                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
-		              </a>
-		              <div class="media-body">
-		                <h4 class="media-heading">Jessica Brown </h4>
-		                <h4>
-		                  <span>
-		                    <i class="fa fa-calendar" aria-hidden="true"></i>Mar 20, 2016</span>
-		                </h4>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-		                  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-		                  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-		                  nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-		                <button class="btn btn-link" type="submit">Reply</button>
-		              </div>
-		            </div>
-		            <div class="media flex-wrap">
-		              <a class="media-left" href="#">
-		                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
-		              </a>
-		              <div class="media-body">
-		                <h4 class="media-heading">Jessica Brown </h4>
-		                <h4>
-		                  <span>
-		                    <i class="fa fa-calendar" aria-hidden="true"></i>Mar 20, 2016</span>
-		                </h4>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-		                  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-		                  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-		                  nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-		                <button class="btn btn-link" type="submit">Reply</button>
-		                <div class="media flex-wrap">
-		                  <a class="media-left" href="#">
-		                    <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
-		                  </a>
-		                  <div class="media-body">
-		                    <h4 class="media-heading">Jessica Brown </h4>
-		                    <h4>
-		                      <span>
-		                        <i class="fa fa-calendar" aria-hidden="true"></i>Mar 20, 2016</span>
-		                    </h4>
-		                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-		                      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-		                      aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-		                      dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-		                    <button class="btn btn-link" type="submit">Reply</button>
-		                  </div>
-		                </div>
-		              </div>
-		            </div>
-		            <div class="media flex-wrap">
-		              <a class="media-left" href="#">
-		                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
-		              </a>
-		              <div class="media-body">
-		                <h4 class="media-heading">Jessica Brown </h4>
-		                <h4>
-		                  <span>
-		                    <i class="fa fa-calendar" aria-hidden="true"></i>Mar 20, 2016</span>
-		                </h4>
-		                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-		                  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-		                  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-		                  nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-		                <button class="btn btn-link" type="submit">Reply</button>
-		              </div>
-		            </div>
+		            <!-- 댓글 -->
+		            <th:block th:unless="${#lists.isEmpty(commentList)}" th:each="comm : ${commentList}">
+		            	<div class="media flex-wrap">
+			              <a class="media-left" href="#">
+			                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
+			              </a>
+			              <div class="media-body">
+			                <h4 class="media-heading" th:text="${comm.userNickName}">Jessica Brown </h4>
+			                <h4>
+			                  <span>
+			                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${comm.infoBoardCommentRegTime}"></span>
+			                  </span>
+			                </h4>
+			                <p th:text="${comm.infoBoardCommentContent}"></p>
+			                <button class="btn btn-link" type="submit">Reply</button>
+			              </div>
+			            </div>
+		            </th:block>
+		            <!-- 댓글 끝 -->
 		          </div>
 		        </div>
 		      </div>

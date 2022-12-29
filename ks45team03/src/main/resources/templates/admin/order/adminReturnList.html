@@ -4,8 +4,12 @@
 	layout:decorate="~{admin/layout/default}">
 
 	<th:block layout:fragment="customContents">
-		<h1>관리자 환불 리스트</h1>
-		<a th:href="@{/admin/order/adminReturnModify}" style="color: blue;">관리자 환불 수정</a>
+		<div id="rightcolumn" class="right_col" role="main">
+			<div class="col-md-12 col-sm-12">
+				<h1>관리자 환불 리스트</h1>
+				<a th:href="@{/admin/order/adminReturnModify}" style="color: blue;">관리자 환불 수정</a>
+			</div>
+		</div>
 	</th:block>
 
 </html>

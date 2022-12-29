@@ -22,11 +22,11 @@ public interface AdminInsuranceMapper {
 	// 보험코드로 보험삭제
 	public void adminRemoveInsuranceByCode(String insuranceCode);
 	
-	// 보상금청구서 조회
+	// 보상금신청서(상세화면) 조회
 	public List<InsuranceRequest> adminGetInsuranceRequestList();
 	
 	// 보상금청구상태 조회
-	public List<InsuranceClaim> adminGetInsuranceRequestStateList();
+	public List<InsuranceClaim> adminGetInsuranceClaimList();
 		
 	// 보상금청구상태 갱신
 	public int adminModifyInsuranceRequestState(InsuranceRequest insuranceRequest);
