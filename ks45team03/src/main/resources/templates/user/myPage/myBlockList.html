@@ -3,9 +3,71 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 	  
-	  <th:block layout:fragment="customContents">
-	  	<h1>나의 차단 리스트</h1>
-	  	
-	  	<h3><a th:href="@{/user/block/removeBlock}" style="color:blue;">회원 아이디 차단 삭제</a></h3>
-	  </th:block>
+	<th:block layout:fragment="customContents">
+	  <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>MY BLOCKLIST</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                <li>
+                  <a th:href="@{/myPage/myInfo}">myInfo</a>
+                </li>
+                <li class="active">MY BLOCKLIST</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+	  <!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix userProfile">
+        <div class="container">
+          
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="innerWrapper">
+                <div class="orderBox myAddress wishList">
+                  <h2>MY BLOCKLIST</h2>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>차단코드</th>
+                          <th>차단한 회원</th>
+                          <th>차단 날짜</th> 
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td>Italian Winter Hat</td>
+                          <td>$ 99.00</td>
+                          <td>$ 99.00</td>
+                          <td>
+                            <a th:href="@{/user/block/removeBlock}" class="btn btn-sm btn-secondary-outlined">차단 삭제</a>
+                          </td>
+                         
+                        </tr>
+                     
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+	</th:block>
 </html>
