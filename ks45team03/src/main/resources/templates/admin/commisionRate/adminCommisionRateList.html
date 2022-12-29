@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<th:block layout:fragment="customContents">
+	관리자:플랫폼 수수료율 목록(조회)
+	<br>
+	<a th:href="@{/admin/commisionRate/adminAddCommisionRate}" style="color: blue;">플랫폼 수수료율 추가</a>
+	
+	</th:block>
+</html>
