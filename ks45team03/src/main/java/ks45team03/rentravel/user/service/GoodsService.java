@@ -30,4 +30,11 @@ public class GoodsService {
 		
 		return goodsImg;
 	}
+	
+	public Goods getGoodsDetailByGoodsCode(String goodsCode) {
+		
+		Goods goodsDetail = goodsMapper.getGoodsDetailByGoodsCode(goodsCode);
+		
+		return goodsDetail;
+	}
 }

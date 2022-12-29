@@ -8,6 +8,26 @@
 </head>
 <body>
 	<th:block layout:fragment="customContents">
+	  <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>GOODS LIST</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                <li class="active">GOODS LIST</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
 	
 	<!-- MAIN CONTENT SECTION -->
       <section class="mainContent clearfix productsContent">

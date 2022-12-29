@@ -10,7 +10,31 @@
 
 <body>
     <th:block layout:fragment="customContents">
-
+    
+    <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>GOODS DETAIL</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                <li>
+                  <a th:href="@{/goods/goodsList}">GOODS LIST</a>
+                </li>
+                <li class="active">GOODS DETAIL</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      
       <!-- MAIN CONTENT SECTION -->
       <section class="mainContent clearfix">
         <div class="container">
@@ -54,7 +78,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="media-body">
+                <div class="media-body"  th:object="${goodsDetail}">
                   <ul class="list-inline">
                     <li class="mb-4 mb-md-0">
                       <a th:href="@{/goods/goodsList}"><i class="fa fa-reply" aria-hidden="true"></i>
@@ -64,9 +88,9 @@
 
                   </ul>
 
-                  <h2>Old Skool Navy</h2>
-                  <h3>$149</h3>
-                  <p>Mauris lobortis augue ex, ut faucibus nisi mollis ac. Sed volutpat scelerisque ex ut ullamcorper. Cras at velit quis sapien dapibus laoreet a id odio. Sed sit amet accumsan ante, eu congue metus. Aenean eros tortor, cursus quis feugiat sed vestibulum.</p>
+                  <h2 th:text="*{goodsName}"></h2>
+                  <h3 th:text="'1일당 '+*{goodsDayPrice}+'원'"></h3>
+                  <p th:text="*{goodsDetail}"></p>
                   <div class="row">
                     <div class="col-12">
                       <span class="quick-drop resizeWidth quantityWidth single-quick-drop">
@@ -250,7 +274,7 @@
 
                       <div id="Reviews" class="tab-pane fade">
                         <div class="media mb-5">
-                          <img class="mr-4 rounded rounded-circle" src="assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
+                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
                           <div class="media-body">
                             <h4 class="mt-0 mb-2">Lorem ipsum dolor</h4>
 
@@ -268,7 +292,7 @@
                         </div>
 
                         <div class="media mb-5">
-                          <img class="mr-4 rounded rounded-circle" src="assets/img/blog/blog-small-02.jpg" alt="Generic placeholder image">
+                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small-02.jpg" alt="Generic placeholder image">
                           <div class="media-body">
                             <h4 class="mt-0 mb-2">Feugiat primis</h4>
 
@@ -288,7 +312,7 @@
                         </div>
 
                         <div class="media mb-0">
-                          <img class="mr-4 rounded rounded-circle" src="assets/img/blog/blog-small-03.jpg" alt="Generic placeholder image">
+                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small-03.jpg" alt="Generic placeholder image">
                           <div class="media-body">
                             <h4 class="mt-0 mb-2">Auctor vitae egestas</h4>
 
@@ -310,7 +334,7 @@
                         <div class="mt-5 mb-2 border p-4 p-md-5">
                           <form>
                             <div class="media flex-column flex-md-row mb-0">
-                              <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
+                              <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="/user/assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
                               
                               <div class="media-body mt-4 mt-md-0">
                                 <h6 class="text-center text-md-left text-capitalize mt-0"><em>Rodney samp</em></h6>
@@ -422,7 +446,7 @@
             <div class="col-md-3 col-12 ">
               <div class="productBox">
                 <div class="productImage clearfix">
-                  <img src="assets/img/products/products-01.jpg" alt="products-img">
+                  <img src="/user/assets/img/products/products-01.jpg" alt="products-img">
                   <div class="productMasking">
                     <ul class="list-inline btn-group" role="group">
                       <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
@@ -440,7 +464,7 @@
             <div class="col-md-3 col-12 ">
               <div class="productBox">
                 <div class="productImage clearfix">
-                  <img src="assets/img/products/products-02.jpg" alt="products-img">
+                  <img src="/user/assets/img/products/products-02.jpg" alt="products-img">
                   <div class="productMasking">
                     <ul class="list-inline btn-group" role="group">
                       <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
@@ -458,7 +482,7 @@
             <div class="col-md-3 col-12 ">
               <div class="productBox">
                 <div class="productImage clearfix">
-                  <img src="assets/img/products/products-03.jpg" alt="products-img">
+                  <img src="/user/assets/img/products/products-03.jpg" alt="products-img">
                   <div class="productMasking">
                     <ul class="list-inline btn-group" role="group">
                       <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
@@ -476,7 +500,7 @@
             <div class="col-md-3 col-12 ">
               <div class="productBox">
                 <div class="productImage clearfix">
-                  <img src="assets/img/products/products-04.jpg" alt="products-img">
+                  <img src="/user/assets/img/products/products-04.jpg" alt="products-img">
                   <div class="productMasking">
                     <ul class="list-inline btn-group" role="group">
                       <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
@@ -496,7 +520,7 @@
       </section>
 
 
-        <a href="/user/goods/modifyGoods" style="color:red">상품 수정 버튼</a>
+        <a th:href="@{/goods/modifyGoods}" style="color:red">상품 수정 버튼</a>
 
     </th:block>
 </body>

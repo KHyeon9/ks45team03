@@ -13,4 +13,6 @@ public interface GoodsMapper {
 	public List<Goods> getGoodsList();
 	
 	public List<GoodsImg> getGoodsImg(String goodsCode);
+	
+	public Goods getGoodsDetailByGoodsCode(String goodsCode);
 }
