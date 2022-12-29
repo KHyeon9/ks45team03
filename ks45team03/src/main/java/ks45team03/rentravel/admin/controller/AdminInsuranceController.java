@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks45team03.rentravel.admin.service.AdminInsuranceService;
 import ks45team03.rentravel.dto.Insurance;
+import ks45team03.rentravel.dto.InsurancePayout;
+import ks45team03.rentravel.dto.InsuranceRequest;
 import ks45team03.rentravel.mapper.AdminInsuranceMapper;
 
 
@@ -47,7 +49,11 @@ public class AdminInsuranceController {
 	@GetMapping("/adminInsuranceBillList")
 	public String adminGetInsuranceRequestList(Model model) {
 		
+		List<InsuranceRequest> adminInsuranceRequestList = adminInsuranceService.adminGetInsuranceRequestList();
+		
 		model.addAttribute("title", "관리자 보험청구서리스트");
+		model.addAttribute("adminInsuranceRequestList", adminInsuranceRequestList);
+		
 		return "admin/insurance/adminInsuranceBillList";
 	}
 	
@@ -55,7 +61,11 @@ public class AdminInsuranceController {
 	@GetMapping("/adminInsuranceBillPayoutList")
 	public String adminGetInsurancePayoutList(Model model) {
 		
+		List<InsurancePayout> adminInsurancePayoutList = adminInsuranceService.adminGetInsurancePayoutList();
+		
 		model.addAttribute("title", "관리자 보상금지급내역");
+		model.addAttribute("adminInsurancePayoutList", adminInsurancePayoutList);
+		
 		return "admin/insurance/adminInsuranceBillPayoutList";
 	}
 	
