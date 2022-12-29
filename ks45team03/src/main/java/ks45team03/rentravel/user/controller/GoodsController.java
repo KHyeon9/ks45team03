@@ -16,7 +16,7 @@ import ks45team03.rentravel.user.service.GoodsService;
 
 
 @Controller
-@RequestMapping("/user/goods")
+@RequestMapping("/goods")
 public class GoodsController {
 	
 	

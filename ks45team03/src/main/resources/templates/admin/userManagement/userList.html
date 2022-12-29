@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	  <head>
+	  <style type="text/css">
+			table {
+				border: 1px solid black;
+				text-align: center;
+				white-space : nowrap;
+			}
+			th {
+				border: 1px solid black;
+				background-color: #333;
+				color: white;
+				height: 30px;
+				font-weight: 900;
+				padding-right: 10px;
+				padding-left: 10px;
+			}
+			tbody td {
+				border: 1px solid black;
+				height: 30px;
+				padding-right: 10px;
+				padding-left: 10px;
+			}
+			tfoot {
+				background-color: #333;
+			
+			}
+			tfoot a {
+				text-decoration: none;
+				font-weight: 900;
+				color: white;
+			}
+	  </style>
+	  </head>
+	<th:block layout:fragment="customContents">
+	<form th:action="@{/admin/userManagement/userList}" method="get">
+		<select name="searchKey">
+			<option value="userId">아이디</option>
+			<option value="userLevelName">등급</option>
+			<option value="userName">이름</option>
+			<option value="userNickName">닉네임</option>
+		</select> 
+		<input type="text" name="searchValue" placeholder="검색어를 입력해주세요." />
+		<button type="submit">검색</button>
+	</form>
+	<table>
+  		<thead>
+		  	<tr>
+		  		<th>아이디</th>
+		  		<th>비밀번호</th>
+		  		<th>이름</th>
+		  		<th>닉네임</th>
+		  		<th>등급</th>
+		  		<th>이메일</th>
+		  		<th>전화번호</th>
+		  		<th>경험치</th>
+		  		<th>주소</th>
+		  		<th>적립금</th>
+		  		<th>등록일자</th>
+		  		<th>수정</th>
+		  		<th>삭제</th>
+		  	</tr>
+	  	</thead>
+	  	<tbody>
+	  		<tr th:if="${not #lists.isEmpty(userList)}" th:each="u : ${userList}">
+	  			<td th:text="${u.userId}"></td>
+	  			<td th:text="${u.userPw}"></td>
+	  			<td th:text="${u.userName}"></td>
+	  			<td th:text="${u.userNickName}"></td>
+	  			<td th:text="${u.userLevelName}"></td>
+	  			<td th:text="${u.userEmail}"></td>
+	  			<td th:text="${u.userPhoneNumber}"></td>
+	  			<td th:text="${u.totalExp}"></td>
+	  			<td th:text="${u.region}"></td>
+	  			<td th:text="${u.totalMileage}"></td>
+	  			<td th:text="${u.userCreateDate}"></td>
+	  			<td>
+	  				<a th:href="@{/admin/userManagement/modifyUser(userId=${u.userId})}">수정</a>
+	  			</td>
+	  			<td th:text="삭제"></td>
+	  		</tr>
+	  		<tr th:unless="${not #lists.isEmpty(userList)}">
+				<td colspan="14">등록된 회원이 없습니다.</td>
+			</tr>
+	  	</tbody>
+	  	<tfoot>
+	  		<tr>
+	  			<td colspan="14">
+	  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/userManagement/userList(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+	  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
+	  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+	  					<a th:if="${currentPage != num}" th:href="@{/admin/userManagement/userList(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
+	  					</a>
+	  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
+	  				</th:block>
+	  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/userManagement/userList(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
+	  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+	  			</td>
+	  		</tr>
+	  	</tfoot>
+  	</table>
+  	</th:block>
+</html>

@@ -6,14 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user/insurance")
+@RequestMapping("/insurance")
 public class InsuranceController {
+	
+	@GetMapping("/insuranceMain")
+	public String insuranceMain(Model model) {		
+		model.addAttribute("title", "보험리스트");
+		
+		return "user/insurance/insuranceMain";
+	}
 
 	@GetMapping("/insuranceList")
 	public String getInsuranceList(Model model) {		
 		model.addAttribute("title", "보험리스트");
 		
-		return "user/insurance/insuranceList";
+		return "user/insurance/insuranceList"; //html경로를 찾아감
 	}
 	
 	@GetMapping("/insuranceBillList")

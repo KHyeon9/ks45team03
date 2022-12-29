@@ -2,9 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
-	  
+	  <head>
+		<style type="text/css">
+			table {
+				border: 1px solid black;
+				width: 100%;
+				table-layout: auto;
+				text-align: center;
+			}
+			th {
+				border: 1px solid black;
+				background-color: cornflowerblue;
+				color: azure;
+				height: 30px;
+			}
+			td {
+				border: 1px solid black;
+				height: 30px;
+			}
+			#rightcolumn {
+				overflow:scroll
+			}
+		</style>
+	</head>
 	  <th:block layout:fragment="customContents">
 	  	<h1>정보 게시판 리스트</h1>
+	  	<div id="tableDiv">
+			<div>
+				<table>
+				  <thead>
+				  	<tr>
+				  		<th>제목</th>
+				  		<th>작성자</th>
+				  		<th>좋아요</th>
+				  		<th>조회수</th>
+				  		<th>등록시간</th>
+				  	</tr>
+				  </thead>
+				  <tbody>
+				  	<tr th:unless="${#lists.isEmpty(infoBoardList)}" th:each="info : ${infoBoardList}">
+				  		<td th:text="${info.infoBoardTitle}"></td>
+				  		<td th:text="${info.user.userNickName}"></td>
+				  		<td th:text="${info.infoBoardLikeCnt}"></td>
+				  		<td th:text="${info.infoBoardViewCnt}"></td>
+				  		<td th:text="${info.infoBoardRegTime}"></td>
+				  	</tr>
+				  	<tr th:if="${#lists.isEmpty(infoBoardList)}">
+						<td colspan="5">등록한 게시글이 없습니다.</td>
+					</tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
 	  	<h3><a th:href="@{/infoboard/infoBoardDetail}" style="color:blue;">정보게시판 상세</a></h3>
+	  	<h3><a th:href="@{/infoboard/infoBoardAdd}" style="color:blue;">정보게시판 등록</a></h3>
 	  </th:block>
 </html>
