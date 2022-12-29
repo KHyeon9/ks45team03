@@ -42,9 +42,8 @@
 		                    <h5 >User Info</h5>
 		                    <ul class="list-unstyled">
 		                      <li><a href="#" ><i class="fa fa-user" aria-hidden="true"></i><span th:text="${info.user.userNickName}"></span></a></li>
-		                      <li  th:text="'Like : ' + ${info.infoBoardLikeCnt}"></li>
-		                      <!-- <li><a href="#" th:text="'View : ' + ${info.infoBoardViewCnt}"></a></li> -->
-		                      <li th:text="'View : ' + ${info.infoBoardViewCnt}"></li>
+		                      <li><i class="bi bi-hand-thumbs-up-fill"></i><span th:text="${info.infoBoardLikeCnt}"></span></li>
+		                      <li><i class="bi bi-eye-fill"></i><span th:text="${info.infoBoardViewCnt}"></span></li>
 		                    </ul>
 		                  </div>
 		                  <div class="col-md-9 order-md-1">
