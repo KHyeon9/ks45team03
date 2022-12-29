@@ -14,6 +14,23 @@
 		<result property="insuranceSignUpTime" 	column="insurance_sign_up_time"/>
 	</resultMap>
 	
+	<!-- tb_insurance_request -->
+	<resultMap type="InsuranceRequest" id="insuranceRequestResultMap">
+		<id property="insuranceRequestCode" 			column="insurance_request_code"/>
+		<result property="insuranceCode" 		column="insurance_code"/>
+		<result property="userId" 		column="user_id"/>
+		<result property="goodsCode" 	column="goods_code"/>
+		<result property="paymentCode" 	column="payment_code"/>
+		<result property="accidentCode" 	column="accident_date"/>
+		<result property="accidentType" 	column="accident_type"/>
+		<result property="accidentContent" 	column="accident_content"/>
+		<result property="insuranceEvidence" 	column="insurance_evidence"/>
+		<result property="bankName" 	column="bank_name"/>
+		<result property="accountHolder" 	column="account_holder"/>
+		<result property="accountNumber" 	column="account_number"/>
+		<result property="requestDate" 	column="request_date"/>
+	</resultMap>
+	
 	<!-- tb_insurance_claim -->
 	<resultMap type="InsuranceClaim" id="insuranceClaimResultMap">
 		<id property="insuranceClaimCode" 			column="insurance_claim_code"/>
@@ -34,7 +51,7 @@
 	</resultMap>
 	
 	<select id="adminGetInsuranceList"  resultMap="insuranceResultMap">
-		/* 관리자 보험리스트 조회 */
+		/* 보험리스트조회 */
 		SELECT
 			i.insurance_code,
 			i.user_id,
@@ -49,8 +66,8 @@
 		
 	</select>
 	
-	<select id="adminGetInsuranceRequestList" resultMap="insuranceClaimResultMap">
-		/* 보험청구서리스트 조회 */
+	<select id="adminGetInsuranceClaimList" resultMap="insuranceClaimResultMap">
+		/* 보험청구서리스트조회 */
 		SELECT
 			ic.insurance_claim_code,
 			ic.user_id,
@@ -64,7 +81,7 @@
 	</select>
 	
 	<select id="adminGetInsurancePayoutList" resultMap="insurancePayoutResultMap">
-		/* 보상급 지급내역 조회 */
+		/* 보상금지급내역조회 */
 		SELECT
 			ip.insurance_payout_code,
 			ip.user_id,
@@ -77,7 +94,25 @@
 		ORDER BY
 			ip.insurance_payout_code;
 	</select>
-    
-
-    
+	<select id="adminGetInsuranceRequestList" resultMap="insuranceRequestResultMap">
+		/* 보상금신청서(상세화면)조회 */
+		SELECT
+			ir.insurance_request_code,
+			ir.insurance_code,
+			ir.user_id,
+			ir.goods_code,
+			ir.payment_code,
+			ir.accident_date,
+			ir.accident_type,
+			ir.accident_content,
+			ir.insurance_evidence,
+			ir.bank_name,
+			ir.account_holder,
+			ir.account_number,
+			ir.request_date
+		FROM
+			tb_insurance_request AS ir
+		ORDER BY
+			ir.insurance_request_code;
+	</select>
 </mapper>
