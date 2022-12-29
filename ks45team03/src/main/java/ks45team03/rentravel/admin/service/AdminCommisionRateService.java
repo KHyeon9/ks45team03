@@ -19,6 +19,31 @@ public class AdminCommisionRateService {
 		this.adminCommisionRateMapper = adminCommisionRateMapper;
 	}
 	
+	/**
+	 * 플랫폼 수수료율 수정
+	 * @param commisionRate
+	 * @return
+	 */
+	public int adminModifyCommisionRate (CommisionRate commisionRate) {
+		
+		int result = adminCommisionRateMapper.adminModifyCommisionRate(commisionRate);
+		
+		return result;
+	}
+	
+	
+	/**
+	 * 특정 플랫폼 수수료율 조회 
+	 * @param commisionRateCode
+	 * @return
+	 */
+	public CommisionRate adminGetCommisionRateListByCode (String commisionRateCode) {
+		
+		CommisionRate commisionRateInfo =  adminCommisionRateMapper.adminGetCommisionRateListByCode(commisionRateCode);
+		
+		return commisionRateInfo;
+	}
+	
 	
 	/**
 	 * 플랫폼 수수료율 추가
