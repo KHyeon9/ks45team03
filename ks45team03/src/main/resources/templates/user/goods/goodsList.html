@@ -154,12 +154,12 @@
                       <div class="productMasking">
                         <ul class="list-inline btn-group" role="group">
                           <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
-                          <li><a class="btn btn-default" th:href="@{/user/goods/goodsDetail(goodsCode=${l.goodsCode})}" ><i class="fa fa-eye"></i></a></li>
+                          <li><a class="btn btn-default" th:href="@{/goods/goodsDetail(goodsCode=${l.goodsCode})}" ><i class="fa fa-eye"></i></a></li>
                         </ul>
                       </div>
                     </div>
                     <div class="productCaption clearfix" >
-                      <a th:href="@{/user/goods/goodsDetail(goodsCode=${l.goodsCode})}">
+                      <a th:href="@{/goods/goodsDetail(goodsCode=${l.goodsCode})}">
                         <h5 th:text="${l.goodsName}"></h5>
                       </a>
                       <h5 th:text="${l.goodsRentalAvailability}" ></h5>

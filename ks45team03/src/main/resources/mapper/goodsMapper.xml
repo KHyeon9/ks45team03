@@ -27,6 +27,7 @@
 	<resultMap type="GoodsImg" id="goodsImgResultMap">
 		<id property="goodsImgCode" 			column="goods_img_code"/>
 		<result property="goodsImg" 		column="goods_img"/>
+		<result property="goodsImgRowNum" 		column="row_number() OVER()"/>
 	</resultMap>
 
     <select id="getGoodsList" resultMap="goodsResultMap">
@@ -51,9 +52,10 @@
     </select>
     
     <select id="getGoodsImg" parameterType="String" resultMap="goodsImgResultMap">
-    	SELECT
+		SELECT
 			gi.goods_img_code
 			,gi.goods_img
+			,row_number() OVER()
 		FROM
 			tb_goods AS g
 		JOIN
