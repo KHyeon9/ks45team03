@@ -12,6 +12,32 @@
 		
 	</resultMap>
 	
+	<update id="adminModifyCommisionRate" parameterType="CommisionRate">
+		UPDATE tb_commision_rate AS cr
+		SET 
+			cr.commision_rate = ${commisionRate}
+			,cr.apply_year= ${applyYear}
+			,cr.apply_check= ${applyCheck}
+		WHERE 
+			cr.commision_rate_code = #{commisionRateCode};
+	
+	</update>
+	
+	
+	<select id="adminGetCommisionRateListByCode" parameterType="String" resultMap="commisionRateResultMap">
+		/* 특정 플랫폼 수수료율 조회 */
+		SELECT 
+			commision_rate_code
+			,commision_rate
+			,apply_year
+			,apply_check
+		FROM 
+			tb_commision_rate AS cr			
+		WHERE
+			cr.commision_rate_code = #{commisionRateCode};
+	</select>
+	
+	
 	<insert id="adminAddCommisionRate" parameterType="CommisionRate">
 		/* 플랫폼 수수료율 추가 */
 		INSERT INTO tb_commision_rate
