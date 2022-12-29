@@ -520,9 +520,8 @@
         </div>
       </section>
 	
-	
 	<a href="/user/goods/modifyGoods" style="color:red">상품 수정 버튼</a>
-	
+	<a th:href="@{/order/payment(goodsCode=${goodsCode})}" style="color:blue;">결제</a>
 	</th:block>
 </body>
 </html>

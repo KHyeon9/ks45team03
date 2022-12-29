@@ -4,6 +4,187 @@
 	  layout:decorate="~{user/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
-	  	<h1>결제</h1>
+	  	<!-- LIGHT SECTION -->
+		<section class="lightSection clearfix pageHeader">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-6">
+		        <div class="page-title">
+		          <h2>Rental Infomation &amp; billing</h2>
+		        </div>
+		      </div>
+		      <div class="col-md-6">
+		        <ol class="breadcrumb">
+		          <li>
+		            <a href="index.html">Home</a>
+		          </li>
+		          <li>
+		            <a href="#">shop</a>
+		          </li>
+		          <li class="active">Rental Infomation</li>
+		        </ol>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+	  
+		<section class="mainContent clearfix stepsWrapper">
+	     <div class="container">
+	       <div class="row">
+	         <div class="col-md-8">
+	           <div class="innerWrapper clearfix stepsPage">
+	             <div class="row progress-wizard" style="border-bottom:0;">
+	
+	               <div class="col-6 progress-wizard-step active">
+	                 <div class="text-center progress-wizard-stepnum">Payment</div>
+	                 <div class="progress"><div class="progress-bar"></div></div>
+	                 <a href="checkout-step-1.html" class="progress-wizard-dot"></a>
+	               </div>
+	
+	               <div class="col-6 progress-wizard-step disabled">
+	                 <div class="text-center progress-wizard-stepnum">Result</div>
+	                 <div class="progress"><div class="progress-bar"></div></div>
+	                 <a href="checkout-step-2.html" class="progress-wizard-dot"></a>
+	               </div>
+	             </div>
+	
+	             <form action="" class="row" method="POST" role="form">
+	               <div class="col-12">
+	                 <div class="page-header">
+	                   <h4>Rental Infomation</h4>
+	                 </div>
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">First Name</label>
+	                 <input type="text" class="form-control" id="">
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">Last Name</label>
+	                 <input type="text" class="form-control" id="">
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">Email</label>
+	                 <input type="email" class="form-control" id="">
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">Company</label>
+	                 <input type="text" class="form-control" id="">
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">Address</label>
+	                 <input type="text" class="form-control" id="">
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">Phone</label>
+	                 <input type="text" class="form-control" id="">
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">City</label>
+	                 <div class="form-group row">
+	                   <div class="quick-drop col-12 selectOptions ">
+	                     <select name="country" class="form-control select-drop">
+	                       <option></option>
+	                       <option>New York</option>
+	                       <option>Chicago</option>
+	                       <option>California</option>
+	                     </select>
+	                   </div>
+	                 </div>
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">Zip Code</label>
+	                 <input type="text" class="form-control" id="">
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">Country</label>
+	                 <div class="form-group row">
+	                   <div class="quick-drop col-12 selectOptions ">
+	                     <select name="country" class="form-control select-drop">
+	                       <option></option>
+	                       <option>USA</option>
+	                       <option>Singapore</option>
+	                       <option>Bangladesh</option>
+	                     </select>
+	                   </div>
+	                 </div>
+	               </div>
+	               <div class="form-group col-md-6 col-12">
+	                 <label for="">Fax</label>
+	                 <input type="text" class="form-control" id="">
+	               </div>
+	               <div class="col-12">
+	                 <div class="page-header">
+	                   <h4>Billing Information</h4>
+	                 </div>
+	               </div>
+	               <div class=" checkboxArea card-check">
+                    <div class="col-sm-12 mb-2">
+                      <input id="checkbox1" type="radio" name="checkbox" value="1" >
+                      <label for="checkbox1"><span></span>Pay with Paypal</label>
+                    </div>
+                    <div class="col-sm-12 mb-2">
+                      <input id="checkbox2" type="radio" name="checkbox" value="1" checked="checked">
+                      <label for="checkbox2"><span></span>Credit Card</label>
+                      <small class="mb-2 d-block">We accept following credit card</small>
+                      <ul class="list-unstyled list-inline">
+                        <li><img src="/user/assets/img/products/card1.jpg" alt=""><!--  --></li>
+                        <li><img src="/user/assets/img/products/card2.jpg" alt=""><!--  --></li>
+                        <li><img src="/user/assets/img/products/card3.jpg" alt=""><!--  --></li>
+                        <li><img src="/user/assets/img/products/card4.jpg" alt=""><!--  --></li>
+                      </ul>
+                      <div class="form-group row my-3 ml-3">
+                        <div class="col-md-6">
+                          <label for="" class="col-form-label">Name on Card</label>
+                          <input class="form-control" type="text" >
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="" class="col-form-label">Card Number</label>
+                          <input class="form-control" type="text" >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 mb-2">
+                      <input id="checkbox1" type="radio" name="checkbox" value="1" >
+                      <label for="checkbox1"><span></span>Reward Points</label>
+                    </div>
+                  </div>
+	               <div class="col-12">
+	                 <div class="well well-lg clearfix">
+	                   <ul class="pager">
+	                     <li class="next "><a class="btn btn-primary btn-default float-right" href="checkout-step-2.html">Continue <i class="fa fa-angle-right"></i></a></li>
+	                   </ul>
+	                 </div>
+	               </div>
+	             </form>
+	           </div>
+	         </div>
+	         <div class="col-md-4">
+	           <div class="summery-box">
+	             <h4>Order Summery</h4>
+	             <p>Excepteur sint occaecat cupidat non proi dent sunt.officia.</p>
+	             <ul class="list-unstyled">
+	               <li class="d-flex justify-content-between">
+	                 <span class="tag">Subtotal</span>
+	                 <span class="val">$237.00</span>
+	               </li>
+	               <li class="d-flex justify-content-between">
+	                 <span class="tag">Shipping & Handling</span>
+	                 <span class="val">$12.00 </span>
+	               </li>
+	               <li class="d-flex justify-content-between">
+	                 <span class="tag">Estimated Tax</span>
+	                 <span class="val">$0.00 </span>
+	               </li>
+	               <li class="d-flex justify-content-between">
+	                 <span class="tag">Total</span>
+	                 <span class="val">USD  $249.00 </span>
+	               </li>
+	             </ul>
+	           </div>
+	         </div>
+	       </div>
+	     </div>
+		</section>
 	  </th:block>
 </html>

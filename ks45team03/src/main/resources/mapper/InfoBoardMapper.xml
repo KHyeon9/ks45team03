@@ -20,6 +20,7 @@
 	<!-- 정보 게시판 리스트 -->
 	<select id="getInfoBoardList" parameterType="map" resultMap="infoBoardResultMap">
 		SELECT
+			info.info_board_code,
 			info.info_board_title,
 			u.user_nickname,
 			info.info_board_like_cnt,
@@ -31,6 +32,8 @@
 			tb_user AS u
 			ON
 			info.user_id = u.user_id
+		ORDER BY
+			info_board_code DESC
 		<if test="startRowNum != null and startRowNum > -1">
 			LIMIT #{startRowNum}, #{rowPerPage};
 		</if>
