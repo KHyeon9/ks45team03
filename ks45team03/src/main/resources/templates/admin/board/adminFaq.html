@@ -5,7 +5,11 @@
 
 	<th:block layout:fragment="customContents">
 		<div id="rightcolumn" class="right_col" role="main">
-		관리자: 1 대 1 문의 게시글 답글 추가
+		FAQ 화면입니다.
+		
+		<a th:href="@{/admin/board/adminDetailFaq}" style="color: blue;">FAQ 상세보기</a>
+		<a th:href="@{/admin/board/adminAddFaq}" style="color: blue;">등록</a>
+	
 		</div>
 	</th:block>
 </html>

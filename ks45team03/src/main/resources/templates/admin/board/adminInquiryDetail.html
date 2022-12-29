@@ -4,9 +4,11 @@
 	layout:decorate="~{admin/layout/default}">
 
 	<th:block layout:fragment="customContents">
-	관리자: 1 대 1 문의 게시글(조회)
-	<a th:href="@{/admin/board/adminAddInquiry}" style="color: blue;">1 대 1 문의 게시글 답글 추가</a>
-	<br>
-	<a th:href="@{/admin/board/adminRemoveInquiry}" style="color: blue;">1 대 1 문의 게시글 답글 삭제</a>
+		<div id="rightcolumn" class="right_col" role="main">
+		관리자: 1 대 1 문의 게시글(조회)
+		<a th:href="@{/admin/board/adminAddInquiry}" style="color: blue;">1 대 1 문의 게시글 답글 추가</a>
+		<br>
+		<a th:href="@{/admin/board/adminRemoveInquiry}" style="color: blue;">1 대 1 문의 게시글 답글 삭제</a>
+		</div>
 	</th:block>
 </html>
