@@ -4,6 +4,7 @@
 	  layout:decorate="~{admin/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
+	  <div class="right_col" role="main">
 	  	<h1>관리자보험청구상태</h1><br>
 	  	<table class="table">
 		  <thead>
@@ -16,19 +17,20 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr th:if="${not #lists.isEmpty(adminInsuranceRequestList)}"
-		    	 th:each="l : ${adminInsuranceRequestList}">	
+		    <tr th:if="${not #lists.isEmpty(adminInsuranceClaimList)}"
+		    	 th:each="l : ${adminInsuranceClaimList}">	
 		      <td th:text="${l.insuranceClaimCode}"></td>
 		      <td th:text="${l.userId}"></td>
 		      <td th:text="${l.insuranceRequestCode}"></td>
 		      <td th:text="${l.insuranceRequestStateCode}"></td>
 		      <td th:text="${l.insuranceClaimModifyDate}"></td>
 		    </tr>
-		    <tr th:unless="${not #lists.isEmpty(adminInsuranceRequestList)}">
+		    <tr th:unless="${not #lists.isEmpty(adminInsuranceClaimList)}">
 		    	<td colspan="9">등록된 상품이 없습니다.</td>
 		    </tr>
 		  </tbody>
 		</table>
+		</div>
 	  </th:block>
 	  
 </html>
