@@ -21,27 +21,4 @@
 		FROM
 			tb_region_sido AS sido;
   	</select>
-  	
-   <select id="regionSggList" parameterType="String" resultMap="sidoResultMap">
-   	SELECT
-   		 sgg.region_sgg_code
-   		,sgg.region_sgg_name
-   	FROM 
-   		tb_region_sgg AS sgg
-   	WHERE
-   		sgg.region_sido_code = #{regionSidoCode};	
-   </select>
-   
-   <select id="address" parameterType="String" resultMap="sidoResultMap">
-   SELECT
-   		CONCAT_WS(' ', sido.region_sido_name, sgg.region_sgg_name) AS region
-	FROM 
-		tb_region_sgg AS sgg
-		INNER JOIN
-		tb_region_sido AS sido
-		ON 
-		sgg.region_sido_code = sido.region_sido_code
-	WHERE
-		sgg.region_sgg_code = #{regionSggCode};
-   </select>
 </mapper>

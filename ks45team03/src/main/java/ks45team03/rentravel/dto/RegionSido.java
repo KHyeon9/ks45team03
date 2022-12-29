@@ -4,7 +4,6 @@ public class RegionSido {
 	
 	private String regionSidoCode;
 	private String regionSidoName;
-	private String regionPlus;
 	
 	private RegionSgg regionSgg;
 	
@@ -27,16 +26,9 @@ public class RegionSido {
 	public void setRegionSgg(RegionSgg regionSgg) {
 		this.regionSgg = regionSgg;
 	}
-	public String getRegionPlus() {
-		return regionPlus;
-	}
-	public void setRegionPlus(String regionPlus) {
-		this.regionPlus = regionPlus;
-	}
 	@Override
 	public String toString() {
-		return "RegionSido [regionSidoCode=" + regionSidoCode + ", regionSidoName=" + regionSidoName + ", regionPlus="
-				+ regionPlus + ", regionSgg=" + regionSgg + "]";
+		return "RegionSido [regionSidoCode=" + regionSidoCode + ", regionSidoName=" + regionSidoName + ", regionSgg=" + regionSgg + "]";
 	}
 	
 }

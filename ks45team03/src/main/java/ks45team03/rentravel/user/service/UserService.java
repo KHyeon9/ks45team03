@@ -25,19 +25,4 @@ public class UserService {
 		
 		return regionSidoList;
 	}
-	
-	public List<RegionSgg> regionSggList(String regionSidoCode) {
-		
-		List<RegionSgg> regionSggList = userMapper.regionSggList(regionSidoCode);
-		
-		return regionSggList;
-	}
-	
-	public String address(String regionSggCode) {
-		
-		String address = userMapper.address(regionSggCode);
-		
-		return address;
-	}
-
 }

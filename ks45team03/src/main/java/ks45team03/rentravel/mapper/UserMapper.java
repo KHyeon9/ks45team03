@@ -12,7 +12,4 @@ public interface UserMapper {
 
 	public List<RegionSido> regionSidoList();
 	
-	public List<RegionSgg> regionSggList(String regionSidoCode);
-	
-	public String address(String regionSggCode);
 }

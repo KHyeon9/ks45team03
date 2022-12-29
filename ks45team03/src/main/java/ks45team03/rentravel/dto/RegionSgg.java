@@ -6,7 +6,6 @@ public class RegionSgg {
 	private String regionSidoCode;
 	private String regionSggName;
 	
-	
 	public String getRegionSggCode() {
 		return regionSggCode;
 	}
@@ -30,4 +29,5 @@ public class RegionSgg {
 		return "RegionSgg [regionSggCode=" + regionSggCode + ", regionSidoCode=" + regionSidoCode + ", regionSggName="
 				+ regionSggName + "]";
 	}
+	
 }

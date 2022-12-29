@@ -141,8 +141,30 @@
 					</tr>
 					<tr>
 						<td colspan="2">
+							<label for="regionSidoCode">주소</label>
+							<select id="regionSidoCode" name="regionSidoCode" onchange="typeFn();">
+								<th:block th:if="${not #lists.isEmpty(regionSidoList)}"
+										  th:each="sido : ${regionSidoList}">
+									<option th:value="${sido.regionSidoCode}">[[${sido.regionSidoName}]]</option>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(regionSidoList)}">
+									<option>등록된 권한이 없습니다.</option>
+								</th:block>
+							</select>
+						</td>
+					</tr>
+					<tr id="regionSggTr" style="display: none;">
+						<td colspan="2">
 							<label for="regionSggCode">주소</label>
-							<input type="text"  id="regionSggCode" name="regionSggCode" placeholder="주소를 입력해주세요." th:value="*{regionPlus}" />
+							<select id="regionSggCode" name="regionSggCode">
+								<th:block th:if="${not #lists.isEmpty(regionSggList)}"
+										  th:each="sido : ${regionSggList}">
+									<option th:value="${sido.regionSggCode}">[[${sido.regionSidoName}]]</option>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(regionSggList)}">
+									<option>등록된 권한이 없습니다.</option>
+								</th:block>
+							</select>
 						</td>
 					</tr>
 					<tr>
@@ -171,5 +193,16 @@
 				</tfoot>
 			</table>
 		</form>
+		
+		<script>
+			function typeFn(){
+				
+				if($("select[name=regionSggCode] > option:selected").val() != ""){
+					$("#regionSggTr").show();
+					$("#regionSggCode > option").remove();
+					$("#regionSggCode").append("<option value=\"\">--선택--</option>");
+				}
+			}
+		</script>
 		</th:block>
 </html>
