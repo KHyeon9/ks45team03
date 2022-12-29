@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<th:block layout:fragment="customContents">
+		<div id="rightcolumn" class="right_col" role="main">
+		공지사항 화면입니다.
+		
+		<a th:href="@{/admin/board/adminDetailNoticeBoard}" style="color: blue;">공지사항 상세보기</a>
+		<a th:href="@{/admin/board/adminAddNoticeBoard}" style="color: blue;">등록</a>
+		</div>
+	
+	</th:block>
+</html>
