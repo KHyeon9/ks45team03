@@ -1,21 +1,40 @@
 package ks45team03.rentravel.admin.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ks45team03.rentravel.admin.service.AdminInsuranceService;
+import ks45team03.rentravel.dto.Insurance;
+import ks45team03.rentravel.mapper.AdminInsuranceMapper;
 
 
 @Controller
 @RequestMapping("/admin/insurance")
 public class AdminInsuranceController {
 	
+	private final AdminInsuranceService adminInsuranceService;
+	private final AdminInsuranceMapper adminInsuranceMapper;
+	
+	public AdminInsuranceController(AdminInsuranceService adminInsuranceService, AdminInsuranceMapper adminInsuranceMapper) {
+		this.adminInsuranceService = adminInsuranceService;
+		this.adminInsuranceMapper = adminInsuranceMapper;
+	}
+	
 	@GetMapping("/adminInsuranceList")
-	public String adminGetInsuranceList(Model model) {
+	public String adminGetInsuranceList(Model model) { // 보험리스트
+		
+		List<Insurance> adminInsuranceList = adminInsuranceService.adminGetInsuranceList();
 		
 		model.addAttribute("title", "관리자 보험리스트");
+		model.addAttribute("adminInsuranceList", adminInsuranceList);
+		
 		return "admin/insurance/adminInsuranceList";
 	}
+	
 	
 	@GetMapping("/adminRemoveInsurance")
 	public String adminAddInsurancePayout(Model model) {
@@ -24,6 +43,7 @@ public class AdminInsuranceController {
 		return "admin/insurance/adminRemoveInsurance.html";
 	}
 	
+	
 	@GetMapping("/adminInsuranceBillList")
 	public String adminGetInsuranceRequestList(Model model) {
 		
@@ -31,12 +51,14 @@ public class AdminInsuranceController {
 		return "admin/insurance/adminInsuranceBillList";
 	}
 	
+	
 	@GetMapping("/adminInsuranceBillPayoutList")
 	public String adminGetInsurancePayoutList(Model model) {
 		
 		model.addAttribute("title", "관리자 보상금지급내역");
 		return "admin/insurance/adminInsuranceBillPayoutList";
 	}
+	
 	
 	@GetMapping("/adminAddInsuranceBillPayout")
 	public String adminRemoveInsuranceById(Model model) {
