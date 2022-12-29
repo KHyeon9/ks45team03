@@ -34,16 +34,17 @@
 		<!-- navibar(상단메뉴) end -->
 		
 		<!-- contents start -->
-		<section class="mainContent clearfix logIn">
+		<th:block layout:fragment="customContents"></th:block>
+		<!-- <section class="mainContent clearfix logIn">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-md-7 col-lg-8 col-xl-7 col-12">
-						<!-- 페이지마다 변경되는 contents -->
-						<th:block layout:fragment="customContents"></th:block>
+						페이지마다 변경되는 contents
+						
 					</div>
 				</div>
 			</div>
-		</section>
+		</section> -->
 				
 		<!-- footer(하단메뉴) start -->
 		<div th:replace="~{user/fragments/footerFragment :: footerFragment}"></div>
