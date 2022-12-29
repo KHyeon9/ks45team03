@@ -14,18 +14,20 @@ import ks45team03.rentravel.mapper.InfoBoardMapper;
 @Service
 @Transactional
 public class InfoBoardService {
-	
+	// 의존성 주입
 	private final InfoBoardMapper infoBoardMapper;
 	
 	public InfoBoardService(InfoBoardMapper infoBoardMapper) {
 		this.infoBoardMapper = infoBoardMapper;
 	}
 	
+	// 정보 게시글 조회
 	public InfoBoard getInfoBoardDetail(String infoBoardCode) {
 		return infoBoardMapper.getInfoBoardDetail(infoBoardCode);
 	}
 	
-	public InfoBoardComment getInfoBoardComment(String infoBoardCode) {
+	// 정보 게시글의 댓글 조회
+	public List<InfoBoardComment> getInfoBoardComment(String infoBoardCode) {
 		return infoBoardMapper.getInfoBoardComment(infoBoardCode);
 	}
 	

@@ -3,6 +3,8 @@ package ks45team03.rentravel.user.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ListModel;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,11 +58,11 @@ public class InfoBoardController {
 								  Model model) {
 		
 		InfoBoard infoBoardDetail = infoBoardService.getInfoBoardDetail(infoBoardCode);
-		InfoBoardComment infoBoardComment = infoBoardService.getInfoBoardComment(infoBoardCode);
+		List<InfoBoardComment> commentList = infoBoardService.getInfoBoardComment(infoBoardCode);
 		
 		model.addAttribute("title", "정보게시판상세");
 		model.addAttribute("infoBoardDetail", infoBoardDetail);
-		model.addAttribute("infoBoardComment", infoBoardComment);
+		model.addAttribute("commentList", commentList);
 		
 		return "user/board/infoBoardDetail";
 	}
