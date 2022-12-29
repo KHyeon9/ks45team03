@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{user/layout/default}">
-	<th:block layout:fragment="customContents">
 	
 	<head>
 		<style type="text/css">
@@ -52,8 +51,13 @@
 			}
 		</style>	
 	</head>
-	<form id="addUserForm" th:action="@{/addMember}" method="post">
-			<table th:object="${address}">
+	<th:block layout:fragment="customContents">
+	 <section class="mainContent clearfix logIn">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-7 col-lg-8 col-xl-7 col-12">
+		<form id="addUserForm" th:action="@{/addMember}" method="post">
+			<table>
 				<tbody>
 					<tr>
 						<td colspan="2" id="logo-td">
@@ -142,29 +146,7 @@
 					<tr>
 						<td colspan="2">
 							<label for="regionSidoCode">주소</label>
-							<select id="regionSidoCode" name="regionSidoCode" onchange="typeFn();">
-								<th:block th:if="${not #lists.isEmpty(regionSidoList)}"
-										  th:each="sido : ${regionSidoList}">
-									<option th:value="${sido.regionSidoCode}">[[${sido.regionSidoName}]]</option>
-								</th:block>
-								<th:block th:unless="${not #lists.isEmpty(regionSidoList)}">
-									<option>등록된 권한이 없습니다.</option>
-								</th:block>
-							</select>
-						</td>
-					</tr>
-					<tr id="regionSggTr" style="display: none;">
-						<td colspan="2">
-							<label for="regionSggCode">주소</label>
-							<select id="regionSggCode" name="regionSggCode">
-								<th:block th:if="${not #lists.isEmpty(regionSggList)}"
-										  th:each="sido : ${regionSggList}">
-									<option th:value="${sido.regionSggCode}">[[${sido.regionSidoName}]]</option>
-								</th:block>
-								<th:block th:unless="${not #lists.isEmpty(regionSggList)}">
-									<option>등록된 권한이 없습니다.</option>
-								</th:block>
-							</select>
+							<input type="text" id="regionSidoCode" name="regionSidoCode" placeholder="주소를 입력해주세요." />
 						</td>
 					</tr>
 					<tr>
@@ -193,16 +175,28 @@
 				</tfoot>
 			</table>
 		</form>
-		
-		<script>
-			function typeFn(){
-				
-				if($("select[name=regionSggCode] > option:selected").val() != ""){
-					$("#regionSggTr").show();
-					$("#regionSggCode > option").remove();
-					$("#regionSggCode").append("<option value=\"\">--선택--</option>");
-				}
-			}
-		</script>
+		</div>
+		</div>
+		</div>
+		</section>
 		</th:block>
+		
+			<th:block layout:fragment="customJs">
+				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+			</th:block>
+			<th:block layout:fragment="customScript">
+			<script>
+				window.onload = function(){
+				    document.getElementById("regionSidoCode").addEventListener("click", function(){ //주소입력칸을 클릭하면
+				        //카카오 지도 발생
+				        new daum.Postcode({
+				            oncomplete: function(data) { //선택시 입력값 세팅
+				                document.getElementById("regionSidoCode").value = data.address; // 주소 넣기
+				                document.querySelector("input[name=userAddrDesc]").focus(); //상세입력 포커싱
+				            }
+				        }).open();
+				    });
+				}
+				</script>
+			</th:block>
 </html>
