@@ -45,8 +45,10 @@ public class GoodsController {
 							 ,@RequestParam(value="goodsCode") String goodsCode) {
 		
 		List<GoodsImg> goodsImg = goodsService.getGoodsImg(goodsCode);
+		Goods goodsDetail = goodsService.getGoodsDetailByGoodsCode(goodsCode);
 		
 		model.addAttribute("goodsImgs",goodsImg);
+		model.addAttribute("goodsDetail",goodsDetail);
 		model.addAttribute("title","상품 상세 정보 화면");
 		
 		return "user/goods/goodsDetail";

@@ -5,7 +5,14 @@ public class GoodsImg {
 	private String goodsCode;
 	private String goodsImg;
 	private String imgRegDate;
+	private int goodsImgRowNum;
 	
+	public int getGoodsImgRowNum() {
+		return goodsImgRowNum;
+	}
+	public void setGoodsImgRowNum(int goodsImgRowNum) {
+		this.goodsImgRowNum = goodsImgRowNum;
+	}
 	public String getGoodsImgCode() {
 		return goodsImgCode;
 	}
@@ -42,6 +49,8 @@ public class GoodsImg {
 		builder.append(goodsImg);
 		builder.append(", imgRegDate=");
 		builder.append(imgRegDate);
+		builder.append(", goodsImgRowNum=");
+		builder.append(goodsImgRowNum);
 		builder.append("]");
 		return builder.toString();
 	}
