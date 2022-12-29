@@ -46,8 +46,8 @@
 				  		<th>적립되는적립금</th>
 				  		<th>적립금을제외한금액</th>
 				  		<th>렌탈오너정산금액</th>
-				  		<th>렌탈상태</th>
 				  		<th>결제시간</th>
+				  		<th>렌탈상태</th>
 				  	</tr>
 				  </thead>
 				  <tbody>
@@ -72,9 +72,24 @@
 				  		<td th:text="${order.orderStateName}"></td>
 				  	</tr>
 				  	<tr th:if="${#lists.isEmpty(orderHistory)}">
-						<td colspan="5">등록한 게시글이 없습니다.</td>
+						<td colspan="16">등록한 결제가 없습니다.</td>
 					</tr>
 				  </tbody>
+				  <tfoot>
+			  		<tr>
+			  			<td colspan="16">
+			  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+			  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
+			  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+			  					<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
+			  					</a>
+			  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
+			  				</th:block>
+			  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
+			  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+			  			</td>
+			  		</tr>
+			  	</tfoot>
 				</table>
 			</div>
 		</div>

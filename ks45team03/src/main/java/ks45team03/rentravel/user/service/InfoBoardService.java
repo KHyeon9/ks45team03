@@ -28,7 +28,7 @@ public class InfoBoardService {
 		int rowPerPage = 10;
 		
 		// 보여질 행의 시작점
-		int startRowNum = (currentPage - 1)*rowPerPage;
+		int startRowNum = (currentPage - 1) * rowPerPage;
 		
 		// 마지막페이지
 		int lastPage = (int) Math.ceil(rowCnt/rowPerPage);

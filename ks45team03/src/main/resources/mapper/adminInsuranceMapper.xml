@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks45team03.rentravel.mapper.AdminInsuranceMapper" >    
+
+	<resultMap type="Insurance" id="insuranceResultMap">
+		<id property="insuranceCode" 			column="insurance_code"/>
+		<result property="userId" 		column="user_id"/>
+		<result property="goodsCode" 		column="goods_code"/>
+		<result property="paymentCode" 	column="payment_code"/>
+		<result property="rentalCode" 	column="rental_code"/>
+		<result property="insuranceSignUpTime" 	column="insurance_sign_up_time"/>
+	</resultMap>
+	
+	<select id="adminGetInsuranceList"  resultMap="insuranceResultMap">
+		/* 관리자 보험리스트 조회 */
+		SELECT
+			i.insurance_code,
+			i.user_id,
+			i.goods_code,
+			i.payment_code,
+			i.rental_code,
+			i.insurance_sign_up_time
+		FROM
+			tb_insurance AS i
+		ORDER BY
+			i.insurance_code;
+		
+	</select>
+
+    
+
+    
+</mapper>
