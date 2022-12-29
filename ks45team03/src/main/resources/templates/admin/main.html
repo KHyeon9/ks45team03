@@ -4,7 +4,11 @@
 	  layout:decorate="~{admin/layout/default}">
 
 	<th:block layout:fragment="customContents">
-		<h1>메인화면</h1>
+		
+			<div id="rightcolumn" class="right_col" role="main">
+			
+			<h1>메인화면</h1>
+			
 			<br>
 			<a th:href="@{/admin/review/adminReviewList}" style="color: blue;">관리자 상품평 관리</a>
 			<br>
@@ -36,6 +40,7 @@
 			<br>
 			<a th:href="@{/admin/report/adminReportList}" style="color: blue;">신고 목록</a>
 			
+			</div>
 			
 	</th:block>
 </html>

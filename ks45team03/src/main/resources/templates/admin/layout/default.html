@@ -46,10 +46,9 @@
 			<!-- aside(왼쪽메뉴) end -->
 			
 			<!-- contents start -->
-			<div id="rightcolumn" class="right_col" role="main">
-				<!-- 페이지마다 변경되는 contents -->
-				<th:block layout:fragment="customContents"></th:block>
-			</div>
+			<!-- 페이지마다 변경되는 contents -->
+			<th:block layout:fragment="customContents"></th:block>
+			
 			
 			<!-- footer(하단메뉴) start -->
 			<div th:replace="~{admin/fragments/footerFragment :: footerFragment}"></div>
