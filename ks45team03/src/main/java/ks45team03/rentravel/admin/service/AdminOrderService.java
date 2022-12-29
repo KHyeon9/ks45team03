@@ -38,7 +38,7 @@ public class AdminOrderService {
 		// 보여질 페이지 번호 구현
 		// 보여질 페이지 번호 초기화
 		int endPageNum = (int) Math.ceil(currentPage * 0.1) * 10;
-		int startPageNum = endPageNum - 10 + 1;
+		int startPageNum =  Math.max(endPageNum - 10 + 1, 1);
 		
 		// 이전버튼 : [11] ... [20]  -->  [1] ... [10]
 		int prevPage = (int) Math.floor(currentPage * 0.1) * 10;

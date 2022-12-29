@@ -34,10 +34,7 @@
 		<!-- navibar(상단메뉴) end -->
 		
 		<!-- contents start -->
-
-						<!-- 페이지마다 변경되는 contents -->
-						<th:block layout:fragment="customContents"></th:block>
-
+		<th:block layout:fragment="customContents"></th:block>
 				
 		<!-- footer(하단메뉴) start -->
 		<div th:replace="~{user/fragments/footerFragment :: footerFragment}"></div>
@@ -103,7 +100,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	
 
 	<script th:src="@{/user/assets/plugins/jquery/jquery.min.js}"></script>

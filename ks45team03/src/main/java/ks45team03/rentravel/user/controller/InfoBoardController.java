@@ -51,7 +51,8 @@ public class InfoBoardController {
 	}
 	
 	@GetMapping("/infoBoardDetail")
-	public String infoBoardDetail(Model model) {
+	public String infoBoardDetail(@RequestParam(value = "infoBoardCode", required = false) String infoBoardCode, 
+								  Model model) {
 		model.addAttribute("title", "정보게시판상세");
 		
 		return "user/board/infoBoardDetail";
