@@ -13,7 +13,7 @@ public class AdminMileageController {
 	public String adminGetMileageList(Model model) {
 		model.addAttribute("title", "관리자 적립금 목록");
 	
-		return "/admin/mileage/adminMileageList";
+		return "admin/mileage/adminMileageList";
 	}
 
 }

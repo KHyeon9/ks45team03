@@ -18,22 +18,17 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr>
-		      <th scope="row">1</th>
-		      <td>Mark</td>
-		      <td>Otto</td>
-		      <td>@mdo</td>
+		    <tr th:if="${not #lists.isEmpty(adminInsuranceList)}"
+		    	 th:each="l : ${adminInsuranceList}">	
+		      <td th:text="${l.insuranceCode}"></td>
+		      <td th:text="${l.userId}"></td>
+		      <td th:text="${l.goodsCode}"></td>
+		      <td th:text="${l.paymentCode}"></td>
+		      <td th:text="${l.rentalCode}"></td>
+		      <td th:text="${l.insuranceSignUpTime}"></td>
 		    </tr>
-		    <tr>
-		      <th scope="row">2</th>
-		      <td>Jacob</td>
-		      <td>Thornton</td>
-		      <td>@fat</td>
-		    </tr>
-		    <tr>
-		      <th scope="row">3</th>
-		      <td colspan="2">Larry the Bird</td>
-		      <td>@twitter</td>
+		    <tr th:unless="${not #lists.isEmpty(adminInsuranceList)}">
+		    	<td colspan="9">등록된 상품이 없습니다.</td>
 		    </tr>
 		  </tbody>
 		</table>
