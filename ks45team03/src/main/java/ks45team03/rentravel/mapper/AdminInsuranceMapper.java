@@ -20,7 +20,7 @@ public interface AdminInsuranceMapper {
 	public int adminAddInsurance(Insurance insurance);
 	
 	// 보험코드로 보험삭제
-	public int adminRemoveInsuranceByCode(String insuranceCode);
+	public void adminRemoveInsuranceByCode(String insuranceCode);
 	
 	// 보상금청구서 조회
 	public List<InsuranceRequest> adminGetInsuranceRequestList();

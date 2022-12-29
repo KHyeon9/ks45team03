@@ -28,6 +28,10 @@
 			border-radius: 5px;
 			width: 150px;
 			}
+			#modifyBtn{
+				width: 70%;
+				height: 70%;
+			}
 		</style>
 	</head>
 	
@@ -36,11 +40,13 @@
 	
 	<table>
 			<thead>
-            	<tr>
+            	<tr class="table-info">
 	                <th>수수료율 코드</th>
 	                <th>수수료율</th>
 	                <th>적용연도</th>
 	                <th>적용유무</th>
+	                <th>수정</th>
+	                
               	</tr>
         	</thead>
 	        <tbody>
@@ -51,10 +57,11 @@
 	                <td th:text="${cl.applyYear}"></td>
 	                <td th:if="${cl.applyCheck == true}" th:text="적용"></td>
 	                <td th:unless="${cl.applyCheck == true}" th:text="적용안함"></td>
+	                <td width=100px;><a id="modifyBtn" class="btn btn-info" th:href="@{/admin/commisionRate/adminModifyCommisionRate(commisionRateCode=${cl.commisionRateCode})}">수정</a></td>
 	                
 	              </tr>
 	              <tr th:if="${#lists.isEmpty(adminGetCommisionRateList)}">
-	              	<td colspan="4">등록한 수수료율이 없습니다.</td>
+	              	<td colspan="5">등록한 수수료율이 없습니다.</td>
 	              </tr>
 	        </tbody>
         </table>

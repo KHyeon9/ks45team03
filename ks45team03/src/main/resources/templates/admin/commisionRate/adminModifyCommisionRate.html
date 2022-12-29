@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+<head>
+<style type="text/css">
+table {
+	border: 1px solid black;
+	width: 50%;
+	table-layout: auto;
+	text-align: center;
+}
+
+
+td {
+	border: 1px solid black;
+	height: 30px;
+}
+
+#submitBtn {
+	margin-right: 30px;
+}
+
+input {
+	width: 98%;
+	height: 90%;
+}
+
+select {
+	width: 99%;
+	height: 80%;
+	text-align-last: center;
+	text-align: center;
+	-ms-text-align-last: center;
+	-moz-text-align-last : center;
+}
+
+button:not(#submitBtn, #resetBtn) {
+	width: 98%;
+	height: 90%;
+}
+
+#submitBtn, #resetBtn {
+	width: 150px;
+	margin: 0;
+}
+</style>
+</head>
+
+	
+	<!-- 사용자 지정 js 파일 -->
+		<th:block layout:fragment="customJs">
+			<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+			<script>
+		$(function() { // 요소가 다그려지고 나서 실행해 주세요	
+			function validateValue(checkValue) {
+				if (typeof checkValue == 'undefined' || checkValue == null
+						|| checkValue == '') {
+					return true;
+				}
+
+				return false;
+			}
+
+		
+			/* 유효성검사를 구현하시오. (#submitBtn 를 클릭 시) */
+			$('#submitBtn').click(
+					function() {
+						let isSubmit = true;
+
+						$('#modifyCommisionRateForm input').each(function(idx, item) {
+									let checkValue = $(item).val();
+									let labelValue = $(item).parents('tr').find('label').text();
+									if (validateValue(checkValue)) {
+
+										alert(`${labelValue}를 입력해주세요`);
+										$(item).focus();
+										isSubmit = false;
+
+										return false;
+									}
+
+								});
+
+						if (isSubmit)
+							$('#modifyCommisionRateForm').submit();
+					});
+		});
+	</script>
+		</th:block>
+	<!-- 사용자 지정 js script -->
+
+	
+	
+	
+	<th:block layout:fragment="customContents">
+	<form id="modifyCommisionRateForm" th:action="@{/admin/commisionRate/adminModifyCommisionRate}" method="post">
+		<table th:object="${commisionRateInfo}">
+			<tbody>
+				<tr>
+					<td><label for="commisionRateCode">수수료율 코드</label></td>
+					<td><input type="text" id="commisionRateCode"
+						name="commisionRateCode" th:value="*{commisionRateCode}" 
+						readonly="readonly"
+						/></td>
+				</tr>
+				<tr>
+					<td><label for="commisionRate">수수료율</label></td>
+					<td><input type="text" id="commisionRate"
+						name="commisionRate" placeholder="수수료율을 입력해주세요" th:value="*{commisionRate}"
+						/></td>
+				</tr>
+				<tr>
+					<td><label for="applyYear">적용연도</label></td>
+					<td><input type="text"  id="applyYear" 
+					name="applyYear" placeholder="적용연도를 입력해주세요" th:value="*{applyYear}"
+					/></td>
+				</tr>
+				<tr>
+					<td><label for="applyCheck">적용유무</label></td>
+					<td>
+						<select name="applyCheck">
+							<option value="true">적용</option>
+							<option value="false">적용안함</option>
+						</select>
+					</td>	
+				</tr>
+				
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2">
+						<button type="button" id="submitBtn" >수수료율 수정</button>
+						<button type="reset" id="resetBtn">취소</button>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</form>
+	
+	
+	
+	</th:block>
+</html>

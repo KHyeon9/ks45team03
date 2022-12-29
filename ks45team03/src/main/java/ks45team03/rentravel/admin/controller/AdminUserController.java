@@ -77,4 +77,25 @@ public class AdminUserController {
 		
 		return "admin/userManagement/modifyUser";
 	}
+	
+	@GetMapping("/loginHistory")
+	public String loginHistory(Model model) {
+		model.addAttribute("title", "로그인 이력");
+		
+		return "admin/userManagement/loginHistory";
+	}
+	
+	@GetMapping("/sleeperAccount")
+	public String sleeperAccount(Model model) {
+		model.addAttribute("title", "휴면계정 목록");
+		
+		return "admin/userManagement/sleeperAccount";
+	}
+	
+	@GetMapping("/removeAccount")
+	public String removeAccount(Model model) {
+		model.addAttribute("title", "탈퇴계정 목록");
+		
+		return "admin/userManagement/removeAccount";
+	}
 }
