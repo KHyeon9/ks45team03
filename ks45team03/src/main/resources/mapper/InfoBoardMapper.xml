@@ -49,7 +49,7 @@
 	
 	<select id="getInfoBoardDetail" parameterType="String" resultType="InfoBoard">
 		SELECT
-			info.user_id,
+			u.user_nickname,
 			info.info_board_code,
 			info.info_board_title,
 			info.info_board_content,
@@ -63,8 +63,12 @@
 			tb_info_board_img AS img
 			ON
 			img.info_board_code = info.info_board_code
+			INNER JOIN
+			tb_user AS u
+			ON
+			info.user_id = u.user_id
 		WHERE
-			info.user_id = #{userId};
+			info.info_board_code = #{infoBoardCode};
 	</select>
 	
 	<select id="getInfoBoardComment" parameterType="String" resultType="InfoBoardComment">
@@ -80,6 +84,6 @@
 			ON
 			info.info_board_code = comm.info_board_code
 		WHERE
-			comm.user_id = #{userId};
+			comm.info_board_code = #{infoBoardCode};
 	</select>
 </mapper>

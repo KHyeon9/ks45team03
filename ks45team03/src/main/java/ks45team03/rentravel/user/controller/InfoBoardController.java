@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.dto.InfoBoard;
+import ks45team03.rentravel.dto.InfoBoardComment;
 import ks45team03.rentravel.user.service.InfoBoardService;
 
 @Controller
@@ -53,7 +54,13 @@ public class InfoBoardController {
 	@GetMapping("/infoBoardDetail")
 	public String infoBoardDetail(@RequestParam(value = "infoBoardCode", required = false) String infoBoardCode, 
 								  Model model) {
+		
+		InfoBoard infoBoardDetail = infoBoardService.getInfoBoardDetail(infoBoardCode);
+		InfoBoardComment infoBoardComment = infoBoardService.getInfoBoardComment(infoBoardCode);
+		
 		model.addAttribute("title", "정보게시판상세");
+		model.addAttribute("infoBoardDetail", infoBoardDetail);
+		model.addAttribute("infoBoardComment", infoBoardComment);
 		
 		return "user/board/infoBoardDetail";
 	}

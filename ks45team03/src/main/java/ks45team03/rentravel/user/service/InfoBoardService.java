@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks45team03.rentravel.dto.InfoBoard;
+import ks45team03.rentravel.dto.InfoBoardComment;
 import ks45team03.rentravel.mapper.InfoBoardMapper;
 
 @Service
@@ -18,6 +19,14 @@ public class InfoBoardService {
 	
 	public InfoBoardService(InfoBoardMapper infoBoardMapper) {
 		this.infoBoardMapper = infoBoardMapper;
+	}
+	
+	public InfoBoard getInfoBoardDetail(String infoBoardCode) {
+		return infoBoardMapper.getInfoBoardDetail(infoBoardCode);
+	}
+	
+	public InfoBoardComment getInfoBoardComment(String infoBoardCode) {
+		return infoBoardMapper.getInfoBoardComment(infoBoardCode);
 	}
 	
 	public Map<String, Object> getInfoBoardList(int currentPage) {
