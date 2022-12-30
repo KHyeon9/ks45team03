@@ -11,6 +11,7 @@ public class Rental {
 	private String goodsName;
 	private String sigunguName;
 	private String orderStateName;
+	
 	private Payment payment;
 	
 	public String getRentalCode() {
