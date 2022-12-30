@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks45team03.rentravel.mapper.AdminReviewMapper" >
+
+	<resultMap type="Review" id="adminReviewResultMap">
+		<id property="reviewCode" 			column="review_code"/>
+		<result property="goodsCode" 		column="goods_code"/>
+		<result property="userId" 		column="user_id"/>
+		<result property="reviewContent" 		column="review_content"/>
+		<result property="goodsEvaluation" 		column="goods_evaluation"/>
+		<result property="reviewImg" 		column="review_img"/>
+		<result property="reviewRegDate" 		column="review_reg_date"/>
+		<result property="mileageGroupCode" 		column="mileage_group_code"/>
+		<result property="saveMileage" 		column="save_mileage"/>
+	</resultMap>
+
+
+	<select id="getAdminReviewList" resultMap="adminReviewResultMap">
+			
+		SELECT
+			r.review_code
+			, r.goods_code
+			, r.user_id
+			, r.review_content
+			, r.goods_evaluation
+			, r.review_img
+			, r.review_reg_date
+			, g.goods_name
+		FROM
+			tb_review AS r
+		JOIN
+			tb_goods AS g
+		ON
+			r.goods_code = g.goods_code;
+	
+	</select>
+
+</mapper>

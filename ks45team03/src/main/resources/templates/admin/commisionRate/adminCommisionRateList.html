@@ -11,7 +11,7 @@
               <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>플랫폼 수수료율 관리 <small>Custom design</small></h2>
+                    <h2>플랫폼 수수료율 관리</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -34,35 +34,47 @@
                     
                     
                     <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
+                      <table class="table table-striped jambo_table bulk_action" style="text-align: center;">
                         <thead>
                           <tr class="headings">
 			                <th class="column-title">수수료율 코드</th>
 			                <th class="column-title">수수료율</th>
 			                <th class="column-title">적용연도</th>
 			                <th class="column-title">적용유무</th>
-			                <th class="column-title">수정</th>
-	                           <th class="bulk-actions" colspan="5">
-	                             <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-	                           </th>
-	                         </tr>
+			                <th class="column-title"></th>
+			              </tr>
 	                       </thead>
 			                
 			       
-                        <tbody>
+                        <tbody id="adminCommisionListTbody">
 			            <tr class=" " th:unless="${#lists.isEmpty(adminGetCommisionRateList)}" th:each="cl : ${adminGetCommisionRateList}">
 			                <td class=" " th:text="${cl.commisionRateCode}"></td>
 			                <td class=" " th:text="${cl.commisionRate}"></td>
 			                <td class=" " th:text="${cl.applyYear}"></td>
 			                <td class=" " th:if="${cl.applyCheck == true}" th:text="적용"></td>
 			                <td class=" " th:unless="${cl.applyCheck == true}" th:text="적용안함"></td>
-			                <td class=" " width=100px;><a id="modifyBtn" class="btn btn-info" th:href="@{/admin/commisionRate/adminModifyCommisionRate(commisionRateCode=${cl.commisionRateCode})}">수정</a></td>
+			                <td class=" " width=100px;><a id="modifyBtn" class="btn btn-secondary" th:href="@{/admin/commisionRate/adminModifyCommisionRate(commisionRateCode=${cl.commisionRateCode})}">수정</a></td>
 			                
 			              </tr>
 			              <tr class=" " th:if="${#lists.isEmpty(adminGetCommisionRateList)}">
 			              	<td class=" " colspan="5">등록한 수수료율이 없습니다.</td>
 			              </tr>
 			        </tbody>
+			         <tfoot>
+					  		<tr>
+					  			<td colspan="6">
+					  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/commisionRate/adminCommisionRateList(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+					  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
+					  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+					  					<a th:if="${currentPage != num}" th:href="@{/admin/commisionRate/adminCommisionRateList(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
+					  					</a>
+					  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
+					  				</th:block>
+					  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/commisionRate/adminCommisionRateList(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
+					  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+					  			</td>
+					  		</tr>
+	  					</tfoot>
                       </table>
                     </div>
 							

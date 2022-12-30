@@ -9,6 +9,9 @@ import ks45team03.rentravel.dto.CommisionRate;
 @Mapper
 public interface AdminCommisionRateMapper {
 	
+	// 테이블 행의 갯수
+	public int adminGetCommisionRateListCnt();
+	
 	//플랫폼 수수료율 수정
 	public int adminModifyCommisionRate (CommisionRate commisionRate);
 	
