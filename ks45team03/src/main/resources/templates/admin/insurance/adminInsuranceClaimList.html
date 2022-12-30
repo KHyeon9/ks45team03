@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{admin/layout/default}">
+	  
+	  <th:block layout:fragment="customContents">
+	  <div class="right_col" role="main">
+	  	<h1>관리자보험청구상태</h1><br>
+	  	<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">insurance_claim_code</th>
+		      <th scope="col">user_id</th>
+		      <th scope="col">insurance_request_code</th>
+		      <th scope="col">insurance_request_state_code</th>
+		      <th scope="col">insurance_claim_modify_date</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:if="${not #lists.isEmpty(adminInsuranceClaimList)}"
+		    	 th:each="l : ${adminInsuranceClaimList}">	
+		      <td th:text="${l.insuranceClaimCode}"></td>
+		      <td th:text="${l.userId}"></td>
+		      <td th:text="${l.insuranceRequestCode}"></td>
+		      <td th:text="${l.insuranceRequestStateCode}"></td>
+		      <td th:text="${l.insuranceClaimModifyDate}"></td>
+		    </tr>
+		    <tr th:unless="${not #lists.isEmpty(adminInsuranceClaimList)}">
+		    	<td colspan="9">등록된 상품이 없습니다.</td>
+		    </tr>
+		  </tbody>
+		</table>
+		</div>
+	  </th:block>
+	  
+</html>

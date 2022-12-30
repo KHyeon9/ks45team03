@@ -4,6 +4,105 @@
 	  layout:decorate="~{user/layout/default}">
 	  
 	<th:block layout:fragment="customContents">
-		<h1>마이페이지 내 관심상품 화면입니다.</h1>
+	  <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>WISHLIST</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                <li>
+                  <a th:href="@{/myPage/myInfo}">myInfo</a>
+                </li>
+                <li class="active">WISHLIST</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+	  <!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix userProfile">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="btn-group" role="group" aria-label="...">
+                <a href="account-dashboard.html" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>Account Dashboard</a>
+                <a href="account-profile.html" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+                <a href="account-address.html" class="btn btn-default"><i class="fa fa-map-marker" aria-hidden="true"></i>My Address</a>
+                <a href="account-all-orders.html" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>All Orders</a>
+                <a href="account-wishlist.html" class="btn btn-default active"><i class="fa fa-gift" aria-hidden="true"></i>Wishlist</a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="innerWrapper">
+                <div class="orderBox myAddress wishList">
+                  <h2>Wishlist</h2>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Product Name</th>
+                          <th>Unit Price</th>
+                          <th>Stock Status</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span class="cartImage"><img src="assets/img/products/cart-image1.jpg" alt="image"></span>
+                          </td>
+                          <td>Italian Winter Hat</td>
+                          <td>$ 99.00</td>
+                          <td>In Stock</td>
+                          <td>
+                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span class="cartImage"><img src="assets/img/products/cart-image2.jpg" alt="image"></span>
+                          </td>
+                          <td>Italian Winter Hat</td>
+                          <td>$ 99.00</td>
+                          <td>In Stock</td>
+                          <td>
+                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span class="cartImage"><img src="assets/img/products/cart-image3.jpg" alt="image"></span>
+                          </td>
+                          <td>Italian Winter Hat</td>
+                          <td>$ 99.00</td>
+                          <td>In Stock</td>
+                          <td>
+                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 	</th:block>
 </html>

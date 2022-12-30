@@ -2,10 +2,178 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/layout/default}">
-
 	<th:block layout:fragment="customContents">
-		<h1>관리자 주문 내역 관리</h1>
-		<a th:href="@{/admin/order/adminOrderModify}" style="color: blue;">관리자 주문 내역 수정</a>
+		<div id="rightcolumn" class="right_col" role="main">
+			<div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>주문 내역</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                            <th class="column-title">상품명</th>
+                            <th class="column-title">렌탈시작일</th>
+                            <th class="column-title">렌탈종료일</th>
+                            <th class="column-title">택배이용여부</th>
+                            <th class="column-title">주소</th>
+                            <th class="column-title">카드,계좌 번호</th>
+                            <th class="column-title">결제기관</th>
+                            <th class="column-title">지불방법</th>
+                            <th class="column-title">결제예정금액</th>
+                            <th class="column-title">플랫폼결제수수료금액</th>
+                            <th class="column-title">적립금사용금액</th>
+                            <th class="column-title">적립되는적립금</th>
+                            <th class="column-title">적립금을제외한금액</th>
+                            <th class="column-title">렌탈오너정산금액</th>
+                            <th class="column-title">결제시간</th>
+                            <th class="column-title">렌탈상태</th>
+                            <th class="column-title">수정</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                         	<tr th:unless="${#lists.isEmpty(orderHistory)}" th:each="order : ${orderHistory}">
+	                         	<td class="a-center ">
+	                              <input type="checkbox" class="flat" name="table_records">
+	                            </td>
+						  		<td th:text="${order.goodsName}"></td>
+						  		<td th:text="${order.rentalStartDate}"></td>
+						  		<td th:text="${order.rentalEndDate}"></td>
+						  		<td th:text="${order.selectDelivery}"></td>
+						  		<td th:text="${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
+						  		<th:block th:object="${order.payment}">
+							  		<td th:text="*{paymentAccountOrCardNumber}"></td>
+							  		<td th:text="*{paymentAgency}"></td>
+							  		<td th:text="*{paymentType}"></td>
+						  			<td th:text="*{expectedPaymentAmount}"></td>
+							  		<td th:text="*{goodsCommisionTotalPrice}"></td>
+							  		<td th:text="*{mileageUsePrice}"></td>
+							  		<td th:text="*{saveMileage}"></td>
+							  		<td th:text="*{amountExcludingMileage}"></td>
+							  		<td th:text="*{settlementAmount}"></td>
+							  		<td th:text="*{paymentTime}"></td>
+						  		</th:block>
+						  		<td th:text="${order.orderStateName}"></td>
+						  		<td>
+				  					<a th:href="@{/admin/order/adminOrderModify}">수정</a>
+				  				</td>
+						  	</tr>
+						  	<tr th:if="${#lists.isEmpty(orderHistory)}">
+								<td colspan="16">등록한 결제가 없습니다.</td>
+							</tr>
+                        </tbody>
+                        <tfoot>
+					  		<tr>
+					  			<td colspan="16">
+					  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+					  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
+					  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+					  					<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
+					  					</a>
+					  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
+					  				</th:block>
+					  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
+					  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+					  			</td>
+					  		</tr>
+	  					</tfoot>
+                      </table>
+                      <a th:href="@{/admin/order/adminOrderModify}" style="color: blue;">관리자 주문 내역 수정</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+		<!-- <div id="tableDiv">
+			<div>
+				<table>
+				  <thead>
+				  	<tr>
+				  		<th>상품명</th>
+				  		<th>렌탈시작일</th>
+				  		<th>렌탈종료일</th>
+				  		<th>택배이용여부</th>
+				  		<th>주소</th>
+				  		<th>카드,계좌 번호</th>
+				  		<th>결제기관</th>
+				  		<th>지불방법</th>
+				  		<th>결제예정금액</th>
+				  		<th>플랫폼결제수수료금액</th>
+				  		<th>적립금사용금액</th>
+				  		<th>적립되는적립금</th>
+				  		<th>적립금을제외한금액</th>
+				  		<th>렌탈오너정산금액</th>
+				  		<th>결제시간</th>
+				  		<th>렌탈상태</th>
+				  	</tr>
+				  </thead>
+				  <tbody>
+				  	<tr th:unless="${#lists.isEmpty(orderHistory)}" th:each="order : ${orderHistory}">
+				  		<td th:text="${order.goodsName}"></td>
+				  		<td th:text="${order.rentalStartDate}"></td>
+				  		<td th:text="${order.rentalEndDate}"></td>
+				  		<td th:text="${order.selectDelivery}"></td>
+				  		<td th:text="${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
+				  		<th:block th:object="${order.payment}">
+					  		<td th:text="*{paymentAccountOrCardNumber}"></td>
+					  		<td th:text="*{paymentAgency}"></td>
+					  		<td th:text="*{paymentType}"></td>
+				  			<td th:text="*{expectedPaymentAmount}"></td>
+					  		<td th:text="*{goodsCommisionTotalPrice}"></td>
+					  		<td th:text="*{mileageUsePrice}"></td>
+					  		<td th:text="*{saveMileage}"></td>
+					  		<td th:text="*{amountExcludingMileage}"></td>
+					  		<td th:text="*{settlementAmount}"></td>
+					  		<td th:text="*{paymentTime}"></td>
+					  		<td th:text="수정"></td>
+				  		</th:block>
+				  		<td th:text="${order.orderStateName}"></td>
+				  	</tr>
+				  	<tr th:if="${#lists.isEmpty(orderHistory)}">
+						<td colspan="16">등록한 결제가 없습니다.</td>
+					</tr>
+				  </tbody>
+				  <tfoot>
+			  		<tr>
+			  			<td colspan="16">
+			  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+			  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
+			  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+			  					<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
+			  					</a>
+			  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
+			  				</th:block>
+			  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
+			  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+			  			</td>
+			  		</tr>
+			  	</tfoot>
+				</table>
+			</div>
+		</div> -->
+		
 	</th:block>
 
 </html>

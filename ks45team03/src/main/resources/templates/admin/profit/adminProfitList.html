@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<th:block layout:fragment="customContents">
+		    <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>회원 수익 목록</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  
+                  <div class="x_content">
+
+                    <p>회원의 수익을 조회할 수 있습니다.</p>
+                    
+                    
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                          	<th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+			                <th class="column-title">수익 코드</th>
+			                <th class="column-title">ID</th>
+			                <th class="column-title">적립된 정산금</th>
+			                <th class="column-title">총 정산금</th>
+			                <th class="column-title">정산금 지급 날짜</th>
+	                          
+	                         </tr>
+	                       </thead>
+			                
+			       
+                        <tbody>
+			            <tr class=" " th:unless="${#lists.isEmpty(adminGetCommisionRateList)}" th:each="cl : ${adminGetCommisionRateList}">
+			            	<td class="a-center ">
+                              <input type="checkbox" class="flat" name="table_records">
+                            </td>
+			                <td class=" " th:text="${cl.commisionRateCode}"></td>
+			                <td class=" " th:text="${cl.commisionRate}"></td>
+			                <td class=" " th:text="${cl.applyYear}"></td>
+			                <td class=" " th:text="${cl.applyCheck}"></td>			                
+			                <td class=" " width=100px;><a id="modifyBtn" class="btn btn-secondary" th:href="@{/admin/commisionRate/adminModifyCommisionRate(commisionRateCode=${cl.commisionRateCode})}">수정</a></td>
+			                
+			              </tr>
+			              <tr class=" " th:if="${#lists.isEmpty(adminGetCommisionRateList)}">
+			              	<td class=" " colspan="5">등록된 회원 수익이 없습니다.</td>
+			              </tr>
+			        </tbody>
+                      </table>
+                    </div>
+							
+						
+                  </div>
+                  
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+	</th:block>
+</html>
+							
+	

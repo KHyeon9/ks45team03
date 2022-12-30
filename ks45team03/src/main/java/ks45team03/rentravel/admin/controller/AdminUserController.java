@@ -29,9 +29,11 @@ public class AdminUserController {
 	@SuppressWarnings("unchecked")
 	@GetMapping("/userList")
 	public String userList(Model model
-			 ,@RequestParam(value="currentPage", defaultValue = "1", required = false) int currentPage) {
+			 ,@RequestParam(value="currentPage", defaultValue = "1", required = false) int currentPage
+			 ,@RequestParam(value="searchKey", required = false) String searchKey
+			 ,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
 		
-		Map<String, Object> paramMap = adminUserService.userList(currentPage);
+		Map<String, Object> paramMap = adminUserService.userList(currentPage, searchKey, searchValue);
 		int lastPage = (int) paramMap.get("lastPage");
 		List<User> userList = (List<User>) paramMap.get("userList");
 		
@@ -74,5 +76,26 @@ public class AdminUserController {
 		model.addAttribute("userLevelList", userLevelList);
 		
 		return "admin/userManagement/modifyUser";
+	}
+	
+	@GetMapping("/loginHistory")
+	public String loginHistory(Model model) {
+		model.addAttribute("title", "로그인 이력");
+		
+		return "admin/userManagement/loginHistory";
+	}
+	
+	@GetMapping("/sleeperAccount")
+	public String sleeperAccount(Model model) {
+		model.addAttribute("title", "휴면계정 목록");
+		
+		return "admin/userManagement/sleeperAccount";
+	}
+	
+	@GetMapping("/removeAccount")
+	public String removeAccount(Model model) {
+		model.addAttribute("title", "탈퇴계정 목록");
+		
+		return "admin/userManagement/removeAccount";
 	}
 }

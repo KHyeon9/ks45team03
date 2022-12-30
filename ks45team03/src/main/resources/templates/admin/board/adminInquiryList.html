@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<th:block layout:fragment="customContents">
+		<div id="rightcolumn" class="right_col" role="main">
+		관리자: 1 대 1 문의 게시글 목록(조회)
+		<br>
+		<a th:href="@{/admin/board/adminInquiryDetail}" style="color: blue;">1 대 1 문의 게시글(조회)</a>
+		</div>
+	</th:block>
+</html>

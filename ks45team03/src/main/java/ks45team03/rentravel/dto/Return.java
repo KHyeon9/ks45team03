@@ -7,6 +7,7 @@ public class Return {
 	private String rentalCode;
 	private String paymentCode;
 	private String returnDate;
+	
 	public String getReturnCode() {
 		return returnCode;
 	}

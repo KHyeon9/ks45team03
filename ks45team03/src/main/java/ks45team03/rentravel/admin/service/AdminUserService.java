@@ -23,7 +23,25 @@ public class AdminUserService {
 	}
 	
 	// 회원 목록 + 페이징
-	public Map<String, Object> userList(int currentPage){
+	public Map<String, Object> userList(int currentPage, String searchKey, String searchValue){
+		
+		// 검색 
+		if(searchKey != null) {
+			switch (searchKey) {
+			case "userId":
+				searchKey = "u.user_id";
+				break;
+			case "userLevelName":
+				searchKey = "ul.user_level_name";
+				break;
+			case "userName":
+				searchKey = "u.user_name";
+				break;
+			case "userNickName":
+				searchKey = "u.user_nickname";
+				break;
+			}
+		}
 		
 		// 보여질 행의 갯수
 		int rowPerPage = 10;
@@ -33,7 +51,7 @@ public class AdminUserService {
 		
 		// 마지막페이지 
 		// 테이블의 전체 행의 갯수
-		double rowCnt = adminUserMapper.getUserListCnt();
+		double rowCnt = adminUserMapper.getUserListCnt(searchKey, searchValue);
 		// 마지막페이지
 		int lastPage = (int) Math.ceil(rowCnt/rowPerPage);
 		
@@ -42,10 +60,12 @@ public class AdminUserService {
 		int endPageNum = (int) Math.ceil(currentPage * 0.1) * 10;
 		int startPageNum = endPageNum - 10 + 1;
 		
+		// 이전버튼 : [11] ... [20]  -->  [1] ... [10]
 		int prevPage = (int) Math.floor(currentPage * 0.1) * 10;
 		if(currentPage % 10 == 0) {
 			prevPage = (int) Math.floor(currentPage * 0.1) * 10 - 10;
 		}
+		// 다음버튼 : [1] ... [10]  --> [11] ... [20]
 		int nextPage = (int) Math.ceil(currentPage * 0.1) * 10 + 1;
 		
 		if(endPageNum > lastPage) {
@@ -56,6 +76,8 @@ public class AdminUserService {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("startRowNum", startRowNum);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchKey", searchKey);
+		paramMap.put("searchValue", searchValue);
 		
 		// 유저목록 data
 		List<User> userList = adminUserMapper.userList(paramMap);

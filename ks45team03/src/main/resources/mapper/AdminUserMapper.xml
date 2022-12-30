@@ -48,17 +48,31 @@
 			tb_region_sido AS si
 			ON 
 			sgg.region_sido_code = si.region_sido_code
-		<if test="startRowNum != null and startRowNum > -1">
-			LIMIT #{startRowNum}, #{rowPerPage};
-		</if>
+			<where>
+			<if test="searchKey != null and searchValue != ''">
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+			</if>
+			</where>
+			<if test="startRowNum != null and startRowNum > -1">
+				LIMIT #{startRowNum}, #{rowPerPage};
+			</if>
 	</select>
 
 	<select id="getUserListCnt" resultType="int">
-		/* 회원목록 테이블의 전체 행의 갯수 */
+		/* 회원목록 테이블의 전체 행의 갯수 검색시 바뀐데이터의 갯수에 맞춰 페이징을 넣기 위해 where절 추가 */
 		SELECT
 			COUNT(1)
 		FROM
-			tb_user;
+			tb_user AS u
+			INNER JOIN
+			tb_user_level AS ul
+			ON 
+			u.user_level_code = ul.user_level_code
+		<where>
+			<if test="searchKey != null and searchValue != ''">
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%');
+			</if>
+		</where>	
 	</select>
 	
 	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">
