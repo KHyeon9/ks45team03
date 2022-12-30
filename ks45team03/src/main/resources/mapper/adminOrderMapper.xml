@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks45team03.rentravel.mapper.AdminOrderMapper">
+	<!-- 주문 내역 맵 -->
 	<resultMap type="Rental" id="orderHistoryMap">
 		<id 	property="rentalCode" 	  		column="rental_code" />
 		<result property="goodsCode" 	  		column="goods_code" />
@@ -36,6 +37,43 @@
 			<result property="mileageUseGroupCode" 	  			column="user_image" />
 		</association>
 	</resultMap>
+	<!-- 주문 취소 맵 -->
+	<resultMap type="RentalCancel" id="rentalCancelMap">
+		<id 	property="rentalCancelCode" 	  		column="rental_cancel_code" />
+		<result property="cancelUserId" 	  			column="cancel_user_id" />
+		<result property="rentalCode" 	  				column="rental_code" />
+		<result property="paymentCode" 					column="payment_code" />
+		<result property="rentalCancelSignupDate" 		column="rental_cancel_signup_date" />
+		<result property="refundUserId" 				column="refund_user_id" />
+		<result property="refundCancelSignupDate" 		column="refund_cancel_signup_date" />
+		<result property="ownerCancelSignupCheckDate" 	column="owner_cancel_signup_check_date" />
+		<result property="refundWay" 			 		column="refund_way" />
+		<result property="refundMoney" 					column="refund_money" />
+		<result property="mileageUsePrice" 				column="mileage_use_price" />
+		<result property="saveMileage" 					column="save_mileage" />
+		<result property="mileageGroupCode" 			column="mileage_group_code" />
+	</resultMap>
+	
+	<!-- 주문 취소 내역 조회 -->
+	<select id="getRentalCancelHistory" resultMap="rentalCancelMap">
+		SELECT
+			can.rental_cancel_code,
+			can.cancel_user_id,
+			can.rental_code,
+			can.payment_code,
+			can.rental_cancel_signup_date,
+			can.refund_user_id,
+			can.refund_cancel_signup_date,
+			can.owner_cancel_signup_check_date,
+			can.refund_way,
+			can.refund_money,
+			can.mileage_use_price,
+			can.save_mileage,
+			can.mileage_group_code
+		FROM
+			tb_rental_cancel AS can;
+	</select>
+	
 	<!-- 주문 내역 조회 -->
 	<select id="getOrderHistory" parameterType="map" resultMap="orderHistoryMap">
 		SELECT

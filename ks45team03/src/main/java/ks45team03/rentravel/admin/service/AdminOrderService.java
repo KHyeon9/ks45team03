@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks45team03.rentravel.dto.Rental;
+import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.mapper.AdminOrderMapper;
 
 @Service
@@ -19,6 +20,10 @@ public class AdminOrderService {
 	
 	public AdminOrderService(AdminOrderMapper adminOrderMapper) {
 		this.adminOrderMapper = adminOrderMapper;
+	}
+	
+	public List<RentalCancel> getRentalCancelHistory() {
+		return adminOrderMapper.getRentalCancelHistory();
 	}
 	
 	public Map<String, Object> getOrderHistory(int currentPage) {
