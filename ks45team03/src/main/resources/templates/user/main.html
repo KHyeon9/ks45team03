@@ -13,26 +13,28 @@
 					<div class="col-md-7 col-lg-8 col-xl-7 col-12">
 						<!-- 페이지마다 변경되는 contents -->
 						<!-- Preloader -->
-					    <div id="preloader" class="smooth-loader-wrapper">
-					      <div class="preloader_container">
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					        <div class="block"></div>
-					      </div>
-					    </div>
+						
+					  <div id="preloader" class="smooth-loader-wrapper">
+							      <div class="preloader_container">
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							        <div class="block"></div>
+							      </div>
+						</div> 
+						
 					  	<h1>메인화면</h1>
 					  	<h3><a th:href="@{/admin}" style="color:blue;">관리자 페이지</a></h3>
 					  	<h3><a th:href="@{/order/waybill}" style="color:blue;">운송장번호</a></h3>
@@ -49,4 +51,40 @@
 			</div>
 		</section>
 	  </th:block>
+	  <th:block layout:fragment="customScript">
+		<script th:inline="javascript"> 
+				  $(function(){ // 요소가 다그려지고 나서 실행해 주세요
+		                const msg = [[ ${msg} ]];
+		                if(msg != null) {
+					                		alert(msg);
+					                		$('#loginBtn').trigger('click');
+					                	}
+		                
+		                $('#submitBtn').click(function(){
+		                  
+		                    const userId = $('#userId').val();
+		                    const userPw = $('#userPw').val();
+		
+		                    if(typeof userId == 'undifined' 
+		                    		|| userId == null 
+		                    		|| userId == ''){
+		                        alert('아이디를 입력하세요.');
+		                        $('#userId').focus();
+		                        return false;
+		                    }
+		
+		                    if(typeof userPw == 'undifined' 
+		                    		|| userPw == null 
+		                    		|| userPw == ''){
+		                        alert('비밀번호를 입력하세요.');
+		                        $('#userPw').focus();
+		                        return false;
+		                    }
+		                    
+		                    $('#loginForm').submit();
+		                })
+		
+		            });
+		</script>
+</th:block>
 </html>

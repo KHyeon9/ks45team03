@@ -3,22 +3,37 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks45team03.rentravel.mapper.UserMapper">
-	<resultMap type="RegionSido" id="sidoResultMap">
-	<id property="regionSidoCode" column="region_sido_code" />
-		<result property="regionSidoName" column="region_sido_name" />
-		<association property="regionSgg" javaType="RegionSgg">
-			<id property="regionSggCode" column="region_sgg_code"></id>
-  	  		<result property="regionSidoCode" column="region_sido_code" />
-  	  		<result property="regionSggName" column="region_sgg_name" />
-		</association>
+	<resultMap type="User" id="userResultMap">
+		<id property="userId" column="user_id" />
+		<result property="userPw" column="user_pw" />
+		<result property="userName" column="user_name" />
+		<result property="userNickName" column="user_nickname" />
+		<result property="userLevelName" column="user_level_Name" />
+		<result property="userLevelCode" column="user_level_code" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhoneNumber" column="user_phone_number" />
+		<result property="userImage" column="user_image" />
+		<result property="regionSggCode" column="region_sgg_code" />
+		<result property="userAddrDesc" column="user_addr_desc" />
+		<result property="totalExp" column="total_exp" />
+		<result property="totalMileage" column="total_mileage" />
+		<result property="userCreateDate" column="user_create_date" />
 	</resultMap>
 	
-	<select id="regionSidoList" resultMap="sidoResultMap">
-  		/* 주소조회 */
-		SELECT 
-			 sido.region_sido_code
-			,sido.region_sido_name
+	<select id="checkPwByUserId" parameterType="String" resultMap="userResultMap">
+		SELECT
+			 u.user_id
+			,u.user_pw
+			,u.user_nickname
+			,ul.user_level_name
 		FROM
-			tb_region_sido AS sido;
-  	</select>
+			tb_user AS u
+			INNER JOIN
+			tb_user_level AS ul
+			ON
+			u.user_level_code = ul.user_level_code
+		WHERE
+			u.user_id = #{userId};
+	</select>
+	
 </mapper>
