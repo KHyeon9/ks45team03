@@ -37,26 +37,37 @@
               <div class="panel panel-default">
                 <div class="panel-heading"><h3>sign up</h3></div>
                 <div class="panel-body">
-                  <form action="" method="POST" role="form">
+                
+                  <form th:action="@{/goods/addGoods}" method="POST" role="form">
                     <div class="form-group">
-                      <label for="">First Name</label>
-                      <input type="text" class="form-control" id="">
+                      <label for="">상품명</label>
+                      <input type="text" class="form-control" id="" name="goodsName">
                     </div>
                     <div class="form-group">
-                      <label for="">Last Name</label>
-                      <input type="text" class="form-control" id="">
+                      <label for="">아이디</label>
+                      <input type="text" class="form-control" id="" name="userId">
                     </div>
                     <div class="form-group">
-                      <label for="">Enter Email</label>
-                      <input type="email" class="form-control" id="">
+                      <label for="">상품가치</label>
+                      <input type="text" class="form-control" id="" name="goodsValuePrice">
                     </div>
                     <div class="form-group">
-                      <label for="">Password</label>
-                      <input type="password" class="form-control" id="">
+                      <label for="">일당 가격</label>
+                      <input type="text" class="form-control" id="" name="goodsDayPrice">
                     </div>
+                    <div class="form-group">
+                      <label for="">상품 상세</label>
+                      <input type="text" class="form-control" id="" name="goodsDetail">
+                    </div>
+                    <div class="form-group">
+                      <label for="">카테고리</label>
+                      <input type="text" class="form-control" id="" name="goodsCategoryCode">
+                    </div>
+
                     <button type="submit" class="btn btn-primary btn-block">Submit</button>
                     <button type="button" class="btn btn-link btn-block"><span>All have an account?</span> Log in</button>
                   </form>
+                  
                 </div>
               </div>
             </div>

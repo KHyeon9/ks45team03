@@ -5,10 +5,71 @@
 
 	<th:block layout:fragment="customContents">
 		<div id="rightcolumn" class="right_col" role="main">
-			<div class="col-md-12 col-sm-12">
-				<h1>관리자 환불 리스트</h1>
-				<a th:href="@{/admin/order/adminReturnModify}" style="color: blue;">관리자 환불 수정</a>
-			</div>
+			<div class="col-md-12 col-sm-12  ">
+               <div class="x_panel">
+                 <div class="x_title">
+                   <h2>환불 내역 <small>User</small></h2>
+                   <div class="clearfix"></div>
+                 </div>
+
+                 <div class="x_content">
+
+                   <p>환불 내역을 조회합니다.</p>
+
+                   <div class="table-responsive">
+                     <table class="table table-striped jambo_table bulk_action">
+                       <thead>
+                         <tr class="headings">
+                           <th class="column-title">상품명</th>
+                           <th class="column-title">렌탈시작일</th>
+                           <th class="column-title">렌탈종료일</th>
+                           <th class="column-title">오너ID</th>
+                           <th class="column-title">렌터ID</th>
+                           <th class="column-title">렌탈상태</th>
+                           <th class="column-title">반납날짜</th>
+                           <th class="column-title">수정</th>
+                           <th class="bulk-actions" colspan="7">
+                             <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                           </th>
+                         </tr>
+                       </thead>
+
+                       <tbody>
+                       	<th:block th:unless="${#lists.isEmpty(returnList)}" th:each="return, returnState : ${returnList}">
+                       		<tr class="even pointer" th:if="${returnState.index % 2 == 0}">
+	                            <td th:text="${return.goodsName}"></td>
+	                            <td th:text="${return.rentalStartDate}"></td>
+	                            <td th:text="${return.rentalEndDate}"></td>
+	                            <td th:text="${return.ownerId}"></td>
+	                            <td th:text="${return.renterId}"></td>
+	                            <td th:text="${return.orderStateName}"></td>
+	                            <td th:text="${return.returnDate}"></td>
+	                            <td>
+	                            	<a th:href="@{/admin/order/adminReturnModify}">수정</a>
+                            	</td>
+	                          </tr>
+	                          <tr class="odd pointer" th:unless="${returnState.index % 2 == 0}">
+	                            <td th:text="${return.goodsName}"></td>
+	                            <td th:text="${return.rentalStartDate}"></td>
+	                            <td th:text="${return.rentalEndDate}"></td>
+	                            <td th:text="${return.ownerId}"></td>
+	                            <td th:text="${return.renterId}"></td>
+	                            <td th:text="${return.orderStateName}"></td>
+	                            <td th:text="${return.returnDate}"></td>
+	                            <td>
+	                            	<a th:href="@{/admin/order/adminReturnModify}">수정</a>
+                            	</td>
+	                          </tr>
+                       	</th:block>
+                       	<tr th:if="${#lists.isEmpty(returnList)}">
+							<td colspan="7">등록한 결제가 없습니다.</td>
+					  	</tr>
+                       </tbody>
+                     </table>
+                   </div>
+                 </div>
+               </div>
+        	</div>
 		</div>
 	</th:block>
 
