@@ -39,10 +39,9 @@
                    <h2 th:text="${loginNickName} + '님 BLOCK LIST'"></h2>
                    
                   <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="myBlockListTr">
                       <thead>
                         <tr>
-                          <th></th>
                           <th>차단코드</th>
                           <th>차단한 회원 ID</th>
                           <th>차단 날짜</th> 
@@ -51,7 +50,6 @@
                       </thead>
                       <tbody>
                         <tr th:unless="${#lists.isEmpty(getUserBlockrList)}" th:each="bl : ${getUserBlockrList}">
-                          <td></td>
                           <td th:text="${bl.blockCode}"></td>
                           <td th:text="${bl.blockedUserId}"></td>
                           <td th:text="${bl.blockDate}"></td>
