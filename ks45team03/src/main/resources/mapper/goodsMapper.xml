@@ -41,6 +41,7 @@
 			, g.goods_value_price
 			, g.goods_day_price
 			, g.goods_reg_date
+			, g.goods_detail
 			, gc.goods_category_name
 		FROM
 			tb_goods AS g
@@ -87,4 +88,48 @@
 		WHERE
 			g.goods_code = #{goodsCode};
     </select>
+    
+    <insert id="addGoods" parameterType="Goods">
+    	INSERT into tb_goods
+			(goods_code
+			,goods_name
+			,user_id
+			,goods_rental_availability
+			,goods_value_price
+			,goods_day_price
+			,goods_detail
+			,goods_reg_date
+			,goods_category_code
+			,commision_rate_code
+			,commision_rate
+			,goods_commision_day_price)
+		VALUES
+			(sf_new_goods_code()
+			,#{goodsName}
+			,#{userId}
+			,'Y'
+			,#{goodsValuePrice}
+			,#{goodsDayPrice}
+			,#{goodsDetail}
+			,curdate()
+			,#{goodsCategoryCode}
+			,'commision3'
+			,'0.1'
+			,goods_day_price * commision_rate);
+    </insert>
+    
+    <update id="modifyGoods" parameterType="Goods">
+    
+		UPDATE
+			tb_goods
+		SET
+			goods_name=#{goodsName} 
+			,goods_value_price=#{goodsValuePrice}
+			,goods_day_price=#{goodsDayPrice}
+			,goods_detail=#{goodsDetail}
+			,goods_category_code=#{goodsCategoryCode}
+		WHERE
+			goods_code=#{goodsCode};
+			
+    </update>
 </mapper>
