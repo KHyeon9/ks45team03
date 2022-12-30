@@ -7,10 +7,10 @@
 
 	<resultMap type="Review" id="adminReviewResultMap">
 		<id property="reviewCode" 			column="review_code"/>
-		<result property="goodsCode" 		column="goods_name"/>
+		<result property="goodsCode" 		column="goods_code"/>
 		<result property="userId" 		column="user_id"/>
 		<result property="reviewContent" 		column="review_content"/>
-		<result property="goodsEvaluation" 		column="goods-evaluation"/>
+		<result property="goodsEvaluation" 		column="goods_evaluation"/>
 		<result property="reviewImg" 		column="review_img"/>
 		<result property="reviewRegDate" 		column="review_reg_date"/>
 		<result property="mileageGroupCode" 		column="mileage_group_code"/>
