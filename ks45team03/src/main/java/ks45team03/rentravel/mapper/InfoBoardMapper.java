@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks45team03.rentravel.dto.InfoBoard;
+import ks45team03.rentravel.dto.InfoBoardComment;
 
 @Mapper
 public interface InfoBoardMapper {
@@ -15,4 +16,10 @@ public interface InfoBoardMapper {
 	
 	// 정조 게시판 총 개수 조회
 	public int getInfoBoardListCnt();
+	
+	// 정보 게시글 상세 조회
+	public InfoBoard getInfoBoardDetail(String infoBoardCode);
+	
+	// 정보 게시글의 댓글 조회
+	public List<InfoBoardComment> getInfoBoardComment(String infoBoardCode);
 }

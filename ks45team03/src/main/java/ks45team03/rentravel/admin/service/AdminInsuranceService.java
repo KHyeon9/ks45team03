@@ -51,7 +51,7 @@ public class AdminInsuranceService {
 	}
 	
 	/**
-	 * 보상금 청구서 조회(보상금청구서 상세화면)
+	 * 보상금신청서 조회(보상금청구서 상세화면)
 	 * @return List<InsuranceRequest>
 	 */
 	public List<InsuranceRequest> adminGetInsuranceRequestList() {
@@ -64,10 +64,10 @@ public class AdminInsuranceService {
 	 * 모든 회원 보상금청구상태 조회(보상금청구서리스트)
 	 * @return List<InsuranceClaim>
 	 */
-	public List<InsuranceClaim> adminGetInsuranceRequestStateList() {
-		List<InsuranceClaim> adminInsuranceRequestStateList = adminInsuranceMapper.adminGetInsuranceRequestStateList();
+	public List<InsuranceClaim> adminGetInsuranceClaimList() {
+		List<InsuranceClaim> adminInsuranceClaimList = adminInsuranceMapper.adminGetInsuranceClaimList();
 		
-		return adminInsuranceRequestStateList;
+		return adminInsuranceClaimList;
 	}
 	
 	/**
