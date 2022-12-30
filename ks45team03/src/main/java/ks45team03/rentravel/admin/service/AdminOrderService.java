@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks45team03.rentravel.dto.Rental;
+import ks45team03.rentravel.dto.RentalCancel;
+import ks45team03.rentravel.dto.Return;
 import ks45team03.rentravel.mapper.AdminOrderMapper;
 
 @Service
@@ -21,6 +23,18 @@ public class AdminOrderService {
 		this.adminOrderMapper = adminOrderMapper;
 	}
 	
+	// 주문 환불 내역 조회
+	public List<Return> getReturnList() {
+		return adminOrderMapper.getReturnList();
+	}
+	
+	
+	// 주문 취소 내역 조회
+	public List<RentalCancel> getRentalCancelHistory() {
+		return adminOrderMapper.getRentalCancelHistory();
+	}
+	
+	// 주문 내역 조회
 	public Map<String, Object> getOrderHistory(int currentPage) {
 		
 		// 보여질 행의 개수

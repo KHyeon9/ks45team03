@@ -5,8 +5,70 @@
 
 	<th:block layout:fragment="customContents">
 		<div id="rightcolumn" class="right_col" role="main">
+		<div class="col-md-12 col-sm-12  ">
+			<div class="row">
+	            <div class="col-md-12 col-sm-12 ">
+	              <div class="x_panel">
+	                <div class="x_title">
+	                  <h2>주문 취소 내역 <small>Users</small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                          <p class="text-muted font-13 m-b-30">
+                            회원이 취소한 주문을 조회, 삭제할 수 있습니다.
+                          </p>
+	                      <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+	                        <thead>
+	                          <tr>
+	                            <th>취소자ID</th>
+	                            <th>렌탈 취소 신청일자</th>
+	                            <th>환불담당자아이디</th>
+	                            <th>환불처리일자</th>
+	                            <th>오너확인일자</th>
+	                            <th>환불수단</th>
+	                            <th>환불금액</th>
+	                            <th>적립금사용금액</th>
+	                            <th>적립되는적립금</th>
+	                            <th>수정</th>
+	                          </tr>
+	                        </thead>
+		
+		
+                            <tbody>
+                              <tr th:unless="${#lists.isEmpty(cancelList)}" th:each="cancel : ${cancelList}">
+						  		  <td th:text="${cancel.cancelUserId}"></td>
+						  		  <td th:text="${cancel.rentalCancelSignupDate}"></td>
+						  		  <td th:text="${cancel.refundUserId}"></td>
+						  		  <td th:text="${cancel.refundCancelSignupDate}"></td>
+						  		  <td th:text="${cancel.ownerCancelSignupCheckDate}"></td>
+						  		  <td th:text="${cancel.refundWay}"></td>
+						  		  <td th:text="${cancel.refundMoney}"></td>
+						  		  <td th:text="${cancel.mileageUsePrice}"></td>
+						  		  <td th:text="${cancel.saveMileage}"></td>
+						  		  <td>
+				  					<a th:href="@{/admin/order/adminRentalcancelModify}">수정</a>
+				  				  </td>
+						  	  </tr>
+						  	  <tr th:if="${#lists.isEmpty(cancelList)}">
+								<td colspan="10">등록한 결제가 없습니다.</td>
+							  </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+	          </div>
+	        </div>
+          </div>
+        </div>
+		<div id="rightcolumn" class="right_col" role="main">
 			<div class="col-md-12 col-sm-12">
-				<h1>관리자 주문 취소 리스트</h1>
+				
 				<a th:href="@{/admin/order/adminRentalcancelModify}" style="color: blue;">관리자 주문 내역 수정</a>
 			</div>
 		</div>

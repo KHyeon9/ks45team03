@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks45team03.rentravel.mapper.AdminOrderMapper">
+	<!-- 주문 내역 맵 -->
 	<resultMap type="Rental" id="orderHistoryMap">
 		<id 	property="rentalCode" 	  		column="rental_code" />
 		<result property="goodsCode" 	  		column="goods_code" />
@@ -36,10 +37,96 @@
 			<result property="mileageUseGroupCode" 	  			column="user_image" />
 		</association>
 	</resultMap>
+	<!-- 주문 취소 맵 -->
+	<resultMap type="RentalCancel" id="rentalCancelMap">
+		<id 	property="rentalCancelCode" 	  		column="rental_cancel_code" />
+		<result property="cancelUserId" 	  			column="cancel_user_id" />
+		<result property="rentalCode" 	  				column="rental_code" />
+		<result property="paymentCode" 					column="payment_code" />
+		<result property="rentalCancelSignupDate" 		column="rental_cancel_signup_date" />
+		<result property="refundUserId" 				column="refund_user_id" />
+		<result property="refundCancelSignupDate" 		column="refund_cancel_signup_date" />
+		<result property="ownerCancelSignupCheckDate" 	column="owner_cancel_signup_check_date" />
+		<result property="refundWay" 			 		column="refund_way" />
+		<result property="refundMoney" 					column="refund_money" />
+		<result property="mileageUsePrice" 				column="mileage_use_price" />
+		<result property="saveMileage" 					column="save_mileage" />
+		<result property="mileageGroupCode" 			column="mileage_group_code" />
+	</resultMap>
+
+	<!-- 환불 맵 -->	
+	<resultMap type="Return" id="returnMap">
+		<id 	property="returnCode" 	  		column="return_code" />
+		<result property="ownerId" 	  			column="owner_id" />
+		<result property="renterId" 	  		column="renter_id" />
+		<result property="rentalCode" 			column="rental_code" />
+		<result property="paymentCode" 			column="payment_code" />
+		<result property="returnDate" 			column="return_date" />
+		<result property="goodsName" 			column="goods_name" />
+		<result property="rentalStartDate" 		column="rental_start_date" />
+		<result property="rentalEndDate" 		column="rental_end_date" />
+		<result property="orderStateName" 		column="order_state_standard_name" />
+	</resultMap>
+	
+	<!-- 횐불 내역 조회 -->
+	<select id="getReturnList" resultMap="returnMap">
+		SELECT
+			g.goods_name,
+			ren.rental_start_date, 
+			ren.rental_end_date,
+			ret.return_code,
+			ret.owner_id,
+			ret.renter_id,
+			tra.order_state_standard_name,
+			ret.return_date
+		FROM
+			tb_return AS ret
+			INNER JOIN
+			tb_rental AS ren
+			ON
+			ret.rental_code = ren.rental_code
+			INNER JOIN
+			tb_goods AS g
+			ON
+			ren.goods_code = g.goods_code
+			INNER JOIN
+			tb_payment AS pay
+			ON
+			ret.payment_code = pay.payment_code
+			INNER JOIN
+			tb_trade_status AS tra
+			ON
+			pay.trade_status_code = tra.trade_status_code
+		ORDER BY
+			CAST(SUBSTRING(ret.return_code, 7) AS UNSIGNED) DESC;
+
+	</select>
+	
+	<!-- 주문 취소 내역 조회 -->
+	<select id="getRentalCancelHistory" resultMap="rentalCancelMap">
+		SELECT
+			can.rental_cancel_code,
+			can.cancel_user_id,
+			can.rental_code,
+			can.payment_code,
+			can.rental_cancel_signup_date,
+			can.refund_user_id,
+			can.refund_cancel_signup_date,
+			can.owner_cancel_signup_check_date,
+			can.refund_way,
+			can.refund_money,
+			can.mileage_use_price,
+			can.save_mileage,
+			can.mileage_group_code
+		FROM
+			tb_rental_cancel AS can;
+	</select>
+	
 	<!-- 주문 내역 조회 -->
 	<select id="getOrderHistory" parameterType="map" resultMap="orderHistoryMap">
 		SELECT
 			g.goods_name,
+			ren.rental_code,
 			ren.rental_start_date, 
 			ren.rental_end_date, 
 			ren.select_delivery,
@@ -74,6 +161,8 @@
 			tb_goods AS g
 			ON
 			ren.goods_code = g.goods_code
+		ORDER BY
+ 			CAST(SUBSTRING(pay.payment_code,8) AS UNSIGNED) DESC
 		<if test="startRowNum != null and startRowNum > -1">
 			LIMIT #{startRowNum}, #{rowPerPage};
 		</if>

@@ -109,4 +109,9 @@ public class MyPageController {
 		return "user/myPage/myProfitList";
 	}
 	
+	@GetMapping("/myExperience")
+	public String myExperience(Model model) {
+		model.addAttribute("title","나의 경험치");
+		return "user/myPage/myExperience";
+	}
 }

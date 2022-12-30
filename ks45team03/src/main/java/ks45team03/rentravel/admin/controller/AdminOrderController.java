@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminOrderService;
 import ks45team03.rentravel.dto.Rental;
+import ks45team03.rentravel.dto.RentalCancel;
+import ks45team03.rentravel.dto.Return;
 
 @Controller
 @RequestMapping("/admin/order")
@@ -22,7 +24,7 @@ public class AdminOrderController {
 		this.adminOrderService = adminOrderService;
 	}
 	
-	
+	//주문 내역 리스트 조회
 	@SuppressWarnings("unchecked")
 	@GetMapping("/adminOrderHistory")
 	public String adminOrderHistory(@RequestParam(value = "int currentPage", defaultValue = "1", required = false) int currentPage, 
@@ -67,10 +69,15 @@ public class AdminOrderController {
 		model.addAttribute("title","관리자 운송 번호 수정");
 		return "admin/order/adminWaybillModify";
 	}
-	// 
+	
+	// 주문 취소 내역 조회 
 	@GetMapping("/adminRentalcancelList")
 	public String adminRentalcancelList(Model model) {
+		List<RentalCancel> cancelList = adminOrderService.getRentalCancelHistory();
+		
 		model.addAttribute("title","관리자 주문 취소 리스트");
+		model.addAttribute("cancelList", cancelList);
+		
 		return "admin/order/adminRentalcancelList";
 	}
 	
@@ -82,7 +89,12 @@ public class AdminOrderController {
 	
 	@GetMapping("/adminReturnList")
 	public String adminReturnList(Model model) {
+		
+		List<Return> returnList = adminOrderService.getReturnList();
+		
 		model.addAttribute("title","관리자 환불 리스트");
+		model.addAttribute("returnList", returnList);
+		
 		return "admin/order/adminReturnList";
 	}
 	
