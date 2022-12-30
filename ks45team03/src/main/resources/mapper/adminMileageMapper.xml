@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks45team03.rentravel.mapper.AdminMileageMapper">
+	<!-- tb_mileage_payment_save -->
+	<resultMap type="MileagePaymentSave" id="mileageResultMap">
+		<id property="mileagePaymentSaveCode" column="mileage_payment_save_code" />
+		<result property="userId" column="user_id" />
+		<result property="paymentCode" column="payment_code" />
+		<result property="mileageSaveAmount" column="mileage_save_amount" />
+		<result property="mileageSaveTime" column="mileage_save_time" />
+		<result property="mileageGroupCode" column="mileage_group_code" />
+	</resultMap>
+
+	<select id="adminGetMileagePaymentSaveList" resultMap="mileageResultMap">
+	/*결제 적립금 조회*/
+		SELECT
+			mileage_payment_save_code
+			,user_id
+			,payment_code
+			,mileage_save_amount
+			,mileage_save_time
+			,mileage_group_code
+
+		FROM
+			tb_mileage_payment_save
+
+
+	</select>
+
+</mapper>
