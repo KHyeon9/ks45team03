@@ -53,6 +53,54 @@
 		<result property="saveMileage" 					column="save_mileage" />
 		<result property="mileageGroupCode" 			column="mileage_group_code" />
 	</resultMap>
+
+	<!-- 환불 맵 -->	
+	<resultMap type="Return" id="returnMap">
+		<id 	property="returnCode" 	  		column="return_code" />
+		<result property="ownerId" 	  			column="owner_id" />
+		<result property="renterId" 	  		column="renter_id" />
+		<result property="rentalCode" 			column="rental_code" />
+		<result property="paymentCode" 			column="payment_code" />
+		<result property="returnDate" 			column="return_date" />
+		<result property="goodsName" 			column="goods_name" />
+		<result property="rentalStartDate" 		column="rental_start_date" />
+		<result property="rentalEndDate" 		column="rental_end_date" />
+		<result property="orderStateName" 		column="order_state_standard_name" />
+	</resultMap>
+	
+	<!-- 횐불 내역 조회 -->
+	<select id="getReturnList" resultMap="returnMap">
+		SELECT
+			g.goods_name,
+			ren.rental_start_date, 
+			ren.rental_end_date,
+			ret.return_code,
+			ret.owner_id,
+			ret.renter_id,
+			tra.order_state_standard_name,
+			ret.return_date
+		FROM
+			tb_return AS ret
+			INNER JOIN
+			tb_rental AS ren
+			ON
+			ret.rental_code = ren.rental_code
+			INNER JOIN
+			tb_goods AS g
+			ON
+			ren.goods_code = g.goods_code
+			INNER JOIN
+			tb_payment AS pay
+			ON
+			ret.payment_code = pay.payment_code
+			INNER JOIN
+			tb_trade_status AS tra
+			ON
+			pay.trade_status_code = tra.trade_status_code
+		ORDER BY
+			CAST(SUBSTRING(ret.return_code, 7) AS UNSIGNED) DESC;
+
+	</select>
 	
 	<!-- 주문 취소 내역 조회 -->
 	<select id="getRentalCancelHistory" resultMap="rentalCancelMap">
@@ -78,6 +126,7 @@
 	<select id="getOrderHistory" parameterType="map" resultMap="orderHistoryMap">
 		SELECT
 			g.goods_name,
+			ren.rental_code,
 			ren.rental_start_date, 
 			ren.rental_end_date, 
 			ren.select_delivery,
@@ -112,6 +161,8 @@
 			tb_goods AS g
 			ON
 			ren.goods_code = g.goods_code
+		ORDER BY
+ 			CAST(SUBSTRING(pay.payment_code,8) AS UNSIGNED) DESC
 		<if test="startRowNum != null and startRowNum > -1">
 			LIMIT #{startRowNum}, #{rowPerPage};
 		</if>

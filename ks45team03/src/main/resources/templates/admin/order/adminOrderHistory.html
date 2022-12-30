@@ -6,12 +6,12 @@
       <div id="rightcolumn" class="right_col" role="main">
 		<div class="col-md-12 col-sm-12  ">
 			<div class="row">
-	            <div class="col-md-12 col-sm-12 ">
-	              <div class="x_panel">
-	                <div class="x_title">
-	                  <h2>주문내역 <small>Users</small></h2>
-                    <div class="clearfix"></div>
-                  </div>
+	        <div class="col-md-12 col-sm-12 ">
+             <div class="x_panel">
+               <div class="x_title">
+                 <h2>주문내역 <small>Users</small></h2>
+                  <div class="clearfix"></div>
+                </div>
                   <div class="x_content">
                     <div class="row">
                       <div class="col-sm-12">
@@ -30,7 +30,7 @@
 	                            <th>결제번호</th>
 	                            <th>결제기관</th>
 	                            <th>지불방법</th>
-	                            <th>결제수수료</th>
+	                            <th>수수료</th>
 	                            <th>적립금사용</th>
 	                            <th>적립금</th>
 	                            <th>최종금액</th>
@@ -62,7 +62,7 @@
 						  		  </th:block>
 						  		  <td th:text="${order.orderStateName}"></td>
 						  		  <td>
-				  					<a th:href="@{/admin/order/adminOrderModify}">수정</a>
+				  					<a th:href="@{/admin/order/adminOrderModify(rentalCode=${order.rentalCode})}">수정</a>
 				  				  </td>
 						  	  </tr>
 						  	  <tr th:if="${#lists.isEmpty(orderHistory)}">
@@ -79,7 +79,8 @@
 	        </div>
           </div>
         </div>
-		<!-- <div id="tableDiv">
+		
+		    <!-- <div id="tableDiv">
 			<div>
 				<table>
 				  <thead>
@@ -146,7 +147,6 @@
 				</table>
 			</div>
 		</div> -->
-		
 	</th:block>
 
 </html>
