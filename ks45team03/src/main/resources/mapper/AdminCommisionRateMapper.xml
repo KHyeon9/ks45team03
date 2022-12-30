@@ -12,13 +12,6 @@
 		
 	</resultMap>
 	
-	<select id="adminGetCommisionRateListCnt" resultType="int">
-		/* 플랫폼 수수료율 목록 테이블의 전체 행의 갯수*/
-		SELECT
-			COUNT(1)
-		FROM
-			tb_commision_rate
-	</select>
 	
 	<update id="adminModifyCommisionRate" parameterType="CommisionRate">
 		UPDATE tb_commision_rate AS cr
@@ -67,7 +60,8 @@
 			,apply_year
 			,apply_check
 		FROM 
-			tb_commision_rate; 
+			tb_commision_rate 
+		ORDER BY LENGTH(SUBSTRING(commision_rate_code,10)),SUBSTRING(commision_rate_code,10);
 	</select>
 	
 	
