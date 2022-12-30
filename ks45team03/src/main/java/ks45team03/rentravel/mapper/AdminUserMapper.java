@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.UserLevel;
 
@@ -24,4 +25,7 @@ public interface AdminUserMapper {
 		
 		// 회원 등급 조회
 		public List<UserLevel> getUserLevelList();
+		
+		// 로그인 이력 조회
+		public List<LoginHistory> loginHistory();
 }
