@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks45team03.rentravel.admin.service.AdminMileageService;
 import ks45team03.rentravel.dto.MileagePaymentSave;
+import ks45team03.rentravel.dto.MileageRentalCancelSave;
 import ks45team03.rentravel.mapper.AdminMileageMapper;
 
 @Controller
@@ -28,10 +29,21 @@ public class AdminMileageController {
 
 		List<MileagePaymentSave> mileagePaymentSaveList = adminMileageService.adminGetMileagePaymentSaveList();
 
-		model.addAttribute("title", "관리자 적립금 목록");
-
+		model.addAttribute("title", "관리자- 결제적립 적립금 목록");
 		model.addAttribute("mileagePaymentSaveList", mileagePaymentSaveList);
 
 		return "admin/mileage/adminMileageList";
 	}
+	
+	@GetMapping("/adminMileageList2")
+	public String adminGetMileageRentalCancelSaveList(Model model) {
+		
+		List<MileageRentalCancelSave> mileageRentalCancelSave = adminMileageService.adminGetMileageRentalCancelSaveList();
+		
+		model.addAttribute("title", "관리자- 결제취소 적립금 목록");
+		model.addAttribute("mileageRentalCancelSave", mileageRentalCancelSave);
+		
+		return "admin/mileage/adminMileageList";
+	}
+	
 }
