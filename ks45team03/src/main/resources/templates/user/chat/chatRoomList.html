@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{user/layout/default}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>채팅방 리스트</title>
 </head>
 <body>
-
+	<th:block layout:fragment="customContents">
+	  <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>chatroom list</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                <li class="active">chatroom list</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+		<h3><a th:href="@{/chat/inChat}" style="color:blue;">생성된 채팅</a></h3>
+	</th:block>
 </body>
 </html>

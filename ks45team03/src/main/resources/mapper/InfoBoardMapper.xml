@@ -47,7 +47,6 @@
 			LIMIT #{startRowNum}, #{rowPerPage};
 		</if>
 	</select>
-	
 	<!-- 정보 게시판 리스트 총 개수-->
 	<select id="getInfoBoardListCnt" resultType="int">
 		SELECT
