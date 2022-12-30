@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div th:fragment="insuranceSidebarFragment">
+	     <!-- LIGHT SECTION -->
+	      <section class="lightSection clearfix pageHeader" >
+	        <div class="container">
+	          <div class="row">
+	            <div class="col-md-6">
+	              <div class="page-title">
+	                <h3>안녕하세요, 홍길동님</h3>
+	              </div>
+	            </div>
+	            <div class="col-md-6">
+	              <ol class="breadcrumb float-right">
+	                <li>
+	                  <a href="index.html">Home</a>
+	                </li>
+	                <li class="active">Insurance</li>
+	              </ol>
+	            </div>
+	          </div>
+	        </div>
+	      </section>
+	
+	      <!-- MAIN CONTENT SECTION -->
+	      <section class="mainContent clearfix blogPage">
+	        <div class="container">
+	          <div class="row">
+	            <div class="col-lg-9 col-sm-12 order-lg-12">
+	              <div class="row">
+	                <div class="col-sm-12">
+	                	<div class="thumbnail">
+	                   		<div class="caption">
+	                     		<div class="row">
+	                       			<div class="col-md-9 order-md-1">
+	                         			<h3>제목</h3>
+	                       			</div>
+	                     		</div>
+	                   		</div>
+	                  	</div>
+	                </div>
+	              </div>
+	            </div>
+	            <div class="col-lg-3 col-sm-12 order-lg-1 sideBar">
+	              <div class="panel panel-default">
+	                <div class="panel-heading">보험</div>
+	                <div class="panel-body">
+	                  <ul class="list-unstyle sidebar-list">
+	                    <li><a th:href="@{/insurance/insuranceList}" ><i class="fa fa-caret-right"></i> 보험가입정보 <span></span></a></li>
+	                    <li><a th:href="@{/insurance/insuranceAddBill}" ><i class="fa fa-caret-right" ></i> 보상금 청구하기 <span></span></a></li>
+	                    <li><a th:href="@{/insurance/insuranceBillList}"><i class="fa fa-caret-right" ></i> 나의 보상금 청구서 확인 <span></span></a></li>
+	                    <li><a th:href="@{/insurance/insurancePayoutList}" ><i class="fa fa-caret-right"></i> 보상금지급내역 <span></span></a></li>
+	                  </ul>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </section>
+      </div>
+</html>
