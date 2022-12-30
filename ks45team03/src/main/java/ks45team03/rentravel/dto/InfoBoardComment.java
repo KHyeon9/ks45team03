@@ -7,6 +7,8 @@ public class InfoBoardComment {
 	private String infoBoardCommentContent;
 	private String infoBoardCommentRegTime;
 	
+	private String userNickName;
+	
 	public String getInfoBoardCommentCode() {
 		return infoBoardCommentCode;
 	}
@@ -37,5 +39,12 @@ public class InfoBoardComment {
 	public void setInfoBoardCommentRegTime(String infoBoardCommentRegTime) {
 		this.infoBoardCommentRegTime = infoBoardCommentRegTime;
 	}
+	public String getUserNickName() {
+		return userNickName;
+	}
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
+	}
+	
 	
 }

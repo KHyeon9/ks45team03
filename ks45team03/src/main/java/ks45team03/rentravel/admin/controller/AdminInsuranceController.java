@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks45team03.rentravel.admin.service.AdminInsuranceService;
 import ks45team03.rentravel.dto.Insurance;
+import ks45team03.rentravel.dto.InsuranceClaim;
 import ks45team03.rentravel.dto.InsurancePayout;
 import ks45team03.rentravel.dto.InsuranceRequest;
 import ks45team03.rentravel.mapper.AdminInsuranceMapper;
@@ -42,23 +43,33 @@ public class AdminInsuranceController {
 	public String adminAddInsurancePayout(Model model) {
 		
 		model.addAttribute("title", "관리자 보험 삭제");
-		return "admin/insurance/adminRemoveInsurance.html";
+		return "admin/insurance/adminRemoveInsurance";
 	}
 	
-	
-	@GetMapping("/adminInsuranceBillList")
+	@GetMapping("/adminInsuranceRequestList")
 	public String adminGetInsuranceRequestList(Model model) {
 		
 		List<InsuranceRequest> adminInsuranceRequestList = adminInsuranceService.adminGetInsuranceRequestList();
 		
-		model.addAttribute("title", "관리자 보험청구서리스트");
+		model.addAttribute("title", "관리자 보상금신청서(상세화면) 조회");
 		model.addAttribute("adminInsuranceRequestList", adminInsuranceRequestList);
 		
-		return "admin/insurance/adminInsuranceBillList";
+		return "admin/insurance/adminInsuranceRequestList";
 	}
 	
 	
-	@GetMapping("/adminInsuranceBillPayoutList")
+	@GetMapping("/adminInsuranceClaimList")
+	public String adminGetInsuranceClaimList(Model model) {
+		List<InsuranceClaim> adminInsuranceClaimList = adminInsuranceService.adminGetInsuranceClaimList();
+		
+		model.addAttribute("title", "관리자 보상금청구상태 조회");
+		model.addAttribute("adminInsuranceClaimList", adminInsuranceClaimList);
+		
+		return "admin/insurance/adminInsuranceClaimList";
+	}
+	
+	
+	@GetMapping("/adminInsurancePayoutList")
 	public String adminGetInsurancePayoutList(Model model) {
 		
 		List<InsurancePayout> adminInsurancePayoutList = adminInsuranceService.adminGetInsurancePayoutList();
@@ -66,15 +77,15 @@ public class AdminInsuranceController {
 		model.addAttribute("title", "관리자 보상금지급내역");
 		model.addAttribute("adminInsurancePayoutList", adminInsurancePayoutList);
 		
-		return "admin/insurance/adminInsuranceBillPayoutList";
+		return "admin/insurance/adminInsurancePayoutList";
 	}
 	
 	
-	@GetMapping("/adminAddInsuranceBillPayout")
-	public String adminRemoveInsuranceById(Model model) {
+	@GetMapping("/adminAddInsurancePayout")
+	public String adminAddInsuranceBillPayout(Model model) {
 		
 		model.addAttribute("title", "관리자 보상금 지급내역 등록");
-		return "admin/insurance/adminAddInsuranceBillPayout";
+		return "admin/insurance/adminAddInsurancePayout";
 	}
 	
 

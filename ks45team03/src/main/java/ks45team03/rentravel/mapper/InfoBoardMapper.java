@@ -18,8 +18,8 @@ public interface InfoBoardMapper {
 	public int getInfoBoardListCnt();
 	
 	// 정보 게시글 상세 조회
-	public InfoBoard getInfoBoardDetail(String userId);
+	public InfoBoard getInfoBoardDetail(String infoBoardCode);
 	
 	// 정보 게시글의 댓글 조회
-	public InfoBoardComment getInfoBoardComment(String uesrId);
+	public List<InfoBoardComment> getInfoBoardComment(String infoBoardCode);
 }
