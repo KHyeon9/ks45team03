@@ -17,7 +17,8 @@
               </div>
               <div class="col-md-6 col-12">
                 <ul class="list-inline float-right top-right">
-                  <li class="account-login"><span><a data-toggle="modal" href='.login-modal'>Log in</a><small>or</small><a data-toggle="modal" href='#signup'>Create an account</a></span></li>
+                  <li th:unless="${session.S_USER_INFO != null}" class="account-login"><span><a id="loginBtn" data-toggle="modal" href='.login-modal'>Log in</a><small>or</small><a data-toggle="modal" href='#signup'>Create an account</a></span></li>
+                  <li th:if="${session.S_USER_INFO != null}" style="color: white; font-weight: 900; font-size: 14px;"><span th:text="|${session.S_USER_INFO.loginNickName}님 |"></span><span><a th:href="@{/logout}">로그아웃</a></span></li>
                   <li class="searchBox">
                     <a href="#"><i class="fa fa-search"></i></a>
                     <ul class="dropdown-menu dropdown-menu-right">
