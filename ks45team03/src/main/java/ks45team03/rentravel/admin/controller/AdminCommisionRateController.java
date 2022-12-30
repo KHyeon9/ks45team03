@@ -1,6 +1,7 @@
 package ks45team03.rentravel.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,13 +68,29 @@ public class AdminCommisionRateController {
 	}
 
 	
-	// 플랫폼 수수료율 목록
+	// 플랫폼 수수료율 목록 + 페이징
 	@GetMapping("/adminCommisionRateList")
-	public String adminGetCommisionRateList (Model model) {
+	public String adminGetCommisionRateList (Model model
+											,@RequestParam(value="currentPage", defaultValue = "1", required = false) int currentPage) {
 		
 		List<CommisionRate> adminGetCommisionRateList = adminCommisionRateService.adminGetCommisionRateList();
+		
+		Map<String, Object> paramMap = adminCommisionRateService.paging(currentPage);
+		int lastPage = (int) paramMap.get("lastPage");
+		int startPageNum = (int) paramMap.get("startPageNum");
+		int endPageNum = (int) paramMap.get("endPageNum");
+		int nextPage = (int) paramMap.get("nextPage");
+		int prevPage = (int) paramMap.get("prevPage");
+		
+		
 		model.addAttribute("title","플랫폼 수수료율 목록");
 		model.addAttribute("adminGetCommisionRateList",adminGetCommisionRateList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("nextPage", nextPage);
+		model.addAttribute("prevPage", prevPage);
 		
 		return "admin/commisionRate/adminCommisionRateList";
 	}
