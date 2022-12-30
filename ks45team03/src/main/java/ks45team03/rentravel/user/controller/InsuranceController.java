@@ -11,21 +11,21 @@ public class InsuranceController {
 	
 	@GetMapping("/insuranceMain")
 	public String insuranceMain(Model model) {		
-		model.addAttribute("title", "보험리스트");
+		model.addAttribute("title", "보험메인화면");
 		
 		return "user/insurance/insuranceMain";
 	}
 
 	@GetMapping("/insuranceList")
 	public String getInsuranceList(Model model) {		
-		model.addAttribute("title", "보험리스트");
+		model.addAttribute("title", "보험가입정보");
 		
 		return "user/insurance/insuranceList"; //html경로를 찾아감
 	}
 	
 	@GetMapping("/insuranceBillList")
 	public String getInsuranceRequestList(Model model) {		
-		model.addAttribute("title", "보험청구서리스트");
+		model.addAttribute("title", "보험청구서");
 		
 		return "user/insurance/insuranceBillList";
 	}
@@ -52,18 +52,18 @@ public class InsuranceController {
 		return "user/insurance/insuranceRemoveBill";
 	}
 	
-	@GetMapping("/insuranceBillListDetail")
+	@GetMapping("/insuranceBillDetail")
 	public String getInsuranceRequestInfoByCode(Model model) {
 		model.addAttribute("title", "보상금청구서상세화면");
 		
-		return "user/insurance/insuranceBillListDetail";
+		return "user/insurance/insuranceBillDetail";
 	}
 	
-	@GetMapping("/insuranceBillPayoutList")
+	@GetMapping("/insurancePayoutList")
 	public String getInsurancePayoutList(Model model) {		
 		model.addAttribute("title", "보상금지급내역");
 		
-		return "user/insurance/insuranceBillPayoutList";
+		return "user/insurance/insurancePayoutList";
 	}
 	
 }

@@ -6,6 +6,7 @@ public class Insurance {
 	private String goodsCode;
 	private String paymentCode;
 	private String rentalCode;
+	private String insuranceAvailable;
 	private String insuranceSignUpTime;
 	
 	public String getInsuranceCode() {
@@ -38,11 +39,24 @@ public class Insurance {
 	public void setRentalCode(String rentalCode) {
 		this.rentalCode = rentalCode;
 	}
+	public String getInsuranceAvailable() {
+		return insuranceAvailable;
+	}
+	public void setInsuranceAvailable(String insuranceAvailable) {
+		this.insuranceAvailable = insuranceAvailable;
+	}
 	public String getInsuranceSignUpTime() {
 		return insuranceSignUpTime;
 	}
 	public void setInsuranceSignUpTime(String insuranceSignUpTime) {
 		this.insuranceSignUpTime = insuranceSignUpTime;
 	}
+	@Override
+	public String toString() {
+		return "Insurance [insuranceCode=" + insuranceCode + ", userId=" + userId + ", goodsCode=" + goodsCode
+				+ ", paymentCode=" + paymentCode + ", rentalCode=" + rentalCode + ", insuranceAvailable="
+				+ insuranceAvailable + ", insuranceSignUpTime=" + insuranceSignUpTime + "]";
+	}
 
+	
 }
