@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks45team03.rentravel.dto.MileagePaymentSave;
+import ks45team03.rentravel.dto.MileageRentalCancelSave;
 import ks45team03.rentravel.mapper.AdminMileageMapper;
 
 @Service
@@ -22,5 +23,11 @@ public class AdminMileageService {
 		List<MileagePaymentSave> mileagePaymentSaveList = adminMileageMapper.adminGetMileagePaymentSaveList();
 
 		return mileagePaymentSaveList;
+	}
+	
+	public List<MileageRentalCancelSave> adminGetMileageRentalCancelSaveList(){
+		List<MileageRentalCancelSave> mileageRentalCancelSave = adminMileageMapper.adminGetMileageRentalCancelSaveList();
+		
+		return mileageRentalCancelSave;
 	}
 }
