@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ks45team03.rentravel.admin.service.AdminOrderService;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
+import ks45team03.rentravel.dto.Return;
 
 @Controller
 @RequestMapping("/admin/order")
@@ -88,7 +89,12 @@ public class AdminOrderController {
 	
 	@GetMapping("/adminReturnList")
 	public String adminReturnList(Model model) {
+		
+		List<Return> returnList = adminOrderService.getReturnList();
+		
 		model.addAttribute("title","관리자 환불 리스트");
+		model.addAttribute("returnList", returnList);
+		
 		return "admin/order/adminReturnList";
 	}
 	
