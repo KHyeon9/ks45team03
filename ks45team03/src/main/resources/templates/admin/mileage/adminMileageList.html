@@ -1,39 +1,38 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/layout/default}">
 
+
+
 <th:block layout:fragment="customContents">
+	<div class="right_col" role="main">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">mileage_payment_save_code</th>
+					<th scope="col">user_id</th>
+					<th scope="col">payment_code</th>
+					<th scope="col">mileage_save_amount</th>
+					<th scope="col">mileage_save_time</th>
+					<th scope="col">mileage_group_code</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${not #lists.isEmpty(mileagePaymentSaveList)}"
+					th:each="l : ${mileagePaymentSaveList}">
+					<td th:text="${l.mileagePaymentSaveCode}"></td>
+					<td th:text="${l.userId}"></td>
+					<td th:text="${l.paymentCode}"></td>
+					<td th:text="${l.mileageSaveAmount}"></td>
+					<td th:text="${l.mileageSaveTime}"></td>
+					<td th:text="${l.mileageGroupCode}"></td>
+				</tr>
+				<tr th:unless="${not #lists.isEmpty(mileagePaymentSaveList)}">
+					<td colspan="9">적립금 내역이 없습니다.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</th:block>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col">#</th>
-				<th scope="col">First</th>
-				<th scope="col">Last</th>
-				<th scope="col">Handle</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th scope="row">1</th>
-				<td>Mark</td>
-				<td>Otto</td>
-				<td>@mdo</td>
-			</tr>
-			<tr>
-				<th scope="row">2</th>
-				<td>Jacob</td>
-				<td>Thornton</td>
-				<td>@fat</td>
-			</tr>
-			<tr>
-				<th scope="row">3</th>
-				<td colspan="2">Larry the Bird</td>
-				<td>@twitter</td>
-			</tr>
-		</tbody>
-	</table>
-
-<th:block>
 </html>
