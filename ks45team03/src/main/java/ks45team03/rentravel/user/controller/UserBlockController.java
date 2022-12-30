@@ -11,6 +11,7 @@ public class UserBlockController {
 
 	@GetMapping("/removeBlock")
 	public String removeUserBlock (Model model) {
+		
 		model.addAttribute("title","회원 아이디 차단 삭제");
 		return "user/block/removeBlock";
 	}

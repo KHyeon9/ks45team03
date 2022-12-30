@@ -1,13 +1,33 @@
 package ks45team03.rentravel.user.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import ks45team03.rentravel.admin.service.AdminCommisionRateService;
+import ks45team03.rentravel.dto.Block;
+import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.mapper.UserBlockMapper;
+import ks45team03.rentravel.user.service.UserBlockService;
+
 @Controller
 @RequestMapping("/myPage")
 public class MyPageController {
+	
+	private final UserBlockService userBlockService;
+	private final UserBlockMapper userBlockMapper;
+	
+	public MyPageController (UserBlockService userBlockService, UserBlockMapper userBlockMapper) {
+		this.userBlockService = userBlockService;	
+		this.userBlockMapper = userBlockMapper;	
+	}
+	
 	
 	@GetMapping("/myInfo")
 	private String myInfo(Model model) {
@@ -63,13 +83,28 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myBlockList")
-	public String getUserBlockrList(Model model) {
+	public String getUserBlockrList(Model model
+									,HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		
+		List<Block> getUserBlockrList = userBlockMapper.getUserBlockrList(loginUser.getLoginId());
+		
+		String loginNickName = loginUser.getLoginNickName();
+		
+	
+		
 		model.addAttribute("title","나의 차단 리스트");
+		model.addAttribute("getUserBlockrList",getUserBlockrList);
+		model.addAttribute("loginNickName",loginNickName);
+		
 		return "user/myPage/myBlockList";
 	}
 	
 	@GetMapping("/myProfitList")
 	public String getUserProfitList(Model model) {
+		
 		model.addAttribute("title","나의 수익목록 리스트");
 		return "user/myPage/myProfitList";
 	}
