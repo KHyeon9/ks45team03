@@ -1,20 +1,21 @@
 package ks45team03.rentravel.dto;
 
 public class WaybillOwner {
-	private String waybillRenterCode;
-	private String renterId;
+	private String waybillOwnerCode;
 	private String ownerId;
+	private String renterId;
 	private String paymentCode;
 	private String courierName;
 	private String waybillNumber;
 	private String waybillRegDate;
 	
 	
-	public String getWaybillRenterCode() {
-		return waybillRenterCode;
+	
+	public String getWaybillOwnerCode() {
+		return waybillOwnerCode;
 	}
-	public void setWaybillRenterCode(String waybillRenterCode) {
-		this.waybillRenterCode = waybillRenterCode;
+	public void setWaybillOwnerCode(String waybillOwnerCode) {
+		this.waybillOwnerCode = waybillOwnerCode;
 	}
 	public String getOwnerId() {
 		return ownerId;
