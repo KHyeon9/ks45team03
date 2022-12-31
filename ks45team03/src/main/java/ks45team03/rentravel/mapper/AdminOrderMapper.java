@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.Return;
+import ks45team03.rentravel.dto.WaybillOwner;
+import ks45team03.rentravel.dto.WaybillRenter;
 
 @Mapper
 public interface AdminOrderMapper {
@@ -23,4 +25,12 @@ public interface AdminOrderMapper {
 	
 	// 주문 환불 내역 조회
 	public List<Return> getReturnList();
+	
+	// 오더 운송자 번호 관리
+	public List<WaybillOwner> getWaybillOwnerList();
+	
+	
+	// 렌터 운송장 번호 관리
+	public List<WaybillRenter> getWaybillRenterList();
+	
 }
