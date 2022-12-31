@@ -32,4 +32,5 @@ public interface AdminOrderMapper {
 	
 	// 렌터 운송장 번호 관리
 	public List<WaybillRenter> getWaybillRenterList();
+	
 }
