@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.NoticeBoardMapper">
+	<resultMap type="NoticeBoard" id="noticeBoardResultMap">
+		<id property="noticeBoardCode" column="notice_board_code" />
+		<result property="userId" column="user_id" />
+		<result property="noticeBoardTitle" column="notice_board_title" />
+		<result property="noticeBoardContent" column="notice_board_content" />
+		<result property="noticeBoardFile" column="notice_board_file" />
+		<result property="noticeBoardLikeCnt" column="notice_board_like_cnt" />
+		<result property="noticeBoardViewCnt" column="notice_board_view_cnt" />
+		<result property="noticeBoardRegTime" column="notice_board_reg_time" />
+	</resultMap>
+	
+	<select id="detailNoticeBoard" resultMap="noticeBoardResultMap">
+		SELECT
+			 nb.user_id
+			,nb.notice_board_title
+			,nb.notice_board_content
+			,nb.notice_board_file
+			,nb.notice_board_like_cnt
+			,nb.notice_board_view_cnt
+			,nb.notice_board_reg_time
+		FROM
+			tb_notice_board AS nb
+		WHERE
+			nb.notice_board_code = #{noticeBoardCode};
+	</select>
+	
+	<select id="noticeBoardList" resultMap="noticeBoardResultMap">
+		SELECT
+			 nb.notice_board_code
+			,nb.user_id
+			,nb.notice_board_title
+			,nb.notice_board_content
+			,nb.notice_board_file
+			,nb.notice_board_like_cnt
+			,nb.notice_board_view_cnt
+			,nb.notice_board_reg_time
+		FROM
+			tb_notice_board AS nb
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
+	</select>
+	
+	<select id="noticeBoardListCnt" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_notice_board;
+	</select>
+</mapper>
