@@ -4,79 +4,109 @@
 	layout:decorate="~{admin/layout/default}">
 	<th:block layout:fragment="customContents">
       <div id="rightcolumn" class="right_col" role="main">
-		<div class="col-md-12 col-sm-12  ">
-			<div class="row">
-	        <div class="col-md-12 col-sm-12 ">
-             <div class="x_panel">
+		<div class="col-md-12 col-sm-12">
+			<div class="x_panel">
                <div class="x_title">
-                 <h2>주문내역 <small>Users</small></h2>
-                  <div class="clearfix"></div>
-                </div>
-                  <div class="x_content">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <div class="card-box table-responsive">
-                          <p class="text-muted font-13 m-b-30">
-                            회원이 등록한 상품평을 조회, 삭제할 수 있습니다.
-                          </p>
-	                      <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-	                        <thead>
-	                          <tr>
-	                            <th>상품명</th>
-	                            <th>렌탈시작</th>
-	                            <th>렌탈종료</th>
-	                            <th>택배</th>
-	                            <th>주소</th>
-	                            <th>결제번호</th>
-	                            <th>결제기관</th>
-	                            <th>지불방법</th>
-	                            <th>수수료</th>
-	                            <th>적립금사용</th>
-	                            <th>적립금</th>
-	                            <th>최종금액</th>
-	                            <th>정산금액</th>
-	                            <th>결제시간</th>
-	                            <th>렌탈상태</th>
-	                            <th>수정</th>
-	                          </tr>
-	                        </thead>
-		
-		
-                            <tbody>
-                              <tr th:unless="${#lists.isEmpty(orderHistory)}" th:each="order : ${orderHistory}">
-						  		  <td th:text="${order.goodsName}"></td>
-						  		  <td th:text="${order.rentalStartDate}"></td>
-						  		  <td th:text="${order.rentalEndDate}"></td>
-						  		  <td th:text="${order.selectDelivery}"></td>
-						  		  <td th:text="${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
-						  		  <th:block th:object="${order.payment}">
+                 <h2>결제 내역 조회 <small>User</small></h2>
+                 <div class="clearfix"></div>
+               </div>
+
+           	  <div class="x_content">
+                <div class="table-responsive">
+                  <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                      <tr class="headings">
+                      	<th class="column-title">상품명</th>
+				  		<th class="column-title">렌탈시작일</th>
+				  		<th class="column-title">렌탈종료일</th>
+				  		<th class="column-title">택배이용여부</th>
+				  		<th class="column-title">주소</th>
+				  		<th class="column-title">카드,계좌 번호</th>
+				  		<th class="column-title">결제기관</th>
+				  		<th class="column-title">지불방법</th>
+				  		<th class="column-title">결제예정금액</th>
+				  		<th class="column-title">플랫폼결제수수료금액</th>
+				  		<th class="column-title">적립금사용금액</th>
+				  		<th class="column-title">적립되는적립금</th>
+				  		<th class="column-title">적립금을제외한금액</th>
+				  		<th class="column-title">렌탈오너정산금액</th>
+				  		<th class="column-title">결제시간</th>
+				  		<th class="column-title">렌탈상태</th>
+                        <th class="column-title">수정</th>
+                        <th class="bulk-actions" colspan="16">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+	                   	<th:block th:unless="${#lists.isEmpty(orderHistory)}" th:each="order, orderState : ${orderHistory}">
+	                   		<tr class="even pointer" th:if="${orderState.index % 2 == 0}">
+						  		<td th:text="${order.goodsName}"></td>
+						  		<td th:text="${order.rentalStartDate}"></td>
+						  		<td th:text="${order.rentalEndDate}"></td>
+						  		<td th:text="${order.selectDelivery}"></td>
+						  		<td th:text="${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
+						  		<th:block th:object="${order.payment}">
 							  		<td th:text="*{paymentAccountOrCardNumber}"></td>
 							  		<td th:text="*{paymentAgency}"></td>
 							  		<td th:text="*{paymentType}"></td>
+						  			<td th:text="*{expectedPaymentAmount}"></td>
 							  		<td th:text="*{goodsCommisionTotalPrice}"></td>
 							  		<td th:text="*{mileageUsePrice}"></td>
 							  		<td th:text="*{saveMileage}"></td>
 							  		<td th:text="*{amountExcludingMileage}"></td>
 							  		<td th:text="*{settlementAmount}"></td>
 							  		<td th:text="*{paymentTime}"></td>
-						  		  </th:block>
-						  		  <td th:text="${order.orderStateName}"></td>
-						  		  <td>
-				  					<a th:href="@{/admin/order/adminOrderModify(rentalCode=${order.rentalCode})}">수정</a>
-				  				  </td>
-						  	  </tr>
-						  	  <tr th:if="${#lists.isEmpty(orderHistory)}">
-								<td colspan="16">등록한 결제가 없습니다.</td>
-							  </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+						  		</th:block>
+						  		<td th:text="${order.orderStateName}"></td>
+						  		<td th:text="수정"></td>
+	                       </tr>
+	                       <tr class="odd pointer" th:unless="${orderState.index % 2 == 0}">
+	                         <td th:text="${order.goodsName}"></td>
+						  		<td th:text="${order.rentalStartDate}"></td>
+						  		<td th:text="${order.rentalEndDate}"></td>
+						  		<td th:text="${order.selectDelivery}"></td>
+						  		<td th:text="${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
+						  		<th:block th:object="${order.payment}">
+							  		<td th:text="*{paymentAccountOrCardNumber}"></td>
+							  		<td th:text="*{paymentAgency}"></td>
+							  		<td th:text="*{paymentType}"></td>
+						  			<td th:text="*{expectedPaymentAmount}"></td>
+							  		<td th:text="*{goodsCommisionTotalPrice}"></td>
+							  		<td th:text="*{mileageUsePrice}"></td>
+							  		<td th:text="*{saveMileage}"></td>
+							  		<td th:text="*{amountExcludingMileage}"></td>
+							  		<td th:text="*{settlementAmount}"></td>
+							  		<td th:text="*{paymentTime}"></td>
+						  		</th:block>
+						  		<td th:text="${order.orderStateName}"></td>
+						  		<td th:text="수정"></td>
+	                       </tr>
+	                   	</th:block>
+	                   	<tr th:if="${#lists.isEmpty(orderHistory)}">
+							<td colspan="16">등록한 결제가 없습니다.</td>
+						</tr>
+                    </tbody>
+                    <tfoot>
+				  		<tr>
+				  			<td colspan="16">
+				  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+				  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
+				  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+				  					<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
+				  					</a>
+				  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
+				  				</th:block>
+				  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
+				  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+				  			</td>
+				  		</tr>
+			  		</tfoot>
+                  </table>
                 </div>
-	          </div>
-	        </div>
+              </div>
+            </div>
           </div>
         </div>
 		

@@ -101,7 +101,9 @@
 			wayo.waybill_number,
 			wayo.waybill_reg_date
 		FROM
-			tb_waybill_owner AS wayo;
+			tb_waybill_owner AS wayo
+		ORDER BY 
+			CAST(SUBSTRING(wayo.rwaybill_owner_code,14) AS UNSIGNED) DESC;
 	</select>
 	
 	<!-- 오너 운송장번호 조회 -->
@@ -115,7 +117,10 @@
 			wayr.waybill_number,
 			wayr.waybill_reg_date
 		FROM
-			tb_waybill_renter AS wayr;
+			tb_waybill_renter AS wayr
+		ORDER BY 
+			CAST(SUBSTRING(wayr.waybill_renter_code,15) AS UNSIGNED) DESC;
+	
 	</select>	
 	<!-- 횐불 내역 조회 -->
 	<select id="getReturnList" resultMap="returnMap">
@@ -152,7 +157,7 @@
 	</select>
 
 	<!-- 주문 취소 내역 조회 -->
-	<select id="getRentalCancelHistory" resultMap="rentalCancelMap">
+	<select id="getRentalCancelHistory" parameterType="map" resultMap="rentalCancelMap">
 		SELECT
 			can.rental_cancel_code,
 			can.cancel_user_id,
@@ -167,6 +172,19 @@
 			can.mileage_use_price,
 			can.save_mileage,
 			can.mileage_group_code
+		FROM
+			tb_rental_cancel AS can
+		ORDER BY 
+			CAST(SUBSTRING(can.rental_cancel_code,14) AS UNSIGNED) DESC
+		<if test="startRowNum != null and startRowNum > -1">
+			LIMIT #{startRowNum}, #{rowPerPage};
+		</if>
+	</select>
+	
+	<!-- 주문 취소 내역 행 총 개수-->
+	<select id="getRentalCancelHistoryCnt" resultType="int">
+		SELECT 
+			COUNT(1)
 		FROM
 			tb_rental_cancel AS can;
 	</select>
