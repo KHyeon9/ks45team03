@@ -77,6 +77,12 @@
 		                    </a>
 		                  </li>
 		                </ul>
+		                <ul class="list-unstyled">
+		                	<li>
+		                		<button onclick="location.href='/infoboard/modifyInfoBoard'" type="button" class="btn btn-primary">수정</button>
+		                		<button onclick="location.href='/infoboard/infoBoardList'" type="button" class="btn btn-primary">삭제</button>
+		                	</li>
+		                </ul>
 		              </div>
 		              <div class="col-md-9 order-md-1">
 		                <h3 th:text="${infoBoardDetail.infoBoardTitle}"></h3>
@@ -151,6 +157,5 @@
 		    </div>
 		  </div>
 		</section>
-	  	<h3><a th:href="@{/infoboard/modifyInfoBoard}" style="color:blue;">정보게시판 수정</a></h3>
 	  </th:block>
 </html>

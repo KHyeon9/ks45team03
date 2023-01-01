@@ -46,7 +46,7 @@
 					  		  <td th:text="${cancel.mileageUsePrice}"></td>
 					  		  <td th:text="${cancel.saveMileage}"></td>
 					  		  <td>
-			  					<a th:href="@{/admin/order/adminRentalcancelModify}">수정</a>
+			  					<a th:href="@{/admin/order/adminRentalcancelModify(rentalCancelCode=${cancel.rentalCancelCode})}">수정</a>
 			  				  </td>
 	                       </tr>
 	                       <tr class="odd pointer" th:unless="${cancelState.index % 2 == 0}">
@@ -60,7 +60,7 @@
 					  		  <td th:text="${cancel.mileageUsePrice}"></td>
 					  		  <td th:text="${cancel.saveMileage}"></td>
 					  		  <td>
-			  					<a th:href="@{/admin/order/adminRentalcancelModify}">수정</a>
+			  					<a th:href="@{/admin/order/adminRentalcancelModify(rentalCancelCode=${cancel.rentalCancelCode})}">수정</a>
 			  				  </td>
 	                       </tr>
 	                   	</th:block>
