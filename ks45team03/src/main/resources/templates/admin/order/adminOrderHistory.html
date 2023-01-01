@@ -60,7 +60,9 @@
 							  		<td th:text="*{paymentTime}"></td>
 						  		</th:block>
 						  		<td th:text="${order.orderStateName}"></td>
-						  		<td th:text="수정"></td>
+						  		<td>
+	                            	<a th:href="@{/admin/order/adminOrderModify}">수정</a>
+                            	</td>
 	                       </tr>
 	                       <tr class="odd pointer" th:unless="${orderState.index % 2 == 0}">
 	                         <td th:text="${order.goodsName}"></td>
@@ -81,7 +83,9 @@
 							  		<td th:text="*{paymentTime}"></td>
 						  		</th:block>
 						  		<td th:text="${order.orderStateName}"></td>
-						  		<td th:text="수정"></td>
+						  		<td>
+	                            	<a th:href="@{/admin/order/adminOrderModify}">수정</a>
+                            	</td>
 	                       </tr>
 	                   	</th:block>
 	                   	<tr th:if="${#lists.isEmpty(orderHistory)}">
