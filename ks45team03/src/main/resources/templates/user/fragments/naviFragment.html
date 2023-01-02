@@ -6,62 +6,13 @@
         <div class="topBar">
           <div class="container">
             <div class="row">
-              <div class="col-md-6 d-none d-md-block">
-                <ul class="list-inline">
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                  <li><a href="#"><i class="fa fa-vimeo"></i></a></li>
-                  <li><a href="#"><i class="fa fa-tumblr"></i></a></li>
-                </ul>
-              </div>
+              <div class="col-md-6 d-none d-md-block"></div>
               <div class="col-md-6 col-12">
                 <ul class="list-inline float-right top-right">
                   <li th:unless="${session.S_USER_INFO != null}" class="account-login"><span><a id="loginBtn" data-toggle="modal" href='.login-modal'>Log in</a><small>or</small><a data-toggle="modal" href='#signup'>Create an account</a></span></li>
                   <li th:if="${session.S_USER_INFO != null}" style="color: white; font-weight: 900; font-size: 14px;"><span th:text="|${session.S_USER_INFO.loginNickName}님 |"></span><span><a th:href="@{/logout}">로그아웃</a></span></li>
-                  <li class="searchBox">
-                    <a href="#"><i class="fa fa-search"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                      <li>
-                        <span class="input-group">
-                          <input type="text" class="form-control" placeholder="Search…" aria-describedby="basic-addon2">
-                          <button type="submit" class="input-group-addon">Submit</button>
-                        </span>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="dropdown cart-dropdown">
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i>$0</a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                      <li>Item(s) in your cart</li>
-                      <li>
-                        <a href="single-product.html">
-                          <div class="media">
-                            <img class="media-left media-object" src="assets/img/home/cart-items/cart-item-01.jpg" alt="cart-Image">
-                            <div class="media-body">
-                              <h5 class="media-heading">INCIDIDUNT UT <br><span>2 X $199</span></h5>
-                            </div>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="single-product.html">
-                          <div class="media">
-                            <img class="media-left media-object" src="assets/img/home/cart-items/cart-item-01.jpg" alt="cart-Image">
-                            <div class="media-body">
-                              <h5 class="media-heading">INCIDIDUNT UT <br><span>2 X $199</span></h5>
-                            </div>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <div class="btn-group" role="group" aria-label="...">
-                          <button type="button" class="btn btn-default" onclick="location.href='cart-page.html';">Shopping Cart</button>
-                          <button type="button" class="btn btn-default" onclick="location.href='checkout-step-1.html';">Checkout</button>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
+                  <li class="searchBox"><a th:href="@{/myPage/myOrderHistory}">My Order</a></li>
+                  <li class="dropdown cart-dropdown"><a th:href="@{/myPage/myInfo}">My Page</a></li>
                 </ul>
               </div>
             </div>
@@ -73,11 +24,11 @@
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
 
-            <a class="navbar-brand" th:href="@{/}">
+            <a class="navbar-brand" id="logo-a" th:href="@{/}">
               <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="35px" height="31px">
+              width="30px" height="40px">
               <!-- 
              <path class="logo-pl" fill-rule="evenodd"  fill="rgb(71, 186, 193)"
               d="M157.432,17.855 L157.573,15.904 L166.011,15.904 L166.011,27.436 C164.581,28.174 163.195,28.687 161.853,28.974 C160.511,29.261 158.921,29.404 157.081,29.404 C155.487,29.404 154.019,29.179 152.678,28.728 C151.336,28.277 150.178,27.646 149.206,26.838 C148.233,26.029 147.410,25.066 146.736,23.946 C146.062,22.827 145.558,21.597 145.224,20.255 C144.890,18.913 144.723,17.492 144.723,15.992 C144.723,13.355 145.216,11.021 146.200,8.987 C147.184,6.954 148.652,5.346 150.603,4.162 C152.554,2.979 154.866,2.387 157.538,2.387 C160.467,2.387 163.069,3.061 165.343,4.408 L164.341,6.219 C163.380,5.633 162.293,5.161 161.080,4.804 C159.867,4.446 158.692,4.268 157.555,4.268 C155.844,4.268 154.318,4.572 152.976,5.182 C151.634,5.791 150.548,6.632 149.716,7.704 C148.883,8.776 148.254,10.010 147.826,11.404 C147.398,12.799 147.184,14.316 147.184,15.957 C147.184,17.703 147.401,19.279 147.835,20.686 C148.268,22.092 148.919,23.308 149.786,24.333 C150.653,25.359 151.766,26.150 153.126,26.706 C154.485,27.263 156.055,27.541 157.837,27.541 C159.676,27.541 161.704,27.102 163.919,26.223 L163.919,17.855 L157.432,17.855 ZM137.244,20.123 L126.398,20.123 L122.917,29.000 L120.685,29.000 L130.898,2.844 L133.060,2.844 L142.904,29.000 L140.583,29.000 L137.244,20.123 ZM131.953,5.111 C131.812,5.627 131.349,6.998 130.564,9.225 C129.779,11.451 129.029,13.549 128.314,15.518 L127.259,18.471 L136.435,18.471 C133.798,10.901 132.304,6.447 131.953,5.111 ZM118.250,17.398 C119.223,18.594 119.709,20.006 119.709,21.635 C119.709,23.944 118.977,25.748 117.512,27.049 C116.047,28.350 113.797,29.000 110.762,29.000 L101.902,29.000 L101.902,2.844 L109.039,2.844 C112.285,2.844 114.655,3.383 116.149,4.461 C117.644,5.539 118.391,7.180 118.391,9.383 C118.391,9.641 118.388,9.834 118.382,9.963 C118.376,10.092 118.350,10.347 118.303,10.728 C118.256,11.108 118.183,11.428 118.083,11.686 C117.983,11.943 117.828,12.263 117.617,12.644 C117.406,13.025 117.151,13.355 116.853,13.637 C116.554,13.918 116.164,14.202 115.684,14.489 C115.203,14.777 114.658,15.014 114.049,15.201 C115.877,15.471 117.277,16.203 118.250,17.398 ZM114.357,13.540 C114.901,13.183 115.312,12.673 115.587,12.011 C115.862,11.349 116.000,10.525 116.000,9.541 C116.000,7.713 115.435,6.445 114.304,5.735 C113.173,5.026 111.383,4.672 108.934,4.672 L104.152,4.672 L104.152,14.498 L110.147,14.498 C111.072,14.498 111.869,14.428 112.537,14.287 C113.205,14.146 113.812,13.898 114.357,13.540 ZM109.162,16.221 L104.152,16.221 L104.152,27.242 L110.182,27.242 C114.928,27.242 117.301,25.373 117.301,21.635 C117.301,19.608 116.644,18.198 115.332,17.407 C114.020,16.616 111.963,16.221 109.162,16.221 Z"/>
@@ -89,7 +40,7 @@
              <path class="logo-pf" fill-rule="evenodd"  opacity="0.6" fill="rgb(71, 186, 193)"
               d="M6.000,10.334 L6.000,14.000 L6.000,16.000 C6.000,17.103 6.896,18.000 8.000,18.000 C9.104,18.000 10.000,17.103 10.000,16.000 L10.000,14.000 L10.000,10.000 L10.000,8.000 C10.000,5.791 11.791,4.000 14.000,4.000 C16.209,4.000 18.000,5.791 18.000,8.000 L18.000,10.000 L18.000,14.000 L18.000,16.000 C18.000,17.103 18.896,18.000 20.000,18.000 C21.103,18.000 22.000,17.103 22.000,16.000 L22.000,14.000 L22.000,10.000 L22.000,8.000 C22.000,3.582 18.418,-0.000 14.000,-0.000 C9.582,-0.000 6.000,3.582 6.000,8.000 L6.000,10.000 "/>
              </svg>
-             <span id="logo">RENT<span>ravel</span></span>
+             <span id="logo"><span>RENT</span>ravel</span>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse" aria-controls="navbar-ex1-collapse" aria-expanded="false" aria-label="Toggle navigation">
               <span class="fa fa-bars"></span>
@@ -99,7 +50,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item dropdown  active ">
-                  <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
+                  <a th:href="@{/}" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
                   <ul class="dropdown-menu dropdown-menu-left">
                     <li class="active"><a href="index.html">Home Default</a></li>
                     <li><a href="index-v2.html">Home Classic</a></li>
@@ -109,7 +60,7 @@
                   </ul>
                 </li>
                 <li class="nav-item dropdown megaDropMenu ">
-                  <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" data-hover="dropdown" data-delay="300" data-close-others="true" aria-expanded="false">Notice</b></a>
+                  <a th:href="@{/goods/goodsList}" class="dropdown-toggle nav-link" data-toggle="dropdown" data-hover="dropdown" data-delay="300" data-close-others="true" aria-expanded="false">Goods</b></a>
                   <ul class="dropdown-menu row">
                     <li class="col-md-3 col-12">
                       <ul class="list-unstyled">
@@ -160,66 +111,29 @@
                   </ul>
                 </li>
                 <li class="nav-item dropdown ">
-                  <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Info Board</a>
+                  <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Chat</a>
                   <ul class="dropdown-menu dropdown-menu-right">
-                    <li class=""><a href="blog-right-sidebar.html">Right Sidebar</a></li>
-                    <li class=""><a href="blog-left-sidebar.html">Left Sidebar</a></li>
-                    <li class=""><a href="blog-fullwidth.html">Full Width</a></li>
-                    <li class=""><a href="blog-single-fullwidth.html">Single Post</a></li>
-                    <li class=""><a href="blog-single-right-sidebar.html">Single Right Sidebar</a></li>
-                    <li class=""><a href="blog-single-left-sidebar.html">Single Left Sidebar</a></li>
+                    <li class=""><a th:href="@{/chat/chatRoomList}">Chat Room</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown ">
-                  <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Q&A</a>
+                  <a th:href="@{/insurance/insuranceMain}" class="dropdown-toggle nav-link">Insurance</b></a>
+ 					<ul class="dropdown-menu dropdown-menu-left">
+	                    <li class=""><a th:href="@{/insurance/insuranceList}">Register</a></li>
+	                    <li class=""><a th:href="@{/insurance/insuranceAddBill}">Register or Login</a></li>
+	                    <li class=""><a th:href="@{/insurance/insuranceBillList}">Login</a></li>
+	                    <li class=""><a th:href="@{/insurance/insurancePayoutList}">Password Recovery</a></li>
+                  	</ul>
+                </li>
+                 <li class="nav-item dropdown ">
+                  <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Community</a>
                   <ul class="dropdown-menu dropdown-menu-right">
-                    <li class=""><a href="account-dashboard.html">Dashboard</a></li>
-                    <li class=""><a href="account-profile.html">Profile</a></li>
-                    <li class=""><a href="account-all-orders.html">All Orders</a></li>
-                    <li class=""><a href="account-single-order.html">Single Order</a></li>
-                    <li class=""><a href="account-wishlist.html">Wishlist</a></li>
-                    <li class=""><a href="account-address.html">Address</a></li>
+                    <li class=""><a th:href="@{/infoboard/infoBoardList}">Info Board</a></li>
+                    <li class=""><a href="">#Notice</a></li>
+                    <li class=""><a th:href="@{/board/inquiryList}">FAQ</a></li>
+                    <li class=""><a th:href="@{/board/inquiryList}">Q&A</a></li>
                   </ul>
                 </li>
-                <li class="nav-item dropdown megaDropMenu ">
-                  <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" data-hover="dropdown" data-delay="300" data-close-others="true" aria-expanded="false">FAQ</b></a>
-                  <ul class="dropdown-menu row">
-                    <li class="col-md-4 col-12">
-                      <ul class="list-unstyled">
-                        <li>Basic Elements</li>
-                        <li class=""><a href="basic-accordions.html">Accordions</a></li>
-                        <li class=""><a href="basic-alert.html">Alert</a></li>
-                        <li class=""><a href="basic-badge.html">Badge</a></li>
-                        <li class=""><a href="basic-buttons.html">Buttons </a></li>
-                        <li class=""><a href="basic-buttons-group.html">Button Group</a></li>
-                        <li class=""><a href="basic-card.html">Cards</a></li>
-                      </ul>
-                    </li>
-                    <li class="col-md-4 col-12">
-                      <ul class="list-unstyled">
-                        <li>Basic Elements</li>
-                        <li class=""><a href="basic-countdown.html">Countdown </a></li>
-                        <li class=""><a href="basic-divider.html">Divider </a></li>
-                        <li class=""><a href="basic-forms.html">Forms</a></li>
-                        <li class=""><a href="basic-heading.html">Heading </a></li>
-                        <li class=""><a href="basic-icon-style.html">Icon Style </a></li>
-                        <li class=""><a href="basic-iconset.html">Iconset (Font Awesome)</a></li>
-                      </ul>
-                    </li>
-                    <li class="col-md-4 col-12">
-                      <ul class="list-unstyled">
-                        <li>Basic Elements</li>
-                        <li class=""><a href="basic-modal.html">Modal </a></li>
-                        <li class=""><a href="basic-progressbar.html">Progressbar</a></li>
-                        <li class=""><a href="basic-tables.html">Tables </a></li>
-                        <li class=""><a href="basic-tabs.html">Tabs</a></li>
-                        <li class=""><a href="basic-typography.html">Typography </a></li>
-                        <li class=""><a href="basic-video.html">Video </a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
             </div><!-- /.navbar-collapse -->
             <div class="version2">
               <div class="dropdown cart-dropdown">

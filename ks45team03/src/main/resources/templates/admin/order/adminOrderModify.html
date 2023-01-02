@@ -4,11 +4,123 @@
 	layout:decorate="~{admin/layout/default}">
 
 	<th:block layout:fragment="customContents">
-		<div id="rightcolumn" class="right_col" role="main">
-			<div class="col-md-12 col-sm-12">
-				<h1>관리자 주문 내역 수정</h1>
-			</div>
-		</div>
+		<div class="right_col" role="main">
+           <div class="">
+                <div class="clearfix"></div>
+
+                <div class="row">
+                   <div class="col-md-12 col-sm-12">
+                      	<div class="x_panel">
+                              <div class="x_title">
+                                  <h2>결제 정보 수정 <small>User</small></h2>
+                                  <ul class="nav navbar-right panel_toolbox">
+                                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                      </li>
+                                      <li class="dropdown">
+                                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              <a class="dropdown-item" href="#">Settings 1</a>
+                                              <a class="dropdown-item" href="#">Settings 2</a>
+                                          </div>
+                                      </li>
+                                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                      </li>
+                                  </ul>
+                                  <div class="clearfix"></div>
+                              </div>
+                              <div class="x_content">
+                                  <form class="" action="" method="post" novalidate>
+                                      <span class="section">Personal Info</span>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Name<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="name" required="required" />
+                                          </div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Rental Start Date<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" data-validate-length-range="5,15" type="Date" /></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Rental End Date<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" required="required" type="Date" /></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Select Delivery<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" data-validate-linked='email' required='required' /></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Region<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="number" data-validate-minmax="10,100" required='required'></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Payment Account or Card Numner<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" required='required'></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Payment Agency<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" required='required'></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Expected Payment Amount<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" required='required'></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Commision Total Price<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" required='required'></div>
+                                      </div>
+                                      
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Mileage Use Price<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" name="password2" data-validate-linked='password' required='required' /></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Save Mileage<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" name="phone" required='required' data-validate-length-range="8,20" /></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Amount Excluding Mileage<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" name="phone" required='required' data-validate-length-range="8,20" /></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Settlement Amount<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" name="phone" required='required' data-validate-length-range="8,20" /></div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Order State Standard Name<span class="required">*</span></label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input class="form-control" type="text" name="phone" required='required' data-validate-length-range="8,20" /></div>
+                                      </div>
+                                      <div class="ln_solid">
+                                      	  <br>
+                                          <div class="form-group">
+                                              <div class="col-md-6 offset-md-3">
+                                                  <button type='submit' class="btn btn-primary">Submit</button>
+                                                  <button type='reset'  class="btn btn-success">Reset</button>
+                                                  <button type='button' class="btn btn-success" onclick="location.href='/admin/order/adminOrderHistory'">Cancel</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
 	</th:block>
 
 </html>

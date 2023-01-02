@@ -8,6 +8,7 @@
 	<resultMap type="Review" id="adminReviewResultMap">
 		<id property="reviewCode" 			column="review_code"/>
 		<result property="goodsCode" 		column="goods_code"/>
+		<result property="goodsName" 		column="goods_name"/>
 		<result property="userId" 		column="user_id"/>
 		<result property="reviewContent" 		column="review_content"/>
 		<result property="goodsEvaluation" 		column="goods_evaluation"/>

@@ -25,6 +25,11 @@ public class InfoBoardController {
 		this.infoBoardService = infoBoardService;
 	}
 	
+	@GetMapping("/removeInfoBoard")
+	public String removeInfoBoard(Model model) {
+		return "/";
+	}
+	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/infoBoardList")
 	public String infoBoardList(@RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage,

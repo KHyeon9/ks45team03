@@ -4,8 +4,45 @@
 	  layout:decorate="~{user/layout/default}">
 
 	  <th:block layout:fragment="customContents">
+	  	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
+	  	  	 <!-- MAIN CONTENT SECTION -->
+	      <section class="mainContent clearfix blogPage">
+	        <div class="container">
+	          <div class="row">
+	            <div class="col-lg-9 col-sm-12 order-lg-12">
+	              <div class="row">
+	                <div class="col-sm-12">
+	                	<div class="thumbnail">
+	                   		<div class="caption">
+	                     		<div class="row">
+	                       			<div class="col-md-9 order-md-1">
+	                         			<h3>제목</h3>
+	                       			</div>
+	                     		</div>
+	                   		</div>
+	                  	</div>
+	                </div>
+	              </div>
+	            </div>
+	            <div class="col-lg-3 col-sm-12 order-lg-1 sideBar">
+	              <div class="panel panel-default">
+	                <div class="panel-heading">보험</div>
+	                <div class="panel-body">
+	                  <ul class="list-unstyle sidebar-list">
+	                    <li><a th:href="@{/insurance/insuranceList}" ><i class="fa fa-caret-right"></i> 보험가입정보 <span></span></a></li>
+	                    <li><a th:href="@{/insurance/insuranceAddBill}" ><i class="fa fa-caret-right" ></i> 보상금 청구하기 <span></span></a></li>
+	                    <li><a th:href="@{/insurance/insuranceBillList}"><i class="fa fa-caret-right" ></i> 나의 보상금 청구서 확인 <span></span></a></li>
+	                    <li><a th:href="@{/insurance/insurancePayoutList}" ><i class="fa fa-caret-right"></i> 보상금지급내역 <span></span></a></li>
+	                  </ul>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </section>
 	  	
 	  	<h1>보험메인화면</h1>
+
 	  	<a th:href="@{/insurance/insuranceAddBill}" style="color:blue;">보상금청구서등록</a>
 	  	<a th:href="@{/insurance/insuranceBillList}" style="color:blue;">보험금청구서리스트</a>
 	  	<a th:href="@{/insurance/insuranceBillListDetail}" style="color:blue;">보상금청구서상세화면</a>

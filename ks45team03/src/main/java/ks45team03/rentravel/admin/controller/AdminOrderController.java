@@ -13,6 +13,8 @@ import ks45team03.rentravel.admin.service.AdminOrderService;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.Return;
+import ks45team03.rentravel.dto.WaybillOwner;
+import ks45team03.rentravel.dto.WaybillRenter;
 
 @Controller
 @RequestMapping("/admin/order")
@@ -61,6 +63,12 @@ public class AdminOrderController {
 	@GetMapping("/adminWaybillList")
 	public String adminWaybillList(Model model) {
 		model.addAttribute("title","관리자 운송 번호 리스트");
+		List<WaybillOwner> waybillOwnerList = adminOrderService.getWaybillOwners();
+		List<WaybillRenter> waybillRenterList = adminOrderService.getWaybillRenters();
+		
+		model.addAttribute("waybillOwnerList", waybillOwnerList);
+		model.addAttribute("waybillRenterList", waybillRenterList);
+		
 		return "admin/order/adminWaybillList";
 	}
 	
@@ -71,12 +79,28 @@ public class AdminOrderController {
 	}
 	
 	// 주문 취소 내역 조회 
+	@SuppressWarnings("unchecked")
 	@GetMapping("/adminRentalcancelList")
-	public String adminRentalcancelList(Model model) {
-		List<RentalCancel> cancelList = adminOrderService.getRentalCancelHistory();
+	public String adminRentalcancelList(@RequestParam(value = "int currentPage", defaultValue = "1", required = false) int currentPage,
+										Model model) {
+		Map<String, Object> paramMap = adminOrderService.getRentalCancelHistory(currentPage);
+		
+		List<RentalCancel> rentalCancelHistory =  (List<RentalCancel>) paramMap.get("rentalCancelHistory");
+		
+		int lastPage = (int) paramMap.get("lastPage");
+		int startPageNum = (int) paramMap.get("startPageNum");
+		int endPageNum = (int) paramMap.get("endPageNum");
+		int nextPage = (int) paramMap.get("nextPage");
+		int prevPage = (int) paramMap.get("prevPage");
 		
 		model.addAttribute("title","관리자 주문 취소 리스트");
-		model.addAttribute("cancelList", cancelList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("rentalCancelHistory", rentalCancelHistory);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("nextPage", nextPage);
+		model.addAttribute("prevPage", prevPage);
 		
 		return "admin/order/adminRentalcancelList";
 	}

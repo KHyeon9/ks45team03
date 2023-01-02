@@ -8,7 +8,71 @@
 </head>
 <body>
 	<th:block layout:fragment="customContents">
-		상품수정 화면입니다.
+	  <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>modify GOODS</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                <li class="active">modify goods</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+	
+      <section class="mainContent clearfix signUp">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="panel-heading"><h3>MODIFY GOODS</h3></div>
+                <div class="panel-body">
+                
+                  <form th:action="@{/goods/modifyGoods}" method="POST" role="form" th:object="${goodsDetail}">
+                    <div class="form-group">
+                      <label for="">상품코드</label>
+                      <input type="text" class="form-control" id="" name="goodsCode" th:value="*{goodsCode}" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="">상품명</label>
+                      <input type="text" class="form-control" id="" name="goodsName" th:value="*{goodsName}">
+                    </div>
+                    <div class="form-group">
+                      <label for="">상품가치</label>
+                      <input type="text" class="form-control" id="" name="goodsValuePrice" th:value="*{goodsValuePrice}">
+                    </div>
+                    <div class="form-group">
+                      <label for="">일당 가격</label>
+                      <input type="text" class="form-control" id="" name="goodsDayPrice" th:value="*{goodsDayPrice}">
+                    </div>
+                    <div class="form-group">
+                      <label for="">상품 상세</label>
+                      <input type="text" class="form-control" id="" name="goodsDetail" th:value="*{goodsDetail}">
+                    </div>
+                    <div class="form-group">
+                      <label for="">카테고리</label>
+                      <input type="text" class="form-control" id="" name="goodsCategoryCode" th:value="*{goodsCategoryCode}">
+                    </div>
+					
+					
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                  </form>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 	
 	</th:block>
 </body>
