@@ -5,12 +5,13 @@ public class MileageSaveUse {
 	private String mileageSaveUseCode;
 	private String userId;
 	private String mileageChange;
-	private String totalMileage;
+	private String mileageTotal;
 	private String mileageChangeTime;
 	private String mileageChangeReason;
-	private String saveUseType;
+	private String mileageSaveUseType;
 	private String mileageGroupCode;
 	private String mileageDayFinish;
+	
 	public String getMileageSaveUseCode() {
 		return mileageSaveUseCode;
 	}
@@ -29,12 +30,7 @@ public class MileageSaveUse {
 	public void setMileageChange(String mileageChange) {
 		this.mileageChange = mileageChange;
 	}
-	public String getTotalMileage() {
-		return totalMileage;
-	}
-	public void setTotalMileage(String totalMileage) {
-		this.totalMileage = totalMileage;
-	}
+	
 	public String getMileageChangeTime() {
 		return mileageChangeTime;
 	}
@@ -47,11 +43,18 @@ public class MileageSaveUse {
 	public void setMileageChangeReason(String mileageChangeReason) {
 		this.mileageChangeReason = mileageChangeReason;
 	}
-	public String getSaveUseType() {
-		return saveUseType;
+	
+	public String getMileageTotal() {
+		return mileageTotal;
 	}
-	public void setSaveUseType(String saveUseType) {
-		this.saveUseType = saveUseType;
+	public void setMileageTotal(String mileageTotal) {
+		this.mileageTotal = mileageTotal;
+	}
+	public String getMileageSaveUseType() {
+		return mileageSaveUseType;
+	}
+	public void setMileageSaveUseType(String mileageSaveUseType) {
+		this.mileageSaveUseType = mileageSaveUseType;
 	}
 	public String getMileageGroupCode() {
 		return mileageGroupCode;
@@ -75,13 +78,13 @@ public class MileageSaveUse {
 		builder.append(", mileageChange=");
 		builder.append(mileageChange);
 		builder.append(", totalMileage=");
-		builder.append(totalMileage);
+		builder.append(mileageTotal);
 		builder.append(", mileageChangeTime=");
 		builder.append(mileageChangeTime);
 		builder.append(", mileageChangeReason=");
 		builder.append(mileageChangeReason);
 		builder.append(", saveUseType=");
-		builder.append(saveUseType);
+		builder.append(mileageSaveUseType);
 		builder.append(", mileageGroupCode=");
 		builder.append(mileageGroupCode);
 		builder.append(", mileageDayFinish=");
