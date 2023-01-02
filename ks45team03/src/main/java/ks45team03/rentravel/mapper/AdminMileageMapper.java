@@ -1,21 +1,20 @@
 package ks45team03.rentravel.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ks45team03.rentravel.dto.MileagePaymentSave;
-import ks45team03.rentravel.dto.MileageRentalCancelSave;
+import ks45team03.rentravel.dto.MileageSaveUse;
+
+
 
 @Mapper
 public interface AdminMileageMapper {
 
-	//결제적립금 조회
-	public List<MileagePaymentSave> adminGetMileagePaymentSaveList();
+	//모든 적립금 조회
+	public List<MileageSaveUse> adminGetMileageList();
 	
-	//취소적립금 조회
-	public List<MileageRentalCancelSave> adminGetMileageRentalCancelSaveList();
-
 
 
 }
