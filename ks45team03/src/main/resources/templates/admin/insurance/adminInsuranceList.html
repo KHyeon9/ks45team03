@@ -10,12 +10,13 @@
 		  	<table class="table">
 			  <thead>
 			    <tr>
-			      <th scope="col">insurance_code</th>
-			      <th scope="col">user_id</th>
-			      <th scope="col">goods_code</th>
-			      <th scope="col">payment_code</th>
-			      <th scope="col">rental_code</th>
-			      <th scope="col">insurance_sign_up_time</th>
+					<th scope="col">보험코드</th>
+					<th scope="col">보험가입자아이디</th>
+					<th scope="col">상품코드</th>
+					<th scope="col">결제코드</th>
+					<th scope="col">주문코드</th>
+					<th scope="col">보험이용가능여부</th>
+					<th scope="col">보험등록시간</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -26,6 +27,7 @@
 			      <td th:text="${l.goodsCode}"></td>
 			      <td th:text="${l.paymentCode}"></td>
 			      <td th:text="${l.rentalCode}"></td>
+			      <td th:text="${l.insuranceAvailable}"></td>
 			      <td th:text="${l.insuranceSignUpTime}"></td>
 			    </tr>
 			    <tr th:unless="${not #lists.isEmpty(adminInsuranceList)}">
