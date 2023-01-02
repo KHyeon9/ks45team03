@@ -5,9 +5,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ks45team03.rentravel.mapper.InsuranceMapper;
+import ks45team03.rentravel.user.service.InsuranceService;
+
 @Controller
 @RequestMapping("/insurance")
 public class InsuranceController {
+	
+	private final InsuranceMapper insuranceMapper;
+	private final InsuranceService insuranceService;
+	
+	public InsuranceController(InsuranceMapper insuranceMapper, InsuranceService insuranceService) {
+		this.insuranceMapper = insuranceMapper;
+		this.insuranceService = insuranceService;
+	}
 	
 	@GetMapping("/insuranceMain")
 	public String insuranceMain(Model model) {		
@@ -24,32 +35,10 @@ public class InsuranceController {
 	}
 	
 	@GetMapping("/insuranceBillList")
-	public String getInsuranceRequestList(Model model) {		
+	public String getInsuranceBillList(Model model) {		
 		model.addAttribute("title", "보험청구서");
 		
 		return "user/insurance/insuranceBillList";
-	}
-	
-	@GetMapping("/insuranceAddBill")
-	public String addInsuranceRequest(Model model) {
-		
-		model.addAttribute("title", "보상금청구서등록");
-		
-		return "user/insurance/insuranceAddBill";
-	}
-	
-	@GetMapping("/insuranceModifyBill")
-	public String modifyInsuranceRequest(Model model) {		
-		model.addAttribute("title", "보상금청구서수정");
-		
-		return "user/insurance/insuranceModifyBill";
-	}
-	
-	@GetMapping("/insuranceRemoveBill")
-	public String removeInsuranceRequestById(Model model) {
-		model.addAttribute("title", "보상금청구서삭제");
-		
-		return "user/insurance/insuranceRemoveBill";
 	}
 	
 	@GetMapping("/insuranceBillDetail")
@@ -57,6 +46,28 @@ public class InsuranceController {
 		model.addAttribute("title", "보상금청구서상세화면");
 		
 		return "user/insurance/insuranceBillDetail";
+	}
+	
+	@GetMapping("/insuranceAddBill")
+	public String addInsuranceBillDetail(Model model) {
+		
+		model.addAttribute("title", "보상금청구서등록");
+		
+		return "user/insurance/insuranceAddBill";
+	}
+	
+	@GetMapping("/insuranceModifyBill")
+	public String modifyInsuranceBillDetail(Model model) {		
+		model.addAttribute("title", "보상금청구서수정");
+		
+		return "user/insurance/insuranceModifyBill";
+	}
+	
+	@GetMapping("/insuranceRemoveBill")
+	public String removeInsuranceBillDetail(Model model) {
+		model.addAttribute("title", "보상금청구서삭제");
+		
+		return "user/insurance/insuranceRemoveBill";
 	}
 	
 	@GetMapping("/insurancePayoutList")
