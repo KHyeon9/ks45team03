@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.InsuranceMapper">
+
+	<resultMap type="Insurance"	id="insuranceResultMap">
+		<id property="insuranceCode" column="insurance_code" />
+		<result property="userId" column="user_id" />
+		<result property="goodsCode" column="goods_code" />
+		<result property="paymentCode" column="payment_code" />
+		<result property="rentalCode" column="rental_code" />
+		<result property="insuranceAvailable" column="insurance_available" />
+		<result property="insuranceSignUpTime" column="insurance_sign_up_time" />
+	</resultMap>
+	
+	<resultMap type="InsuranceBillDetail" id="insuranceBillDetailResultMap">
+		<id property="insuranceBillDetailCode" column="insurance_bill_detail_code" />
+		<result property="insuranceCode" column="insurance_code" />
+		<result property="userId" column="user_id" />
+		<result property="goodsCode" column="goods_code" />
+		<result property="paymentCode" column="payment_code" />
+		<result property="accidentDate" column="accident_date" />
+		<result property="accidentType" column="accident_type" />
+		<result property="accidentContent" column="accident_content" />
+		<result property="insuranceEvidence" column="insurance_evidence" />
+		<result property="bankName" column="bank_name" />
+		<result property="accountHolder" column="account_holder" />
+		<result property="accountNumber" column="account_number" />
+		<result property="requestDate" column="request_date" />
+	</resultMap>
+	
+	<resultMap type="InsuranceBill" id="insuranceBillResultMap">
+		<id property="insuranceBillCode" column="insurance_bill_code" />
+		<result property="userId" column="user_id" />
+		<result property="insuranceBillDetailCode" column="insurance_bill_detail_code" />
+		<result property="insuranceBillStateCode" column="insurance_bill_state_code" />
+		<result property="insuranceBillModifyDate" column="insurance_bill_modify_date" />
+	</resultMap>
+	
+	<resultMap type="InsurancePayout" id="insurancePayoutResultMap">
+		<id property="insurancePayoutCode" column="insurance_payout_code" />
+		<result property="userId" column="user_id" />
+		<result property="insuranceBillDetailCode" column="insurance_bill_detail_code" />
+		<result property="insuranceBillCode" column="insurance_bill_code" />
+		<result property="insurancePayoutPrice" column="insurance_payout_price" />
+		<result property="insurancePayoutDate" column="insurance_payout_date" />
+	</resultMap>
+	
+	<select id="getInsuranceList" resultMap="insuranceResultMap">
+		/* 보험 정보 조회 */
+		SELECT
+			i.insurance_code,
+			i.user_id,
+			i.goods_code,
+			i.payment_code,
+			i.rental_code,
+			i.insurance_available,
+			i.insurance_sign_up_time
+		FROM
+			tb_insurance AS i
+		ORDER BY
+			i.insurance_code;
+	</select>
+	
+	<select id="getInsuranceBillDetail" resultMap="insuranceBillDetailResultMap">
+		/* 보상금청구서 상세 조회 */
+		SELECT
+			ibd.insurance_bill_detail_code,
+			ibd.insurance_code,
+			ibd.user_id,
+			ibd.goods_code,
+			ibd.payment_code,
+			ibd.accident_date,
+			ibd.accident_type,
+			ibd.accident_content,
+			ibd.insurance_evidence,
+			ibd.bank_name,
+			ibd.account_holder,
+			ibd.account_number,
+			ibd.request_date
+		FROM
+			tb_insurance_bill_detail AS ibd
+		ORDER BY
+			ibd.insurance_bill_detail_code;
+	
+	</select>
+	
+	<select id="getInsuranceBillList" resultMap="insuranceBillResultMap">
+			/* 보험청구서리스트 조회 */
+			SELECT
+				ib.insurance_bill_code,
+				ib.user_id,
+				ib.insurance_bill_detail_code,
+				ib.insurance_bill_state_code,
+				ib.insurance_bill_modify_date
+			FROM
+				tb_insurance_bill AS ib
+			ORDER BY
+				ib.insurance_bill_code;
+	</select>
+	
+	<select id="getInsurancePayoutList" resultMap="insurancePayoutResultMap">
+			/* 보상급 지급내역 조회 */
+			SELECT
+				ip.insurance_payout_code,
+				ip.user_id,
+				ip.insurance_bill_detail_code,
+				ip.insurance_bill_code,
+				ip.insurance_payout_price,
+				ip.insurance_payout_date
+			FROM
+				tb_insurance_payout AS ip
+			ORDER BY
+				ip.insurance_payout_code;
+	</select>
+
+</mapper>

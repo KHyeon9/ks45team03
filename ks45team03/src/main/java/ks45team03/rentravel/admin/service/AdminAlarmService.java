@@ -17,9 +17,10 @@ public class AdminAlarmService {
 	public AdminAlarmService(AdminAlarmMapper adminAlarmMapper) {
 		this.adminAlarmMapper = adminAlarmMapper;
 	}
-
+	
 	public List<AlarmWish> adminGetAlarmWishList(){
 		List<AlarmWish> alarmWishList = adminAlarmMapper.adminGetAlarmWishList();
+		
 		
 		return alarmWishList;
 	}

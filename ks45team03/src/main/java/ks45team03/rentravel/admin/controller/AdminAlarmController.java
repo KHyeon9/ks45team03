@@ -22,21 +22,14 @@ public class AdminAlarmController {
 		this.adminAlarmService = adminAlarmService;
 		this.adminAlarmMapper = adminAlarmMapper;
 	}
-
+	
 	@GetMapping("/adminAlarmList")
 	public String adminGetAlarmWishList(Model model) {
-		List<AlarmWish> alarmWishList = adminAlarmService.adminGetAlarmWishList();
 		
-		model.addAttribute("title", "관리자 알림 내용 목록");
+		List<AlarmWish> alarmWishList = adminAlarmService.adminGetAlarmWishList();
+		model.addAttribute("tittle", "관리자- 알림목록");
 		model.addAttribute("alarmWishList", alarmWishList);
 		
-		return "/admin/alarm/adminAlarmList";
-	}
-	
-	@GetMapping("/adminModifyAlarm")
-	public String adminModifyAlarm(Model model) {
-		model.addAttribute("title", "관리자 알림 내용 수정");
-		
-		return "/admin/alarm/adminModifyAlarm";
+		return "admin/alarm/adminAlarmList";
 	}
 }

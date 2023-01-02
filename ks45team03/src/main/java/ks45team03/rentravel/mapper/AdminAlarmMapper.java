@@ -8,8 +8,7 @@ import ks45team03.rentravel.dto.AlarmWish;
 
 @Mapper
 public interface AdminAlarmMapper {
-	
-	//관심상품반납 알림
-	public List<AlarmWish> adminGetAlarmWishList();
 
+	public List<AlarmWish> adminGetAlarmWishList();
+	
 }
