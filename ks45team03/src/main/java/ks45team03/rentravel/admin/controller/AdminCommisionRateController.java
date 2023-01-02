@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminCommisionRateService;
 import ks45team03.rentravel.dto.CommisionRate;
+import ks45team03.rentravel.dto.RentalCancel;
 
 @Controller
 @RequestMapping("/admin/commisionRate")
@@ -70,14 +71,27 @@ public class AdminCommisionRateController {
 	
 	// 플랫폼 수수료율 목록
 	@GetMapping("/adminCommisionRateList")
-	public String adminGetCommisionRateList (Model model) {
+	public String adminGetCommisionRateList (@RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage
+											,Model model) {
 		
-		List<CommisionRate> adminGetCommisionRateList = adminCommisionRateService.adminGetCommisionRateList();
+		Map<String, Object> paramMap = adminCommisionRateService.adminGetCommisionRateList(currentPage);
 		
+		List<CommisionRate> adminGetCommisionRateList =  (List<CommisionRate>) paramMap.get("adminGetCommisionRateList");
 		
+		int lastPage = (int) paramMap.get("lastPage");
+		int startPageNum = (int) paramMap.get("startPageNum");
+		int endPageNum = (int) paramMap.get("endPageNum");
+		int nextPage = (int) paramMap.get("nextPage");
+		int prevPage = (int) paramMap.get("prevPage");
 		
 		model.addAttribute("title","플랫폼 수수료율 목록");
-		model.addAttribute("adminGetCommisionRateList",adminGetCommisionRateList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("adminGetCommisionRateList", adminGetCommisionRateList);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("nextPage", nextPage);
+		model.addAttribute("prevPage", prevPage);
 		
 		return "admin/commisionRate/adminCommisionRateList";
 	}

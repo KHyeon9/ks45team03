@@ -52,7 +52,16 @@
 	
 	</insert>
 	
-	<select id="adminGetCommisionRateList" resultMap="commisionRateResultMap">
+	
+	<select id="getCommisionRateListCnt" resultType="int">
+	/* 플랫폼 수수료율 목록 행 갯수 */
+		SELECT 
+			COUNT(1)
+		FROM
+			tb_commision_rate;
+	</select>
+	
+	<select id="adminGetCommisionRateList"  parameterType="Map" resultMap="commisionRateResultMap">
 	/* 플랫폼 수수료율 목록 조회 */
 		SELECT
 			commision_rate_code
@@ -60,8 +69,11 @@
 			,apply_year
 			,apply_check
 		FROM 
-			tb_commision_rate 
-		ORDER BY LENGTH(SUBSTRING(commision_rate_code,10)),SUBSTRING(commision_rate_code,10);
+			tb_commision_rate
+		ORDER BY LENGTH(SUBSTRING(commision_rate_code,10)),SUBSTRING(commision_rate_code,10)
+		<if test="startRowNum != null and startRowNum > -1">
+			LIMIT #{startRowNum}, #{rowPerPage};
+		</if>
 	</select>
 	
 	
