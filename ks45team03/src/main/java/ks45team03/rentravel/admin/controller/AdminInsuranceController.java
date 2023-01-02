@@ -94,4 +94,11 @@ public class AdminInsuranceController {
 		return "admin/insurance/adminInsurancePayoutList";
 	}
 	
+	@GetMapping("/adminAddInsurancePayout")
+	public String adminAddInsurancePayoutList(Model model) {
+		model.addAttribute("title", "보상금지급내역등록");
+		
+		return "admin/insurance/adminAddInsurancePayout";
+	}
+	
 }
