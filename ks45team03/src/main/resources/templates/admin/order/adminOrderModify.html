@@ -13,103 +13,70 @@
                       	<div class="x_panel">
                               <div class="x_title">
                                   <h2>결제 정보 수정 <small>User</small></h2>
-                                  <ul class="nav navbar-right panel_toolbox">
-                                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                      </li>
-                                      <li class="dropdown">
-                                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <a class="dropdown-item" href="#">Settings 1</a>
-                                              <a class="dropdown-item" href="#">Settings 2</a>
-                                          </div>
-                                      </li>
-                                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                      </li>
-                                  </ul>
                                   <div class="clearfix"></div>
                               </div>
                               <div class="x_content">
-                                  <form class="" action="" method="post" novalidate>
+                                  <form class="modifyOrderInfo" th:action="@{/admin/order/adminOrderModify}" method="post" novalidate>
+                                  	  <input type="hidden" th:value="${orderInfo.rentalCode}" name="rentalCode">
                                       <span class="section">Personal Info</span>
                                       <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Name<span class="required">*</span></label>
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Name</label>
                                           <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="name" required="required" />
+                                              <input th:value="${orderInfo.goodsName}" class="form-control" name="goodsName"  required="required" data-name="상품명"
+			                                         data-parsley-empty-message="상품명을 입력해주세요"  readonly="readonly"/>
                                           </div>
                                       </div>
                                       <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Rental Start Date<span class="required">*</span></label>
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Rental Start Date</label>
                                           <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" data-validate-length-range="5,15" type="Date" /></div>
+                                              <input th:value="${orderInfo.rentalStartDate}" class="form-control" name="rentalStartDate" type="Date" />
+                                          </div>
                                       </div>
                                       <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Rental End Date<span class="required">*</span></label>
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Rental End Date</label>
                                           <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" required="required" type="Date" /></div>
+                                              <input th:value="${orderInfo.rentalEndDate}" class="form-control" name="rentalEndDate" required="required" type="Date" /></div>
                                       </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Select Delivery<span class="required">*</span></label>
+                                      <th:block th:object="${orderInfo.payment}">
+                                      	<div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Expected Payment Amount</label>
                                           <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" data-validate-linked='email' required='required' /></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Region<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="number" data-validate-minmax="10,100" required='required'></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Payment Account or Card Numner<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" required='required'></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Payment Agency<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" required='required'></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Expected Payment Amount<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" required='required'></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Commision Total Price<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" required='required'></div>
-                                      </div>
+                                              <input th:value="*{expectedPaymentAmount}" class="form-control" type="number" name="payment.expectedPaymentAmount" required='required'></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Commision Total Price<span class="required">*</span></label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{goodsCommisionTotalPrice}" class="form-control" type="number" name="payment.goodsCommisionTotalPrice" required='required'></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Mileage Use Price<span class="required">*</span></label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{mileageUsePrice}" class="form-control" type="number" name="payment.mileageUsePrice" required='required' /></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Save Mileage<span class="required">*</span></label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{saveMileage}" class="form-control" type="number" name="payment.saveMileage" required='required' /></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Amount Excluding Mileage<span class="required">*</span></label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{amountExcludingMileage}" class="form-control" type="number" name="payment.amountExcludingMileage" required='required' /></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Settlement Amount<span class="required">*</span></label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{settlementAmount}" class="form-control" type="number" name="payment.settlementAmount" required='required' /></div>
+	                                      </div>
+                                      </th:block>
                                       
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Mileage Use Price<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" name="password2" data-validate-linked='password' required='required' /></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Save Mileage<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" name="phone" required='required' data-validate-length-range="8,20" /></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Amount Excluding Mileage<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" name="phone" required='required' data-validate-length-range="8,20" /></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Settlement Amount<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" name="phone" required='required' data-validate-length-range="8,20" /></div>
-                                      </div>
-                                      <div class="field item form-group">
-                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Order State Standard Name<span class="required">*</span></label>
-                                          <div class="col-md-6 col-sm-6">
-                                              <input class="form-control" type="text" name="phone" required='required' data-validate-length-range="8,20" /></div>
-                                      </div>
                                       <div class="ln_solid">
                                       	  <br>
                                           <div class="form-group">
                                               <div class="col-md-6 offset-md-3">
-                                                  <button type='submit' class="btn btn-primary">Submit</button>
+                                                  <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
                                                   <button type='reset'  class="btn btn-success">Reset</button>
-                                                  <button type='button' class="btn btn-success" onclick="location.href='/admin/order/adminOrderHistory'">Cancel</button>
+                                                  <button type='button' class="btn btn-success cancel">Cancel</button>
                                               </div>
                                           </div>
                                       </div>
@@ -121,6 +88,72 @@
                 </div>
             </div>
             <!-- /page content -->
+            
+            <!-- 사용자 지정 js 파일 -->
+			<th:block layout:fragment="customJs">
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+			    <script src="../vendors/validator/multifield.js"></script>
+			    <script src="../vendors/validator/validator.js"></script>
+			    <script src="../build/js/custom.min.js"></script>
+			</th:block>
+			<!-- 사용자 지정 js script -->
+			<th:block layout:fragment="customScript">
+				<script>
+					function hideshow(){
+						var password = document.getElementById("password1");
+						var slash = document.getElementById("slash");
+						var eye = document.getElementById("eye");
+						
+						if(password.type === 'password'){
+							password.type = "text";
+							slash.style.display = "block";
+							eye.style.display = "none";
+						}
+						else{
+							password.type = "password";
+							slash.style.display = "none";
+							eye.style.display = "block";
+						}
+			
+					}
+					
+				</script>
+				<script>
+			        // initialize a validator instance from the "FormValidator" constructor.
+			        // A "<form>" element is optionally passed as an argument, but is not a must
+			        var validator = new FormValidator({
+			            "events": ['blur', 'input', 'change'],
+			            
+			        	
+			        }, document.forms[0]);
+			        // on form "submit" event
+			        document.forms[0].onsubmit = function(e) {
+			            var submit = true,
+			                validatorResult = validator.checkAll(this);
+			            console.log(validatorResult);
+			            return !!validatorResult.valid;
+			        };
+			        // on form "reset" event
+			        document.forms[0].onreset = function(e) {
+			            validator.reset();
+			        };
+			        // stuff related ONLY for this demo page:
+			        $('.toggleValidationTooltips').change(function() {
+			            validator.settings.alerts = !this.checked;
+			            if (this.checked)
+			                $('form .alert').remove();
+			        }).prop('checked', false);
+			        
+			        
+			
+			    </script>
+			    <script>
+			    	$('.cancel').click(function(){
+			    		location.href = '/admin/order/adminOrderHistory';
+			    	})
+			    </script>
+			</th:block>
+			<!-- contents end -->
 	</th:block>
 
 </html>
