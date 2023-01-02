@@ -95,7 +95,37 @@
                        <tfoot>
 				  		 <tr>
 				  			<td colspan="17">
-				  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+				  				<div class="col-sm-12">
+				  					<div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate">
+				  						<ul class="pagination">
+				  							<li class="paginate_button previous disabled" id="datatable-checkbox_previous">
+				  								<a th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" aria-controls="datatable-checkbox" data-dt-idx="0" tabindex="0">
+				  									Prev
+				  								</a>
+				  								<a th:unless="${currentPage > 10}" aria-controls="datatable-checkbox" data-dt-idx="0" tabindex="0">
+				  									Prev
+				  								</a>
+				  							</li>
+				  							<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+					  							<li class="paginate_button active">
+					  								<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" th:text="|${num}|" aria-controls="datatable-checkbox" data-dt-idx="1" tabindex="0">
+					  								</a>
+					  								<a th:unless="${currentPage != num}" th:text="|${num}|" aria-controls="datatable-checkbox" data-dt-idx="1" tabindex="0">
+					  								</a>
+					  							</li>
+					  						</th:block>
+				  							<li class="paginate_button next" id="datatable-checkbox_next">
+				  								<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" aria-controls="datatable-checkbox" data-dt-idx="7" tabindex="0">
+				  									Next
+				  								</a>
+				  								<a th:unless="${endPageNum < lastPage}" aria-controls="datatable-checkbox" data-dt-idx="7" tabindex="0">
+				  									Next
+				  								</a>
+				  							</li>
+				  						</ul>
+				  					</div>
+				  				</div>
+				  				<!-- <a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
 				  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
 				  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
 				  					<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
@@ -103,7 +133,7 @@
 				  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
 				  				</th:block>
 				  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
-				  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+				  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span> -->
 				  			</td>
 				  		  </tr>
 			  			</tfoot>

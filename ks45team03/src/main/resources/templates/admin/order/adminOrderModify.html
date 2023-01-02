@@ -18,7 +18,6 @@
                               <div class="x_content">
                                   <form class="modifyOrderInfo" th:action="@{/admin/order/adminOrderModify}" method="post" novalidate>
                                   	  <input type="hidden" th:value="${orderInfo.rentalCode}" name="rentalCode">
-                                      <span class="section">Personal Info</span>
                                       <div class="field item form-group">
                                           <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Name</label>
                                           <div class="col-md-6 col-sm-6">
@@ -44,27 +43,27 @@
                                               <input th:value="*{expectedPaymentAmount}" class="form-control" type="number" name="payment.expectedPaymentAmount" required='required'></div>
 	                                      </div>
 	                                      <div class="field item form-group">
-	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Commision Total Price<span class="required">*</span></label>
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Commision Total Price</label>
 	                                          <div class="col-md-6 col-sm-6">
 	                                              <input th:value="*{goodsCommisionTotalPrice}" class="form-control" type="number" name="payment.goodsCommisionTotalPrice" required='required'></div>
 	                                      </div>
 	                                      <div class="field item form-group">
-	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Mileage Use Price<span class="required">*</span></label>
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Mileage Use Price</label>
 	                                          <div class="col-md-6 col-sm-6">
 	                                              <input th:value="*{mileageUsePrice}" class="form-control" type="number" name="payment.mileageUsePrice" required='required' /></div>
 	                                      </div>
 	                                      <div class="field item form-group">
-	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Save Mileage<span class="required">*</span></label>
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Save Mileage</label>
 	                                          <div class="col-md-6 col-sm-6">
 	                                              <input th:value="*{saveMileage}" class="form-control" type="number" name="payment.saveMileage" required='required' /></div>
 	                                      </div>
 	                                      <div class="field item form-group">
-	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Amount Excluding Mileage<span class="required">*</span></label>
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Amount Excluding Mileage</label>
 	                                          <div class="col-md-6 col-sm-6">
 	                                              <input th:value="*{amountExcludingMileage}" class="form-control" type="number" name="payment.amountExcludingMileage" required='required' /></div>
 	                                      </div>
 	                                      <div class="field item form-group">
-	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Settlement Amount<span class="required">*</span></label>
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Settlement Amount</label>
 	                                          <div class="col-md-6 col-sm-6">
 	                                              <input th:value="*{settlementAmount}" class="form-control" type="number" name="payment.settlementAmount" required='required' /></div>
 	                                      </div>
