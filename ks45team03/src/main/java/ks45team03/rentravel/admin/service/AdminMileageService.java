@@ -26,8 +26,8 @@ public class AdminMileageService {
 	}
 	
 	public List<MileageRentalCancelSave> adminGetMileageRentalCancelSaveList(){
-		List<MileageRentalCancelSave> mileageRentalCancelSave = adminMileageMapper.adminGetMileageRentalCancelSaveList();
+		List<MileageRentalCancelSave> mileageRentalCancelSaveList = adminMileageMapper.adminGetMileageRentalCancelSaveList();
 		
-		return mileageRentalCancelSave;
+		return mileageRentalCancelSaveList;
 	}
 }
