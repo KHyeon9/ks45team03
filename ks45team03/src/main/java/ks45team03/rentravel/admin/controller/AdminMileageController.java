@@ -35,13 +35,13 @@ public class AdminMileageController {
 		return "admin/mileage/adminMileageList";
 	}
 	
-	@GetMapping("/adminMileageList2")
+	@GetMapping("/adminMileageList22")
 	public String adminGetMileageRentalCancelSaveList(Model model) {
 		
-		List<MileageRentalCancelSave> mileageRentalCancelSave = adminMileageService.adminGetMileageRentalCancelSaveList();
+		List<MileageRentalCancelSave> mileageRentalCancelSaveList = adminMileageService.adminGetMileageRentalCancelSaveList();
 		
 		model.addAttribute("title", "관리자- 결제취소 적립금 목록");
-		model.addAttribute("mileageRentalCancelSave", mileageRentalCancelSave);
+		model.addAttribute("mileageRentalCancelSaveList", mileageRentalCancelSaveList);
 		
 		return "admin/mileage/adminMileageList";
 	}
