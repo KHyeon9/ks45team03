@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ks45team03.rentravel.dto.CommisionRate;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.Return;
@@ -23,6 +24,15 @@ public class AdminOrderService {
 	
 	public AdminOrderService(AdminOrderMapper adminOrderMapper) {
 		this.adminOrderMapper = adminOrderMapper;
+	}
+	
+	// 주문 내역 수정
+	public int modifyOrderInfo (Rental rentalInfo) {
+		
+		int result = adminOrderMapper.modifyRentalTable(rentalInfo);
+		result += adminOrderMapper.modifyPaymentTable(rentalInfo);
+		
+		return result;
 	}
 	
 	// 오너 운송장번호 내역 조회
