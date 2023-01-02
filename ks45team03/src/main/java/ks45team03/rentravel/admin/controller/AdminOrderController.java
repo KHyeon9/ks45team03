@@ -81,7 +81,7 @@ public class AdminOrderController {
 	// 주문 취소 내역 조회 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/adminRentalcancelList")
-	public String adminRentalcancelList(@RequestParam(value = "int currentPage", defaultValue = "1", required = false) int currentPage,
+	public String adminRentalcancelList(@RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage,
 										Model model) {
 		Map<String, Object> paramMap = adminOrderService.getRentalCancelHistory(currentPage);
 		
