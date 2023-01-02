@@ -37,6 +37,7 @@ public class AdminUserController {
 			 ,@RequestParam(value="searchKey", required = false) String searchKey
 			 ,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
 		
+		// 회원 목록 리스트
 		Map<String, Object> paramMap = adminUserService.userList(currentPage, searchKey, searchValue);
 		int lastPage = (int) paramMap.get("lastPage");
 		List<User> userList = (List<User>) paramMap.get("userList");
