@@ -1,10 +1,16 @@
 package ks45team03.rentravel.user.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ks45team03.rentravel.dto.Insurance;
+import ks45team03.rentravel.dto.InsuranceBill;
+import ks45team03.rentravel.dto.InsuranceBillDetail;
+import ks45team03.rentravel.dto.InsurancePayout;
 import ks45team03.rentravel.mapper.InsuranceMapper;
 import ks45team03.rentravel.user.service.InsuranceService;
 
@@ -28,22 +34,36 @@ public class InsuranceController {
 	}
 
 	@GetMapping("/insuranceList")
-	public String getInsuranceList(Model model) {		
+	public String getInsuranceList(Model model) {
+		
+		List<Insurance> insuranceList = insuranceService.getInsuranceList();
+		
 		model.addAttribute("title", "보험가입정보");
+		model.addAttribute("insuranceList", insuranceList);
+		
 		
 		return "user/insurance/insuranceList"; //html경로를 찾아감
 	}
 	
 	@GetMapping("/insuranceBillList")
 	public String getInsuranceBillList(Model model) {		
+		
+		List<InsuranceBill> insuranceBillList = insuranceService.getInsuranceBillList();
+		
 		model.addAttribute("title", "보험청구서");
+		model.addAttribute("insuranceBillList", insuranceBillList);
 		
 		return "user/insurance/insuranceBillList";
 	}
 	
 	@GetMapping("/insuranceBillDetail")
-	public String getInsuranceRequestInfoByCode(Model model) {
+	public String getInsuranceBillDetail(Model model) {
+		
+		List<InsuranceBillDetail> insuranceBillDetail = insuranceService.getInsuranceBillDetail();
+		
 		model.addAttribute("title", "보상금청구서상세화면");
+		model.addAttribute("insuranceBillDetail", insuranceBillDetail);
+		
 		
 		return "user/insurance/insuranceBillDetail";
 	}
@@ -71,8 +91,12 @@ public class InsuranceController {
 	}
 	
 	@GetMapping("/insurancePayoutList")
-	public String getInsurancePayoutList(Model model) {		
+	public String getInsurancePayoutList(Model model) {
+		
+		List<InsurancePayout> insurancePayoutList = insuranceService.getInsurancePayoutList();
+		
 		model.addAttribute("title", "보상금지급내역");
+		model.addAttribute("insurancePayoutList", insurancePayoutList);
 		
 		return "user/insurance/insurancePayoutList";
 	}

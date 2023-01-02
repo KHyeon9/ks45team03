@@ -11,8 +11,8 @@
 			    <tr>
 			      <th scope="col">insurance_payout_code</th>
 			      <th scope="col">user_id</th>
-			      <th scope="col">insurance_request_code</th>
-			      <th scope="col">insurance_claim_code</th>
+			      <th scope="col">insurance_bill_detail_code</th>
+			      <th scope="col">insurance_bill_code</th>
 			      <th scope="col">insurance_payout_price</th>
 			      <th scope="col">insurance_payout_date</th>
 			    </tr>
@@ -22,8 +22,8 @@
 			    	 th:each="l: ${adminInsurancePayoutList}">	
 			      <td th:text="${l.insurancePayoutCode}"></td>
 			      <td th:text="${l.userId}"></td>
-			      <td th:text="${l.insuranceRequestCode}"></td>
-			      <td th:text="${l.insuranceClaimCode}"></td>
+			      <td th:text="${l.insuranceBillDetailCode}"></td>
+			      <td th:text="${l.insuranceBillCode}"></td>
 			      <td th:text="${l.insurancePayoutPrice}"></td>
 			      <td th:text="${l.insurancePayoutDate}"></td>
 			    </tr>

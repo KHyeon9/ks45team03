@@ -9,23 +9,23 @@
 	  	<table class="table">
 		  <thead>
 		    <tr>
-		      <th scope="col">insurance_claim_code</th>
+		      <th scope="col">insurance_bill_code</th>
 		      <th scope="col">user_id</th>
-		      <th scope="col">insurance_request_code</th>
-		      <th scope="col">insurance_request_state_code</th>
-		      <th scope="col">insurance_claim_modify_date</th>
+		      <th scope="col">insurance_bill_detail_code</th>
+		      <th scope="col">insurance_bill_state_code</th>
+		      <th scope="col">insurance_bill_modify_date</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr th:if="${not #lists.isEmpty(adminInsuranceClaimList)}"
-		    	 th:each="l : ${adminInsuranceClaimList}">	
-		      <td th:text="${l.insuranceClaimCode}"></td>
+		    <tr th:if="${not #lists.isEmpty(insuranceBillList)}"
+		    	 th:each="l : ${insuranceBillList}">	
+		      <td th:text="${l.insuranceBillCode}"></td>
 		      <td th:text="${l.userId}"></td>
-		      <td th:text="${l.insuranceRequestCode}"></td>
-		      <td th:text="${l.insuranceRequestStateCode}"></td>
-		      <td th:text="${l.insuranceClaimModifyDate}"></td>
+		      <td th:text="${l.insuranceBillDetailCode}"></td>
+		      <td th:text="${l.insuranceBillStateCode}"></td>
+		      <td th:text="${l.insuranceBillModifyDate}"></td>
 		    </tr>
-		    <tr th:unless="${not #lists.isEmpty(adminInsuranceClaimList)}">
+		    <tr th:unless="${not #lists.isEmpty(insuranceBillList)}">
 		    	<td colspan="9">등록된 상품이 없습니다.</td>
 		    </tr>
 		  </tbody>
