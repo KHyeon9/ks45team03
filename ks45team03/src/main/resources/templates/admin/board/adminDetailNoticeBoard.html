@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+<th:block layout:fragment="customContents">
+	<div class="right_col" role="main">
+		<div class="">
+			<div class="page-title"></div>
+
+			<div class="clearfix"></div>
+
+			<div class="row">
+				<div class="col-md-12 col-sm-12 ">
+					<div class="x_panel">
+							<div class="x_title">
+								<h2>공지사항</h2>
+								<a class="btn btn-light" th:href="@{/admin/board/adminNoticeBoard}" style="float: right">목록</a>
+								
+								<input id="userId" name="userId" th:value="${userId}"
+									hidden="hidden">
+								<div class="clearfix"></div>
+							</div>
+							<div class="form-group row ">
+								<div class="col-md-12 col-sm-12 ">
+									<div th:text="${detailNoticeBoard.noticeBoardTitle}"
+										style="font-size: 25px"></div>
+									<div th:text="${detailNoticeBoard.userId}"></div>
+									<div>
+										<span th:text="${detailNoticeBoard.noticeBoardRegTime}" style="margin-right: 10px"></span>
+										<span th:text="| 조회 ${detailNoticeBoard.noticeBoardViewCnt}|"></span>
+									</div>
+								</div>
+							</div>
+							<div class="ln_solid"></div>
+
+							<div class="x_content">
+
+								<div th:text="${detailNoticeBoard.noticeBoardContent}" style="height: 500px; overflow: auto"></div>
+								<div class="ln_solid"></div>
+								<a class="btn btn-light" th:href="@{/admin/board/adminModifyNoticeBoard(noticeBoardCode=${detailNoticeBoard.noticeBoardCode})}" style="float: left">수정</a>
+								<a id="deleteBtn" class="btn btn-light" th:href="@{/admin/board/admninRemoveNoticeBoard(noticeBoardCode=${detailNoticeBoard.noticeBoardCode})}" style="float: left">삭제</a>
+							</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</th:block>
+	<th:block layout:fragment="customScript">
+		<script>
+			$('#deleteBtn').click(function(){
+				if(!confirm('정말로 삭제하시겠습니까?')) {
+					return false;
+				}
+			});	
+		</script>
+	</th:block>
+
+</html>
