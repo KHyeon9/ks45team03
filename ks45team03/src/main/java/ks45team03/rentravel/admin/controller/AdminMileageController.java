@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminMileageService;
 import ks45team03.rentravel.dto.MileagePaymentSave;
@@ -27,9 +28,11 @@ public class AdminMileageController {
 
 	@GetMapping("/adminMileageList")
 	
-	public String adminGetMileageList(Model model) {
+	public String adminGetMileageList(Model model
+									,@RequestParam(value="searchKey", required = false) String searchKey
+									,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
 		
-		List<MileageSaveUse> mileageList = adminMileageService.adminGetMileageList();
+		List<MileageSaveUse> mileageList = adminMileageService.adminGetMileageList(searchKey, searchValue);
 		
 		model.addAttribute("title", "관리자- 결제취소 적립금 목록");
 		model.addAttribute("mileageList", mileageList);
