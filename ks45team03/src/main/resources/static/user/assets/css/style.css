@@ -12760,3 +12760,9 @@ ol.styled_list li {
 #logo-a #logo span {
 	color: rgb(72, 186, 193);
 }
+
+#infoAdd {
+	font-weight: bold;
+	height: 45px;
+	color: white;
+}

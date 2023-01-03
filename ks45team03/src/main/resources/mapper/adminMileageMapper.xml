@@ -16,6 +16,7 @@
 	</resultMap>
 
 	<select id="adminGetMileageList" resultMap="mileageResultMap">
+		/*전체 회원의 적립금 내역 조회*/
 		SELECT
 			user_id
 			,mileage_save_use_type
@@ -26,7 +27,15 @@
 		
 		FROM
 			tb_mileage_save_use
+			<where>
+				<if test="searchKey != null and searchKey != ''">
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%');
+				</if>
+			</where>
 			
+	
 	</select>
+	
+
 
 </mapper>
