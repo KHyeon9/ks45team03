@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.swing.ListModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,16 +16,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ks45team03.rentravel.dto.InfoBoard;
 import ks45team03.rentravel.dto.InfoBoardComment;
 import ks45team03.rentravel.user.service.InfoBoardService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Controller
 @RequestMapping("/infoboard")
+@AllArgsConstructor
 public class InfoBoardController {
 	
 	private final InfoBoardService infoBoardService;
 	
-	public InfoBoardController(InfoBoardService infoBoardService) {
-		this.infoBoardService = infoBoardService;
-	}
+	
+	private static final Logger log = LoggerFactory.getLogger(InfoBoardController.class);
+
+	
+	/*
+	 * public InfoBoardController(InfoBoardService infoBoardService) {
+	 * this.infoBoardService = infoBoardService; }
+	 */
 	
 	@GetMapping("/removeInfoBoard")
 	public String removeInfoBoard(Model model) {
@@ -36,6 +46,7 @@ public class InfoBoardController {
 								Model model) {
 		
 		Map<String, Object> paramMap = infoBoardService.getInfoBoardList(currentPage);
+		
 		
 		List<InfoBoard> infoBoardList = (List<InfoBoard>) paramMap.get("infoBoardList");
 		int lastPage = (int) paramMap.get("lastPage");

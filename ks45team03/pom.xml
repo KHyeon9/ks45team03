@@ -62,18 +62,21 @@
             <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
             <version>1.16</version>
         </dependency>
-        
-        
-        
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-websocket</artifactId>
 		</dependency>
 		
-
-        
-        
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 	
 
@@ -83,6 +86,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
