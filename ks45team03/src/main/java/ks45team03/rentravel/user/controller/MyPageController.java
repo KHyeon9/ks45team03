@@ -103,9 +103,15 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myProfitList")
-	public String getUserProfitList(Model model) {
+	public String getUserProfitList(Model model
+									,HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 수익목록 리스트");
+		model.addAttribute("loginNickName",loginNickName);
 		return "user/myPage/myProfitList";
 	}
 	

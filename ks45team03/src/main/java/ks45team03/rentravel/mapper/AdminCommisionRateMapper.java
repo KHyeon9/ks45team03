@@ -21,7 +21,7 @@ public interface AdminCommisionRateMapper {
 	//플랫폼 수수료율 추가
 	public int adminAddCommisionRate (CommisionRate commisionRate);
 	
-	//* 플랫폼 수수료율 목록 행 갯수 */
+	// 플랫폼 수수료율 목록 행 갯수 
 	public int getCommisionRateListCnt();
 	
 	//플랫폼 수수료율 목록 조회

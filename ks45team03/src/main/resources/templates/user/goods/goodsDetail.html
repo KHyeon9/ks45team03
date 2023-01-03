@@ -90,6 +90,12 @@
 
                   <h2 th:text="*{goodsName}"></h2>
                   <h3 th:text="'1일당 '+*{goodsDayPrice}+'원'"></h3>
+                            
+                   <form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
+                   		<h4 th:text="'ID: '+*{userId}"></h4>
+                   		<button type="submit" id="submitBtn" class="btn btn-secondary" th:value="*{userId}" name="userId">차단하기</button>
+                   	</form>
+                   	
                   <p th:text="*{goodsDetail}"></p>
                   <div class="row">
                     <div class="col-12">
