@@ -30,7 +30,7 @@
 		<result property="goodsImgRowNum" 		column="row_number() OVER()"/>
 	</resultMap>
 
-    <select id="getGoodsList" resultMap="goodsResultMap">
+    <select id="getGoodsList" parameterType="String" resultMap="goodsResultMap">
     
     /* 상품 목록 리스트 조회 */
 		SELECT
@@ -48,8 +48,14 @@
 		JOIN
 			tb_goods_category AS gc
 		ON
-			g.goods_category_code = gc.goods_category_code;
-    
+			g.goods_category_code = gc.goods_category_code
+		WHERE
+    		g.user_id NOT IN (	SELECT 
+								  		b.blocked_user_id
+							   	FROM 
+										tb_block AS b
+								WHERE 
+									b.blocking_user_id = #{loginId});
     </select>
     
     <select id="getGoodsImg" parameterType="String" resultMap="goodsImgResultMap">

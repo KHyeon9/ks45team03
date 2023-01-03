@@ -3,6 +3,35 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 	  
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript" th:inline="javascript">
+			$(function(){ 
+				
+				$('.delBtn').click(function(){
+					let blockedUserId = $(this).attr('data-blocked-user-id');
+					
+					if(confirm('해당 차단 회원을 삭제하시겠습니까?')){						
+						const new_Form = $('<form></from>');
+						new_Form.attr('action', '/user/block/removeBlock');
+						new_Form.attr('method', 'POST');
+						new_Form.attr("target", "_self");
+				 
+						new_Form.append($('<input/>', {type: 'hidden', name: 'blockedUserId', value: blockedUserId}));
+				 
+						new_Form.appendTo('body');
+				        
+						new_Form.submit();
+					}
+					
+			        
+					
+					//if(confirm('해당 차단 회원을 삭제하시겠습니까?')) $('#removeBlockForm').submit();
+				});
+				
+			});
+		</script>
+	</th:block>
+	  
 	<th:block layout:fragment="customContents">
 	  <!-- LIGHT SECTION -->
       <section class="lightSection clearfix pageHeader">
@@ -49,16 +78,18 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:unless="${#lists.isEmpty(getUserBlockrList)}" th:each="bl : ${getUserBlockrList}">
+                      
+                        <tr th:unless="${#lists.isEmpty(getUserBlockList)}" th:each="bl : ${getUserBlockList}">
+                       
                           <td th:text="${bl.blockCode}"></td>
                           <td th:text="${bl.blockedUserId}"></td>
                           <td th:text="${bl.blockDate}"></td>
                           <td>
-                            <a th:href="@{/user/block/removeBlock}" class="btn btn-sm btn-secondary-outlined">차단 삭제</a>
+                            <button type="button" class="btn btn-sm btn-secondary-outlined delBtn" th:data-blocked-user-id="${bl.blockedUserId}">차단 삭제</button> 
                           </td>
-                         
+                          
                         </tr>
-                        <tr th:if="${#lists.isEmpty(getUserBlockrList)}">
+                        <tr th:if="${#lists.isEmpty(getUserBlockList)}">
 			              	<td colspan="5">등록한 차단 ID가 없습니다.</td>
 			            </tr>
                      

@@ -18,7 +18,10 @@ public class UserBlockService {
 		this.userBlockMapper = userBlockMapper;
 	}
 	
-	
+	public void removeUserBlock (String blockedUserId) {
+		
+		userBlockMapper.removeUserBlock(blockedUserId);
+	} 
 	
 	public void addUserBlock (String userId, String loginId) {
 		
