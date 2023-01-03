@@ -12,7 +12,21 @@
 		
 	</resultMap>
 	
+		<insert id="addUserBlock" parameterType="String">
+		/* 차단 ID 추가 */	
+		INSERT INTO tb_block
+			(
+			block_code, blocking_user_id, blocked_user_id, block_date
+			)
+		VALUES 
+			(
+			sf_new_block_code(), #{loginId},#{userId}, now()
+			);
+		</insert>
+		
+		
 		<select id="getUserBlockrList" resultMap="blockResultMap" parameterType="String">
+		/* 회원 차단 목록 조회 */
 		SELECT
 			 block_code
 			,blocking_user_id

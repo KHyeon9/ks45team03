@@ -2,79 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/layout/default}">
-
 	<th:block layout:fragment="customContents">
-      <!-- page content -->
-      <div class="right_col" role="main">
-        <div class="">
-          <div class="page-title">
+      <div id="rightcolumn" class="right_col" role="main">
+		<div class="col-md-12 col-sm-12">
+			<div class="x_panel">
+               <div class="x_title">
+                 <h2>회원 차단 목록 조회</h2>
+                
+                
+					           
+                 <div class="clearfix"></div>
+               </div>
 
-          </div>
-
-          <div class="clearfix"></div>
-
-          <div class="row">
-            <div class="col-md-12 col-sm-12 ">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>회원 차단 목록</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-    
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="card-box table-responsive">
-                        <p class="text-muted font-13 m-b-30">
-                          회원 차단 목록을 조회할 수 있습니다.
-                        </p>
-                      <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+           	  <div class="x_content">
+                <div class="table-responsive">
+              <form th:action="@{/admin/block/adminBlockList}" method="get">
+				<select name="searchKey">
+					<option value="blockCode">차단 코드</option>
+					<option value="blockingUserId">차단한 회원</option>
+					<option value="blockedUserId">차단된 회원</option>
+					<option value="blockDate">차단 날짜</option>
+				</select>
+				<input type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
+				<button type="submit">검색</button>
+				</form><br>
+                      <table class="table table-striped jambo_table bulk_action">
                         <thead>
-                          <tr>
-			                <th>차단 코드</th>
-			                <th>차단한 회원</th>
-			                <th>차단된 회원</th>
-			                <th>차단 날짜</th>
-			                <th></th>
+                          <tr class="headings">
+			                <th class="column-title">차단 코드</th>
+			                <th class="column-title">차단한 회원</th>
+			                <th class="column-title">차단된 회원</th>
+			                <th class="column-title">차단 날짜</th>
+			                <th class="column-title"></th>
+			                <th class="bulk-actions" colspan="4">
+			                 <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        	</th>
 			              </tr>
 	                       </thead>
 			                
 			       
                         <tbody>
-			            <tr th:unless="${#lists.isEmpty(adminGetCommisionRateList)}" th:each="cl : ${adminGetCommisionRateList}">
-			                <td th:text="${cl.commisionRateCode}"></td>
-			                <td th:text="${cl.commisionRate}"></td>
-			                <td th:text="${cl.applyYear}"></td>
-			                <td th:if="${cl.applyCheck == true}" th:text="적용"></td>
-			                <td th:unless="${cl.applyCheck == true}" th:text="적용안함"></td>
-			                <td width=100px;><a id="modifyBtn" class="btn btn-secondary" th:href="@{/admin/commisionRate/adminModifyCommisionRate(commisionRateCode=${cl.commisionRateCode})}">수정</a></td>
-			                
+			            <tr th:unless="${#lists.isEmpty(adminGetUserBlockList)}" th:each="bl : ${adminGetUserBlockList}">
+			                <td th:text="${bl.blockCode}"></td>
+			                <td th:text="${bl.blockingUserId}"></td>
+			                <td th:text="${bl.blockedUserId}"></td>
+			                <td th:text="${bl.blockDate}"></td>		
+			                <td></td>	                			                
 			              </tr>
-			              <tr th:if="${#lists.isEmpty(adminGetCommisionRateList)}">
+			              <tr th:if="${#lists.isEmpty(adminGetUserBlockList)}">
 			              	<td colspan="5">등록된 차단회원이 없습니다.</td>
 			              </tr>
+				         
 			        </tbody>
+			          <tfoot>
+				  		<tr>
+				  			<td colspan="5">
+				  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/block/adminBlockList(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+				  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
+				  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+				  					<a th:if="${currentPage != num}" th:href="@{/admin/block/adminBlockList(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
+				  					</a>
+				  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
+				  				</th:block>
+				  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/block/adminBlockList(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
+				  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+				  			</td>
+				  		</tr>
+			  		</tfoot>
+			         
 			         
                       </table>
                     </div>
 							                 
                   </div>
-                  
-                  
-                </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-      </div>
       <!-- /page content -->
 	</th:block>
 </html>
-				
