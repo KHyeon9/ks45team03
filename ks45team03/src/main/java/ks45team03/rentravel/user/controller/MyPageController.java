@@ -115,12 +115,12 @@ public class MyPageController {
 
 		}else {
 		
-		List<Block> getUserBlockrList = userBlockMapper.getUserBlockrList(loginUser.getLoginId());
+		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
 		
 		String loginNickName = loginUser.getLoginNickName();	
 		
 		model.addAttribute("title","나의 차단 리스트");
-		model.addAttribute("getUserBlockrList",getUserBlockrList);
+		model.addAttribute("getUserBlockList",getUserBlockList);
 		model.addAttribute("loginNickName",loginNickName);
 
 
