@@ -20,7 +20,7 @@
 			)
 		VALUES 
 			(
-			sf_new_block_code(), #{loginId},#{userId}, now()
+			sf_new_block_code(), #{loginId},#{userId}, CURDATE()
 			);
 		</insert>
 		

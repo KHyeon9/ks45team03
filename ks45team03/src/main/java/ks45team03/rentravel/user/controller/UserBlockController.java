@@ -1,5 +1,7 @@
 package ks45team03.rentravel.user.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.user.service.UserBlockService;
 
 @Controller
@@ -17,11 +20,15 @@ import ks45team03.rentravel.user.service.UserBlockService;
 public class UserBlockController {
 	
 	private final UserBlockService userBlockService;
+	private final UserBlockMapper userBlockMapper;
 	
-	public UserBlockController (UserBlockService userBlockService) {
+	public UserBlockController (UserBlockService userBlockService, UserBlockMapper userBlockMapper) {
 		
 		this.userBlockService = userBlockService;
+		this.userBlockMapper = userBlockMapper;
 	}
+	
+
 
 	@GetMapping("/removeBlock")
 	public String removeUserBlock (Model model) {
@@ -34,14 +41,33 @@ public class UserBlockController {
 	
 	@PostMapping("/addUserBlock")
 	public String addUserBlock(String userId
-										,HttpSession session) {
+								,HttpSession session
+								,Model model) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
+		String redirectURI ="user/myPage/myBlockList";
+		
+		if(loginUser == null) {
+			
+			redirectURI = "redirect:/";		
+
+		}else {
+		
+		
 		userBlockService.addUserBlock(userId, loginUser.getLoginId());
+		List<Block> getUserBlockrList = userBlockMapper.getUserBlockrList(loginUser.getLoginId());
 		
+		String loginNickName = loginUser.getLoginNickName();	
 		
-		return "redirect:/myPage/myBlockList";
+		model.addAttribute("title","나의 차단 리스트");
+		model.addAttribute("getUserBlockrList",getUserBlockrList);
+		model.addAttribute("loginNickName",loginNickName);
+
+		
+		}
+		
+		return redirectURI;
 
 	}			
 	

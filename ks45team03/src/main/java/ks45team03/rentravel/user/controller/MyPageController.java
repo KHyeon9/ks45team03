@@ -106,22 +106,30 @@ public class MyPageController {
 	@GetMapping("/myBlockList")
 	public String getUserBlockrList(Model model
 									,HttpSession session) {
-		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String redirectURI = "user/myPage/myBlockList";
 		
+		if(loginUser == null) {
+			
+			redirectURI = "redirect:/";		
+
+		}else {
 		
 		List<Block> getUserBlockrList = userBlockMapper.getUserBlockrList(loginUser.getLoginId());
 		
-		String loginNickName = loginUser.getLoginNickName();
-		
-	
+		String loginNickName = loginUser.getLoginNickName();	
 		
 		model.addAttribute("title","나의 차단 리스트");
 		model.addAttribute("getUserBlockrList",getUserBlockrList);
 		model.addAttribute("loginNickName",loginNickName);
+
+
+		}
 		
-		return "user/myPage/myBlockList";
+		return redirectURI;
 	}
+	
+	
 	
 	@GetMapping("/myProfitList")
 	public String getUserProfitList(Model model
@@ -129,12 +137,22 @@ public class MyPageController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
+		String redirectURI = "user/myPage/myProfitList";
+		
+		if(loginUser == null) {
+					
+			redirectURI = "redirect:/";		
+	
+		}else {
 		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 수익목록 리스트");
 		model.addAttribute("loginNickName",loginNickName);
-		return "user/myPage/myProfitList";
+		
+		}
+		return redirectURI;
 	}
+	
 	
 	@GetMapping("/myExperience")
 	public String myExperience(Model model) {
