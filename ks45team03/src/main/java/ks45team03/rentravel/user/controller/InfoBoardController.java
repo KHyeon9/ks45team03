@@ -54,7 +54,7 @@ public class InfoBoardController {
 		int endPageNum = (int) paramMap.get("endPageNum");
 		int nextPage = (int) paramMap.get("nextPage");
 		int prevPage = (int) paramMap.get("prevPage");
-		
+
 		model.addAttribute("title", "정보게시판리스트");
 		
 		model.addAttribute("currentPage", currentPage);

@@ -5,7 +5,6 @@
 	  
 	  <th:block layout:fragment="customContents">
 	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
-	  	<h1>보상금지급내역</h1>
 	  	<!-- MAIN CONTENT SECTION -->
 	      <section class="mainContent clearfix blogPage">
 	        <div class="container">
@@ -13,38 +12,34 @@
 	            <div class="col-lg-9 col-sm-12 order-lg-12">
 	              <div class="row">
 	                <div class="col-sm-12">
-	                	<div class="thumbnail">
-	                   		<div class="caption">
-	                     		<div class="row">
-									<table class="table">
-									  <thead>
-									    <tr>
-									      <th scope="col">insurance_payout_code</th>
-									      <th scope="col">user_id</th>
-									      <th scope="col">insurance_bill_detail_code</th>
-									      <th scope="col">insurance_bill_code</th>
-									      <th scope="col">insurance_payout_price</th>
-									      <th scope="col">insurance_payout_date</th>
-									    </tr>
-									  </thead>
-									  <tbody>
-									    <tr th:if="${not #lists.isEmpty(insurancePayoutList)}"
-									    	 th:each="l: ${insurancePayoutList}">	
-									      <td th:text="${l.insurancePayoutCode}"></td>
-									      <td th:text="${l.userId}"></td>
-									      <td th:text="${l.insuranceBillDetailCode}"></td>
-									      <td th:text="${l.insuranceBillCode}"></td>
-									      <td th:text="${l.insurancePayoutPrice}"></td>
-									      <td th:text="${l.insurancePayoutDate}"></td>
-									    </tr>
-									    <tr th:unless="${not #lists.isEmpty(insurancePayoutList)}">
-									    	<td colspan="9">등록된 상품이 없습니다.</td>
-									    </tr>
-									  </tbody>
-									</table>
-	                     		</div>
-	                   		</div>
-	                  	</div>
+	                   	<div class="row">
+							<table class="table">
+							  <thead>
+							    <tr>
+							      <th scope="col">insurance_payout_code</th>
+							      <th scope="col">user_id</th>
+							      <th scope="col">insurance_bill_detail_code</th>
+							      <th scope="col">insurance_bill_code</th>
+							      <th scope="col">insurance_payout_price</th>
+							      <th scope="col">insurance_payout_date</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr th:if="${not #lists.isEmpty(insurancePayoutList)}"
+							    	 th:each="l: ${insurancePayoutList}">	
+							      <td th:text="${l.insurancePayoutCode}"></td>
+							      <td th:text="${l.userId}"></td>
+							      <td th:text="${l.insuranceBillDetailCode}"></td>
+							      <td th:text="${l.insuranceBillCode}"></td>
+							      <td th:text="${l.insurancePayoutPrice}"></td>
+							      <td th:text="${l.insurancePayoutDate}"></td>
+							    </tr>
+							    <tr th:unless="${not #lists.isEmpty(insurancePayoutList)}">
+							    	<td colspan="9">등록된 상품이 없습니다.</td>
+							    </tr>
+							  </tbody>
+							</table>
+	                   	</div>
 	                </div>
 	              </div>
 	            </div>
@@ -53,6 +48,7 @@
 	                <div class="panel-heading">보험</div>
 	                <div class="panel-body">
 	                  <ul class="list-unstyle sidebar-list">
+	                  	<li><a th:href="@{/insurance/insuranceMain}" ><i class="fa fa-caret-right"></i> 보험 <span></span></a></li>
 	                    <li><a th:href="@{/insurance/insuranceList}" ><i class="fa fa-caret-right"></i> 보험가입정보 <span></span></a></li>
 	                    <li><a th:href="@{/insurance/insuranceAddBill}" ><i class="fa fa-caret-right" ></i> 보상금 청구하기 <span></span></a></li>
 	                    <li><a th:href="@{/insurance/insuranceBillList}"><i class="fa fa-caret-right" ></i> 나의 보상금 청구서 확인 <span></span></a></li>
