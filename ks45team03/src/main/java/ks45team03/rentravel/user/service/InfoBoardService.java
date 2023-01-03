@@ -26,7 +26,7 @@ public class InfoBoardService {
 		return infoBoardMapper.getCommentCnt(infoBoardCode);
 	}
 	
-	// 게사글 등록
+	// 게시글 등록
 	public int addInfoBoard(InfoBoard infoBoard) {
 		return infoBoardMapper.addInfoBoard(infoBoard);
 	};

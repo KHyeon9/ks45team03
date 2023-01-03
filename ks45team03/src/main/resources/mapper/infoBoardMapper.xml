@@ -27,6 +27,26 @@
 		<result property="infoBoardCommentRegTime" 	column="info_board_comment_reg_time" />
 	</resultMap>
 	
+	<!-- 댓글 등록  -->
+	<insert id="addInfoBoardComment" parameterType="InfoBoardComment">
+		INSERT INTO tb_info_board_comment
+			(
+				info_board_comment_code,
+				info_board_code,
+				user_id,
+				info_board_comment_content,
+				info_board_comment_reg_time	
+			)
+		VALUE
+			(
+				#{infoBoardCommentCode},
+				#{infoBoardCode},
+				#{userId},
+				#{infoBoardCommentContent},
+				NOW()
+			);
+	</insert>
+	
 	<!-- 댓글 갯수 조회 -->
 	<select id="getCommentCnt" parameterType="String" resultType="int">
 		SELECT
@@ -108,7 +128,7 @@
 		WHERE
 			info.info_board_code = #{infoBoardCode};
 	</select>
-	
+	<!-- 개시글 댓글 조회 -->
 	<select id="getInfoBoardComment" parameterType="String" resultMap="infoBoardCommentMap">
 		SELECT
 			u.user_nickname,
