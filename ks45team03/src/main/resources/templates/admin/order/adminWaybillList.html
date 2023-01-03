@@ -6,9 +6,120 @@
 	<th:block layout:fragment="customContents">
 		<div id="rightcolumn" class="right_col" role="main">
 			<div class="col-md-12 col-sm-12">
-				<h1>관리자 운송번호 관리</h1>
-				<a th:href="@{/admin/order/adminWaybillModify}" style="color: blue;">관리자 주문 내역 수정</a>
-			</div>
+				<div class="x_panel">
+                 <div class="x_title">
+                   <h2>운송장번호 조회 <small>Owner</small></h2>
+                   <div class="clearfix"></div>
+                 </div>
+
+                 <div class="x_content">
+                   <p>오너가 렌터에게 배송</p>
+                   <div class="table-responsive">
+                     <table class="table table-striped jambo_table bulk_action">
+                       <thead>
+                         <tr class="headings">
+                           <th class="column-title">오너아이디</th>
+                           <th class="column-title">렌터아이디</th>
+                           <th class="column-title">택배회사명</th>
+                           <th class="column-title">운송장번호</th>
+                           <th class="column-title">등록날짜</th>
+                           <th class="column-title">수정</th>
+                           <th class="bulk-actions" colspan="6">
+                             <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                           </th>
+                         </tr>
+                       </thead>
+
+                       <tbody>
+                       	<th:block th:unless="${#lists.isEmpty(waybillOwnerList)}" th:each="waybillOwner, waybillOwnerState : ${waybillOwnerList}">
+                       		<tr class="even pointer" th:if="${waybillOwnerState.index % 2 == 0}">
+	                            <td th:text="${waybillOwner.ownerId}"></td>
+	                            <td th:text="${waybillOwner.renterId}"></td>
+	                            <td th:text="${waybillOwner.courierName}"></td>
+	                            <td th:text="${waybillOwner.waybillNumber}"></td>
+	                            <td th:text="${waybillOwner.waybillRegDate}"></td>
+	                            <td>
+	                            	<a th:href="@{/admin/order/adminWaybillModify}">수정</a>
+                            	</td>
+	                          </tr>
+	                          <tr class="odd pointer" th:unless="${waybillOwnerState.index % 2 == 0}">
+	                            <td th:text="${waybillOwner.ownerId}"></td>
+	                            <td th:text="${waybillOwner.renterId}"></td>
+	                            <td th:text="${waybillOwner.courierName}"></td>
+	                            <td th:text="${waybillOwner.waybillNumber}"></td>
+	                            <td th:text="${waybillOwner.waybillRegDate}"></td>
+	                            <td>
+	                            	<a th:href="@{/admin/order/adminWaybillModify}">수정</a>
+                            	</td>
+	                          </tr>
+                       	</th:block>
+                       	<tr th:if="${#lists.isEmpty(waybillOwnerList)}">
+							<td colspan="6">등록한 결제가 없습니다.</td>
+					  	</tr>
+                       </tbody>
+                     </table>
+                   </div>
+                 </div>
+               </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+				<div class="x_panel">
+                 <div class="x_title">
+                   <h2>운송장번호 조회 <small>Renter</small></h2>
+                   <div class="clearfix"></div>
+                 </div>
+
+                 <div class="x_content">
+                 	<p>렌터가 오너에게 배송</p>
+                   <div class="table-responsive">
+                     <table class="table table-striped jambo_table bulk_action">
+                       <thead>
+                         <tr class="headings">
+                           <th class="column-title">렌터아이디</th>
+                           <th class="column-title">오너아이디</th>
+                           <th class="column-title">택배회사명</th>
+                           <th class="column-title">운송장번호</th>
+                           <th class="column-title">등록날짜</th>
+                           <th class="column-title">수정</th>
+                           <th class="bulk-actions" colspan="6">
+                             <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                           </th>
+                         </tr>
+                       </thead>
+
+                       <tbody>
+                       	<th:block th:unless="${#lists.isEmpty(waybillRenterList)}" th:each="waybillRenter, waybillRenterState : ${waybillRenterList}">
+                       		<tr class="even pointer" th:if="${waybillRenterState.index % 2 == 0}">
+	                            <td th:text="${waybillRenter.renterId}"></td>
+	                            <td th:text="${waybillRenter.ownerId}"></td>
+	                            <td th:text="${waybillRenter.courierName}"></td>
+	                            <td th:text="${waybillRenter.waybillNumber}"></td>
+	                            <td th:text="${waybillRenter.waybillRegDate}"></td>
+	                            <td>
+	                            	<a th:href="@{/admin/order/adminWaybillModify}">수정</a>
+                            	</td>
+	                          </tr>
+	                          <tr class="odd pointer" th:unless="${waybillRenterState.index % 2 == 0}">
+	                            <td th:text="${waybillRenter.renterId}"></td>
+	                            <td th:text="${waybillRenter.ownerId}"></td>
+	                            <td th:text="${waybillRenter.courierName}"></td>
+	                            <td th:text="${waybillRenter.waybillNumber}"></td>
+	                            <td th:text="${waybillRenter.waybillRegDate}"></td>
+
+	                            <td>
+	                            	<a th:href="@{/admin/order/adminWaybillModify}">수정</a>
+                            	</td>
+	                          </tr>
+                       	</th:block>
+                       	<tr th:if="${#lists.isEmpty(waybillRenterList)}">
+							<td colspan="6">등록한 결제가 없습니다.</td>
+					  	</tr>
+                       </tbody>
+                     </table>
+                   </div>
+                 </div>
+               </div>
+            </div>
 		</div>
 	</th:block>
 

@@ -22,4 +22,7 @@ public interface InfoBoardMapper {
 	
 	// 정보 게시글의 댓글 조회
 	public List<InfoBoardComment> getInfoBoardComment(String infoBoardCode);
+	
+	// 댓글 갯수 조회
+	public int getCommentCnt();
 }

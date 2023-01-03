@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminUserService;
+import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.UserLevel;
+import ks45team03.rentravel.mapper.AdminUserMapper;
 
 @Controller
 @RequestMapping("/admin/userManagement")
@@ -20,9 +22,11 @@ public class AdminUserController {
 	
 	// 의존성 주입
 	private final AdminUserService adminUserService;
+	private final AdminUserMapper adminUserMapper;
 	
-	public AdminUserController (AdminUserService adminUserService) {
+	public AdminUserController (AdminUserService adminUserService, AdminUserMapper adminUserMapper) {
 		this.adminUserService = adminUserService;
+		this.adminUserMapper = adminUserMapper;
 	}
 	
 	// 회원목록 + 페이징
@@ -33,6 +37,7 @@ public class AdminUserController {
 			 ,@RequestParam(value="searchKey", required = false) String searchKey
 			 ,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
 		
+		// 회원 목록 리스트
 		Map<String, Object> paramMap = adminUserService.userList(currentPage, searchKey, searchValue);
 		int lastPage = (int) paramMap.get("lastPage");
 		List<User> userList = (List<User>) paramMap.get("userList");
@@ -80,7 +85,12 @@ public class AdminUserController {
 	
 	@GetMapping("/loginHistory")
 	public String loginHistory(Model model) {
+		
+		List<LoginHistory> loginHistory = adminUserMapper.loginHistory();
+		
 		model.addAttribute("title", "로그인 이력");
+		model.addAttribute("loginHistory", loginHistory);
+		
 		
 		return "admin/userManagement/loginHistory";
 	}

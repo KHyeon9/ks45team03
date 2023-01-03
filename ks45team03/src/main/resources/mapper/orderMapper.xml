@@ -2,8 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ks45team03.rentravel.mapper.AdminOrderMapper">
-	<resultMap type="Rental" id="orderHistoryMap">
+<mapper namespace="ks45team03.rentravel.mapper.OrderMapper">
+	<!-- 주문 내역 맵 -->
+	<resultMap type="Rental" id="orderMap">
 		<id 	property="rentalCode" 	  		column="rental_code" />
 		<result property="goodsCode" 	  		column="goods_code" />
 		<result property="userId" 	  			column="user_id" />
@@ -12,6 +13,7 @@
 		<result property="selectDelivery" 		column="select_delivery" />
 		<result property="rentalOrderDate" 		column="rental_order_date" />
 		<result property="goodsName" 			column="goods_name" />
+		<result property="sidoName" 			column="region_sido_name" />
 		<result property="sigunguName" 			column="region_sgg_name" />
 		<result property="orderStateName" 		column="order_state_standard_name" />
 		<association property="payment" javaType="Payment">
@@ -36,26 +38,18 @@
 			<result property="mileageUseGroupCode" 	  			column="user_image" />
 		</association>
 	</resultMap>
-	<!-- 주문 내역 조회 -->
-	<select id="getOrderHistory" parameterType="map" resultMap="orderHistoryMap">
+	
+	<!-- 자기 자신의 주문 목록 조회 -->
+	<select id="getUserOrderList" resultMap="orderMap" parameterType="String">
 		SELECT
+			ren.rental_code,
 			g.goods_name,
-			ren.rental_start_date, 
-			ren.rental_end_date, 
-			ren.select_delivery,
-			sgg.region_sgg_name,
-			pay.user_addr_desc,
-			pay.payment_account_or_card_number,
-			pay.payment_agency, 
-			pay.payment_type,
-			pay.Expected_payment_amount,
-			pay.goods_commision_total_price,
+			ren.rental_start_date,
+			ren.rental_end_date,
 			pay.mileage_use_price,
-			pay.save_mileage,
 			pay.amount_excluding_mileage,
-			pay.settlement_amount,
-			pay.payment_time,
-			tra.order_state_standard_name
+			tra.order_state_standard_name,
+			ren.rental_order_date
 		FROM
 			tb_rental AS ren
 			INNER JOIN
@@ -63,27 +57,16 @@
 			ON
 			ren.rental_code = pay.rental_code
 			INNER JOIN
-			tb_region_sgg AS sgg
+			tb_goods AS g
 			ON
-			pay.region_sgg_code = sgg.region_sgg_code
+			ren.goods_code = g.goods_code
 			INNER JOIN
 			tb_trade_status AS tra
 			ON
 			pay.trade_status_code = tra.trade_status_code
-			INNER JOIN
-			tb_goods AS g
-			ON
-			ren.goods_code = g.goods_code
-		<if test="startRowNum != null and startRowNum > -1">
-			LIMIT #{startRowNum}, #{rowPerPage};
-		</if>
-	</select>
-	
-	<!-- 주문 내역 행 총 개수-->
-	<select id="getOrderHistoryCnt" resultType="int">
-		SELECT 
-			COUNT(1)
-		FROM
-			tb_rental;
-	</select>
+		WHERE
+			ren.user_id = #{userId}
+		ORDER BY
+			CAST(SUBSTRING(ren.rental_code,7) AS UNSIGNED) DESC
+	</select>	
 </mapper>

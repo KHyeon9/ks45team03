@@ -1,39 +1,46 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/layout/default}">
 
+
+
 <th:block layout:fragment="customContents">
+	<div class="right_col" role="main">
+		<form th:action="@{/admin/mileage/adminMileageList}" method="get">
+			<select name="searchKey">
+				<option value="user_id">회원아이디</option>
+				<option value="mileage_change_reason">적립금 변동 사유</option>
+				<option value="mileage_save_use_type">적립/사용</option>
+			</select> <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." />
+			<button type="submit">검색</button>
+		</form>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">user_id</th>
+					<th scope="col">mileage_save_use_type</th>
+					<th scope="col">mileage_change</th>
+					<th scope="col">mileage_change_time</th>
+					<th scope="col">mileage_change_reason</th>
+					<th scope="col">mileage_total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${not #lists.isEmpty(mileageList)}"
+					th:each="l : ${mileageList}">
+					<td th:text="${l.userId}"></td>
+					<td th:text="${l.mileageSaveUseType}"></td>
+					<td th:text="${l.mileageChange}"></td>
+					<td th:text="${l.mileageChangeTime}"></td>
+					<td th:text="${l.mileageChangeReason}"></td>
+					<td th:text="${l.mileageTotal}"></td>
+				</tr>
+				<tr th:unless="${not #lists.isEmpty(mileageList)}">
+					<td colspan="9">적립금 내역이 없습니다.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</th:block>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col">#</th>
-				<th scope="col">First</th>
-				<th scope="col">Last</th>
-				<th scope="col">Handle</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th scope="row">1</th>
-				<td>Mark</td>
-				<td>Otto</td>
-				<td>@mdo</td>
-			</tr>
-			<tr>
-				<th scope="row">2</th>
-				<td>Jacob</td>
-				<td>Thornton</td>
-				<td>@fat</td>
-			</tr>
-			<tr>
-				<th scope="row">3</th>
-				<td colspan="2">Larry the Bird</td>
-				<td>@twitter</td>
-			</tr>
-		</tbody>
-	</table>
-
-<th:block>
 </html>

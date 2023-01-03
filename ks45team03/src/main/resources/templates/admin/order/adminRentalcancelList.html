@@ -5,11 +5,92 @@
 
 	<th:block layout:fragment="customContents">
 		<div id="rightcolumn" class="right_col" role="main">
-			<div class="col-md-12 col-sm-12">
-				<h1>관리자 주문 취소 리스트</h1>
-				<a th:href="@{/admin/order/adminRentalcancelModify}" style="color: blue;">관리자 주문 내역 수정</a>
-			</div>
-		</div>
+		  <div class="col-md-12 col-sm-12  ">
+		  	<div class="x_panel">
+               <div class="x_title">
+                 <h2>주문 취소 내역 <small>Users</small></h2>
+                 <div class="clearfix"></div>
+               </div>
+
+           	  <div class="x_content">
+                <div class="table-responsive">
+                  <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                      <tr class="headings">
+                      	<th class="column-title">취소자ID</th>
+                        <th class="column-title">렌탈 취소 신청일자</th>
+                        <th class="column-title">환불담당자아이디</th>
+                        <th class="column-title">환불처리일자</th>
+                        <th class="column-title">오너확인일자</th>
+                        <th class="column-title">환불수단</th>
+                        <th class="column-title">환불금액</th>
+                        <th class="column-title">적립금사용금액</th>
+                        <th class="column-title">적립되는적립금</th>
+                        <th class="column-title">수정</th>
+                        <th class="bulk-actions" colspan="10">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+	                   	<th:block th:unless="${#lists.isEmpty(rentalCancelHistory)}" th:each="cancel, cancelState : ${rentalCancelHistory}">
+	                   		<tr class="even pointer" th:if="${cancelState.index % 2 == 0}">
+					  		  <td th:text="${cancel.cancelUserId}"></td>
+					  		  <td th:text="${cancel.rentalCancelSignupDate}"></td>
+					  		  <td th:text="${cancel.refundUserId}"></td>
+					  		  <td th:text="${cancel.refundCancelSignupDate}"></td>
+					  		  <td th:text="${cancel.ownerCancelSignupCheckDate}"></td>
+					  		  <td th:text="${cancel.refundWay}"></td>
+					  		  <td th:text="${cancel.refundMoney}"></td>
+					  		  <td th:text="${cancel.mileageUsePrice}"></td>
+					  		  <td th:text="${cancel.saveMileage}"></td>
+					  		  <td>
+			  					<a th:href="@{/admin/order/adminRentalcancelModify(rentalCancelCode=${cancel.rentalCancelCode})}">수정</a>
+			  				  </td>
+	                       </tr>
+	                       <tr class="odd pointer" th:unless="${cancelState.index % 2 == 0}">
+					  		  <td th:text="${cancel.cancelUserId}"></td>
+					  		  <td th:text="${cancel.rentalCancelSignupDate}"></td>
+					  		  <td th:text="${cancel.refundUserId}"></td>
+					  		  <td th:text="${cancel.refundCancelSignupDate}"></td>
+					  		  <td th:text="${cancel.ownerCancelSignupCheckDate}"></td>
+					  		  <td th:text="${cancel.refundWay}"></td>
+					  		  <td th:text="${cancel.refundMoney}"></td>
+					  		  <td th:text="${cancel.mileageUsePrice}"></td>
+					  		  <td th:text="${cancel.saveMileage}"></td>
+					  		  <td>
+			  					<a th:href="@{/admin/order/adminRentalcancelModify(rentalCancelCode=${cancel.rentalCancelCode})}">수정</a>
+			  				  </td>
+	                       </tr>
+	                   	</th:block>
+	                   	<tr th:if="${#lists.isEmpty(rentalCancelHistory)}">
+							<td colspan="10">등록한 결제가 없습니다.</td>
+						</tr>
+                    </tbody>
+                    <tfoot>
+				  		<tr>
+			  			  <td colspan="10">
+			  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/adminRentalcancelList(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
+			  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
+			  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+			  					<a th:if="${currentPage != num}" 
+			  					   th:href="@{/admin/order/adminRentalcancelList(currentPage=${num})}" 
+			  					   style="margin: 0; padding-left: 10px; padding-right: 10px" 
+			  					   th:text="|${num}|"></a>
+			  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
+			  				</th:block>
+			  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/adminRentalcancelList(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
+			  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+			  			  </td>
+				  		</tr>
+			  		</tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 	</th:block>
 
 </html>

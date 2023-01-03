@@ -37,4 +37,14 @@ public class GoodsService {
 		
 		return goodsDetail;
 	}
+	
+	public int addGoods(Goods goods) {
+		
+		return goodsMapper.addGoods(goods);
+	}
+	
+	public int modifyGoods(Goods goods) {
+		
+		return goodsMapper.modifyGoods(goods);
+	}
 }

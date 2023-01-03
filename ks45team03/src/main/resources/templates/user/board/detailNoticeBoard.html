@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	  <th:block layout:fragment="customContents">
+		<!-- LIGHT SECTION -->
+		<section class="lightSection clearfix pageHeader">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-6">
+		        <div class="page-title">
+		          <h2>Notice Board Detail</h2>
+		        </div>
+		      </div>
+		      <div class="col-md-6">
+		        <ol class="breadcrumb float-right">
+		          <li>
+		            <a th:href="@{/}">Home</a>
+		          </li>
+		          <li>
+		          	<a th:href="@{/board/noticeBoard}">Notice Board List</a>
+		          </li>
+		          <li class="active">Notice Board Detail</li>
+		        </ol>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+	  	<section class="mainContent clearfix blogPage singleBlog">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-12">
+		        <div class="thumbnail">
+		          <div class="caption">
+		            <div class="row">
+		              <div class="col-md-3 order-md-12">
+		                <h5>Infomation</h5>
+		                <ul class="list-unstyled">
+		                  <li>
+		                    <i class="fa fa-user" aria-hidden="true"></i><span th:text="${detailNoticeBoard.userId}"></span>
+		                  </li>
+		                  <li>
+		                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${detailNoticeBoard.noticeBoardRegTime}"></span>
+	                      </li>
+	                      <li>
+	                      	<i class="bi bi-hand-thumbs-up-fill"></i><span th:text="${detailNoticeBoard.noticeBoardLikeCnt}"></span>
+	                      </li>
+	                      <li>
+	                      	<i class="bi bi-eye-fill"></i><span th:text="${detailNoticeBoard.noticeBoardViewCnt}"></span>
+	                      	</li>
+		                </ul>
+		                
+		                <h5>Share</h5>
+		                <ul class="list-inline">
+		                  <li>
+		                    <a href="#">
+		                      <i class="fa fa-facebook" aria-hidden="true"></i>
+		                    </a>
+		                  </li>
+		                  <li>
+		                    <a href="#">
+		                      <i class="fa fa-twitter" aria-hidden="true"></i>
+		                    </a>
+		                  </li>
+		                  <li>
+		                    <a href="#">
+		                      <i class="fa fa-dribbble" aria-hidden="true"></i>
+		                    </a>
+		                  </li>
+		                  <li>
+		                    <a href="#">
+		                      <i class="fa fa-tumblr" aria-hidden="true"></i>
+		                    </a>
+		                  </li>
+		                </ul>
+		                <ul class="list-unstyled">
+		                </ul>
+		              </div>
+		              <div class="col-md-9 order-md-1">
+		                <h3 th:text="${detailNoticeBoard.noticeBoardTitle}"></h3>
+		                <img src="/user/assets/img/blog/blog-01.jpg" alt="blog-image">
+		                <p th:text="${detailNoticeBoard.noticeBoardContent}"></p>
+		              </div>
+		            </div>
+		          </div>
+		          <ul class="pager">
+		            <li class="previous">
+		              <a href="#">previous</a>
+		            </li>
+		            <li class="next float-right">
+		              <a href="#">next</a>
+		            </li>
+		          </ul>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+	  </th:block>
+</html>

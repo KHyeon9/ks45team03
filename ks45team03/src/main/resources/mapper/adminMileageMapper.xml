@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks45team03.rentravel.mapper.AdminMileageMapper">
+	<!-- tb_mileage_payment_save -->
+	<resultMap type="MileageSaveUse" id="mileageResultMap">
+		<id property="mileageSaveUseCode" column="mileage_save_use_code" />
+		<result property="userId" column="user_id" />
+		<result property="mileageChange" column="mileage_change" />
+		<result property="mileageTotal" column="mileage_total" />
+		<result property="mileageChangeTime" column="mileage_change_time" />
+		<result property="mileageChangeReason" column="mileage_change_reason" />
+		<result property="mileageSaveUseType" column="mileage_save_use_type" />
+	</resultMap>
+
+	<select id="adminGetMileageList" resultMap="mileageResultMap">
+		/*전체 회원의 적립금 내역 조회*/
+		SELECT
+			user_id
+			,mileage_save_use_type
+			,mileage_change
+			,mileage_change_time
+			,mileage_change_reason
+			,mileage_total
+		
+		FROM
+			tb_mileage_save_use
+			<where>
+				<if test="searchKey != null and searchKey != ''">
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%');
+				</if>
+			</where>
+			
+	
+	</select>
+	
+
+
+</mapper>

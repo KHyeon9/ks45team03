@@ -9,8 +9,10 @@ public class Rental {
 	private String selectDelivery;
 	private String rentalOrderDate;
 	private String goodsName;
+	private String sidoName;
 	private String sigunguName;
 	private String orderStateName;
+	
 	private Payment payment;
 	
 	public String getRentalCode() {
@@ -66,6 +68,12 @@ public class Rental {
 	}
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
+	}
+	public String getSidoName() {
+		return sidoName;
+	}
+	public void setSidoName(String sidoName) {
+		this.sidoName = sidoName;
 	}
 	public String getSigunguName() {
 		return sigunguName;

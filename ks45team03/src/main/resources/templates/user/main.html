@@ -4,35 +4,31 @@
 	  layout:decorate="~{user/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
-	  
-
-	  
 		  <section class="mainContent clearfix logIn">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-md-7 col-lg-8 col-xl-7 col-12">
-						<!-- 페이지마다 변경되는 contents -->
+					<!-- 페이지마다 변경되는 contents -->
 						<!-- Preloader -->
-						
-					  <div id="preloader" class="smooth-loader-wrapper">
-							      <div class="preloader_container">
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							        <div class="block"></div>
-							      </div>
+						<div id="preloader" class="smooth-loader-wrapper">
+							<div class="preloader_container">
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+								<div class="block"></div>
+							</div>
 						</div> 
 						
 					  	<h1>메인화면</h1>
@@ -44,9 +40,9 @@
 					  	<h3><a th:href="@{/board/inquiryList}" style="color:blue;">1 대 1 문의 게시판 리스트</a></h3>
 					  	<h3><a th:href="@{/myPage/myInfo}" style="color:blue;">마이페이지</a></h3>
 					  	<h3><a th:href="@{/addUser}" style="color:blue;">회원가입</a></h3>
-					  	<h3><a th:href="@{/login}" style="color:blue;">로그인</a></h3>
 					  	<h3><a th:href="@{/goods/addGoods}" style="color:blue;">상품추가</a></h3>
 					  	<h3><a th:href="@{/chat/chatRoomList}" style="color:blue;">내 채팅방 목록</a></h3>
+					  	<h3><a th:href="@{/board/noticeBoard}" style="color:blue;">공지사항</a></h3>
 					</div>
 				</div>
 			</div>

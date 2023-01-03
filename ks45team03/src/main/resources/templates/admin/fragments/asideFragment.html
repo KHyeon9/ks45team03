@@ -15,7 +15,7 @@
                <i class="bi bi-person-circle" style="font-size: 5rem; margin: 10px;"></i>
              </div>
              <div class="profile_info">
-               <span style="margin: 10px;">환영합니다,</span>
+               <span>환영합니다,</span>
                <h3>관리자님</h3>
              </div>
            </div>
@@ -26,7 +26,7 @@
            <!-- sidebar menu -->
            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
              <div class="menu_section">
-               <ul class="nav side-menu">
+               <ul class="nav side-menu ">
                	<li><a th:href="@{/}"><i class="bi bi-house-fill" style="font-size: 1rem;"></i> 메인페이지 <span></span></a></li>
                  <li><a><i class="bi bi-emoji-smile"></i> 회원관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
@@ -66,27 +66,27 @@
                  </li>
                  <li><a><i class="bi bi-coin"  style="font-size: 1rem;"></i> 적립금관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
-                     <li><a>#적립금내역목록</a></li>
+                     <li><a th:href="@{/admin/mileage/adminMileageList}" >!적립금내역목록</a></li>
                    </ul>
                  </li>
                  <li><a><i class="bi bi-bell"  style="font-size: 1rem;"></i> 알림관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
-                     <li><a>#알림내용목록</a></li>
+                     <li><a th:href="@{/admin/alarm/adminAlarmList}" >알림내용목록</a></li>
                    </ul>
                  </li>
                  <li><a><i class="bi bi-exclamation-triangle"  style="font-size: 1rem;"></i> 신고관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
-                     <li><a>#신고목록</a></li>
+                     <li><a th:href="@{/admin/report/adminReportList}">신고목록</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-files"  style="font-size: 1rem;"></i>보험<span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-files"  style="font-size: 1rem;"></i>#보험<span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
-                     <li><a th:href="@{/admin/insurance/adminInsuranceList}">!보험리스트</a></li>
-                     <li><a th:href="@{/admin/insurance/adminRemoveInsurance}">!보험제거</a></li>
-                     <li><a th:href="@{/admin/insurance/adminInsuranceClaimList}">!보삼금신청서상세화면</a></li>
-                     <li><a th:href="@{/admin/insurance/adminInsuranceRequestList}">!보삼금신청리스트</a></li>
-                     <li><a th:href="@{/admin/insurance/adminInsurancePayoutList}">!보상금지급내역</a></li>
-                     <li><a th:href="@{/admin/insurance/adminAddInsurancePayout}">!보상금지급내역등록</a></li>
+                     <li><a th:href="@{/admin/insurance/adminInsuranceList}">#보험리스트</a></li>
+                     <li><a th:href="@{/admin/insurance/adminRemoveInsurance}">#보험제거</a></li>
+                     <li><a th:href="@{/admin/insurance/adminInsuranceBillDetail}">#보상금신청서상세화면</a></li>
+                     <li><a th:href="@{/admin/insurance/adminInsuranceBillList}">#보상금신청리스트</a></li>
+                     <li><a th:href="@{/admin/insurance/adminInsurancePayoutList}">#보상금지급내역</a></li>
+                     <li><a th:href="@{/admin/insurance/adminAddInsurancePayout}">#보상금지급내역등록</a></li>
                    </ul>
                  </li>
                    <li><a><i class="bi bi-bag-check"  style="font-size: 1rem;"></i> 게시판 <span class="fa fa-chevron-down"></span></a>

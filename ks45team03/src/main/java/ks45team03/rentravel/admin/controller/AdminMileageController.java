@@ -1,19 +1,43 @@
 package ks45team03.rentravel.admin.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import ks45team03.rentravel.admin.service.AdminMileageService;
+import ks45team03.rentravel.dto.MileagePaymentSave;
+import ks45team03.rentravel.dto.MileageRentalCancelSave;
+import ks45team03.rentravel.dto.MileageSaveUse;
+import ks45team03.rentravel.mapper.AdminMileageMapper;
 
 @Controller
 @RequestMapping("/admin/mileage")
 public class AdminMileageController {
-	
-	@GetMapping("/adminMileageList")
-	public String adminGetMileageList(Model model) {
-		model.addAttribute("title", "관리자 적립금 목록");
-	
-		return "admin/mileage/adminMileageList";
+
+	private final AdminMileageService adminMileageService;
+	private final AdminMileageMapper adminMileageMapper;
+
+	public AdminMileageController(AdminMileageService adminMileageService, AdminMileageMapper adminMileageMapper) {
+		this.adminMileageService = adminMileageService;
+		this.adminMileageMapper = adminMileageMapper;
 	}
 
+	@GetMapping("/adminMileageList")
+	
+	public String adminGetMileageList(Model model
+									,@RequestParam(value="searchKey", required = false) String searchKey
+									,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
+		
+		List<MileageSaveUse> mileageList = adminMileageService.adminGetMileageList(searchKey, searchValue);
+		
+		model.addAttribute("title", "관리자- 결제취소 적립금 목록");
+		model.addAttribute("mileageList", mileageList);
+		
+		return "admin/mileage/adminMileageList";
+	}
+	
 }

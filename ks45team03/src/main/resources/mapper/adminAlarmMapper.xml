@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks45team03.rentravel.mapper.AdminAlarmMapper">
+	<!-- tb_alarm_wish -->
+	<resultMap type="AlarmWish" id="alarmResultMap">
+		<id property="alarmWishCode" column="alarm_wish_code" />
+		<result property="wishCode" column="wish_code" />
+		<result property="userId" column="user_id" />
+		<result property="goodsCode" column="goods_code" />
+		<result property="alarmClickAddr" column="alarm_click_addr" />
+		<result property="alarmSendTime" column="alarm_send_time" />
+	</resultMap>
+
+	<select id="adminGetAlarmWishList" resultMap="alarmResultMap">
+	/*관심상품 알림내용 조회*/
+		SELECT
+			alarm_wish_code
+			,wish_code
+			,user_id
+			,goods_code
+			,alarm_click_addr
+			,alarm_send_time
+		
+		FROM
+			tb_alarm_wish
+	</select>
+
+</mapper>

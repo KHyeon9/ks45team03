@@ -12750,3 +12750,19 @@ ol.styled_list li {
   margin-top: 9px;
   margin-right: 10px;
 }
+#logo-a {
+	color:black;
+	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+   	font-weight: bold;
+   	font-size: 30px;
+}
+
+#logo-a #logo span {
+	color: rgb(72, 186, 193);
+}
+
+#infoAdd {
+	font-weight: bold;
+	height: 45px;
+	color: white;
+}

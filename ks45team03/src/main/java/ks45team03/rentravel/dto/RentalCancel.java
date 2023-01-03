@@ -1,6 +1,6 @@
 package ks45team03.rentravel.dto;
 
-public class RentalCancle {
+public class RentalCancel {
 	private String rentalCancelCode;
 	private String cancelUserId;
 	private String rentalCode;

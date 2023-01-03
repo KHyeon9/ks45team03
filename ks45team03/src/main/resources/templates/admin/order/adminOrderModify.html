@@ -4,11 +4,155 @@
 	layout:decorate="~{admin/layout/default}">
 
 	<th:block layout:fragment="customContents">
-		<div id="rightcolumn" class="right_col" role="main">
-			<div class="col-md-12 col-sm-12">
-				<h1>관리자 주문 내역 수정</h1>
-			</div>
-		</div>
+		<div class="right_col" role="main">
+           <div class="">
+                <div class="clearfix"></div>
+
+                <div class="row">
+                   <div class="col-md-12 col-sm-12">
+                      	<div class="x_panel">
+                              <div class="x_title">
+                                  <h2>결제 정보 수정 <small>User</small></h2>
+                                  <div class="clearfix"></div>
+                              </div>
+                              <div class="x_content">
+                                  <form class="modifyOrderInfo" th:action="@{/admin/order/adminOrderModify}" method="post" novalidate>
+                                  	  <input type="hidden" th:value="${orderInfo.rentalCode}" name="rentalCode">
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Name</label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input th:value="${orderInfo.goodsName}" class="form-control" name="goodsName"  required="required" data-name="상품명"
+			                                         data-parsley-empty-message="상품명을 입력해주세요"  readonly="readonly"/>
+                                          </div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Rental Start Date</label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input th:value="${orderInfo.rentalStartDate}" class="form-control" name="rentalStartDate" type="Date" />
+                                          </div>
+                                      </div>
+                                      <div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Rental End Date</label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input th:value="${orderInfo.rentalEndDate}" class="form-control" name="rentalEndDate" required="required" type="Date" /></div>
+                                      </div>
+                                      <th:block th:object="${orderInfo.payment}">
+                                      	<div class="field item form-group">
+                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Expected Payment Amount</label>
+                                          <div class="col-md-6 col-sm-6">
+                                              <input th:value="*{expectedPaymentAmount}" class="form-control" type="number" name="payment.expectedPaymentAmount" required='required'></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Goods Commision Total Price</label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{goodsCommisionTotalPrice}" class="form-control" type="number" name="payment.goodsCommisionTotalPrice" required='required'></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Mileage Use Price</label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{mileageUsePrice}" class="form-control" type="number" name="payment.mileageUsePrice" required='required' /></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Save Mileage</label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{saveMileage}" class="form-control" type="number" name="payment.saveMileage" required='required' /></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Amount Excluding Mileage</label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{amountExcludingMileage}" class="form-control" type="number" name="payment.amountExcludingMileage" required='required' /></div>
+	                                      </div>
+	                                      <div class="field item form-group">
+	                                          <label class="col-form-label col-md-3 col-sm-3  label-align">Settlement Amount</label>
+	                                          <div class="col-md-6 col-sm-6">
+	                                              <input th:value="*{settlementAmount}" class="form-control" type="number" name="payment.settlementAmount" required='required' /></div>
+	                                      </div>
+                                      </th:block>
+                                      
+                                      <div class="ln_solid">
+                                      	  <br>
+                                          <div class="form-group">
+                                              <div class="col-md-6 offset-md-3">
+                                                  <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+                                                  <button type='reset'  class="btn btn-success">Reset</button>
+                                                  <button type='button' class="btn btn-success cancel">Cancel</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+            
+            <!-- 사용자 지정 js 파일 -->
+			<th:block layout:fragment="customJs">
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+			    <script src="../vendors/validator/multifield.js"></script>
+			    <script src="../vendors/validator/validator.js"></script>
+			    <script src="../build/js/custom.min.js"></script>
+			</th:block>
+			<!-- 사용자 지정 js script -->
+			<th:block layout:fragment="customScript">
+				<script>
+					function hideshow(){
+						var password = document.getElementById("password1");
+						var slash = document.getElementById("slash");
+						var eye = document.getElementById("eye");
+						
+						if(password.type === 'password'){
+							password.type = "text";
+							slash.style.display = "block";
+							eye.style.display = "none";
+						}
+						else{
+							password.type = "password";
+							slash.style.display = "none";
+							eye.style.display = "block";
+						}
+			
+					}
+					
+				</script>
+				<script>
+			        // initialize a validator instance from the "FormValidator" constructor.
+			        // A "<form>" element is optionally passed as an argument, but is not a must
+			        var validator = new FormValidator({
+			            "events": ['blur', 'input', 'change'],
+			            
+			        	
+			        }, document.forms[0]);
+			        // on form "submit" event
+			        document.forms[0].onsubmit = function(e) {
+			            var submit = true,
+			                validatorResult = validator.checkAll(this);
+			            console.log(validatorResult);
+			            return !!validatorResult.valid;
+			        };
+			        // on form "reset" event
+			        document.forms[0].onreset = function(e) {
+			            validator.reset();
+			        };
+			        // stuff related ONLY for this demo page:
+			        $('.toggleValidationTooltips').change(function() {
+			            validator.settings.alerts = !this.checked;
+			            if (this.checked)
+			                $('form .alert').remove();
+			        }).prop('checked', false);
+			        
+			        
+			
+			    </script>
+			    <script>
+			    	$('.cancel').click(function(){
+			    		location.href = '/admin/order/adminOrderHistory';
+			    	})
+			    </script>
+			</th:block>
+			<!-- contents end -->
 	</th:block>
 
 </html>

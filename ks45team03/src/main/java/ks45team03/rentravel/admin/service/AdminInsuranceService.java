@@ -3,16 +3,15 @@ package ks45team03.rentravel.admin.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import ks45team03.rentravel.dto.Insurance;
-import ks45team03.rentravel.dto.InsuranceClaim;
+import ks45team03.rentravel.dto.InsuranceBill;
+import ks45team03.rentravel.dto.InsuranceBillDetail;
 import ks45team03.rentravel.dto.InsurancePayout;
-import ks45team03.rentravel.dto.InsuranceRequest;
 import ks45team03.rentravel.mapper.AdminInsuranceMapper;
 
+
 @Service
-@Transactional
 public class AdminInsuranceService {
 	
 	private final AdminInsuranceMapper adminInsuranceMapper;
@@ -22,80 +21,104 @@ public class AdminInsuranceService {
 	}
 	
 	/**
-	 * 모든 회원 보험가입정보 조회
+	 * 보험 조회
 	 * @return List<Insurance>
 	 */
 	public List<Insurance> adminGetInsuranceList() {
+		
 		List<Insurance> adminInsuranceList = adminInsuranceMapper.adminGetInsuranceList();
 		
 		return adminInsuranceList;
 	}
-	
 	/**
-	 * 보험 가입
-	 * @param insurance
+	 * 보험 등록
 	 * @return int
 	 */
-	public int adminAddInsurance(Insurance insurance) {
+	public int adminAddInsurance() {
 		
-		return adminInsuranceMapper.adminAddInsurance(insurance);
+		return adminInsuranceMapper.adminAddInsurance();
 	}
 	
 	/**
-	 * 보험코드로 보험삭제
-	 * @param insuranceCode
+	 * 보험 삭제
 	 */
-	public void adminRemoveInsuranceByCode(String insuranceCode) {
+	public void adminRemoveInsurance() {
 		
-		adminInsuranceMapper.adminRemoveInsuranceByCode(insuranceCode);
+		adminInsuranceMapper.adminRemoveInsurance();
 	}
 	
+	
 	/**
-	 * 보상금신청서 조회(보상금청구서 상세화면)
-	 * @return List<InsuranceRequest>
+	 * 보상금청구서 조회
+	 * @return List<InsuranceBill>
 	 */
-	public List<InsuranceRequest> adminGetInsuranceRequestList() {
-		List<InsuranceRequest> adminInsuranceRequestList = adminInsuranceMapper.adminGetInsuranceRequestList();
+	public List<InsuranceBill> adminGetInsuranceBillList() {
+		List<InsuranceBill> adminInsuranceBillList = adminInsuranceMapper.adminGetInsuranceBillList();
 		
-		return adminInsuranceRequestList;
+		return adminInsuranceBillList;
+		
 	}
 	
 	/**
-	 * 모든 회원 보상금청구상태 조회(보상금청구서리스트)
-	 * @return List<InsuranceClaim>
+	 * 보상금청구서 상세화면
+	 * @return List<InsuranceBillDetail>
 	 */
-	public List<InsuranceClaim> adminGetInsuranceClaimList() {
-		List<InsuranceClaim> adminInsuranceClaimList = adminInsuranceMapper.adminGetInsuranceClaimList();
+	public  List<InsuranceBillDetail> adminGetInsuranceBillDetail() {
+		List<InsuranceBillDetail> adminInsuranceBillDetail = adminInsuranceMapper.adminGetInsuranceBillDetail();
 		
-		return adminInsuranceClaimList;
+		return adminInsuranceBillDetail;
 	}
 	
 	/**
-	 * 보상금 청구상태 갱신
-	 * @param insuranceRequest
+	 * 보상금청구서 등록
 	 * @return int
 	 */
-	public int adminModifyInsuranceRequestState(InsuranceRequest insuranceRequest) {
+	public int adminAddInsuranceBillDetail() {
 		
-		return adminInsuranceMapper.adminModifyInsuranceRequestState(insuranceRequest);
+		return adminInsuranceMapper.adminAddInsuranceBillDetail();
 	}
 	
 	/**
-	 * 모든 회원 보상금 지급내역 조회
+	 * 보상금청구서 수정
+	 * @return int
+	 */
+	public int adminModifyInsuranceBillDetail() {
+		
+		return adminInsuranceMapper.adminModifyInsuranceBillDetail();
+	}
+	
+	/**
+	 * 보상금청구서 삭제
+	 */
+	public void adminRemoveInsuranceBillDetail() {
+		
+		adminInsuranceMapper.adminRemoveInsuranceBillDetail();
+	}
+	
+	/**
+	 * 보상금청구상태 갱신
+	 * @return int
+	 */
+	
+	public int adminModifyInsuranceBillState() {
+		
+		return adminInsuranceMapper.adminModifyInsuranceBillState();
+	}
+	
+	/**
+	 * 보상금지급내역
 	 * @return List<InsurancePayout>
 	 */
 	public List<InsurancePayout> adminGetInsurancePayoutList() {
-		List<InsurancePayout> adminInsurancePayoutList = adminInsuranceMapper.adminGetInsurancePayoutList();
 		
-		return adminInsurancePayoutList;
+		List<InsurancePayout> adminInsurancePayout = adminInsuranceMapper.adminGetInsurancePayoutList();
+		
+		return adminInsurancePayout;
 	}
 	
-	/**
-	 * 보상금 지급내역 등록
-	 * @param insurancePayout
-	 * @return
-	 */
-	public int adminAddInsurancePayout(InsurancePayout insurancePayout) {
-		return adminInsuranceMapper.adminAddInsurancePayout(insurancePayout);
+	public int adminAddInsurancePayoutList() {
+		
+		return adminInsuranceMapper.adminAddInsurancePayoutList();
 	}
+	
 }

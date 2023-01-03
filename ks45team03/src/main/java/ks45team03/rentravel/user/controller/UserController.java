@@ -70,7 +70,7 @@ public class UserController {
 	public String login(Model model
 					   ,@RequestParam(value="msg", required=false) String msg) {
 		
-		model.addAttribute("title", "로그인");
+		model.addAttribute("title", "RENTravel");
 		if(msg != null) model.addAttribute("msg", msg);
 		
 		return "user/main";

@@ -3,8 +3,8 @@ package ks45team03.rentravel.dto;
 public class InsurancePayout {
 	private String insurancePayoutCode;
 	private String userId;
-	private String insuranceRequestCode;
-	private String insuranceClaimCode;
+	private String insuranceBillDetailCode;
+	private String insuranceBillCode;
 	private int insurancePayoutPrice;
 	private String insurancePayoutDate;
 	
@@ -20,17 +20,17 @@ public class InsurancePayout {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getInsuranceRequestCode() {
-		return insuranceRequestCode;
+	public String getInsuranceBillDetailCode() {
+		return insuranceBillDetailCode;
 	}
-	public void setInsuranceRequestCode(String insuranceRequestCode) {
-		this.insuranceRequestCode = insuranceRequestCode;
+	public void setInsuranceBillDetailCode(String insuranceBillDetailCode) {
+		this.insuranceBillDetailCode = insuranceBillDetailCode;
 	}
-	public String getInsuranceClaimCode() {
-		return insuranceClaimCode;
+	public String getInsuranceBillCode() {
+		return insuranceBillCode;
 	}
-	public void setInsuranceClaimCode(String insuranceClaimCode) {
-		this.insuranceClaimCode = insuranceClaimCode;
+	public void setInsuranceBillCode(String insuranceBillCode) {
+		this.insuranceBillCode = insuranceBillCode;
 	}
 	public int getInsurancePayoutPrice() {
 		return insurancePayoutPrice;
@@ -44,13 +44,13 @@ public class InsurancePayout {
 	public void setInsurancePayoutDate(String insurancePayoutDate) {
 		this.insurancePayoutDate = insurancePayoutDate;
 	}
-	
 	@Override
 	public String toString() {
 		return "InsurancePayout [insurancePayoutCode=" + insurancePayoutCode + ", userId=" + userId
-				+ ", insuranceRequestCode=" + insuranceRequestCode + ", insuranceClaimCode=" + insuranceClaimCode
+				+ ", insuranceBillDetailCode=" + insuranceBillDetailCode + ", insuranceBillCode=" + insuranceBillCode
 				+ ", insurancePayoutPrice=" + insurancePayoutPrice + ", insurancePayoutDate=" + insurancePayoutDate
 				+ "]";
 	}
+	
 	
 }
