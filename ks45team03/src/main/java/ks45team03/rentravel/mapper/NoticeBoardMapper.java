@@ -17,5 +17,4 @@ public interface NoticeBoardMapper {
 	
 	// 테이블 행 갯수
 	public int noticeBoardListCnt();
-
 }
