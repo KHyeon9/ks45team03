@@ -13,6 +13,7 @@
 		<result property="selectDelivery" 		column="select_delivery" />
 		<result property="rentalOrderDate" 		column="rental_order_date" />
 		<result property="goodsName" 			column="goods_name" />
+		<result property="sidoName" 			column="region_sido_name" />
 		<result property="sigunguName" 			column="region_sgg_name" />
 		<result property="orderStateName" 		column="order_state_standard_name" />
 		<association property="payment" javaType="Payment">
@@ -37,6 +38,7 @@
 			<result property="mileageUseGroupCode" 	  			column="user_image" />
 		</association>
 	</resultMap>
+	
 	<!-- 주문 취소 맵 -->
 	<resultMap type="RentalCancel" id="rentalCancelMap">
 		<id 	property="rentalCancelCode" 	  		column="rental_cancel_code" />
@@ -90,6 +92,82 @@
 		<result property="waybillRegDate" 			column="waybill_reg_date" />
 	</resultMap>
 	
+	<!-- 결제 내역 수정 paymentTable -->
+	<update id="modifyPaymentTable" parameterType="Rental">
+		UPDATE
+			tb_payment AS pay
+		SET
+			pay.expected_payment_amount = #{payment.expectedPaymentAmount},
+			pay.goods_commision_total_price = #{payment.goodsCommisionTotalPrice},
+			pay.mileage_use_price = #{payment.mileageUsePrice},
+			pay.save_mileage = #{payment.saveMileage},
+			pay.amount_excluding_mileage = #{payment.amountExcludingMileage},
+			pay.settlement_amount = #{payment.settlementAmount}
+		WHERE
+			pay.rental_code = #{rentalCode};
+	</update>
+	
+	<!-- 결제 내역 수정 rentalTable -->
+	<update id="modifyRentalTable" parameterType="Rental">
+		UPDATE
+			tb_rental AS ren
+		SET
+			ren.rental_start_date = #{rentalStartDate},
+			ren.rental_end_date = #{rentalEndDate}
+		WHERE
+			ren.rental_code	= #{rentalCode};
+	</update>
+	
+	<!-- 렌탈 코드로 결제 내역 조회 -->
+	<select id="getOrderInfoByRentalCode" parameterType="String" resultMap="orderHistoryMap">
+		SELECT
+			g.goods_name,
+			ren.rental_code,
+			ren.rental_start_date, 
+			ren.rental_end_date, 
+			ren.select_delivery,
+			sido.region_sido_name,
+			sgg.region_sgg_name,
+			pay.user_addr_desc,
+			pay.payment_account_or_card_number,
+			pay.payment_agency, 
+			pay.payment_type,
+			pay.Expected_payment_amount,
+			pay.goods_commision_total_price,
+			pay.mileage_use_price,
+			pay.save_mileage,
+			pay.amount_excluding_mileage,
+			pay.settlement_amount,
+			pay.payment_time,
+			tra.order_state_standard_name
+		FROM
+			tb_rental AS ren
+			INNER JOIN
+			tb_payment AS pay
+			ON
+			ren.rental_code = pay.rental_code
+			INNER JOIN
+			tb_region_sgg AS sgg
+			ON
+			pay.region_sgg_code = sgg.region_sgg_code
+			INNER JOIN
+			tb_region_sido AS sido
+			ON
+			sido.region_sido_code = sgg.region_sido_code
+			INNER JOIN
+			tb_trade_status AS tra
+			ON
+			pay.trade_status_code = tra.trade_status_code
+			INNER JOIN
+			tb_goods AS g
+			ON
+			ren.goods_code = g.goods_code
+		WHERE 
+			ren.rental_code = #{rentalCode}
+		ORDER BY
+ 			CAST(SUBSTRING(pay.payment_code,8) AS UNSIGNED) DESC;
+	</select>
+	
 	<!-- 오너 운송장번호 조회 -->
 	<select id="getWaybillOwnerList" resultMap="waybillOwnerMap">
 		SELECT
@@ -122,6 +200,7 @@
 			CAST(SUBSTRING(wayr.waybill_renter_code,15) AS UNSIGNED) DESC;
 	
 	</select>	
+	
 	<!-- 횐불 내역 조회 -->
 	<select id="getReturnList" resultMap="returnMap">
 		SELECT
@@ -197,6 +276,7 @@
 			ren.rental_start_date, 
 			ren.rental_end_date, 
 			ren.select_delivery,
+			sido.region_sido_name,
 			sgg.region_sgg_name,
 			pay.user_addr_desc,
 			pay.payment_account_or_card_number,
@@ -220,6 +300,10 @@
 			tb_region_sgg AS sgg
 			ON
 			pay.region_sgg_code = sgg.region_sgg_code
+			INNER JOIN
+			tb_region_sido AS sido
+			ON
+			sido.region_sido_code = sgg.region_sido_code
 			INNER JOIN
 			tb_trade_status AS tra
 			ON

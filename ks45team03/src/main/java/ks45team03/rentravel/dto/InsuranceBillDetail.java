@@ -6,7 +6,7 @@ public class InsuranceBillDetail {
 	private String userId;
 	private String goodsCode;
 	private String paymentCode;
-	private String accidentCode;
+	private String accidentDate;
 	private String accidentType;
 	private String accidentContent;
 	private String insuranceEvidence;
@@ -44,11 +44,11 @@ public class InsuranceBillDetail {
 	public void setPaymentCode(String paymentCode) {
 		this.paymentCode = paymentCode;
 	}
-	public String getAccidentCode() {
-		return accidentCode;
+	public String getAccidentDate() {
+		return accidentDate;
 	}
-	public void setAccidentCode(String accidentCode) {
-		this.accidentCode = accidentCode;
+	public void setAccidentDate(String accidentDate) {
+		this.accidentDate = accidentDate;
 	}
 	public String getAccidentType() {
 		return accidentType;
@@ -96,7 +96,7 @@ public class InsuranceBillDetail {
 	public String toString() {
 		return "InsuranceBillDetail [insuranceBillDetailCode=" + insuranceBillDetailCode + ", insuranceCode="
 				+ insuranceCode + ", userId=" + userId + ", goodsCode=" + goodsCode + ", paymentCode=" + paymentCode
-				+ ", accidentCode=" + accidentCode + ", accidentType=" + accidentType + ", accidentContent="
+				+ ", accidentCode=" + accidentDate + ", accidentType=" + accidentType + ", accidentContent="
 				+ accidentContent + ", insuranceEvidence=" + insuranceEvidence + ", bankName=" + bankName
 				+ ", accountHolder=" + accountHolder + ", accountNumber=" + accountNumber + ", requestDate="
 				+ requestDate + "]";

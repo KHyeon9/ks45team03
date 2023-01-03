@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks45team03.rentravel.dto.MileagePaymentSave;
 import ks45team03.rentravel.dto.MileageRentalCancelSave;
+import ks45team03.rentravel.dto.MileageSaveUse;
 import ks45team03.rentravel.mapper.AdminMileageMapper;
 
 @Service
@@ -19,15 +20,18 @@ public class AdminMileageService {
 		this.adminMileageMapper = adminMileageMapper;
 	}
 
-	public List<MileagePaymentSave> adminGetMileagePaymentSaveList(){
-		List<MileagePaymentSave> mileagePaymentSaveList = adminMileageMapper.adminGetMileagePaymentSaveList();
-
-		return mileagePaymentSaveList;
+	/**
+	 * 회원의 적립금 내역 조회
+	 * @param searchValue 
+	 * @param searchKey 
+	 * @return
+	 */
+	public List<MileageSaveUse> adminGetMileageList(String searchKey, String searchValue){
+		
+		List<MileageSaveUse> mileageList = adminMileageMapper.adminGetMileageList(searchKey, searchValue);
+		
+		return mileageList;
 	}
 	
-	public List<MileageRentalCancelSave> adminGetMileageRentalCancelSaveList(){
-		List<MileageRentalCancelSave> mileageRentalCancelSaveList = adminMileageMapper.adminGetMileageRentalCancelSaveList();
-		
-		return mileageRentalCancelSaveList;
-	}
+	
 }

@@ -12,9 +12,12 @@ import ks45team03.rentravel.dto.InsurancePayout;
 @Mapper
 public interface InsuranceMapper {
 	// 보험가입리스트 조회
-	public List<Insurance> adminGetInsuranceList();
+	public List<Insurance> getInsuranceList();
 	
-	// 보험청구서리스트
+	// 나의 보험 정보 조회
+	public List<Insurance> getInsuranceInfoById();
+	
+	// 보상금청구서리스트
 	public List<InsuranceBill> getInsuranceBillList();
 	
 	// 보상금청구서 상세화면

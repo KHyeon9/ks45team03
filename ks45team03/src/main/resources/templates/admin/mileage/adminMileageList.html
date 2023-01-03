@@ -6,28 +6,36 @@
 
 <th:block layout:fragment="customContents">
 	<div class="right_col" role="main">
+		<form th:action="@{/admin/mileage/adminMileageList}" method="get">
+			<select name="searchKey">
+				<option value="user_id">회원아이디</option>
+				<option value="mileage_change_reason">적립금 변동 사유</option>
+				<option value="mileage_save_use_type">적립/사용</option>
+			</select> <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." />
+			<button type="submit">검색</button>
+		</form>
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">mileage_payment_save_code</th>
 					<th scope="col">user_id</th>
-					<th scope="col">payment_code</th>
-					<th scope="col">mileage_save_amount</th>
-					<th scope="col">mileage_save_time</th>
-					<th scope="col">mileage_group_code</th>
+					<th scope="col">mileage_save_use_type</th>
+					<th scope="col">mileage_change</th>
+					<th scope="col">mileage_change_time</th>
+					<th scope="col">mileage_change_reason</th>
+					<th scope="col">mileage_total</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:if="${not #lists.isEmpty(mileagePaymentSaveList)}"
-					th:each="l : ${mileagePaymentSaveList}">
-					<td th:text="${l.mileagePaymentSaveCode}"></td>
+				<tr th:if="${not #lists.isEmpty(mileageList)}"
+					th:each="l : ${mileageList}">
 					<td th:text="${l.userId}"></td>
-					<td th:text="${l.paymentCode}"></td>
-					<td th:text="${l.mileageSaveAmount}"></td>
-					<td th:text="${l.mileageSaveTime}"></td>
-					<td th:text="${l.mileageGroupCode}"></td>
+					<td th:text="${l.mileageSaveUseType}"></td>
+					<td th:text="${l.mileageChange}"></td>
+					<td th:text="${l.mileageChangeTime}"></td>
+					<td th:text="${l.mileageChangeReason}"></td>
+					<td th:text="${l.mileageTotal}"></td>
 				</tr>
-				<tr th:unless="${not #lists.isEmpty(mileagePaymentSaveList)}">
+				<tr th:unless="${not #lists.isEmpty(mileageList)}">
 					<td colspan="9">적립금 내역이 없습니다.</td>
 				</tr>
 			</tbody>

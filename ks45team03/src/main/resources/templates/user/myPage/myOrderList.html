@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	  <th:block layout:fragment="customContents">
+	  	<!-- LIGHT SECTION -->
+	      <section class="lightSection clearfix pageHeader">
+	        <div class="container">
+	          <div class="row">
+	            <div class="col-md-6">
+	              <div class="page-title">
+	                <h2>MY ORDERS</h2>
+	              </div>
+	            </div>
+	            <div class="col-md-6">
+	              <ol class="breadcrumb float-right">
+	                <li>
+	                  <a th:href="@{/}">Home</a>
+	                </li>
+	                <li class="active">MY ORDERS</li>
+	              </ol>
+	            </div>
+	          </div>
+	        </div>
+	      </section>
+	
+	      <!-- MAIN CONTENT SECTION -->
+	      <section class="mainContent clearfix userProfile">
+	        <div class="container">
+	         
+	          <div class="row">
+	            <div class="col-md-12">
+	              <div class="innerWrapper">
+	                <div class="orderBox">
+	                  <h2>My Orders</h2>
+	                  <div class="table-responsive">
+	                    <table class="table">
+	                      <thead>
+	                        <tr>
+	                          <th>상품명</th>
+	                          <th>렌탈 시작일</th>
+	                          <th>렌탈 종료일</th>
+	                          <th>사용 마일리지</th>
+	                          <th>총 결제 금액</th>
+	                          <th>상품 상태</th>
+	                          <th>결제 시간</th>
+	                          <th></th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                        <tr th:each="order : ${orderList}">
+	                          <td th:text="${order.goodsName}"></td>
+	                          <td th:text="rentalStartDate">March 25, 2016</td>
+	                          <td th:text="rentalEndDate">2</td>
+	                          <th:block th:object="${order.payment}">
+	                          	<td th:text="*{mileageUsePrice}"></td>
+	                          	<td th:text="*{amountExcludingMileage}"></td>
+	                          </th:block>
+	                          <th:block>
+		                          <td th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}"><span class="badge badge-warning">결제완료</span></td>
+		                          <td th:if="${order.orderStateName == '배송중'}"><span class="badge badge-info">배송중</span></td>
+		                          <td th:if="${order.orderStateName == '사용중(배송완료)'}"><span class="badge badge-primary">사용중</span></td>
+		                          <td th:if="${order.orderStateName == '반납완료'}"><span class="badge badge-success">반납완료</span></td>
+		                          <td th:if="${order.orderStateName == '취소 후 환불완료'}"><span class="badge badge-danger">취소</span></td>
+		                      </th:block>
+		                      <td th:text="${order.rentalOrderDate}"></td>
+	                          <td><a th:href="@{#}" class="btn btn-sm btn-secondary-outlined">View</a></td>
+	                        </tr>
+	                      </tbody>
+	                    </table>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </section>
+	  </th:block>
+</html>

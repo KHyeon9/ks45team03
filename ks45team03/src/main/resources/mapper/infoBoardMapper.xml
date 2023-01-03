@@ -26,6 +26,61 @@
 		<result property="infoBoardCommentContent" 	column="info_board_comment_content" />
 		<result property="infoBoardCommentRegTime" 	column="info_board_comment_reg_time" />
 	</resultMap>
+	
+	<!-- 댓글 등록  -->
+	<insert id="addInfoBoardComment" parameterType="InfoBoardComment">
+		INSERT INTO tb_info_board_comment
+			(
+				info_board_comment_code,
+				info_board_code,
+				user_id,
+				info_board_comment_content,
+				info_board_comment_reg_time	
+			)
+		VALUE
+			(
+				#{infoBoardCommentCode},
+				#{infoBoardCode},
+				#{userId},
+				#{infoBoardCommentContent},
+				NOW()
+			);
+	</insert>
+	
+	<!-- 댓글 갯수 조회 -->
+	<select id="getCommentCnt" parameterType="String" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_info_board_comment AS comm
+		WHERE
+			comm.info_board_code = #{infoBoardCode}
+	</select>
+	
+	<!-- 정보 게시판 등록 -->
+	<insert id="addInfoBoard" parameterType="InfoBoard">
+		INSERT INTO tb_info_board
+			(
+			info_board_code, 
+			user_id, 
+			info_board_title, 
+			info_board_content,
+			info_board_like_cnt,
+			info_board_view_cnt,
+			info_board_reg_time
+			)
+		VALUES
+			(
+			#{infoBoardCode},
+			#{userId},
+			#{infoBoardTitle},
+			#{infoBoardContent},
+			0,
+			0,
+			NOW()
+			)
+	</insert>
+	
 	<!-- 정보 게시판 리스트 -->
 	<select id="getInfoBoardList" parameterType="map" resultMap="infoBoardResultMap">
 		SELECT
@@ -63,14 +118,9 @@
 			info.info_board_content,
 			info.info_board_like_cnt,
 			info.info_board_view_cnt,
-			info.info_board_reg_time,
-			img.info_img
+			info.info_board_reg_time
 		FROM
 			tb_info_board AS info
-			INNER JOIN
-			tb_info_board_img AS img
-			ON
-			img.info_board_code = info.info_board_code
 			INNER JOIN
 			tb_user AS u
 			ON
@@ -78,7 +128,7 @@
 		WHERE
 			info.info_board_code = #{infoBoardCode};
 	</select>
-	
+	<!-- 개시글 댓글 조회 -->
 	<select id="getInfoBoardComment" parameterType="String" resultMap="infoBoardCommentMap">
 		SELECT
 			u.user_nickname,

@@ -4,6 +4,92 @@
 	  layout:decorate="~{user/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
-	  	<h1>보상금청구서등록</h1>
+	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
+	  	<!-- MAIN CONTENT SECTION -->
+	      <section class="mainContent clearfix blogPage">
+	        <div class="container">
+	        	<h2>보험금청구서</h2><br/><br/>
+	      		<form>
+	      			<h4>1. 인적사항</h4><br/>
+	      			
+						<div class="form-group row">
+							<label for="example-text-input" class="col-md-2 col-form-label">성명</label>
+							<div class="col-md-10">
+								<input class="form-control" type="text" placeholder="Name">
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">이메일</label>
+							<div class="col-md-10">
+								<input class="form-control" type="text" placeholder="E-mail">
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">연락처</label>
+							<div class="col-md-10">
+								<input class="form-control" type="text" placeholder="Phone">
+							</div>
+						</div>
+						<hr class="my-4">
+					
+						<h4>2. 사고사항</h4><br/>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-md-2 col-form-label">사고유형</label>
+							<div class="col-md-10 selectOptions mb-4">
+								<select name="country" class="form-control select-drop">
+									<option>사고유형\</option>
+									<option>분실</option>
+									<option>파손</option>
+								</select>
+							</div>
+							<label for="example-datetime-local-input" class="col-md-2 col-form-label">사고일시</label>
+							<div class="col-md-10">
+								<input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">사고내용</label>
+							<div class="col-md-10">
+								<textarea class="form-control" type="text" placeholder="Contents" cols="50" rows="10"></textarea>
+							</div>
+						</div>
+						<hr class="my-4">
+						
+						<h4>3. 계좌정보</h4><br/>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-md-2 col-form-label">은행</label>
+							<div class="col-md-10">
+								<input class="form-control" type="text" placeholder="Bank">
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">계좌번호</label>
+							<div class="col-md-10">
+								<input class="form-control" type="text" placeholder="Number">
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">예금주</label>
+							<div class="col-md-10">
+								<input class="form-control" type="text" placeholder="Name">
+							</div>
+						</div>
+						<hr class="my-4">
+					
+						<h4>4. 작성일</h4><br/>
+						<div class="form-group row">
+							<label for="example-datetime-local-input" class="col-md-2 col-form-label">작성일</label>
+							<div class="col-md-10">
+								<input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+							</div>
+						</div>
+						<hr class="my-4">
+						
+						
+						<div class="form-group row mb-4">
+							<label for="example-text-input" class="col-md-2 col-form-label">첨부파일</label>
+							<input type="file" id="fileUpload" />
+						</div>
+
+						<div class="form-group row">
+							<label for="example-text-input" class="col-md-2 col-form-label">알림</label>
+							<input id="checkbox-1" class="checkbox-custom form-check-input" name="checkbox-1" type="checkbox" checked>
+							<label for="checkbox-1" class="checkbox-custom-label form-check-label">E-mail</label>
+						</div>
+						
+						<button class="btn btn-primary btn-default card-btn"  type="submit"  style="float: right;">제출하기</button>
+					</form>
+				</div>
+	      </section>
 	  </th:block>
 </html>

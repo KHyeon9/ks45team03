@@ -5,52 +5,35 @@
 
 <mapper namespace="ks45team03.rentravel.mapper.AdminMileageMapper">
 	<!-- tb_mileage_payment_save -->
-	<resultMap type="MileagePaymentSave" id="mileageResultMap">
-		<id property="mileagePaymentSaveCode" column="mileage_payment_save_code" />
+	<resultMap type="MileageSaveUse" id="mileageResultMap">
+		<id property="mileageSaveUseCode" column="mileage_save_use_code" />
 		<result property="userId" column="user_id" />
-		<result property="paymentCode" column="payment_code" />
-		<result property="mileageSaveAmount" column="mileage_save_amount" />
-		<result property="mileageSaveTime" column="mileage_save_time" />
-		<result property="mileageGroupCode" column="mileage_group_code" />
-		<association property="mileageRentalCancelSave" javaType="MileageRentalCancelSave">
-			<id property="memberId" column="m_id" />
-			<result property="mileageRentalCancel" 		column="mileage_rental_cancel_save_code" />
-			<result property="userId" 		column="user_id" />
-			<result property="paymentCode" 		column="payment_code" />
-			<result property="mileageSaveAmount" 		column="mileage_save_amount" />
-			<result property="mileageSaveTime" 		column="mileage_save_time" />
-			<result property="mileageGroupCode" 	column="mileage_group_code" />
-		</association>
+		<result property="mileageChange" column="mileage_change" />
+		<result property="mileageTotal" column="mileage_total" />
+		<result property="mileageChangeTime" column="mileage_change_time" />
+		<result property="mileageChangeReason" column="mileage_change_reason" />
+		<result property="mileageSaveUseType" column="mileage_save_use_type" />
 	</resultMap>
 
-	<select id="adminGetMileagePaymentSaveList" resultMap="mileageResultMap">
-	/*결제 적립금 조회*/
+	<select id="adminGetMileageList" resultMap="mileageResultMap">
+		/*전체 회원의 적립금 내역 조회*/
 		SELECT
-			mileage_payment_save_code
-			,user_id
-			,payment_code
-			,mileage_save_amount
-			,mileage_save_time
-			,mileage_group_code
-
-		FROM
-			tb_mileage_payment_save
-
-	</select>
-	
-	<select id="adminGetMileageRentalCancelSaveList" resultMap="mileageResultMap">
-	/*적립금 사용 후 결제취소 시 재적립된 적립금 조회*/
-		SELECT
-			mileage_rental_cancel_save_code
-			,user_id
-			,payment_code
-			,mileage_save_amount
-			,mileage_save_time
-			,mileage_group_code
+			user_id
+			,mileage_save_use_type
+			,mileage_change
+			,mileage_change_time
+			,mileage_change_reason
+			,mileage_total
 		
 		FROM
-			tb_mileage_rental_cancel_save 
-
+			tb_mileage_save_use
+			<where>
+				<if test="searchKey != null and searchKey != ''">
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%');
+				</if>
+			</where>
 	</select>
+	
+
 
 </mapper>

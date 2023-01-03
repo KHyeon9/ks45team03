@@ -6,10 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminMileageService;
 import ks45team03.rentravel.dto.MileagePaymentSave;
 import ks45team03.rentravel.dto.MileageRentalCancelSave;
+import ks45team03.rentravel.dto.MileageSaveUse;
 import ks45team03.rentravel.mapper.AdminMileageMapper;
 
 @Controller
@@ -25,23 +27,15 @@ public class AdminMileageController {
 	}
 
 	@GetMapping("/adminMileageList")
-	public String adminGetMileagePaymentSaveList(Model model) {
-
-		List<MileagePaymentSave> mileagePaymentSaveList = adminMileageService.adminGetMileagePaymentSaveList();
-
-		model.addAttribute("title", "관리자- 결제적립 적립금 목록");
-		model.addAttribute("mileagePaymentSaveList", mileagePaymentSaveList);
-
-		return "admin/mileage/adminMileageList";
-	}
 	
-	@GetMapping("/adminMileageList22")
-	public String adminGetMileageRentalCancelSaveList(Model model) {
+	public String adminGetMileageList(Model model
+									,@RequestParam(value="searchKey", required = false) String searchKey
+									,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
 		
-		List<MileageRentalCancelSave> mileageRentalCancelSaveList = adminMileageService.adminGetMileageRentalCancelSaveList();
+		List<MileageSaveUse> mileageList = adminMileageService.adminGetMileageList(searchKey, searchValue);
 		
 		model.addAttribute("title", "관리자- 결제취소 적립금 목록");
-		model.addAttribute("mileageRentalCancelSaveList", mileageRentalCancelSaveList);
+		model.addAttribute("mileageList", mileageList);
 		
 		return "admin/mileage/adminMileageList";
 	}

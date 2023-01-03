@@ -6,8 +6,9 @@ public class AlarmWish {
 	private String wishCode;
 	private String userId;
 	private String goodsCode;
-	private String alarmCilckaddr;
+	private String alarmClickAddr;
 	private String alarmSendTime;
+	
 	public String getAlarmWishCode() {
 		return alarmWishCode;
 	}
@@ -32,11 +33,12 @@ public class AlarmWish {
 	public void setGoodsCode(String goodsCode) {
 		this.goodsCode = goodsCode;
 	}
-	public String getAlarmCilckaddr() {
-		return alarmCilckaddr;
+	
+	public String getAlarmClickAddr() {
+		return alarmClickAddr;
 	}
-	public void setAlarmCilckaddr(String alarmCilckaddr) {
-		this.alarmCilckaddr = alarmCilckaddr;
+	public void setAlarmClickAddr(String alarmClickAddr) {
+		this.alarmClickAddr = alarmClickAddr;
 	}
 	public String getAlarmSendTime() {
 		return alarmSendTime;
@@ -56,7 +58,7 @@ public class AlarmWish {
 		builder.append(", goodsCode=");
 		builder.append(goodsCode);
 		builder.append(", alarmCilckaddr=");
-		builder.append(alarmCilckaddr);
+		builder.append(alarmClickAddr);
 		builder.append(", alarmSendTime=");
 		builder.append(alarmSendTime);
 		builder.append("]");

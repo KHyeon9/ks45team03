@@ -11,6 +11,12 @@ import ks45team03.rentravel.dto.InfoBoardComment;
 @Mapper
 public interface InfoBoardMapper {
 	
+	// 장보 게시글 댓글 등록
+	public int addInfoBoardComment(InfoBoardComment infoBoardComment);
+	
+	// 정보 게시글 등록
+	public int addInfoBoard(InfoBoard infoBoard);
+	
 	// 정보 게시판 목록 조회
 	public List<InfoBoard> getInfoBoardList(Map<String, Object> paramMap);
 	
@@ -24,5 +30,5 @@ public interface InfoBoardMapper {
 	public List<InfoBoardComment> getInfoBoardComment(String infoBoardCode);
 	
 	// 댓글 갯수 조회
-	public int getCommentCnt();
+	public int getCommentCnt(String infoBoardCode);
 }
