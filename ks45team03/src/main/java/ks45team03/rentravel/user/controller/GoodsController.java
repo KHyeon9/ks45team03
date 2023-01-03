@@ -16,6 +16,7 @@ import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.mapper.GoodsMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.user.service.GoodsService;
 
@@ -29,10 +30,12 @@ public class GoodsController {
 
 	private final GoodsService goodsService;
 	private final UserBlockMapper userBlockMapper;
+	private final GoodsMapper goodsMapper;
 	
-	public GoodsController(GoodsService goodsService, UserBlockMapper userBlockMapper) {
+	public GoodsController(GoodsService goodsService, UserBlockMapper userBlockMapper, GoodsMapper goodsMapper) {
 			this.goodsService = goodsService;
 			this.userBlockMapper = userBlockMapper;
+			this.goodsMapper = goodsMapper;
 }
 	
 	@GetMapping("/goodsList")
@@ -40,13 +43,21 @@ public class GoodsController {
 							,HttpSession session) {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
+		String redirectURI = "user/goods/goodsList";
+		
+		if(loginUser == null) {
+			
+			List<Goods> goodsList = goodsMapper.getGoodsListNotUser();
+			model.addAttribute("goodsList", goodsList);
+			model.addAttribute("title", "상품 리스트 화면");
+		}else {
 		
 		List<Goods> goodsList = goodsService.getGoodsList(loginUser.getLoginId());
 		
 		model.addAttribute("goodsList", goodsList);
 		model.addAttribute("title", "상품 리스트 화면");
 		
-		
+		}
 		
 		return "user/goods/goodsList";
 	}

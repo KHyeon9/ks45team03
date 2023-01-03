@@ -11,6 +11,8 @@ import ks45team03.rentravel.dto.GoodsImg;
 @Mapper
 public interface GoodsMapper {
 	
+	public List<Goods> getGoodsListNotUser();
+	
 	public List<Goods> getGoodsList(String loginId);
 	
 	public List<GoodsImg> getGoodsImg(String goodsCode);
