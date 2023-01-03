@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="ks45team03.rentravel.mapper.ChatMapper">
+
+	<resultMap type="ChatRoom" id="chatRoomResultMap">
+		<id property="chatRoomCode" 			column="chat_room_code"/>
+		<result property="renterId" 		column="renter_id"/>
+		<result property="ownerId" 		column="owner_id"/>
+		<result property="chatRoomAddTime" 		column="chatroom_add_time"/>
+	</resultMap>
+
+	<select id="getChatRoomList" parameterType="String" resultMap="chatRoomResultMap">
+		/* 로그인한 회원의 채팅방 목록 조회 */
+		SELECT
+			cr.chat_room_code
+			,cr.renter_id
+			,cr.owner_id
+			,cr.chatroom_add_time
+		FROM
+			tb_chat_room AS cr
+		WHERE
+			cr.renter_id = #{loginId}
+		OR
+			cr.owner_id = #{loginId};
+	
+	</select>
+
+
+
+
+
+
+
+</mapper>
