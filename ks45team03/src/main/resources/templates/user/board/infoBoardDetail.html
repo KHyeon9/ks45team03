@@ -51,7 +51,7 @@
 	                      	<i class="bi bi-eye-fill"></i><span th:text="${infoBoardDetail.infoBoardViewCnt}"></span>
 	                      	</li>
 		                  <li>
-		                    <i class="fa fa-envelope" aria-hidden="true"></i>8 comments</li>
+		                    <i class="fa fa-envelope" aria-hidden="true"></i><span th:text="${commentCnt} + ' comments'"></span></li>
 		                </ul>
 		                
 		                <h5>Share</h5>
@@ -100,9 +100,9 @@
 		            </li>
 		          </ul>
 		          <div class="commentsArea">
-		            <h3>4 Comments</h3>
+		            <h3 th:text="${commentCnt} + ' Comments'"></h3>
 		            <!-- 댓글 -->
-		            <th:block th:unless="${#lists.isEmpty(commentList)}" th:each="comm : ${commentList}">
+		            <th:block th:if="${commentCnt != 0}" th:unless="${#lists.isEmpty(commentList)}" th:each="comm : ${commentList}">
 		            	<div class="media flex-wrap">
 			              <a class="media-left" href="#">
 			                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
@@ -115,7 +115,10 @@
 			                  </span>
 			                </h4>
 			                <p th:text="${comm.infoBoardCommentContent}"></p>
-			                <button class="btn btn-link" type="submit">Reply</button>
+			                <div>
+								<button class="btn btn-link" type="submit">수정</button> /
+			                	<button class="btn btn-link" type="submit">삭제</button>			                
+			                </div>
 			              </div>
 			            </div>
 		            </th:block>
@@ -129,22 +132,9 @@
 		        <form action="" method="POST" role="form" class="commentsForm">
 		          <h3>Leave Comments</h3>
 		          <div class="row">
-		            <div class="col-sm-6">
-		              <div class="form-group">
-		                <input type="text" class="form-control" id="" placeholder="Name">
-		              </div>
-		            </div>
-		            <div class="col-sm-6">
-		              <div class="form-group">
-		                <input type="email" class="form-control" id="" placeholder="Email">
-		              </div>
-		            </div>
 		            <div class="col-md-12">
-		              <div class="form-group">
-		                <input type="text" class="form-control" id="" placeholder="Website">
-		              </div>
-		            </div>
-		            <div class="col-md-12">
+		              <div><h4>회원님</h4></div>
+		              <br>
 		              <div class="form-group">
 		                <textarea class="form-control" rows="3" placeholder="Comment"></textarea>
 		              </div>
@@ -158,4 +148,9 @@
 		  </div>
 		</section>
 	  </th:block>
+	  
+	  <!-- 사용자 지정 js 파일 -->
+	<th:block layout:fragment="customJs"></th:block>
+	<!-- 사용자 지정 js script -->
+	<th:block layout:fragment="customScript"></th:block>
 </html>
