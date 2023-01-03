@@ -16,5 +16,6 @@ public class InfoBoard {
 	private int infoBoardViewCnt;
 	private String infoBoardRegTime;
 	private User user;
+	private int commentCnt;
 	
 }
