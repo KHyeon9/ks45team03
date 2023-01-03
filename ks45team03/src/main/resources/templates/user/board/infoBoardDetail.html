@@ -108,7 +108,7 @@
 			                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
 			              </a>
 			              <div class="media-body">
-			                <h4 class="media-heading" th:text="${comm.userNickName}">Jessica Brown </h4>
+			                <h4 class="media-heading" th:text="${comm.userNickName}"></h4>
 			                <h4>
 			                  <span>
 			                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${comm.infoBoardCommentRegTime}"></span>
@@ -127,21 +127,23 @@
 		        </div>
 		      </div>
 		    </div>
-		    <div class="row">
+		    <div th:if="${loginInfo != null}" class="row">
 		      <div class="col-md-12">
 		        <form action="" method="POST" role="form" class="commentsForm">
 		          <h3>Leave Comments</h3>
 		          <div class="row">
 		            <div class="col-md-12">
-		              <div><h4>회원님</h4></div>
+		              <div><h4 id="nickName" th:text="${nickName}" th:value="${nickName}"></h4></div>
 		              <br>
 		              <div class="form-group">
-		                <textarea class="form-control" rows="3" placeholder="Comment"></textarea>
+		              	<input id="boardCode" type="hidden" th:value="${infoBoardDetail.infoBoardCode}" readonly="readonly">
+		              	<input id="commentId" type="hidden" th:value="${loginInfo.loginId}" readonly="readonly">
+		                <textarea class="form-control" rows="3" id="comment" name="comment" placeholder="Comment"></textarea>
 		              </div>
 		            </div>
 		
 		          </div>
-		          <button type="submit" class="btn btn-primary">post comment</button>
+		          <button id="commentBtn" type="button" class="btn btn-primary">post comment</button>
 		        </form>
 		      </div>
 		    </div>
@@ -152,5 +154,24 @@
 	  <!-- 사용자 지정 js 파일 -->
 	<th:block layout:fragment="customJs"></th:block>
 	<!-- 사용자 지정 js script -->
-	<th:block layout:fragment="customScript"></th:block>
+	<th:block layout:fragment="customScript">
+		<script>
+			$('#commentBtn').click(function(){
+				const boardCode = $('#boardCode').val();
+				const commentContent = $('#comment').val();
+				const commentId= $('#commentId').val();
+				const nickName = $('#nickName').val();
+				
+				if(commentContent == '') {
+					alert('내용을 입력하세요.')
+				}
+				
+				$.ajax({
+	   				type:'post',
+	   				url:'<c:url value="/Comment/InsertComment"/>'
+	   				
+	   			});// 댓글 비동기 끝
+			})
+		</script>
+	</th:block>
 </html>
