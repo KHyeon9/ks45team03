@@ -1,7 +1,6 @@
 package ks45team03.rentravel.user.controller;
 
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,18 +11,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import ks45team03.rentravel.dto.ChatRoom;
 import ks45team03.rentravel.dto.Room;
-import ks45team03.rentravel.dto.RoomInfo;
+import ks45team03.rentravel.user.service.ChatService;
 
 
 @Controller
 public class ChatController {
+	
+	private final ChatService chatService;
+	
+	public ChatController(ChatService chatService) {
+		this.chatService = chatService;
+	}
     
     @GetMapping("/chatRoomList")
     public String chatList(){
@@ -55,6 +58,10 @@ public class ChatController {
 	public String room(Model model) {
 		
 		model.addAttribute("title", "room");
+		
+		List<ChatRoom> chatRoomList = chatService.getChatRoomList("id003");
+		
+		model.addAttribute("chatRoomList",chatRoomList);
 		
 		return "user/chat/room";
 	}
@@ -110,6 +117,8 @@ public class ChatController {
 	
 	@GetMapping("/moveChating")
 	public String chating(@RequestParam HashMap<Object, Object> params, Model model) {
+		
+
 		
 		int roomNumber = Integer.parseInt((String) params.get("roomNumber"));
 		
