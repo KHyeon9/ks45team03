@@ -21,29 +21,17 @@ public class AdminMileageService {
 	}
 
 	/**
-	 * 모든 회원의 전체 적립금 내역 조회
+	 * 회원의 적립금 내역 조회
 	 * @param searchValue 
 	 * @param searchKey 
 	 * @return
 	 */
 	public List<MileageSaveUse> adminGetMileageList(String searchKey, String searchValue){
-		List<MileageSaveUse> mileageList = adminMileageMapper.adminGetMileageList();
 		
+		List<MileageSaveUse> mileageList = adminMileageMapper.adminGetMileageList(searchKey, searchValue);
 		
 		return mileageList;
 	}
 	
-	/**
-	 * 특정 회원의 전체 적립금 내역 조회
-	 * @param userId
-	 * @return
-	 */
-	public MileageSaveUse getMileageById(String userId) {
-		
-		MileageSaveUse userMileage = adminMileageMapper.getMileageById(userId);
-		
-		return userMileage;
-		
-		
-	}
+	
 }
