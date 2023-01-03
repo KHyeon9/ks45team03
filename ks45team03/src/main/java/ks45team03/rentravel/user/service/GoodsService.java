@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.mapper.GoodsMapper;
@@ -17,9 +18,9 @@ public class GoodsService {
 		this.goodsMapper = goodsMapper;
 	}
 	
-	public List<Goods> getGoodsList(){
+	public List<Goods> getGoodsList(String loginId){
 		
-		List<Goods> goodsList = goodsMapper.getGoodsList();
+		List<Goods> goodsList = goodsMapper.getGoodsList(loginId);
 		
 		return goodsList;
 	}

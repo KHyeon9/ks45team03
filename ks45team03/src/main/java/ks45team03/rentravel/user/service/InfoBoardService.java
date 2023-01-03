@@ -21,6 +21,16 @@ public class InfoBoardService {
 		this.infoBoardMapper = infoBoardMapper;
 	}
 	
+	// 게시글 댓글 조회
+	public int getCommnetCnt(String infoBoardCode) {
+		return infoBoardMapper.getCommentCnt(infoBoardCode);
+	}
+	
+	// 게사글 등록
+	public int addInfoBoard(InfoBoard infoBoard) {
+		return infoBoardMapper.addInfoBoard(infoBoard);
+	};
+	
 	// 정보 게시글 조회
 	public InfoBoard getInfoBoardDetail(String infoBoardCode) {
 		return infoBoardMapper.getInfoBoardDetail(infoBoardCode);
@@ -65,6 +75,10 @@ public class InfoBoardService {
 		
 		// 정보 게시판 목록 data
 		List<InfoBoard> infoBoardList = infoBoardMapper.getInfoBoardList(paramMap);
+		for (InfoBoard info : infoBoardList) {
+			int cnt = infoBoardMapper.getCommentCnt(info.getInfoBoardCode());
+			info.setCommentCnt(cnt);
+		}
 		
 		// controller에 전달하기 위한 파라미터 셋팅
 		paramMap.clear();
