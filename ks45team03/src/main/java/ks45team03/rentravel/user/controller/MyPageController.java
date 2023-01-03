@@ -64,10 +64,10 @@ public class MyPageController {
 		model.addAttribute("title","마이페이지 화면");
 		return "user/myPage/myWishList";
 	}
-	@GetMapping("/myOrderHistory")
+	@GetMapping("/myOrderList")
 	public String myOrderHistory(Model model) {
 		model.addAttribute("title","마이페이지 주문 내역");
-		return "user/myPage/myOrderHistory";
+		return "user/myPage/myOrderList";
 	}
 	
 	@GetMapping("/userEvaluation")
@@ -103,9 +103,15 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myProfitList")
-	public String getUserProfitList(Model model) {
+	public String getUserProfitList(Model model
+									,HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 수익목록 리스트");
+		model.addAttribute("loginNickName",loginNickName);
 		return "user/myPage/myProfitList";
 	}
 	

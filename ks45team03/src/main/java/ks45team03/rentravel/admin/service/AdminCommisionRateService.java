@@ -66,7 +66,7 @@ public class AdminCommisionRateService {
 	 */
 	public Map<String, Object> adminGetCommisionRateList (int currentPage){
 		
-		// 보여질 행의 개수
+				// 보여질 행의 개수
 				int rowPerPage = 10;
 				
 				// 보여질 행의 시작점
