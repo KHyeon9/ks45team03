@@ -27,7 +27,7 @@ public class InfoBoardController {
 	
 	@GetMapping("/removeInfoBoard")
 	public String removeInfoBoard(Model model) {
-		return "/";
+		return "redirect:/";
 	}
 	
 	@SuppressWarnings("unchecked")

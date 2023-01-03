@@ -7,6 +7,7 @@ public class InsurancePayout {
 	private String insuranceBillCode;
 	private int insurancePayoutPrice;
 	private String insurancePayoutDate;
+	
 	public String getInsurancePayoutCode() {
 		return insurancePayoutCode;
 	}

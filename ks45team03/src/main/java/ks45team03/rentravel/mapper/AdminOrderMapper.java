@@ -35,4 +35,13 @@ public interface AdminOrderMapper {
 	// 렌터 운송장 번호 관리
 	public List<WaybillRenter> getWaybillRenterList();
 	
+	// 주문 수정 폼 정보 조회
+	public Rental getOrderInfoByRentalCode(String rentalCode);
+	
+	// 주문 수정 렌탈 테이블
+	public int modifyRentalTable(Rental rentalInfo);
+	
+	// 주문 수정 페이먼트 테이블
+	public int modifyPaymentTable(Rental rentalInfo);
+	
 }
