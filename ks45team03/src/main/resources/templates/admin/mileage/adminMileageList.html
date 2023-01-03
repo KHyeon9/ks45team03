@@ -6,6 +6,14 @@
 
 <th:block layout:fragment="customContents">
 	<div class="right_col" role="main">
+		<form th:action="@{/admin/mileage/adminMileageList}" method="get">
+			<select name="searchKey">
+				<option value="user_id">회원아이디</option>
+				<option value="mileage_change_reason">적립금 변동 사유</option>
+				<option value="mileage_save_use_type">적립/사용</option>
+			</select> <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." />
+			<button type="submit">검색</button>
+		</form>
 		<table class="table">
 			<thead>
 				<tr>

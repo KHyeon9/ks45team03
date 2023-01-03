@@ -13,7 +13,8 @@ import ks45team03.rentravel.dto.MileageSaveUse;
 public interface AdminMileageMapper {
 
 	//모든 적립금 조회
-	public List<MileageSaveUse> adminGetMileageList();
+	public List<MileageSaveUse> adminGetMileageList(String searchKey, String searchValue);
+	
 	
 
 

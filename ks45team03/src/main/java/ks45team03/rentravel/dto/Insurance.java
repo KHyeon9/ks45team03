@@ -9,6 +9,29 @@ public class Insurance {
 	private String insuranceAvailable;
 	private String insuranceSignUpTime;
 	
+	Goods goods;
+	Rental rental;
+	
+	public Goods getGoods() {
+		return goods;
+	}
+	public void setGoods(Goods goods) {
+		this.goods = goods;
+	}
+	public Rental getRental() {
+		return rental;
+	}
+	public void setRental(Rental rental) {
+		this.rental = rental;
+	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+	Payment payment;
+	
 	public String getInsuranceCode() {
 		return insuranceCode;
 	}

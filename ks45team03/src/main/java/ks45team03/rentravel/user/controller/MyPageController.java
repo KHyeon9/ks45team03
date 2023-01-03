@@ -2,6 +2,8 @@ package ks45team03.rentravel.user.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,10 @@ import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.admin.service.AdminCommisionRateService;
 import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.mapper.UserBlockMapper;
+import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.UserBlockService;
 
 @Controller
@@ -22,10 +26,14 @@ public class MyPageController {
 	
 	private final UserBlockService userBlockService;
 	private final UserBlockMapper userBlockMapper;
+	private final OrderService orderService;  
 	
-	public MyPageController (UserBlockService userBlockService, UserBlockMapper userBlockMapper) {
+	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
+	
+	public MyPageController (UserBlockService userBlockService, UserBlockMapper userBlockMapper, OrderService orderService) {
 		this.userBlockService = userBlockService;	
 		this.userBlockMapper = userBlockMapper;	
+		this.orderService = orderService;
 	}
 	
 	
@@ -65,9 +73,22 @@ public class MyPageController {
 		return "user/myPage/myWishList";
 	}
 	@GetMapping("/myOrderList")
-	public String myOrderHistory(Model model) {
-		model.addAttribute("title","마이페이지 주문 내역");
-		return "user/myPage/myOrderList";
+	public String myOrderHistory(HttpSession session,
+								 Model model) {
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String redirectURI = "user/myPage/myOrderList";
+		
+		if (loginInfo == null) {
+			redirectURI = "redirect:/";
+		
+		} else {
+			List<Rental> orderList = orderService.getUserOrderList(loginInfo.getLoginId());
+			model.addAttribute("title","마이페이지 주문 내역");
+			model.addAttribute("orderList", orderList);
+		}
+		
+		
+		return redirectURI;
 	}
 	
 	@GetMapping("/userEvaluation")
@@ -85,22 +106,30 @@ public class MyPageController {
 	@GetMapping("/myBlockList")
 	public String getUserBlockrList(Model model
 									,HttpSession session) {
-		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String redirectURI = "user/myPage/myBlockList";
 		
+		if(loginUser == null) {
+			
+			redirectURI = "redirect:/";		
+
+		}else {
 		
-		List<Block> getUserBlockrList = userBlockMapper.getUserBlockrList(loginUser.getLoginId());
+		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
 		
-		String loginNickName = loginUser.getLoginNickName();
-		
-	
+		String loginNickName = loginUser.getLoginNickName();	
 		
 		model.addAttribute("title","나의 차단 리스트");
-		model.addAttribute("getUserBlockrList",getUserBlockrList);
+		model.addAttribute("getUserBlockList",getUserBlockList);
 		model.addAttribute("loginNickName",loginNickName);
+
+
+		}
 		
-		return "user/myPage/myBlockList";
+		return redirectURI;
 	}
+	
+	
 	
 	@GetMapping("/myProfitList")
 	public String getUserProfitList(Model model
@@ -108,12 +137,22 @@ public class MyPageController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
+		String redirectURI = "user/myPage/myProfitList";
+		
+		if(loginUser == null) {
+					
+			redirectURI = "redirect:/";		
+	
+		}else {
 		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 수익목록 리스트");
 		model.addAttribute("loginNickName",loginNickName);
-		return "user/myPage/myProfitList";
+		
+		}
+		return redirectURI;
 	}
+	
 	
 	@GetMapping("/myExperience")
 	public String myExperience(Model model) {

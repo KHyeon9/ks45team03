@@ -20,11 +20,18 @@ public class AdminMileageService {
 		this.adminMileageMapper = adminMileageMapper;
 	}
 
-	
-	
-	public List<MileageSaveUse> adminGetMileageList(){
-		List<MileageSaveUse> mileageList = adminMileageMapper.adminGetMileageList();
+	/**
+	 * 회원의 적립금 내역 조회
+	 * @param searchValue 
+	 * @param searchKey 
+	 * @return
+	 */
+	public List<MileageSaveUse> adminGetMileageList(String searchKey, String searchValue){
+		
+		List<MileageSaveUse> mileageList = adminMileageMapper.adminGetMileageList(searchKey, searchValue);
 		
 		return mileageList;
 	}
+	
+	
 }
