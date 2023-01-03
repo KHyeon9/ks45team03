@@ -11,6 +11,9 @@ import ks45team03.rentravel.dto.InfoBoardComment;
 @Mapper
 public interface InfoBoardMapper {
 	
+	// 장보 게시글 댓글 등록
+	public int addInfoBoardComment(InfoBoardComment infoBoardComment);
+	
 	// 정보 게시글 등록
 	public int addInfoBoard(InfoBoard infoBoard);
 	
