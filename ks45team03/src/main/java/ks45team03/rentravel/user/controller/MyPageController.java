@@ -85,15 +85,12 @@ public class MyPageController {
 	@GetMapping("/myBlockList")
 	public String getUserBlockrList(Model model
 									,HttpSession session) {
-		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String redirectURI = "redirect:/user/myPage/myBlockList";
+		String redirectURI = "user/myPage/myBlockList";
 		
 		if(loginUser == null) {
 			
-			redirectURI = "redirect:/";
-			
-				
+			redirectURI = "redirect:/";		
 
 		}else {
 		
@@ -104,7 +101,7 @@ public class MyPageController {
 		model.addAttribute("title","나의 차단 리스트");
 		model.addAttribute("getUserBlockrList",getUserBlockrList);
 		model.addAttribute("loginNickName",loginNickName);
-		
+
 
 		}
 		
@@ -119,12 +116,22 @@ public class MyPageController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
+		String redirectURI = "user/myPage/myProfitList";
+		
+		if(loginUser == null) {
+					
+			redirectURI = "redirect:/";		
+	
+		}else {
 		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 수익목록 리스트");
 		model.addAttribute("loginNickName",loginNickName);
-		return "user/myPage/myProfitList";
+		
+		}
+		return redirectURI;
 	}
+	
 	
 	@GetMapping("/myExperience")
 	public String myExperience(Model model) {
