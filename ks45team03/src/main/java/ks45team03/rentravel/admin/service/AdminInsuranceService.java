@@ -30,22 +30,6 @@ public class AdminInsuranceService {
 		
 		return adminInsuranceList;
 	}
-	/**
-	 * 보험 등록
-	 * @return int
-	 */
-	public int adminAddInsurance() {
-		
-		return adminInsuranceMapper.adminAddInsurance();
-	}
-	
-	/**
-	 * 보험 삭제
-	 */
-	public void adminRemoveInsurance() {
-		
-		adminInsuranceMapper.adminRemoveInsurance();
-	}
 	
 	
 	/**

@@ -32,6 +32,13 @@ public class InsuranceService {
 	}
 	
 	/**
+	 * 
+	 */
+	//public List<Insurance> getInsuranceInfoById(String userId) {
+		
+	//}
+	
+	/**
 	 * 보상금청구서 조회
 	 * @return List<InsuranceBill>
 	 */

@@ -1,16 +1,26 @@
 package ks45team03.rentravel.user.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.http.HttpResponse;
 import java.util.List;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Insurance;
 import ks45team03.rentravel.dto.InsuranceBill;
 import ks45team03.rentravel.dto.InsuranceBillDetail;
 import ks45team03.rentravel.dto.InsurancePayout;
+import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.mapper.InsuranceMapper;
 import ks45team03.rentravel.user.service.InsuranceService;
 
@@ -34,15 +44,30 @@ public class InsuranceController {
 	}
 
 	@GetMapping("/insuranceList")
-	public String getInsuranceList(Model model) {
+	public String getInsuranceList(HttpServletResponse response, Model model, HttpSession session) throws IOException {
+		//로그인 하지 않으면 에러가 난다
 		
 		List<Insurance> insuranceList = insuranceService.getInsuranceList();
 		
-		model.addAttribute("title", "보험가입정보");
-		model.addAttribute("insuranceList", insuranceList);
+		if(session.getAttribute("S_USER_INFO") != null) {
+
+		   LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
+		   String loginId =  loginInfo.getLoginId();
+			model.addAttribute("title", "보험가입정보");
+			model.addAttribute("insuranceList", insuranceList);
+			model.addAttribute("loginId", loginId);
+			
+			return "user/insurance/insuranceList"; //html경로를 찾아감
+			
+		} else {
+			
+			CommonController.alertPlzLogin(response);
+			
+			return "user/insurance/insuranceMain";
+		}
 		
 		
-		return "user/insurance/insuranceList"; //html경로를 찾아감
+		
 	}
 	
 	@GetMapping("/insuranceBillList")
