@@ -9,10 +9,12 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -42,20 +44,18 @@ public class InsuranceController {
 		
 		return "user/insurance/insuranceMain";
 	}
-
+	
 	@GetMapping("/insuranceList")
 	public String getInsuranceList(HttpServletResponse response, Model model, HttpSession session) throws IOException {
-		//로그인 하지 않으면 에러가 난다
-		
-		List<Insurance> insuranceList = insuranceService.getInsuranceList();
 		
 		if(session.getAttribute("S_USER_INFO") != null) {
-
-		   LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
-		   String loginId =  loginInfo.getLoginId();
+			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
+			String loginId =  loginInfo.getLoginId();
+			
+			List<Insurance> insuranceList = insuranceMapper.getInsuranceInfoById(loginId);
+			
 			model.addAttribute("title", "보험가입정보");
 			model.addAttribute("insuranceList", insuranceList);
-			model.addAttribute("loginId", loginId);
 			
 			return "user/insurance/insuranceList"; //html경로를 찾아감
 			
@@ -63,22 +63,32 @@ public class InsuranceController {
 			
 			CommonController.alertPlzLogin(response);
 			
-			return "user/insurance/insuranceMain";
+			return "user/user/login";
 		}
-		
-		
 		
 	}
 	
 	@GetMapping("/insuranceBillList")
-	public String getInsuranceBillList(Model model) {		
+	public String getInsuranceBillList(HttpServletResponse response, Model model, HttpSession session) throws IOException {		
 		
-		List<InsuranceBill> insuranceBillList = insuranceService.getInsuranceBillList();
+		if(session.getAttribute("S_USER_INFO") != null) {
+			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
+			String loginId =  loginInfo.getLoginId();
 		
-		model.addAttribute("title", "보험청구서");
-		model.addAttribute("insuranceBillList", insuranceBillList);
+			List<InsuranceBill> insuranceBillList = insuranceMapper.getInsuranceBillInfoById(loginId);
 		
-		return "user/insurance/insuranceBillList";
+			model.addAttribute("title", "보험청구서조회");
+			model.addAttribute("insuranceBillList", insuranceBillList);
+			
+			return "user/insurance/insuranceBillList";
+			
+		} else {
+			
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+			
+		}
 	}
 	
 	@GetMapping("/insuranceBillDetail")
@@ -116,14 +126,24 @@ public class InsuranceController {
 	}
 	
 	@GetMapping("/insurancePayoutList")
-	public String getInsurancePayoutList(Model model) {
+	public String getInsurancePayoutList(HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		
-		List<InsurancePayout> insurancePayoutList = insuranceService.getInsurancePayoutList();
+		if(session.getAttribute("S_USER_INFO") != null) {
+			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
+			String loginId =  loginInfo.getLoginId();
 		
-		model.addAttribute("title", "보상금지급내역");
-		model.addAttribute("insurancePayoutList", insurancePayoutList);
+			List<InsurancePayout> insurancePayoutList = insuranceMapper.getInsurancePayoutInfoById(loginId);
 		
-		return "user/insurance/insurancePayoutList";
+			model.addAttribute("title", "보상금지급내역");
+			model.addAttribute("insurancePayoutList", insurancePayoutList);
+		
+			return "user/insurance/insurancePayoutList";
+		} else {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+			
+		}
 	}
 	
 }
