@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+		<!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix logIn">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-8 col-xl-7 col-12">
+              <div class="panel panel-default">
+                <div class="panel-heading"><h3>log in</h3></div>
+                <div class="panel-body">
+                  <form id="loginForm" action="/login" method="POST" role="form">
+                    <div class="form-group">
+                      <label for="">아이디</label>
+                      <input type="text" class="form-control" id="userId" name="userId">
+                    </div>
+                    <div class="form-group">
+                      <label for="">비밀번호</label>
+                      <input type="password" class="form-control" id="userPw" name="userPw">
+                    </div>
+                    <button type="submit" id="submitBtn" class="btn btn-primary btn-default btn-block">log in</button>
+                    <div class="d-block social-login text-center">
+                      <button class="btn btn-social titled facebook float-lg-left">
+                        <i class="fa fa-facebook-f"></i> log in with facebook
+                      </button>
+                      <button class="btn btn-social titled google-plus float-lg-right">
+                        <i class="fa fa-google-plus"></i> log in with google-plus
+                      </button>
+                    </div>
+                    <button type="button" class="btn btn-link btn-block">Forgot Password?</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+	</th:block>
+	 <th:block layout:fragment="customScript">
+		<script th:inline="javascript"> 
+				  $(function(){ // 요소가 다그려지고 나서 실행해 주세요
+		                const msg = [[ ${msg} ]];
+		  				if(msg != null) alert(msg);	               
+				 		
+		                $('#submitBtn').click(function(){
+		                  
+		                    const userId = $('#userId').val();
+		                    const userPw = $('#userPw').val();
+		
+		                    if(typeof userId == 'undifined' 
+		                    		|| userId == null 
+		                    		|| userId == ''){
+		                        alert('아이디를 입력하세요.');
+		                        $('#userId').focus();
+		                        return false;
+		                    }
+		
+		                    if(typeof userPw == 'undifined' 
+		                    		|| userPw == null 
+		                    		|| userPw == ''){
+		                        alert('비밀번호를 입력하세요.');
+		                        $('#userPw').focus();
+		                        return false;
+		                    }
+		                    
+		                    $('#loginForm').submit();
+		                })
+		
+		            });
+		</script>
+</th:block>
+</html>
