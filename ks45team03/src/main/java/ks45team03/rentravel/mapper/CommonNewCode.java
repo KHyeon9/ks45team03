@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface CommonNewCode {
 	// 코드 생성 모듈
 	public String getCommonNewCode(String tableName, String columName);
+	
 }

@@ -3,6 +3,7 @@ package ks45team03.rentravel.dto;
 public class NoticeBoard {
 	
 	private String noticeBoardCode;
+	private int num;
 	private String userId;
 	private String noticeBoardTitle;
 	private String noticeBoardContent;
@@ -16,6 +17,12 @@ public class NoticeBoard {
 	}
 	public void setNoticeBoardCode(String noticeBoardCode) {
 		this.noticeBoardCode = noticeBoardCode;
+	}
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
 	}
 	public String getUserId() {
 		return userId;
@@ -59,5 +66,11 @@ public class NoticeBoard {
 	public void setNoticeBoardRegTime(String noticeBoardRegTime) {
 		this.noticeBoardRegTime = noticeBoardRegTime;
 	}
-	
+	@Override
+	public String toString() {
+		return "NoticeBoard [noticeBoardCode=" + noticeBoardCode + ", num=" + num + ", userId=" + userId
+				+ ", noticeBoardTitle=" + noticeBoardTitle + ", noticeBoardContent=" + noticeBoardContent
+				+ ", noticeBoardFile=" + noticeBoardFile + ", noticeBoardLikeCnt=" + noticeBoardLikeCnt
+				+ ", noticeBoardViewCnt=" + noticeBoardViewCnt + ", noticeBoardRegTime=" + noticeBoardRegTime + "]";
+	}
 }

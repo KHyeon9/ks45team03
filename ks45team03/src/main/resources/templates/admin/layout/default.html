@@ -108,9 +108,9 @@
     <!-- bootstrap-daterangepicker -->
     <script th:src="@{/admin/vendors/moment/min/moment.min.js}"></script>
     <script th:src="@{/admin/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
-
-
-
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{/admin/js/custom.min.js}"></script>
+    
 	<!-- Datatables -->
 	<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 	<script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -128,16 +128,13 @@
 	<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
 	<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 	<!-- Datatables -->
-
-
-    <!-- Custom Theme Scripts -->
-    <script th:src="@{/admin/js/custom.min.js}"></script>
-
+	
 	<!-- 사용자 지정 js 파일 -->
 	<th:block layout:fragment="customJs"></th:block>
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript"></th:block>
 	<!-- contents end -->
+
 
 </body>
 </html>

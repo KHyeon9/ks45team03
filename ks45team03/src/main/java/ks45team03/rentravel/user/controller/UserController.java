@@ -14,16 +14,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.user.service.UserService;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Controller
 public class UserController {
 	
 	private final UserService userService;
+	private final UserMapper userMapper;
 	
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
 
 	@GetMapping("/addUser")
 	public String addUser(Model model) {
@@ -33,7 +34,7 @@ public class UserController {
 		return "user/user/addUser";
 	}
 	
-	@PostMapping("/")
+	@PostMapping("/login")
 	public String login(@RequestParam(value="userId") String userId
 					   ,@RequestParam(value="userPw") String userPw
 					   ,RedirectAttributes reAttr
@@ -49,7 +50,7 @@ public class UserController {
 		
 		// 비밀번호 미일치시
 		if(!isChecked) {
-			redirectURI = "redirect:/";
+			redirectURI = "redirect:/login";
 			reAttr.addAttribute("msg", "아이디(ID)와 비밀번호를 확인하고 다시 로그인해주세요.");
 		} else {
 			// 비밀번호 일치
@@ -58,7 +59,6 @@ public class UserController {
 			LoginInfo loginInfo = new LoginInfo(userId, user.getUserNickName(), user.getUserLevelName());
 			
 			session.setAttribute("S_USER_INFO", loginInfo);
-			
 		}
 		
 		return redirectURI;
@@ -66,14 +66,14 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/")
+	@GetMapping("/login")
 	public String login(Model model
 					   ,@RequestParam(value="msg", required=false) String msg) {
 		
-		model.addAttribute("title", "RENTravel");
+		model.addAttribute("title", "login");
 		if(msg != null) model.addAttribute("msg", msg);
 		
-		return "user/main";
+		return "user/user/login";
 	}	
 	
 	@GetMapping("logout")

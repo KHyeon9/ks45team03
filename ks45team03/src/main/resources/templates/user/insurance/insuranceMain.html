@@ -3,10 +3,8 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 
-	  <th:block layout:fragment="customContents">
-	  	  	<h1>보험메인화면</h1>
-	  
-	  	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
+	  <th:block layout:fragment="customContents">	  
+	  	 <div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
 	  	  	 <!-- MAIN CONTENT SECTION -->
 	      <section class="mainContent clearfix blogPage">
 	        <div class="container">
@@ -32,6 +30,7 @@
 	                <div class="panel-heading">보험</div>
 	                <div class="panel-body">
 	                  <ul class="list-unstyle sidebar-list">
+	                  	<li><a th:href="@{/insurance/insuranceMain}" ><i class="fa fa-caret-right"></i> 보험 <span></span></a></li>
 	                    <li><a th:href="@{/insurance/insuranceList}" ><i class="fa fa-caret-right"></i> 보험가입정보 <span></span></a></li>
 	                    <li><a th:href="@{/insurance/insuranceAddBill}" ><i class="fa fa-caret-right" ></i> 보상금 청구하기 <span></span></a></li>
 	                    <li><a th:href="@{/insurance/insuranceBillList}"><i class="fa fa-caret-right" ></i> 나의 보상금 청구서 확인 <span></span></a></li>
