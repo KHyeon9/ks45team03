@@ -29,7 +29,7 @@ public class LoginInfo {
 	public void setLoginNickName(String loginNickName) {
 		this.loginNickName = loginNickName;
 	}
-
+	
 	public String getLoginLevelName() {
 		return loginLevelName;
 	}
@@ -40,7 +40,6 @@ public class LoginInfo {
 
 	@Override
 	public String toString() {
-		return "LoginInfo [loginId=" + loginId + ", loginNickName=" + loginNickName + ", loginLevelName="
-				+ loginLevelName + "]";
+		return "LoginInfo [loginId=" + loginId + ", loginNickName=" + loginNickName + ", loginLevelName=" + loginLevelName + "]";
 	}
 }
