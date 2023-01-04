@@ -133,7 +133,7 @@
 		          <h3>Leave Comments</h3>
 		          <div class="row">
 		            <div class="col-md-12">
-		              <div><h4 id="nickName" th:text="${nickName}" th:value="${nickName}"></h4></div>
+		              <div><h4 th:text="${nickName}"></h4></div>
 		              <br>
 		              <div class="form-group">
 		              	<input id="boardCode" type="hidden" th:value="${infoBoardDetail.infoBoardCode}" readonly="readonly">
@@ -141,7 +141,6 @@
 		                <textarea class="form-control" rows="3" id="comment" name="comment" placeholder="Comment"></textarea>
 		              </div>
 		            </div>
-		
 		          </div>
 		          <button id="commentBtn" type="button" class="btn btn-primary">post comment</button>
 		        </form>
@@ -157,19 +156,36 @@
 	<th:block layout:fragment="customScript">
 		<script>
 			$('#commentBtn').click(function(){
-				const boardCode = $('#boardCode').val();
-				const commentContent = $('#comment').val();
-				const commentId= $('#commentId').val();
-				const nickName = $('#nickName').val();
-				
-				if(commentContent == '') {
-					alert('내용을 입력하세요.')
+				const userId= $('#commentId').val();
+				const infoBoardCode = $('#boardCode').val();
+				const infoBoardCommentContent = $('#comment').val();
+				console.log(userId);
+				console.log(infoBoardCode);
+				console.log(infoBoardCommentContent);
+					
+				if(infoBoardCommentContent == '') {
+					alert('내용을 입력하세요.');
 				}
 				
+				const userObjArr = [];
+				const userObj = {
+									'userId':userId,
+				   					'infoBoardCode':infoBoardCode,
+				   					'infoBoardCommentContent' : infoBoardCommentContent
+	   							};
+				userObjArr.push(userObj);
+				
 				$.ajax({
-	   				type:'post',
-	   				url:'<c:url value="/Comment/InsertComment"/>'
-	   				
+	   				type:'POST',
+	   				url:'/infoboard/infoBoardDetail/addComment',
+	   				contentType: "application/json; charset=UTF-8",
+	   				data: JSON.stringify(userObj),
+		   			success: function(data) {					
+		   	          		alert("성공");
+		   			},
+		   			error: function(e) {
+		   				alert("ERROR : " + e);
+		   			}		
 	   			});// 댓글 비동기 끝
 			})
 		</script>

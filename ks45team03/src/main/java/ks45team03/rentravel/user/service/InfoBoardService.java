@@ -17,8 +17,14 @@ public class InfoBoardService {
 	// 의존성 주입
 	private final InfoBoardMapper infoBoardMapper;
 	
+	
 	public InfoBoardService(InfoBoardMapper infoBoardMapper) {
 		this.infoBoardMapper = infoBoardMapper;
+	}
+	
+	// 게시글 댓글 등록
+	public int  addInfoBoardComment(InfoBoardComment infoBoardComment) {
+		return infoBoardMapper.addInfoBoardComment(infoBoardComment);
 	}
 	
 	// 게시글 댓글 조회
