@@ -44,6 +44,21 @@ public class InfoBoardController {
 	 * this.infoBoardService = infoBoardService; }
 	 * List<Map<String, Object>> paramMaps
 	 */
+	
+	 @ResponseBody
+	 @PostMapping("/infoBoardDetail/modifyComment") 
+	 public void modifyComment(@RequestBody InfoBoardComment comment) {
+		 System.out.println(comment.getInfoBoardCommentCode() + "---------------------------");
+		 System.out.println(comment.getInfoBoardCommentContent() + "---------------------------");
+		 infoBoardService.modifyInfoBoardComment(comment);
+	}
+	
+	 @ResponseBody
+	 @PostMapping("/infoBoardDetail/removeComment") 
+	 public void removeComment(@RequestBody String infoBoardCommentCode) {
+		 
+		 infoBoardService.removeInfoBoardComment(infoBoardCommentCode);
+	}
 
 	 @ResponseBody
 	 @PostMapping("/infoBoardDetail/addComment") 

@@ -22,6 +22,16 @@ public class InfoBoardService {
 		this.infoBoardMapper = infoBoardMapper;
 	}
 	
+	// 게시글 댓글 수정
+	public int modifyInfoBoardComment(InfoBoardComment infoBoardComment) {
+		return infoBoardMapper.modifyInfoBoardComment(infoBoardComment);
+	}
+	
+	// 게시글 댓글 삭제
+	public int removeInfoBoardComment(String infoBoardCommentCode) {
+		return infoBoardMapper.removeInfoBoardComment(infoBoardCommentCode);
+	}
+	
 	// 게시글 댓글 등록
 	public int  addInfoBoardComment(InfoBoardComment infoBoardComment) {
 		return infoBoardMapper.addInfoBoardComment(infoBoardComment);

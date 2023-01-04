@@ -19,13 +19,32 @@
 	</resultMap>
 		
 	<resultMap type="InfoBoardComment" id="infoBoardCommentMap">
-		<id property="infoBoardCommentCode" 	  	column="info_board_comment_code" />
+		<id		property="infoBoardCommentCode" 	column="info_board_comment_code" />
 		<result property="infoBoardCode" 	  		column="info_board_code" />
 		<result property="userId" 	  				column="user_id" />
 		<result property="userNickName" 			column="user_nickname" />
 		<result property="infoBoardCommentContent" 	column="info_board_comment_content" />
 		<result property="infoBoardCommentRegTime" 	column="info_board_comment_reg_time" />
 	</resultMap>
+	
+	<!-- 댓글 수정 -->
+	<update id="modifyInfoBoardComment" parameterType="InfoBoardComment">
+		UPDATE
+			tb_info_board_comment AS comm
+		SET
+			comm.info_board_comment_content = #{infoBoardCommentContent},
+			comm.info_board_comment_reg_time = NOW()
+		WHERE
+			comm.info_board_comment_code = #{infoBoardCommentCode}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="removeInfoBoardComment" parameterType="String">
+		DELETE FROM
+			tb_info_board_comment AS comm
+		WHERE
+			comm.info_board_comment_code = #{infoBoardCommentCode};
+	</delete>
 	
 	<!-- 댓글 등록  -->
 	<insert id="addInfoBoardComment" parameterType="InfoBoardComment">
