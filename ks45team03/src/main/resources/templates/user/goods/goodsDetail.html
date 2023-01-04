@@ -170,7 +170,9 @@
                     </div>
                   </div>
                   <a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}" style="color:red">상품 수정 버튼</a>
-                  <a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}" style="color:red">상품 수정 버튼</a>
+                  <form id="addChatRoomForm" th:action="@{/addChatRoom(userId=*{userId})}" method="post">
+ 	                 <button type="submit" class="btn btn-default btn-primary custom-btn">채팅하기</button>
+                  </form>
                 </div>
               </div>
             </div>
