@@ -79,8 +79,8 @@
 		                </ul>
 		                <ul class="list-unstyled">
 		                	<li>
-		                		<button onclick="location.href='/infoboard/modifyInfoBoard'" type="button" class="btn btn-primary">수정</button>
-		                		<button onclick="location.href='/infoboard/removeInfoBoard'" type="button" class="btn btn-primary">삭제</button>
+		                		<button type="button" class="btn btn-primary modifyInfoBoard" th:data-infoboard-code="${infoBoardDetail.infoBoardCode}">수정</button>
+		                		<button type="button" class="btn btn-primary deleteInfoBoard" th:data-infoboard-code="${infoBoardDetail.infoBoardCode}">삭제</button>
 		                	</li>
 		                </ul>
 		              </div>
@@ -116,8 +116,10 @@
 			                </h4>
 			                <div class="change-section">
 			                	<p th:text="${comm.infoBoardCommentContent}"></p>
-								<button class="btn btn-link modifyBtn" type="button"  th:data-comment-code = "${comm.infoBoardCommentCode}" th:data-comment-cotent = "${comm.infoBoardCommentContent}">수정</button> /
-			                	<button class="btn btn-link deleteBtn" type="button" th:data-comment-code ="${comm.infoBoardCommentCode}">삭제</button>			                
+			                	<th:block th:if="${loginInfo.loginId == comm.userId || loginInfo.loginLevelName.equals('관리자')}">
+			                		<button class="btn btn-link modifyBtn" type="button"  th:data-comment-code = "${comm.infoBoardCommentCode}" th:data-comment-cotent = "${comm.infoBoardCommentContent}">수정</button> /
+				                	<button class="btn btn-link deleteBtn" type="button" th:data-comment-code ="${comm.infoBoardCommentCode}">삭제</button>			                
+			                	</th:block>
 			                </div>
 			              </div>
 			            </div>
@@ -159,6 +161,27 @@
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
+			$('.modifyInfoBoard').click(function(){
+				location.href='/infoboard/modifyInfoBoard?infoBoardCode=' + $(this).attr('data-infoboard-code');
+			})
+		
+			$('.deleteInfoBoard').click(function(){
+				const deleteForm = $('<form></form>');
+				deleteForm.attr({
+					action:'/infoboard/removeInfoBoard',
+					method:'POST'
+				});
+				deleteForm.append('<input />', {
+					value: $(this).data('infoboardCode'),
+					name: 'infoboardCode',
+					type: 'hidden'
+				})
+				
+				$('body').appendTo(deleteForm);
+				
+				deleteForm.submit();
+			})
+		
 			$(document).on('click', '.modifyBtn', function(){
 				
 				const infoBoardCommentContent = $(this).attr("data-comment-cotent");
