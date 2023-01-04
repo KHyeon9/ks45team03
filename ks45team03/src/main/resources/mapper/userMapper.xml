@@ -18,6 +18,11 @@
 		<result property="totalExp" column="total_exp" />
 		<result property="totalMileage" column="total_mileage" />
 		<result property="userCreateDate" column="user_create_date" />
+			<association property="regionSgg" javaType="RegionSgg">
+				<id property="regionSggCode" column="region_sgg_code" />
+				<result property="regionSidoCode" column="region_sido_code" />
+				<result property="regionSggName" column="region_sgg_name" />
+			</association>
 	</resultMap>
 	
 	<select id="checkPwByUserId" parameterType="String" resultMap="userResultMap">
@@ -34,6 +39,25 @@
 			u.user_level_code = ul.user_level_code
 		WHERE
 			u.user_id = #{userId};
+	</select>
+	
+	<select id="userInfo" parameterType="String" resultMap="userResultMap">
+		SELECT
+			 u.user_id
+			,u.user_pw
+			,u.user_name
+			,u.user_nickname
+			,u.user_email
+			,u.user_phone_number
+			,rs.region_sgg_name
+		FROM
+			tb_user AS u
+			INNER JOIN
+			tb_region_sgg AS rs
+			ON
+			u.region_sgg_code = rs.region_sgg_code
+		WHERE
+			u.user_id = #{loginId};
 	</select>
 	
 </mapper>
