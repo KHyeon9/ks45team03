@@ -82,15 +82,26 @@
 	<insert id="addChatRoom" parameterType="ChatRoom">
 	
 		INSERT INTO tb_chat_room
-			chat_room_code
+			(chat_room_code
 			, renter_id
 			, owner_id
-			, chatroom_add_time
+			, chatroom_add_time)
 		VALUES
 			(#{chatRoomCode},#{renterId},#{ownerId},NOW());
 	
 	</insert>
 
-
+	<select id="checkChatRoom" parameterType="ChatRoom" resultMap="chatRoomResultMap">
+	
+		SELECT
+			*
+		FROM
+			tb_chat_room
+		WHERE
+			(owner_id = 'id003' AND renter_id = 'id004')
+		OR
+			(owner_id = 'id004' AND renter_id = 'id003');
+	
+	</select>
 
 </mapper>
