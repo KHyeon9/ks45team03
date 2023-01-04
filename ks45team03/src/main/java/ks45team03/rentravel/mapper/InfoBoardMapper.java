@@ -19,6 +19,9 @@ public interface InfoBoardMapper {
 	
 	// 장보 게시글 댓글 등록
 	public int addInfoBoardComment(InfoBoardComment infoBoardComment);
+
+	// 정보 게시글 수정
+	public int modifyInfoBoard(InfoBoard infoBoard);
 	
 	// 정보 게시글 등록
 	public int addInfoBoard(InfoBoard infoBoard);

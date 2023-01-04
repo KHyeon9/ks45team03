@@ -13,7 +13,7 @@ import ks45team03.rentravel.mapper.InfoBoardMapper;
 
 @Service
 @Transactional
-public class InfoBoardService {
+public class InfoBoardService{
 	// 의존성 주입
 	private final InfoBoardMapper infoBoardMapper;
 	
@@ -40,6 +40,11 @@ public class InfoBoardService {
 	// 게시글 댓글 조회
 	public int getCommnetCnt(String infoBoardCode) {
 		return infoBoardMapper.getCommentCnt(infoBoardCode);
+	}
+	
+	// 게시글 수정
+	public int modifyInfoBoard(InfoBoard infoBoard) {
+		return infoBoardMapper.modifyInfoBoard(infoBoard);
 	}
 	
 	// 게시글 등록

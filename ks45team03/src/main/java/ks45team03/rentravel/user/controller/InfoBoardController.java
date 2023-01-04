@@ -48,8 +48,6 @@ public class InfoBoardController {
 	 @ResponseBody
 	 @PostMapping("/infoBoardDetail/modifyComment") 
 	 public void modifyComment(@RequestBody InfoBoardComment comment) {
-		 System.out.println(comment.getInfoBoardCommentCode() + "---------------------------");
-		 System.out.println(comment.getInfoBoardCommentContent() + "---------------------------");
 		 infoBoardService.modifyInfoBoardComment(comment);
 	}
 	
@@ -66,7 +64,6 @@ public class InfoBoardController {
 		 String infoBoardCommentCode = commonNewCode.getCommonNewCode("tb_info_board_comment", "info_board_comment_code");
 		 comment.setInfoBoardCommentCode(infoBoardCommentCode);
 		 infoBoardService.addInfoBoardComment(comment);
-		 log.info("{}, {}, {}",comment.getInfoBoardCode(), comment.getUserId(), comment.getInfoBoardCommentContent());
 	}	
 
 	@GetMapping("/removeInfoBoard")
@@ -121,20 +118,28 @@ public class InfoBoardController {
 		return "user/board/infoBoardDetail";
 	}
 
+	@PostMapping("/modifyInfoBoard")
+	public String modifyInfoBoard(InfoBoard infoBoard) {
+		infoBoardService.modifyInfoBoard(infoBoard);
+		
+		return "redirect:/infoboard/infoBoardDetail?infoBoardCode=" + infoBoard.getInfoBoardCode();
+	}
+	
 	@GetMapping("/modifyInfoBoard")
-	public String modifyInfoBoard(Model model) {
-
+	public String modifyInfoBoard(@RequestParam(value = "infoBoardCode") String infoBoardCode,
+								  Model model) {
+		InfoBoard infoBoardDetail = infoBoardService.getInfoBoardDetail(infoBoardCode);
+		
 		model.addAttribute("title", "정보게시판수정");
-
+		model.addAttribute("infoBoardDetail", infoBoardDetail);
+		
 		return "user/board/modifyInfoBoard";
 	}
 
 	@PostMapping("/addInfoBoard")
-	public String addInfoBoard(InfoBoard infoBoard, Model model) {
+	public String addInfoBoard(InfoBoard infoBoard) {
 		String infoBoardCode = commonNewCode.getCommonNewCode("tb_info_board", "info_board_code");
 		infoBoard.setInfoBoardCode(infoBoardCode);
-
-		model.addAttribute("title", "정보게시판등록");
 
 		infoBoardService.addInfoBoard(infoBoard);
 

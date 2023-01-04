@@ -27,6 +27,18 @@
 		<result property="infoBoardCommentRegTime" 	column="info_board_comment_reg_time" />
 	</resultMap>
 	
+	<!-- 게시글 수정 (img 수정 x) -->
+	<update id="modifyInfoBoard" parameterType="InfoBoard">
+		UPDATE
+			tb_info_board AS info
+		SET
+			info.info_board_title = #{infoBoardTitle},
+			info.info_board_content = #{infoBoardContent},
+			info.info_board_reg_time = NOW()
+		WHERE
+			info.info_board_code = #{infoBoardCode};
+	</update>
+	
 	<!-- 댓글 수정 -->
 	<update id="modifyInfoBoardComment" parameterType="InfoBoardComment">
 		UPDATE
