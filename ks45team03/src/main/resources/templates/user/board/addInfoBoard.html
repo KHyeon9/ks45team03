@@ -65,14 +65,14 @@
 		  </div> <!-- element main container ends -->
 		</div> <!-- Grid wrapper ends -->
 	  </th:block>
-	    <!-- 사용자 지정 js 파일 -->
-		<th:block layout:fragment="customJs"></th:block>
-		<!-- 사용자 지정 js script -->
-		<th:block layout:fragment="customScript">
-			<script>
-				$('#cancelBtn').click(function(){
-					location.href="/infoboard/infoBoardList";
-				})
-			</script>
-		</th:block>
+      <!-- 사용자 지정 js 파일 -->
+	  <th:block layout:fragment="customJs"></th:block>
+	  <!-- 사용자 지정 js script -->
+	  <th:block layout:fragment="customScript">
+		<script>
+			$('#cancelBtn').click(function(){
+				location.href="/infoboard/infoBoardList";
+			})
+		</script>
+	  </th:block>
 </html>

@@ -116,7 +116,7 @@
 			                </h4>
 			                <div class="change-section">
 			                	<p th:text="${comm.infoBoardCommentContent}"></p>
-			                	<th:block th:if="${loginInfo.loginId == comm.userId || loginInfo.loginLevelName.equals('관리자')}">
+			                	<th:block th:if="${loginInfo != null && (loginInfo.loginId == comm.userId || loginInfo.loginLevelName.equals('관리자'))}">
 			                		<button class="btn btn-link modifyBtn" type="button"  th:data-comment-code = "${comm.infoBoardCommentCode}" th:data-comment-cotent = "${comm.infoBoardCommentContent}">수정</button> /
 				                	<button class="btn btn-link deleteBtn" type="button" th:data-comment-code ="${comm.infoBoardCommentCode}">삭제</button>			                
 			                	</th:block>
