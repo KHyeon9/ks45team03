@@ -57,7 +57,9 @@
 		FROM 
 			tb_block AS b
 		WHERE 
-		 b.blocking_user_id = #{loginId};
+		 b.blocking_user_id = #{loginId}
+		ORDER BY b.block_date;
+		
 		
 		</select>
 </mapper>

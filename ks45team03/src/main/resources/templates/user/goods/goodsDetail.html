@@ -93,7 +93,8 @@
                             
                    <form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
                    		<h4 th:text="'ID: '+*{userId}"></h4>
-                   		<button type="submit" id="submitBtn" class="btn btn-secondary" th:value="*{userId}" name="userId">차단하기</button>
+                   		<button th:if="${session.S_USER_INFO != null}"
+                   		type="submit" id="submitBtn" class="btn btn-secondary" th:value="*{userId}" name="userId">차단하기</button>
                    	</form>
                    	
                   <p th:text="*{goodsDetail}"></p>
