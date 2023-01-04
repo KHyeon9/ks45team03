@@ -45,7 +45,7 @@
 	</style>
 </head>
 
-<script type="text/javascript">
+<script th:inline="javascript">
 	var ws;
 
 	function wsOpen(){
@@ -71,7 +71,7 @@
 					}
 				}else if(d.type == "message"){
 					if(d.sessionId == $("#sessionId").val()){
-						$("#chating").append("<p class='me'>나 :" + d.msg + "</p>");	
+						$("#chating").append("<p class='me'>" + [[${getChatRoomCode.renterId}]] +": " + d.msg + "</p>");	
 					}else{
 						$("#chating").append("<p class='others'>" + d.userName + " :" + d.msg + "</p>");
 					}
@@ -116,9 +116,9 @@
 <body>
 	
 	<div id="container" class="container">
-		<h1>의 채팅방</h1>
+		<h1>[[${getChatRoomCode.renterId}]]</h1>
 		<input type="hidden" id="sessionId" value="">
-		<input type="hidden" id="roomNumber" value="1">
+		<input th:object="${getChatRoomCode}" type="hidden" id="roomNumber" th:value="*{chatRoomCode}">
 		
 		<div id="chating" class="chating">
 		</div>

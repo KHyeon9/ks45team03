@@ -28,8 +28,17 @@
 	
 	</select>
 
-
-
+	<select id="getChatRoomCode" parameterType="String" resultMap="chatRoomResultMap">
+		SELECT
+			chat_room_code
+			,renter_id
+			,owner_id
+		FROM
+			tb_chat_room
+		WHERE
+			chat_room_code = #{chatRoomCode}
+		LIMIT 1;
+	</select>
 
 
 

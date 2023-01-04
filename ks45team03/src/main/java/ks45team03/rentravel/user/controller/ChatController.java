@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks45team03.rentravel.dto.ChatRoom;
 import ks45team03.rentravel.dto.Room;
+import ks45team03.rentravel.mapper.ChatMapper;
 import ks45team03.rentravel.user.service.ChatService;
 
 
@@ -23,9 +24,11 @@ import ks45team03.rentravel.user.service.ChatService;
 public class ChatController {
 	
 	private final ChatService chatService;
+	private final ChatMapper chatMapper;
 	
-	public ChatController(ChatService chatService) {
+	public ChatController(ChatService chatService, ChatMapper chatMapper) {
 		this.chatService = chatService;
+		this.chatMapper = chatMapper;
 	}
     
     @GetMapping("/chatRoomList")
@@ -44,10 +47,11 @@ public class ChatController {
 	static int roomNumber = 0;
 	
     @GetMapping("/chat")
-    public String chat(Model model){
+    public String chat(Model model, @RequestParam(value="chatRoomCode") String chatRoomCode){
     	
+    	ChatRoom getChatRoomCode = chatMapper.getChatRoomCode(chatRoomCode);
     	model.addAttribute("title","chat");
-
+    	model.addAttribute("getChatRoomCode",getChatRoomCode);
         return "user/chat/chat";
     }
 	/**

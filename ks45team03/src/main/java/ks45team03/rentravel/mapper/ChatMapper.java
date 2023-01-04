@@ -9,4 +9,6 @@ import ks45team03.rentravel.dto.ChatRoom;
 @Mapper
 public interface ChatMapper {
 	public List<ChatRoom> getChatRoomList(String loginId);
+	
+	public ChatRoom getChatRoomCode(String chatRoomCode);
 }
