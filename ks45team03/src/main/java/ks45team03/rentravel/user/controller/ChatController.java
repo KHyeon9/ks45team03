@@ -79,7 +79,7 @@ public class ChatController {
 	}
 	
 	@PostMapping("/addChatRoom")
-	public String addChatRoom(@RequestParam(value="userId") String userId,@RequestBody ChatRoom chatRoom,HttpSession session) {
+	public String addChatRoom(@RequestParam(value="userId") String userId,ChatRoom chatRoom,HttpSession session) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String loginId = loginUser.getLoginId();
@@ -92,7 +92,9 @@ public class ChatController {
 		
 		chatService.addChatRoom(chatRoom);
 		
-		return "redirect:/room";
+		String redirectNewChatRoom = "redirect:/chat?chatRoomCode="+chatRoomCode;
+		
+		return redirectNewChatRoom;
 	}
 
 	
