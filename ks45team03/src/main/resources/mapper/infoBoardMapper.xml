@@ -188,6 +188,9 @@
 			ON
 			comm.user_id = u.user_id
 		WHERE
-			comm.info_board_code = #{infoBoardCode};
+			comm.info_board_code = #{infoBoardCode}
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
 	</select>
 </mapper>

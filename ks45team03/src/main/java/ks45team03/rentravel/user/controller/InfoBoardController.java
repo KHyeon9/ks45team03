@@ -79,7 +79,7 @@ public class InfoBoardController {
 								Model model) {
 		int listCnt = infoBoardMapper.getInfoBoardListCnt();
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<InfoBoard> infoBoardList = infoBoardMapper.getInfoBoardList(pagination.getStartIndex(), pagination.getPageSize());
+		List<InfoBoard> infoBoardList = infoBoardService.getInfoBoardList(pagination.getStartIndex(), pagination.getPageSize());
 		
 		model.addAttribute("title", "정보게시판리스트");
 		model.addAttribute("pagination", pagination);
@@ -90,24 +90,27 @@ public class InfoBoardController {
 
 	@GetMapping("/infoBoardDetail")
 	public String infoBoardDetail(@RequestParam(value = "infoBoardCode", required = false) String infoBoardCode,
-			HttpSession session, Model model) {
-
+								  @RequestParam(value="curPage", defaultValue="1", required=false) int curPage, 
+								  HttpSession session, 
+								  Model model) {
+		int commentCnt = infoBoardMapper.getCommentCnt(infoBoardCode);
+		Pagination pagination = new Pagination(commentCnt, curPage);
 		infoBoardService.viewIncrease(infoBoardCode);
 		InfoBoard infoBoardDetail = infoBoardService.getInfoBoardDetail(infoBoardCode);
-		List<InfoBoardComment> commentList = infoBoardService.getInfoBoardComment(infoBoardCode);
+		List<InfoBoardComment> commentList = infoBoardMapper.getInfoBoardComment(infoBoardCode, pagination.getStartIndex(), pagination.getPageSize());
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
 		
-		
-		int commentCnt = infoBoardService.getCommnetCnt(infoBoardCode);
 		if (loginInfo != null) {
 			User userCheck = userMapper.checkPwByUserId(loginInfo.getLoginId());
 			model.addAttribute("nickName", userCheck.getUserNickName());
 		}
+		
 		model.addAttribute("title", "정보게시판상세");
 		model.addAttribute("infoBoardDetail", infoBoardDetail);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("commentCnt", commentCnt);
+		model.addAttribute("pagination", pagination);
 		model.addAttribute("loginInfo", loginInfo);
 
 		return "user/board/infoBoardDetail";
