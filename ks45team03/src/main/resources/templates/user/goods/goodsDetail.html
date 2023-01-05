@@ -95,55 +95,49 @@
                    		<h4 th:text="'ID: '+*{userId}"></h4>
                    		<button th:if="${session.S_USER_INFO != null}"
                    		type="submit" id="submitBtn" class="btn btn-secondary" th:value="*{userId}" name="userId">차단하기</button>
-                   	</form>
+                   </form>
                    	
-                  <p th:text="*{goodsDetail}"></p>
-                  <div class="row">
-                    <div class="col-12">
-                      <span class="quick-drop resizeWidth quantityWidth single-quick-drop">
-                        <select name="guiest_id3" id="guiest_id3" class="select-drop">
-                          <option value="0">Size</option>
-                          <option value="1">6.5</option>
-                          <option value="2">7</option>
-                          <option value="3">8</option>
-                          <option value="4">8.5</option>
-                          <option value="5">9.5</option>
-                          <option value="6">10</option>
-                          <option value="7">11</option>
-                          <option value="8">12</option>
-                          <option value="9">12.5</option>
-                          <option value="10">13</option>
-                        </select>
-                      </span>
-                    </div>
-
-                    <div class="col-12">
-                      <div class="d-flex align-items-center mb-5 pt-3">
-                        <h5 class="mr-4">수량:</h5>
-                        <div class="SingleCartListInner cartListInner pl-1">
-                          <form action="#">
-                            <div class="table-responsive">
-                              <table class="table">
-                                <tbody>
-                                  <tr class="border-0">
-                                    <td class="count-input border-0 p-0">
-                                      <a class="incr-btn" data-action="decrease" href="#"><i class="fa fa-minus"></i></a>
-                                      <input class="quantity" type="text" value="1">
-                                      <a class="incr-btn" data-action="increase" href="#"><i class="fa fa-plus"></i></a>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                   <p th:text="*{goodsDetail}"></p>
+                   <form id="getRentalInfo" action="/order/payment" method="get">
+                   	 <input th:value="${goodsDetail.goodsCode}" name="goodsCode" type="hidden" readonly="readonly"/>
+                     <div class="row">
+                   	   <div class="col-12">
+	                      <h5 class="mr-4" style="margin-bottom: 20px;">택배여부</h5>
+		                  <div class="form-group row">
+		                    <div class="quick-drop col-4 selectOptions mb-2">
+		                      <select id="deliveryType" name="selectDelivery" class="form-control select-drop">
+	                            <option value="N" selected>직거래</option>
+		                        <option value="Y">택배</option>
+		                      </select>
+		                 	 </div>
+		                  </div>
+	                   </div>
+	
+	                    <!-- <div class="col-12"> -->
+	                   <div class="d-flex align-items-center mb-2 pt-3">
+	                      <div class="form-group col-md-6 col-12">
+				            <div class="form-group row">
+							  <h5><label for="example-datetime-local-input" class="col-md-12 col-form-label">렌탈 시작일</label></h5>
+								 <div class="col-md-10">
+								    <input class="form-control" id="rentalStartDate" min="2023-01-04" type="date" name="rentalStartDate">
+								 </div>
+							</div>
+			               </div>
+			               <div class="form-group col-md-6 col-12">
+				             <div class="form-group row">
+							    <h5><label for="example-datetime-local-input" class="col-md-12 col-form-label">렌탈 종료일</label></h5>
+								<div class="col-md-10">
+									<input class="form-control" id="rentalEndDate" type="date" name="rentalEndDate">
+								</div>
+							 </div>
+			               </div>
+	                    </div>
+	                  </div>
+	                  <div class="btn-area mb-0">
+	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="width: 130px; font-weight: bold;">결제하기<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+	                  </div>
+                   </form>
                  
-                  <div class="btn-area mb-0">
-                    <a th:href="@{/order/payment(goodsCode=${goodsCode})}" class="btn btn-primary btn-default">Add to cart <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                  </div>
 
                   <div class="tabArea d-none">
                     <ul class="nav nav-tabs bar-tabs">
@@ -531,9 +525,31 @@
           </div>
         </div>
       </section>
+	</th:block>
+	  <!-- 사용자 지정 js 파일 -->
+	<th:block layout:fragment="customJs"></th:block>
 	
-	
-	<a th:href="@{/order/payment(goodsCode=${goodsCode})}" style="color:blue;">결제</a>
+	<!-- 사용자 지정 js script -->
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			const $startDate = document.getElementById('rentalStartDate');
+			const $endDate = document.getElementById('rentalEndDate');
+			const today = new Date();
+
+			const startDate = new Date(today);
+			const endDate = new Date(today);
+
+			endDate.setDate(today.getDate() + 14);
+			$startDate.value = today.toISOString().substring(0, 10);
+			$startDate.setAttribute('min', startDate.toISOString().substring(0, 10));
+			$startDate.setAttribute('max', endDate.toISOString().substring(0, 10));
+			$endDate.setAttribute('min', startDate.toISOString().substring(0, 10));
+			
+			$startDate.addEventListener('change', function(){
+				$endDate.setAttribute('min', $startDate.value);
+			}) 
+			
+		</script>
 	</th:block>
 </body>
 

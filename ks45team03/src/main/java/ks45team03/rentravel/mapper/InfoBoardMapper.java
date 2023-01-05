@@ -11,6 +11,9 @@ import ks45team03.rentravel.dto.InfoBoardComment;
 @Mapper
 public interface InfoBoardMapper {
 	
+	// 조회수 증가 처리
+	public int viewIncrease(String infoBoardCode);
+	
 	// 정보 게시글 댓글 수정
 	public int modifyInfoBoardComment(InfoBoardComment infoBoardComment);
 	
