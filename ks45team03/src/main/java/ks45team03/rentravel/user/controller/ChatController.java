@@ -38,13 +38,16 @@ public class ChatController {
     public String chat(Model model, @RequestParam(value="chatRoomCode") String chatRoomCode,HttpSession session){
     	
     	LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+    	String loginId = loginUser.getLoginId();
     	List<ChatMessage> chatMessageList = chatService.getChatMessageList(chatRoomCode);
-    	ChatRoom getChatRoomCode = chatMapper.getChatRoomCode(chatRoomCode);
+    	ChatRoom chatRoomInfo = chatMapper.getChatRoomCode(chatRoomCode);
+    	
+    	chatService.modifyChatReadCheck(chatRoomCode, loginId);
     	
     	model.addAttribute("title","chat");
     	model.addAttribute("loginUser",loginUser);
     	model.addAttribute("chatMessageList",chatMessageList);
-    	model.addAttribute("getChatRoomCode",getChatRoomCode);
+    	model.addAttribute("chatRoomInfo",chatRoomInfo);
 
     	return "user/chat/chat";
     }
@@ -72,6 +75,7 @@ public class ChatController {
 		
 		model.addAttribute("title", "room");
 		
+		model.addAttribute("loginUser",loginUser);
 		
 		model.addAttribute("chatRoomList",chatRoomList);
 		
@@ -90,15 +94,22 @@ public class ChatController {
 		chatRoom.setRenterId(loginId);
 		chatRoom.setOwnerId(userId);
 		
-		chatService.addChatRoom(chatRoom);
+		ChatRoom checkChatRoom = chatService.checkChatRoom(chatRoom);
 		
-		String redirectNewChatRoom = "redirect:/chat?chatRoomCode="+chatRoomCode;
+		
+		String redirectNewChatRoom = "";
+		
+		if(checkChatRoom != null) {
+			String checkChatRoomCode = checkChatRoom.getChatRoomCode();
+			
+			redirectNewChatRoom = "redirect:/chat?chatRoomCode="+checkChatRoomCode;
+		}else {
+			chatService.addChatRoom(chatRoom);
+			
+			redirectNewChatRoom = "redirect:/chat?chatRoomCode="+chatRoomCode;
+		}
 		
 		return redirectNewChatRoom;
 	}
-
-	
-
-	
 
 }

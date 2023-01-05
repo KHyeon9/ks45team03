@@ -63,7 +63,7 @@
 		,#{userId}
 		,#{chatRoomCode}
 		,#{chatMessage}
-		,'FALSE'
+		,'안읽음'
 		,NOW());
 	
 	</insert>
@@ -75,7 +75,8 @@
 		FROM
 			tb_chat_message
 		WHERE
-			chat_room_code = #{chatRoomCode};
+			chat_room_code = #{chatRoomCode}
+		ORDER BY message_send_time;
 	
 	</select>
 	
@@ -94,14 +95,27 @@
 	<select id="checkChatRoom" parameterType="ChatRoom" resultMap="chatRoomResultMap">
 	
 		SELECT
-			*
+			chat_room_code
 		FROM
 			tb_chat_room
 		WHERE
-			(owner_id = 'id003' AND renter_id = 'id004')
+			(owner_id = #{renterId} AND renter_id = #{ownerId})
 		OR
-			(owner_id = 'id004' AND renter_id = 'id003');
+			(owner_id = #{ownerId} AND renter_id = #{renterId});
 	
 	</select>
+
+	<update id="modifyChatReadCheck" parameterType="String">
+	
+		UPDATE
+			tb_chat_message
+		SET
+			read_check = '읽음'
+		WHERE
+			chat_room_code = #{chatRoomCode}
+		AND
+			user_id != #{loginId};
+	
+	</update>
 
 </mapper>

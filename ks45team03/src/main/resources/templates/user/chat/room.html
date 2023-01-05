@@ -38,9 +38,6 @@
       <section class="mainContent clearfix userProfile">
         <div class="container">
           <div class="row">
-           
-          </div>
-          <div class="row">
             <div class="col-sm-12">
               <div class="innerWrapper">
                 <div class="orderBox myAddress wishList">
@@ -63,7 +60,9 @@
                           <td class="" style="text-align:center;"> 
                             <span class="cartImage"><img src="user/assets/img/products/cart-image1.jpg" alt="image"></span>
                           </td>
-                          <td style="text-align:center;" th:text="${crl.ownerId}"></td>
+                          
+                          <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.renterId)}" th:text="${crl.ownerId}"></td>
+                          <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.ownerId)}" th:text="${crl.renterId}"></td>
 						  <td style="width:15%; text-align:center; " th:text="${crl.chatRoomAddTime}"></td>
 						  <td style="width:15%; text-align:center" ><a th:href="@{/chat(chatRoomCode=${crl.chatRoomCode})}"><button type="button" class="btn btn-primary">입장</button></a></td>
               

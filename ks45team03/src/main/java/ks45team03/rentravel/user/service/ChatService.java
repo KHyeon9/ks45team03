@@ -40,4 +40,18 @@ public class ChatService {
 		
 		return chatMapper.addChatRoom(chatRoom);
 	}
+	
+	public ChatRoom checkChatRoom(ChatRoom chatRoom) {
+		
+		ChatRoom checkChatRoom = chatMapper.checkChatRoom(chatRoom);
+		
+		return checkChatRoom;
+	}
+	
+	public int modifyChatReadCheck(String chatRoomCode, String loginId){
+		
+		int modifyChatReadCheck = chatMapper.modifyChatReadCheck(chatRoomCode, loginId);
+		
+		return modifyChatReadCheck;
+	}
 }
