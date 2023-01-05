@@ -51,8 +51,8 @@
 	                      <tbody>
 	                        <tr th:each="order : ${orderList}">
 	                          <td th:text="${order.goodsName}"></td>
-	                          <td th:text="rentalStartDate">March 25, 2016</td>
-	                          <td th:text="rentalEndDate">2</td>
+	                          <td th:text="${order.rentalStartDate}">March 25, 2016</td>
+	                          <td th:text="${order.rentalEndDate}">2</td>
 	                          <th:block th:object="${order.payment}">
 	                          	<td th:text="*{mileageUsePrice}"></td>
 	                          	<td th:text="*{amountExcludingMileage}"></td>

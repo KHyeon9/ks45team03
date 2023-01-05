@@ -22,6 +22,11 @@ public class InfoBoardService{
 		this.infoBoardMapper = infoBoardMapper;
 	}
 	
+	// 조회수 증가 처리
+	public int viewIncrease(String infoBoardCode) {
+		return infoBoardMapper.viewIncrease(infoBoardCode);
+	}
+	
 	// 게시글 댓글 수정
 	public int modifyInfoBoardComment(InfoBoardComment infoBoardComment) {
 		return infoBoardMapper.modifyInfoBoardComment(infoBoardComment);
