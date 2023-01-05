@@ -141,11 +141,11 @@
 	               <div class=" checkboxArea card-check">
                     <div class="col-sm-12 mb-2">
                       <input id="checkbox1" type="radio" name="checkbox" value="1" >
-                      <label for="checkbox1"><span></span>Pay with Paypal</label>
+                      <label for="checkbox1"><span></span>통장</label>
                     </div>
                     <div class="col-sm-12 mb-2">
                       <input id="checkbox2" type="radio" name="checkbox" value="1" checked="checked">
-                      <label for="checkbox2"><span></span>Credit Card</label>
+                      <label for="checkbox2"><span></span>카드</label>
                       <small class="mb-2 d-block">We accept following credit card</small>
                       <ul class="list-unstyled list-inline">
                         <li><img src="/user/assets/img/products/card1.jpg" alt=""><!--  --></li>
@@ -155,25 +155,22 @@
                       </ul>
                       <div class="form-group row my-3 ml-3">
                         <div class="col-md-6">
-                          <label for="" class="col-form-label">Name on Card</label>
+                          <label for="" class="col-form-label">결제 회사</label>
                           <input class="form-control" type="text" >
                         </div>
 
                         <div class="col-md-6">
-                          <label for="" class="col-form-label">Card Number</label>
+                          <label for="" class="col-form-label">결제 번호</label>
                           <input class="form-control" type="text" >
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-12 mb-2">
-                      <input id="checkbox1" type="radio" name="checkbox" value="1" >
-                      <label for="checkbox1"><span></span>Reward Points</label>
                     </div>
                   </div>
 	               <div class="col-12">
 	                 <div class="well well-lg clearfix">
 	                   <ul class="pager">
-	                     <li class="next "><a class="btn btn-primary btn-default float-right" th:href="@{/goods/goodsList}">결제 <i class="fa fa-angle-right"></i></a></li>
+	                     <li class="next "><a style="margin-left: 10px;" class="btn btn-primary btn-default float-right" th:href="@{/goods/goodsList}">결제 <i class="fa fa-angle-right"></i></a></li>
+	                     <li class="next "><a class="btn btn-primary btn-default float-right" th:href="@{/goods/goodsDetail(goodsCode=${goods.goodsCode})}"><i class="fa fa-angle-left"></i>  이전</a></li>
 	                   </ul>
 	                 </div>
 	               </div>
