@@ -101,9 +101,13 @@ public class InfoBoardController {
 	public String infoBoardDetail(@RequestParam(value = "infoBoardCode", required = false) String infoBoardCode,
 			HttpSession session, Model model) {
 
+		infoBoardService.viewIncrease(infoBoardCode);
 		InfoBoard infoBoardDetail = infoBoardService.getInfoBoardDetail(infoBoardCode);
 		List<InfoBoardComment> commentList = infoBoardService.getInfoBoardComment(infoBoardCode);
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		
+		
 		int commentCnt = infoBoardService.getCommnetCnt(infoBoardCode);
 		if (loginInfo != null) {
 			User userCheck = userMapper.checkPwByUserId(loginInfo.getLoginId());

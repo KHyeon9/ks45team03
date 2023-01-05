@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks45team03.rentravel.mapper.InfoBoardMapper">
 	<resultMap type="InfoBoard" id="infoBoardResultMap">
-		<id property="infoBoardCode" 	  		column="info_board_code" />
+		<id 	property="infoBoardCode" 	  	column="info_board_code" />
 		<result property="userId" 	  			column="user_id" />
 		<result property="infoBoardTitle" 	  	column="info_board_title" />
 		<result property="infoBoardContent" 	column="info_board_content" />
@@ -26,6 +26,15 @@
 		<result property="infoBoardCommentContent" 	column="info_board_comment_content" />
 		<result property="infoBoardCommentRegTime" 	column="info_board_comment_reg_time" />
 	</resultMap>
+	
+	<update id="viewIncrease" parameterType="String">
+		UPDATE
+			tb_info_board AS info
+		SET
+			info.info_board_view_cnt = info.info_board_view_cnt + 1
+		WHERE
+			info.info_board_code = #{infoBoardCode};
+	</update>
 	
 	<!-- 게시글 수정 (img 수정 x) -->
 	<update id="modifyInfoBoard" parameterType="InfoBoard">
@@ -144,6 +153,7 @@
 	<select id="getInfoBoardDetail" parameterType="String" resultMap="infoBoardResultMap">
 		SELECT
 			u.user_nickname,
+			info.user_id,
 			info.info_board_code,
 			info.info_board_title,
 			info.info_board_content,
