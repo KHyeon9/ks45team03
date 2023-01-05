@@ -30,16 +30,16 @@ public interface InfoBoardMapper {
 	public int addInfoBoard(InfoBoard infoBoard);
 	
 	// 정보 게시판 목록 조회
-	public List<InfoBoard> getInfoBoardList(Map<String, Object> paramMap);
+	public List<InfoBoard> getInfoBoardList(int startIndex, int pageSize);
 	
-	// 정조 게시판 총 개수 조회
+	// 정보 게시판 총 개수 조회
 	public int getInfoBoardListCnt();
 	
 	// 정보 게시글 상세 조회
 	public InfoBoard getInfoBoardDetail(String infoBoardCode);
 	
 	// 정보 게시글의 댓글 조회
-	public List<InfoBoardComment> getInfoBoardComment(String infoBoardCode);
+	public List<InfoBoardComment> getInfoBoardComment(String infoBoardCode, int startIndex, int pageSize);
 	
 	// 댓글 갯수 조회
 	public int getCommentCnt(String infoBoardCode);

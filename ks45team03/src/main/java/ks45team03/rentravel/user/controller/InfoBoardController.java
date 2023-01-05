@@ -21,8 +21,10 @@ import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.InfoBoard;
 import ks45team03.rentravel.dto.InfoBoardComment;
 import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.mapper.CommonNewCode;
+import ks45team03.rentravel.mapper.InfoBoardMapper;
 import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.user.service.InfoBoardService;
 import lombok.AllArgsConstructor;
@@ -36,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 public class InfoBoardController {
 
 	private final InfoBoardService infoBoardService;
+	private final InfoBoardMapper infoBoardMapper;
 	private final CommonNewCode commonNewCode;
 	private final UserMapper userMapper;
 
@@ -71,52 +74,43 @@ public class InfoBoardController {
 		return "redirect:/";
 	}
 
-	@SuppressWarnings("unchecked")
 	@GetMapping("/infoBoardList")
-	public String infoBoardList(
-			@RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage, Model model) {
-		Map<String, Object> paramMap = infoBoardService.getInfoBoardList(currentPage);
-
-		List<InfoBoard> infoBoardList = (List<InfoBoard>) paramMap.get("infoBoardList");
-		int lastPage = (int) paramMap.get("lastPage");
-		int startPageNum = (int) paramMap.get("startPageNum");
-		int endPageNum = (int) paramMap.get("endPageNum");
-		int nextPage = (int) paramMap.get("nextPage");
-		int prevPage = (int) paramMap.get("prevPage");
-
+	public String infoBoardList(@RequestParam(value="curPage", defaultValue="1", required=false) int curPage, 
+								Model model) {
+		int listCnt = infoBoardMapper.getInfoBoardListCnt();
+		Pagination pagination = new Pagination(listCnt, curPage);
+		List<InfoBoard> infoBoardList = infoBoardService.getInfoBoardList(pagination.getStartIndex(), pagination.getPageSize());
+		
 		model.addAttribute("title", "정보게시판리스트");
-
-		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("pagination", pagination);
 		model.addAttribute("infoBoardList", infoBoardList);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		model.addAttribute("nextPage", nextPage);
-		model.addAttribute("prevPage", prevPage);
 
 		return "user/board/infoBoardList";
 	}
 
 	@GetMapping("/infoBoardDetail")
 	public String infoBoardDetail(@RequestParam(value = "infoBoardCode", required = false) String infoBoardCode,
-			HttpSession session, Model model) {
-
+								  @RequestParam(value="curPage", defaultValue="1", required=false) int curPage, 
+								  HttpSession session, 
+								  Model model) {
+		int commentCnt = infoBoardMapper.getCommentCnt(infoBoardCode);
+		Pagination pagination = new Pagination(commentCnt, curPage);
 		infoBoardService.viewIncrease(infoBoardCode);
 		InfoBoard infoBoardDetail = infoBoardService.getInfoBoardDetail(infoBoardCode);
-		List<InfoBoardComment> commentList = infoBoardService.getInfoBoardComment(infoBoardCode);
+		List<InfoBoardComment> commentList = infoBoardMapper.getInfoBoardComment(infoBoardCode, pagination.getStartIndex(), pagination.getPageSize());
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
 		
-		
-		int commentCnt = infoBoardService.getCommnetCnt(infoBoardCode);
 		if (loginInfo != null) {
 			User userCheck = userMapper.checkPwByUserId(loginInfo.getLoginId());
 			model.addAttribute("nickName", userCheck.getUserNickName());
 		}
+		
 		model.addAttribute("title", "정보게시판상세");
 		model.addAttribute("infoBoardDetail", infoBoardDetail);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("commentCnt", commentCnt);
+		model.addAttribute("pagination", pagination);
 		model.addAttribute("loginInfo", loginInfo);
 
 		return "user/board/infoBoardDetail";
