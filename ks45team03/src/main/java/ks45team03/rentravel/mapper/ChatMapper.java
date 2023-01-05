@@ -18,4 +18,8 @@ public interface ChatMapper {
 	public List<ChatMessage> getChatMessageList(String chatRoomCode);
 	
 	public int addChatRoom(ChatRoom chatRoom);
+	
+	public ChatRoom checkChatRoom(ChatRoom chatRoom);
+	
+	public int modifyChatReadCheck(String chatRoomCode, String loginId);
 }
