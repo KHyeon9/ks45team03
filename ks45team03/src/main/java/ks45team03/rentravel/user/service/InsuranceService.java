@@ -56,20 +56,4 @@ public class InsuranceService {
 		insuranceMapper.removeInsuranceBillDetail();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

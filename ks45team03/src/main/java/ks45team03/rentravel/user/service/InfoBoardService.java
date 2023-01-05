@@ -1,5 +1,6 @@
 package ks45team03.rentravel.user.service;
 
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,18 @@ public class InfoBoardService{
 		return infoBoardMapper.getCommentCnt(infoBoardCode);
 	}
 	
+	// 정보 게시판 목록 조회
+	public List<InfoBoard> getInfoBoardList(int startIndex, int pageSize){
+		List<InfoBoard> infoList = infoBoardMapper.getInfoBoardList(startIndex, pageSize);
+		
+		for(InfoBoard info: infoList) {
+			int commentCnt = infoBoardMapper.getCommentCnt(info.getInfoBoardCode());
+			info.setCommentCnt(commentCnt);
+		}
+		
+		return infoList;
+	};
+
 	// 게시글 수정
 	public int modifyInfoBoard(InfoBoard infoBoard) {
 		return infoBoardMapper.modifyInfoBoard(infoBoard);
@@ -57,11 +70,6 @@ public class InfoBoardService{
 	// 정보 게시글 조회
 	public InfoBoard getInfoBoardDetail(String infoBoardCode) {
 		return infoBoardMapper.getInfoBoardDetail(infoBoardCode);
-	}
-	
-	// 정보 게시글의 댓글 조회
-	public List<InfoBoardComment> getInfoBoardComment(String infoBoardCode) {
-		return infoBoardMapper.getInfoBoardComment(infoBoardCode);
 	}
 	
 }
