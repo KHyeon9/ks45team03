@@ -11,16 +11,45 @@
 		<result property="inquiryBoardContent" column="inquiry_board_content"/>
 		<result property="inquiryBoardType" column="inquiry_board_type"/>
 		<result property="inquiryBoardRegTime" column="inquiry_board_reg_time"/>
+		
+		<result property="inquiryReBoardCode" column="inquiry_re_board_code"/>
+		<result property="inquiryId" column="inquiry_id"/>
+		<result property="inquiryReBoardTitle" column="inquiry_re_board_title"/>
+		<result property="inquiryReBoardContent" column="inquiry_re_board_content"/>
+		<result property="inquiryBoardReRegTime" column="inquiry_board_re_reg_time"/>
+		
 		<association property="user" javaType="User">
 			<id property="userId" 	  		column="user_id"/>
 			<result property="userNickName" 	column="user_nickname"/>
 		</association>
 	</resultMap>
 	
+	
+	<select id="getInquiryReBoard" parameterType="String" resultMap="inquiryBoardResultMap">
+	/* 1 대 1 문의게시판 답변게시글 조회 */
+		SELECT
+			ir.inquiry_re_board_code
+			,ir.user_id		
+			,ir.inquiry_re_board_title
+			,ir.inquiry_re_board_content
+			,ir.inquiry_board_re_reg_time
+			,u.user_nickname
+		FROM 
+			tb_inquiry_re_board AS ir
+			INNER JOIN 
+			tb_user AS u
+			ON  
+			
+			ir.user_id = u.user_id 
+		WHERE 
+			ir.inquiry_re_board_code = #{inquiryReBoardCode};
+	</select>
+	
 	<select id="getInquiryBoard" parameterType="String" resultMap="inquiryBoardResultMap">
+	/* 1 대 1 문의게시판 문의게시글 조회 */
 		SELECT
 			ib.inquiry_board_code
-			,ib.user_id
+			,ib.user_id			
 			,ib.inquiry_board_title
 			,ib.inquiry_board_content
 			,ib.inquiry_board_type
@@ -36,8 +65,26 @@
 	ib.inquiry_board_code = #{inquiryBoardCode};
 	</select>
 	
+	<select id="getInquiryBoardReList" parameterType="int" resultMap="inquiryBoardResultMap">
+	/* 1 대 1 문의게시판 답글 목록 조회 */
+		SELECT
+			ir.inquiry_re_board_code
+			,ir.user_id
+			,ir.inquiry_board_code
+			,ir.inquiry_re_board_title
+			,ir.inquiry_re_board_content
+			,ir.inquiry_board_re_reg_time
+			,u.user_nickname		
+		FROM 
+			tb_inquiry_re_board AS ir
+			INNER JOIN 
+			tb_user AS u
+			ON 
+			ir.user_id = u.user_id;		
+	</select>
 	
 	<select id="getInquiryBoardList" parameterType="int" resultMap="inquiryBoardResultMap">
+	/* 1 대 1 문의게시판 목록 조회 */
 		SELECT
 			ib.inquiry_board_code
 			,ib.user_id
@@ -52,6 +99,9 @@
 			tb_user AS u
 			ON 
 			ib.user_id = u.user_id
+		WHERE 
+			not ib.inquiry_board_type='답글'
+		ORDER BY LENGTH(SUBSTRING(inquiry_board_code,14)) DESC,SUBSTRING(inquiry_board_code,14) DESC
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize};
 		</if>

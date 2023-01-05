@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.InquiryBoard;
+import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.mapper.InquiryBoardMapper;
 import ks45team03.rentravel.user.service.InquiryBoardService;
@@ -32,11 +34,12 @@ public class InquiryBoardController {
 		int listCnt = inquiryBoardMapper.inquiryBoardListCnt();
 		Pagination pagination = new Pagination(listCnt, curPage);
 		List <InquiryBoard> getInquiryBoardList = inquiryBoardMapper.getInquiryBoardList(pagination.getStartIndex(), pagination.getPageSize());
+		List <InquiryBoard> getInquiryBoardReList = inquiryBoardMapper.getInquiryBoardReList();
 				
 		model.addAttribute("title","1 대 1 문의 게시글 목록(조회)");
 		model.addAttribute("getInquiryBoardList",getInquiryBoardList);
 		model.addAttribute("pagination",pagination);
-		
+		model.addAttribute("getInquiryBoardReList",getInquiryBoardReList);
 		return "user/board/inquiryList";
 	}
 	
@@ -53,11 +56,30 @@ public class InquiryBoardController {
 	}
 	
 	
+	@GetMapping("/inquiryReDetail")
+	public String getInquiryReBoard (@RequestParam(value="inquiryReBoardCode", required = false) String inquiryReBoardCode
+									,Model model) {
+		
+		InquiryBoard getInquiryReBoard = inquiryBoardMapper.getInquiryReBoard(inquiryReBoardCode);
+		model.addAttribute("title","1 대 1 문의 게시글(조회)");
+		model.addAttribute("getInquiryReBoard",getInquiryReBoard);
+		
+		return "user/board/inquiryReDetail";
+	}
+	
+	
 	
 	@GetMapping("/addInquiry")
-	public String addInquiryBoard(Model model) {
+	public String addInquiryBoard(Model model
+								,HttpSession session) {
+		 
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String levelName = loginInfo.getLoginLevelName();
 		
 		model.addAttribute("title","1 대 1 문의 게시글 추가");
+		model.addAttribute("loginId",loginInfo.getLoginId());
+		model.addAttribute("levelName",levelName);
+		
 		
 		return "user/board/addInquiry";
 	}
