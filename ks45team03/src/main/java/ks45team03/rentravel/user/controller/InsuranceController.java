@@ -37,27 +37,23 @@ public class InsuranceController {
 		this.insuranceMapper = insuranceMapper;
 		this.insuranceService = insuranceService;
 	}
-	
 	@GetMapping("/insuranceMain")
-	public String insuranceMain(Model model) {		
-		model.addAttribute("title", "보험메인화면");
-		
-		return "user/insurance/insuranceMain";
-	}
-	
-	@GetMapping("/insuranceList")
 	public String getInsuranceList(HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		
 		if(session.getAttribute("S_USER_INFO") != null) {
+			model.addAttribute("title", "Insurance");
 			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
 			String loginId =  loginInfo.getLoginId();
 			
 			List<Insurance> insuranceList = insuranceMapper.getInsuranceInfoById(loginId);
+			List<InsuranceBill> insuranceBillList = insuranceMapper.getInsuranceBillInfoById(loginId);
+			List<InsurancePayout> insurancePayoutList = insuranceMapper.getInsurancePayoutInfoById(loginId);
 			
-			model.addAttribute("title", "보험가입정보");
 			model.addAttribute("insuranceList", insuranceList);
+			model.addAttribute("insuranceBillList", insuranceBillList);
+			model.addAttribute("insurancePayoutList", insurancePayoutList);
 			
-			return "user/insurance/insuranceList"; //html경로를 찾아감
+			return "user/insurance/insuranceMain";
 			
 		} else {
 			
@@ -68,28 +64,6 @@ public class InsuranceController {
 		
 	}
 	
-	@GetMapping("/insuranceBillList")
-	public String getInsuranceBillList(HttpServletResponse response, Model model, HttpSession session) throws IOException {		
-		
-		if(session.getAttribute("S_USER_INFO") != null) {
-			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
-			String loginId =  loginInfo.getLoginId();
-		
-			List<InsuranceBill> insuranceBillList = insuranceMapper.getInsuranceBillInfoById(loginId);
-		
-			model.addAttribute("title", "보험청구서조회");
-			model.addAttribute("insuranceBillList", insuranceBillList);
-			
-			return "user/insurance/insuranceBillList";
-			
-		} else {
-			
-			CommonController.alertPlzLogin(response);
-			
-			return "user/user/login";
-			
-		}
-	}
 	
 	@GetMapping("/insuranceBillDetail")
 	public String getInsuranceBillDetail(Model model) {
@@ -125,25 +99,6 @@ public class InsuranceController {
 		return "user/insurance/insuranceRemoveBill";
 	}
 	
-	@GetMapping("/insurancePayoutList")
-	public String getInsurancePayoutList(HttpServletResponse response, Model model, HttpSession session) throws IOException {
-		
-		if(session.getAttribute("S_USER_INFO") != null) {
-			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
-			String loginId =  loginInfo.getLoginId();
-		
-			List<InsurancePayout> insurancePayoutList = insuranceMapper.getInsurancePayoutInfoById(loginId);
-		
-			model.addAttribute("title", "보상금지급내역");
-			model.addAttribute("insurancePayoutList", insurancePayoutList);
-		
-			return "user/insurance/insurancePayoutList";
-		} else {
-			CommonController.alertPlzLogin(response);
-			
-			return "user/user/login";
-			
-		}
-	}
+
 	
 }

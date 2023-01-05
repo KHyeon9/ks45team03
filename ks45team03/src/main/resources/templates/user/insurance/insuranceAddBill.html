@@ -8,22 +8,32 @@
 	  	<!-- MAIN CONTENT SECTION -->
 	      <section class="mainContent clearfix blogPage">
 	        <div class="container">
-	        	<h2>보험금청구서</h2><br/><br/>
+	        	<h1>보험금청구서</h1><br/><br/>
 	      		<form>
-	      			<h4>1. 인적사항</h4><br/>
+	      			<div class="form-group row">
+						<label for="example-text-input" class="col-md-2 col-form-label">보험코드</label>
+						<div class="col-md-5 selectOptions mb-4">
+							<select name="country" class="form-control select-drop">
+								<option>보험코드</option>
+								<option>1 상품코드 상품명</option>
+								<option>2 상품코드 상품명</option>
+							</select>
+						</div>
+					</div>
 	      			
+	      			<h4>1. 인적사항</h4><br/>
 						<div class="form-group row">
 							<label for="example-text-input" class="col-md-2 col-form-label">성명</label>
 							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="Name">
+								<input class="form-control" type="text" placeholder="홍길동">
 							</div>
 							<label for="example-text-input" class="col-md-2 col-form-label">이메일</label>
 							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="E-mail">
+								<input class="form-control" type="text" placeholder="email@example.com">
 							</div>
 							<label for="example-text-input" class="col-md-2 col-form-label">연락처</label>
 							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="Phone">
+								<input class="form-control" type="text" placeholder="000-0000-0000">
 							</div>
 						</div>
 						<hr class="my-4">
@@ -33,7 +43,7 @@
 							<label for="example-text-input" class="col-md-2 col-form-label">사고유형</label>
 							<div class="col-md-10 selectOptions mb-4">
 								<select name="country" class="form-control select-drop">
-									<option>사고유형\</option>
+									<option>사고유형</option>
 									<option>분실</option>
 									<option>파손</option>
 								</select>
@@ -44,7 +54,7 @@
 							</div>
 							<label for="example-text-input" class="col-md-2 col-form-label">사고내용</label>
 							<div class="col-md-10">
-								<textarea class="form-control" type="text" placeholder="Contents" cols="50" rows="10"></textarea>
+								<textarea class="form-control" placeholder="Contents" cols="50" rows="10"></textarea>
 							</div>
 						</div>
 						<hr class="my-4">
@@ -61,7 +71,7 @@
 							</div>
 							<label for="example-text-input" class="col-md-2 col-form-label">예금주</label>
 							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="Name">
+								<input class="form-control" type="text" placeholder="홍길동">
 							</div>
 						</div>
 						<hr class="my-4">
