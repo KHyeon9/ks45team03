@@ -17,26 +17,41 @@
            	  <div class="x_content">
                 <div class="table-responsive">
             
-                      <table class="table jambo_table bulk_action">                      
+                      <table class="table jambo_table bulk_action"> 
+                       <thead>
+                          <tr class="headings" style="text-align: center">
+			                <th class="column-title">분류</th>
+			                <th class="column-title">제목</th>
+			                <th class="column-title">작성 회원</th>
+			                <th class="column-title">작성 날짜</th>
+			                
+			                <th class="bulk-actions" colspan="4">
+			                 <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        	</th>
+			              </tr>
+	                       </thead>                    
 			                
 			       
                         <tbody th:unless="${#lists.isEmpty(adminGetInquiryBoardList)}" th:each="inquiry : ${adminGetInquiryBoardList}">
-				          <tr>
+				          <tr style="text-align: center;">
 			                <td>[문의]</td>
-			                <td><a th:href="@{/admin/board/adminInquiryDetail}" th:text="문의합니다." style="color:black;"></a></td>
+			                <td style="text-align: left;"><a th:href="@{/admin/board/adminInquiryDetail}" th:text="문의합니다." style="color:black;"></a></td>
 			                <td th:text="${inquiry.user.userNickName}"></td>			               	
 			                <td th:text="${inquiry.inquiryBoardRegTime}"></td>	  
-							<tr th:unless="${#lists.isEmpty(adminGetInquiryReBoardList)}" th:each="re : ${adminGetInquiryReBoardList}">
+							<tr style="text-align: center" th:unless="${#lists.isEmpty(adminGetInquiryReBoardList)}" th:each="re : ${adminGetInquiryReBoardList}">
 								<th:block th:if="${inquiry.inquiryBoardCode == re.inquiryBoardCode}">
 					                <td>[답변]</td>
-					                <td><small style="font-size: 15px; margin-right:10px;">ㄴ [답변]</small><a th:href="@{/admin/board/adminInquiryDetail}" th:text="|${inquiry.user.userNickName}님 답변입니다.| " style="color:black;"></a></td>
+					                <td style="text-align: left;"><small style="font-size: 15px; margin-right:10px;"></small><a th:href="@{/admin/board/adminInquiryDetail}" style="color:black;">
+					                	<i class="bi bi-arrow-return-right"></i>
+					                	<span th:text="|${inquiry.user.userNickName}님 답변입니다.| " ></span>
+					                </a></td>
 					                <td th:text="${re.user.userNickName}"></td>			               	
 					                <td th:text="${re.inquiryBoardReRegTime}"></td>	  
 								</th:block>		            			                	              			                
 			              </tr>		            			                	              			                
 			              </tr>
 			              <tr th:if="${#lists.isEmpty(adminGetInquiryBoardList)}">
-			              	<td colspan="5">게시글이 존재하지 않습니다.</td>
+			              	<td colspan="4">게시글이 존재하지 않습니다.</td>
 			              </tr>
 				         
 			        </tbody>
