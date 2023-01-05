@@ -1,71 +1,55 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 	  
-
 	  <th:block layout:fragment="customContents">	  
+		<style>
+			@media screen and (max-width: 800px) {
+				.searchDate {
+					display: none;
+				}
+				.searchInsurance {
+					display: none;
+				}
+			} 
+		</style>
 	  	 <div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
 	  	 
-	  	<!-- MAIN CONTENT SECTION -->
+	  <!-- MAIN CONTENT SECTION -->
       <div class="mainContent clearfix home-v5">
         <div id="accessories" class="accessories">
-          <div class="container">
+          <div class="container justify-content-center">
           
           <!-- SEMI TITLE -->
-            <div class="row justify-content-center">
               <div class="col-md-12 text-center">
                 <div class="sectionTitle">
                   <h1>Insurance</h1>
-                  <p>상품이 거래가 일어나면 상품 오너와 오너의 상품은 보험에 가입된다.</p>
-                  <!-- ordered list -->
-                  <h3 class="text-left">보험처리과정</h3>
-				<ol class="styled_list text-left">
-					<li class="">렌터와 오너가 합의한다.</li>
-					<li class="">1번의 합의에 응하지 않았을 경우 운영에서 중재한다.</li>
-					<li class="">2번의 경우에도 합의가 되지 않으면 오너는 보상금을 신청한다.</li>
-				</ol>
-				
-					<!-- checked list -->
-					<h3 class="text-left">보험금 책정</h3>
-					<ul class="styled_list text-left">
-						<li class=""><i class="fa fa-check"></i>1년 이내의 구매 영수증이 있을 경우 상품 금액의 100%</li>
-						<li class=""><i class="fa fa-check"></i>1년 이후 이거나 영수증이 없을 경우 상품 금액의 80%</li>
-						<li class=""><i class="fa fa-check"></i>상품 파손시 70% (수리비 영수증)</li>
-						<li class=""><i class="fa fa-check"></i>상품 분실시 50% (상품 가액)</li>
-					</ul>
+                  <p>상품이 거래가 일어나면 오너의 상품은 보험에 가입된다.</p>
                 </div>
-              </div>
-            </div><br/>
+              </div><br/>
             
-            <!-- THREE SECTION -->
-            <div class="row justify-content-center">
-              <div class="slide col-md-4 text-center">
-                <div class="productCaption clearfix" style="height:200px; background-color: #dadada;">
-                    <div>
-                    <h4>가입된 보험 수</h4>
-                  <h3>2</h3>
-                </div>
-                </div>
-              </div>
-              <div class="slide col-md-4 text-center">
-                <div class="productCaption"  style="height:200px;  background-color: #dadada;">
-                    <h4>작성한 청구서 수</h4>
-                  <h3>1</h3>
-                </div>
-              </div>
-              <div class="slide col-md-4 text-center" >
-                <div class="productCaption" style="height:200px;  background-color: #dadada;">
-                    <h4>지급받은 보상금 수</h4>
-                  <h3>1</h3>
-                </div>
-              </div>
-            </div><br/><br/>
-
-            
+            <!-- THREE SECTION CARD -->
+            <div class="row card-insurance" style="background-color: #f0f0f0; height: 150px;">
+	           <div class="card card-body col-md-3 text-center">
+	      		<h4 class="card-title">이용가능보험</h4>
+	     			<p class="card-text">2</p>
+	    		</div>
+	    		<div class="card card-body col-md-3 text-center">
+	      		<h4 class="card-title">만료된보험</h4>
+	     			<p class="card-text">2</p>
+	    		</div>
+	    		<div class="card card-body col-md-3 text-center">
+	      		<h4 class="card-title">청구서</h4>
+	     			<p class="card-text">1</p>
+	    		</div>
+	    		<div class="card card-body col-md-3 text-center">
+	      		<h4 class="card-title">지급내역</h4>
+	     			<p class="card-text">1</p>
+	    		</div>
+	    	</div><br/><br/>
 			
-			<!-- THREE TAB -->
+			<!-- FOUR TAB -->
 			<ul class="nav nav-tabs nav-pills nav-justified" role="tablist">
 				<li class="nav-item">
 					<a class="nav-link tabAll active" data-toggle="tab" href="#jutified1" role="tab" aria-selected="true">ALL</a>
@@ -81,22 +65,30 @@
 				</li>
 			</ul><br/><br/>
 			
-			            	<div class="row">
-		            	<label  class="col-md-2">날짜별 검색</label>
-		            <div class="col-md-3">
-						<input class="form-control" type="datetime-local" value="2017-06-19T13:45:00" id="example-datetime-local-input">
-						</div>
+			<div class="col-md-12 searchDate" style="padding:10px; margin: 0 auto;">
+				<div class="row">
+					<label for="example-text-input" class="col-md-1 col-form-label">날짜별</label>
+		            <div class="col-md-3 text-center">
+						<input class="form-control" type="date" value="2017-06-19" id="example-datetime-local-input">
+					</div>
 					<p>~</p>
-					<div class="col-md-3">
-						<input class="form-control" type="datetime-local" value="2017-06-19T13:45:00" id="example-datetime-local-input">
+					<div class="col-md-3 text-center">
+						<input class="form-control" type="date" value="2017-06-19" id="example-datetime-local-input">
 					</div>
 				</div>
+			</div>
+			<hr class="my-4"><br/>
 			
 			
             <!-- 나의 가입보험정보 -->
-            <div class=tableInsurance>
-	            <div class="sectionTitle " ><h3>01. 가입보험정보</h3></div><br/>
-	            <div class="row justify-content-center">
+            <div class="tableInsurance">
+            	<div class="row">
+	            	<div class="sectionTitle col-md-8"><h3>01. 가입보험정보</h3></div>
+	            	<div class="input-group col-md-3 searchInsurance">
+						<input type="text" class="form-control" placeholder="search">
+						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
+					</div>
+                </div>
 		        	<table class="table">
 						<thead>
 							<tr>
@@ -133,14 +125,12 @@
 						    </tr>
 						</tbody>
 					</table>
-	            </div>
             	<hr class="my-4"><br/>
             </div>
             
             <!-- 나의 제출한 보험 청구서 리스트 -->
             <div class="tableInsuranceBill" >
 	            <div class="sectionTitle "><h3>02. 보상금청구서</h3></div><br/>
-	            <div class="row justify-content-center">
 	            	<table class="table">
 					  <thead>
 					    <tr>
@@ -170,14 +160,12 @@
 					    </tr>
 					  </tbody>
 					</table>
-	            </div>
 	             <hr class="my-4"><br/>
 	           </div>
             
             <!-- 나의 보상금지급내역 리스트 -->
             <div class="tableInsurancePayout">
 	            <div class="sectionTitle"><h3 id="">03. 보상금지급</h3></div><br/>
-	            <div class="row justify-content-center">
 	         		<table class="table">
 					  <thead>
 					    <tr>
@@ -205,8 +193,24 @@
 					    </tr>
 					  </tbody>
 					</table>
-	            </div>
 	            <hr class="my-4"><br/>
+            </div>
+            
+            <div class="wrapper insurancePolicy" style="background-color: #f0f0f0; padding:30px;">
+            	<h4 class="text-left">사고발생시</h4>
+				<ol class="styled_list text-left">
+					<li>렌터와 오너가 합의한다.</li>
+					<li>1번의 합의에 응하지 않았을 경우 운영에서 중재한다.</li>
+					<li>2번의 경우에도 합의가 되지 않으면 오너는 보상금을 신청한다.</li>
+				</ol>
+				<!-- checked list -->
+				<h4 class="text-left">보험금 책정</h4>
+				<ul class="styled_list text-left">
+					<li class=""><i class="fa fa-check"></i>1년 이내의 구매 영수증이 있을 경우 상품 금액의 100%</li>
+					<li class=""><i class="fa fa-check"></i>1년 이후 이거나 영수증이 없을 경우 상품 금액의 80%</li>
+					<li class=""><i class="fa fa-check"></i>상품 파손시 70% (수리비 영수증)</li>
+					<li class=""><i class="fa fa-check"></i>상품 분실시 50% (상품 가액)</li>
+				</ul>
             </div>
           </div>
         </div>
