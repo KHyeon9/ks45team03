@@ -4,7 +4,78 @@
 	  layout:decorate="~{user/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
-	  	<h1>1 대 1 문의 게시글 추가</h1>
-	  
+	  	<!-- LIGHT SECTION -->
+	    <section class="lightSection clearfix pageHeader">
+	      <div class="container">
+	        <div class="row">
+	          <div class="col-sm-6">
+	            <div class="page-title">
+	              <h2>Inquiry Board Add</h2>
+	            </div>
+	          </div>
+	          <div class="col-sm-6">
+	            <ol class="breadcrumb float-right">
+	              <li>
+	                <a th:href="@{/}">Home</a>
+	              </li>
+	              <li class="active">Inquiry Board Add</li>
+	            </ol>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+       <div class="grid-wrapper section">
+		 <div class="container">
+		   <div class="row">
+			 <div class="col-12 col-lg-12 element-content pt-5">
+			   <div id="forms" class="element_single">
+			   
+			   <form id="addInfoBoardForm" action="/infoboard/addInfoBoard" method="post">
+			     <div id="accordion" role="tablist" aria-multiselectable="true">		     
+				   <div class="form-group row">						
+						<div class="col-md-10 selectOptions ">
+							<select name="inquiryBoardType" class="form-control select-drop">
+								<option th:if="${session.S_USER_INFO.loginLevelName != '관리자'}" value="문의">문의</option>
+								<option th:if="${session.S_USER_INFO.loginLevelName == '관리자'}" value="답변">답변</option>								
+							</select>
+						</div>
+					</div><br>
+				  </div>
+				  <div class="display-single_element">
+					  
+					  	<input th:value="${loginId}" name="userId" type="hidden" readonly="readonly"/>
+						<div class="row">
+						  <div class="form-group col-md-12">
+						  	<h4 class="mb-0">제목</h4>
+						  	<br>
+							<input type="text" name="infoBoardTitle" class="form-control" id="exampleInputPhone" th:value="문의합니다." readonly="readonly">
+						  </div>
+						  <div class="form-group col-md-12">
+						  	<h4 class="mb-0">내용</h4>
+						  	<br>
+						    <textarea class="form-control" name="infoBoardContent" id="exampleTextarea" rows="15" placeholder="내용을 입력해 주세요."></textarea>
+						  </div>
+						  </div>
+							<button type="submit" class="btn btn-default btn-primary">등록</button>
+							<button type="button" class="btn btn-default btn-primary" id="cancelBtn">취소</button>					
+					</div>
+					</form>
+					<!-- Default Form ends here -->
+				
+				</div>
+			  </div> <!-- element-content ends -->
+			</div>
+		  </div> <!-- element main container ends -->
+		</div> <!-- Grid wrapper ends -->
 	  </th:block>
+	    <!-- 사용자 지정 js 파일 -->
+		<th:block layout:fragment="customJs"></th:block>
+		<!-- 사용자 지정 js script -->
+		<th:block layout:fragment="customScript">
+			<script>
+				$('#cancelBtn').click(function(){
+					location.href="/board/inquiryList";
+				})
+			</script>
+		</th:block>
 </html>

@@ -39,24 +39,17 @@
 		               
 		                <ul class="list-unstyled">
 		                  <li>
-		                    <i class="fa fa-user" aria-hidden="true"></i><span th:text="${getInquiryBoard.user.userNickName}"></span>
+		                    <i class="fa fa-user" aria-hidden="true"></i><span th:text="${getInquiryReBoard.user.userNickName}"></span>
 		                  </li>
 		                  <li>
-		                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${getInquiryBoard.inquiryBoardRegTime}"></span>
+		                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${getInquiryReBoard.inquiryBoardReRegTime}"></span>
 	                      </li>                     	                      	                  
-		                </ul>
-		               		          
-		                <ul class="list-unstyled">
-		                	<li>
-		                		<a href="@{/board//modifyInquiry}" type="button" class="btn btn-primary">수정</a>
-		                		<button onclick="location.href='/board/removeInquiry'" type="button" class="btn btn-primary">삭제</button>
-		                	</li>
-		                </ul>
+		                </ul>		               		         		                
 		              </div>
 		              <div class="col-md-9 order-md-1">
-		                <h3 th:text="${getInquiryBoard.inquiryBoardTitle}"></h3>
+		                <h3 th:text="${getInquiryReBoard.inquiryReBoardTitle}"></h3>
 		                
-		                <p th:text="${getInquiryBoard.inquiryBoardContent}"></p>
+		                <p th:text="${getInquiryReBoard.inquiryReBoardContent}"></p>
 		              </div>
 		            </div>
 		          </div>

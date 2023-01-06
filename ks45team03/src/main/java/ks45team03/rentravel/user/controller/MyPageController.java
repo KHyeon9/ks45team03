@@ -124,14 +124,7 @@ public class MyPageController {
 	public String getUserBlockrList(Model model
 									,HttpSession session) {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String redirectURI = "user/myPage/myBlockList";
-		
-		if(loginUser == null) {
-			
-			redirectURI = "redirect:/";		
-
-		}else {
-		
+				
 		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
 		
 		String loginNickName = loginUser.getLoginNickName();	
@@ -141,9 +134,9 @@ public class MyPageController {
 		model.addAttribute("loginNickName",loginNickName);
 
 
-		}
 		
-		return redirectURI;
+		
+		return "user/myPage/myBlockList";
 	}
 	
 	
@@ -154,20 +147,14 @@ public class MyPageController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
-		String redirectURI = "user/myPage/myProfitList";
 		
-		if(loginUser == null) {
-					
-			redirectURI = "redirect:/";		
-	
-		}else {
 		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 수익목록 리스트");
 		model.addAttribute("loginNickName",loginNickName);
 		
-		}
-		return redirectURI;
+		
+		return "user/myPage/myProfitList";
 	}
 	
 	

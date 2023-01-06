@@ -1,146 +1,265 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{user/layout/default}">
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 	<title>Chating</title>
 	<style>
-		*{
-			margin:0;
-			padding:0;
-		}
-		.container{
-			width: 500px;
-			margin: 0 auto;
-			padding: 25px
-		}
-		.container h1{
-			text-align: left;
-			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
-			margin-bottom: 20px;
-		}
-		.chating{
-			background-color: #000;
-			width: 500px;
-			height: 500px;
-			overflow: auto;
-		}
-		.chating .me{
-			color: #F6F6F6;
-			text-align: right;
-		}
-		.chating .others{
-			color: #FFE400;
-			text-align: left;
-		}
-		input{
-			width: 330px;
-			height: 25px;
-		}
 		#yourMsg{
-			display: none;
+			display:flex;
+			justify-content: center;
+			background-color: #9bbbd4;
+			border-bottom-left-radius : 6px;
+			border-bottom-right-radius : 6px;
+			align-items:center;
+			padding:5px;
+		}
+		#chating{
+			background-color: #9bbbd4;
+			border-top-left-radius : 6px;
+			border-top-right-radius : 6px;
+		}
+		.bubbleWrapper {
+			padding: 10px 10px;
+			display: flex;
+			justify-content: flex-end;
+			flex-direction: column;
+			align-self: flex-end;
+		  color: #fff;
+		}
+		.inlineContainer {
+		  display: inline-flex;
+		}
+		.inlineContainer.own {
+		  flex-direction: row-reverse;
+		}
+		.inlineIcon {
+		  width:20px;
+		  object-fit: contain;
+		}
+		.ownBubble {
+			min-width: 60px;
+			max-width: 700px;
+			padding: 14px 18px;
+		  margin: 6px 8px;
+			background-color: #5b5377;
+			border-radius: 16px 16px 0 16px;
+			border: 1px solid #443f56;
+		 
+		}
+		.otherBubble {
+			min-width: 60px;
+			max-width: 700px;
+			padding: 14px 18px;
+		  margin: 6px 8px;
+			background-color: #616161;
+			border-radius: 16px 16px 16px 0;
+			border: 1px solid #54788e;
+		  
+		}
+		.own {
+			align-self: flex-end;
+		}
+		.other {
+			align-self: flex-start;
+		}
+		span.own{
+		  font-size: 14px;
+		  color: grey;
+		}
+		span.other{
+		  font-size: 14px;
+		  color: grey;
 		}
 	</style>
 </head>
 
-<script type="text/javascript">
-	var ws;
 
-	function wsOpen(){
-		//웹소켓 전송시 현재 방의 번호를 넘겨서 보낸다.
-		ws = new WebSocket("ws://" + location.host + "/chating/"+$("#roomNumber").val());
-		wsEvt();
-	}
-		
-	function wsEvt() {
-		ws.onopen = function(data){
-			//소켓이 열리면 동작
-		}
-		
-		ws.onmessage = function(data) {
-			//메시지를 받으면 동작
-			var msg = data.data;
-			if(msg != null && msg.trim() != ''){
-				var d = JSON.parse(msg);
-				if(d.type == "getId"){
-					var si = d.sessionId != null ? d.sessionId : "";
-					if(si != ''){
-						$("#sessionId").val(si); 
-					}
-				}else if(d.type == "message"){
-					if(d.sessionId == $("#sessionId").val()){
-						$("#chating").append("<p class='me'>나 :" + d.msg + "</p>");	
-					}else{
-						$("#chating").append("<p class='others'>" + d.userName + " :" + d.msg + "</p>");
-					}
-						
-				}else{
-					console.warn("unknown type!")
-				}
-			}
-		}
-
-		document.addEventListener("keypress", function(e){
-			if(e.keyCode == 13){ //enter press
-				send();
-			}
-		});
-	}
-
-	function chatName(){
-		var userName = $("#userName").val();
-		if(userName == null || userName.trim() == ""){
-			alert("사용자 이름을 입력해주세요.");
-			$("#userName").focus();
-		}else{
-			wsOpen();
-			$("#yourName").hide();
-			$("#yourMsg").show();
-		}
-	}
-
-	function send() {
-		var option ={
-			type: "message",
-			roomNumber: $("#roomNumber").val(),
-			sessionId : $("#sessionId").val(),
-			userName : $("#userName").val(),
-			msg : $("#chatting").val()
-		}
-		ws.send(JSON.stringify(option))
-		$('#chatting').val("");
-	}
-</script>
 <body>
+
+	<th:block layout:fragment="customContents">
 	
-	<div id="container" class="container">
-		<h1>의 채팅방</h1>
-		<input type="hidden" id="sessionId" value="">
-		<input type="hidden" id="roomNumber" value="1">
+		<!-- LIGHT SECTION -->
+	    <section class="lightSection clearfix pageHeader">
+	      <div class="container">
+	        <div class="row">
+	          <div class="col-md-6">
+	            <div class="page-title">
+	              <h2>Chat</h2>
+	            </div>
+	          </div>
+	          <div class="col-md-6">
+	            <ol class="breadcrumb pull-right">
+	              <li>
+	                <a th:href="@{/}">Home</a>
+	              </li>
+	              <li>
+	                <a th:href="@{/}">Room</a>
+	              </li>
+	              <li class="active">Chat</li>
+	            </ol>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+
+		<section class="mainContent clearfix userProfile">
+			<div class="container">
+				<div class="innerWrapper">
+
+					<input type="hidden" id="sessionId" value=""> <input
+						th:object="${chatRoomInfo}" type="hidden" id="chatRoomCode"
+						th:value="*{chatRoomCode}">
+
+					<h1 style="text-align: center;"></h1>
+					<div style="padding: 5px">
+						<h1 th:if="${loginUser.loginId.equals(chatRoomInfo.ownerId)}"
+							th:text="|Chatting with ${chatRoomInfo.renterId}|"
+							style="text-align: center"></h1>
+						<h1 th:if="${loginUser.loginId.equals(chatRoomInfo.renterId)}"
+							th:text="|Chatting with ${chatRoomInfo.ownerId}|"
+							style="text-align: center"></h1>
+					</div>
+					<div id="chating" class="chating"
+						style="height: 500px; overflow-y: auto">
+						<th:block th:each="cml : ${chatMessageList}">
+							<div class="bubbleWrapper"
+								th:if="${loginUser.loginId.equals(cml.userId)}">
+								<div class="inlineContainer own">
+									<div class="ownBubble own">[[${cml.chatMessage}]]</div>
+								</div>
+								<span class="own"
+									th:text="${#strings.substring(cml.messageSendTime,0,16)}"></span>
+								<span class="own" th:text="${cml.readCheck}"></span>
+							</div>
+							<div class="bubbleWrapper"
+								th:unless="${loginUser.loginId.equals(cml.userId)}">
+								<div class="inlineContainer">
+									<div class="otherBubble other">[[${cml.chatMessage}]]</div>
+								</div>
+								<span class="other"
+									th:text="${#strings.substring(cml.messageSendTime,0,16)}"></span>
+							</div>
+						</th:block>
+					</div>
+
+					<div id="yourMsg">
+						<div id="input-group" class="input-group" style="width: 75%;">
+							<input type="text" class="form-control" id="chatting"
+								placeholder="메시지를 입력하세요. (최근 200개의 메시지만 표시됩니다.)"
+								aria-label="Recipient's username"
+								aria-describedby="basic-addon2">
+							<div class="input-group-append">
+								<button type="submit" onclick="send()" id="sendBtn"
+									class="btn btn-primary" style="height: 100%">보내기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<script th:inline="javascript">
 		
-		<div id="chating" class="chating">
-		</div>
+			var chatBox = document.getElementById('chating');
+			
+			function nowDateTime(){
+				
+				var today = new Date();
+				
+				var year = today.getFullYear();
+				var month = ('0' + (today.getMonth() + 1)).slice(-2);
+				var day = ('0' + today.getDate()).slice(-2);
+				
+				var hours = ('0' + today.getHours()).slice(-2); 
+				var minutes = ('0' + today.getMinutes()).slice(-2);
+				
+				var dateTime = year + '-' + month  + '-' + day +' '+ hours + ':' + minutes;
+				
+				return dateTime;
+				
+			}
+	
+			var ws;
+			wsOpen();
+					
+			function wsOpen(){
+				//웹소켓 전송시 현재 방의 번호를 넘겨서 보낸다.
+				ws = new WebSocket("ws://" + location.host + "/chating/"+ [[${chatRoomInfo.chatRoomCode}]]);
+				wsEvt();
+			}
+			
+			function wsEvt() {
+				
+				chatBox.scrollTop = chatBox.scrollHeight;
+				
+				ws.onopen = function(data){
+					//소켓이 열리면 동작
+				}
+				
+				ws.onmessage = function(data) {
+					//메시지를 받으면 동작
+					var chatMessage = data.data;
+					if(chatMessage != null && chatMessage.trim() != ''){
+						var d = JSON.parse(chatMessage);
+						if(d.type == "getId"){
+							var si = d.sessionId != null ? d.sessionId : "";
+							if(si != ''){
+								$("#sessionId").val(si); 
+							}
+						}else if(d.type == "message"){
+							if(d.sessionId == $("#sessionId").val()){
+								$("#chating").append("<div class='bubbleWrapper'><div class='inlineContainer own'><div class='ownBubble own'>" + d.chatMessage + "</div></div><span class='own'>"+ nowDateTime() +"</span><span class='own'>안읽음</span></div>");	
+								chatBox.scrollTop = chatBox.scrollHeight;								
+							}else{
+								$("#chating").append("<div class='bubbleWrapper'><div class='inlineContainer'><div class='otherBubble other'>" + d.chatMessage + "</div></div><span class='other'>"+ nowDateTime() +"</span></div>");
+								chatBox.scrollTop = chatBox.scrollHeight;
+							}
+								
+						}else{
+							console.warn("unknown type!")
+						}
+					}
+				}
 		
-		<div id="yourName">
-			<table class="inputTable">
-				<tr>
-					<th>사용자명</th>
-					<th><input type="text" name="userName" id="userName"></th>
-					<th><button onclick="chatName()" id="startBtn">이름 등록</button></th>
-				</tr>
-			</table>
-		</div>
-		<div id="yourMsg">
-			<table class="inputTable">
-				<tr>
-					<th>메시지</th>
-					<th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>
-					<th><button onclick="send()" id="sendBtn">보내기</button></th>
-				</tr>
-			</table>
-		</div>
-	</div>
+				document.addEventListener("keypress", function(e){
+					if(e.keyCode == 13){ //enter press
+						send();
+					}
+				});
+			}
+			
+			function send() {
+				
+				var option ={
+					type: "message",
+					chatRoomCode: $("#chatRoomCode").val(),
+					sessionId : $("#sessionId").val(),
+					userId : [[${loginUser.loginId}]],
+					chatMessage : $("#chatting").val()
+				}
+				var chatMessageObj = {
+						chatRoomCode: $("#chatRoomCode").val(),
+						userId : [[${loginUser.loginId}]],
+						chatMessage : $("#chatting").val()
+				}
+				
+				ws.send(JSON.stringify(option))
+				$('#chatting').val("");
+				
+				$.ajax({
+					type:'POST',
+					url:'/addChatMessage',
+					contentType: "application/json; charset=UTF-8",
+					data: JSON.stringify(chatMessageObj)
+				});// 채팅 메시지 db저장 비동기 끝
+			}
+			
+		</script>
+	
+	</th:block>
+
 </body>
 </html>

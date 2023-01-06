@@ -36,13 +36,6 @@ public class UserBlockController {
 									,Model model) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String redirectURI ="user/myPage/myBlockList";
-		
-		if(loginUser == null) {
-			
-			redirectURI = "redirect:/";		
-
-		}else {
 		
 		userBlockService.removeUserBlock(blockedUserId);
 		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
@@ -54,8 +47,8 @@ public class UserBlockController {
 		model.addAttribute("loginNickName",loginNickName);
 		
 		
-		}
-		return redirectURI;
+		
+		return "user/myPage/myBlockList";
 	}
 	
 	
@@ -67,13 +60,6 @@ public class UserBlockController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
-		String redirectURI ="user/myPage/myBlockList";
-		
-		if(loginUser == null) {
-			
-			redirectURI = "redirect:/";		
-
-		}else {
 		
 		
 		userBlockService.addUserBlock(userId, loginUser.getLoginId());
@@ -86,9 +72,9 @@ public class UserBlockController {
 		model.addAttribute("loginNickName",loginNickName);
 
 		
-		}
 		
-		return redirectURI;
+		
+		return "user/myPage/myBlockList";
 
 	}			
 	

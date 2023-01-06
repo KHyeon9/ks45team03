@@ -8,6 +8,29 @@ public class InsuranceBill {
 	private String insuranceBillStateCode;
 	private String insuranceBillModifyDate;
 	
+	public InsuranceBillDetail getInsuranceBillDetail() {
+		return insuranceBillDetail;
+	}
+	public void setInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail) {
+		this.insuranceBillDetail = insuranceBillDetail;
+	}
+	public InsuranceBillState getInsuranceBillState() {
+		return insuranceBillState;
+	}
+	public void setInsuranceBillState(InsuranceBillState insuranceBillState) {
+		this.insuranceBillState = insuranceBillState;
+	}
+	public Goods getGoods() {
+		return goods;
+	}
+	public void setGoods(Goods goods) {
+		this.goods = goods;
+	}
+
+	InsuranceBillDetail insuranceBillDetail;
+	InsuranceBillState insuranceBillState;
+	Goods goods;
+	
 	public String getInsuranceBillCode() {
 		return insuranceBillCode;
 	}

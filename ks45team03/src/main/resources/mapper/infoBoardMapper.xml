@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks45team03.rentravel.mapper.InfoBoardMapper">
 	<resultMap type="InfoBoard" id="infoBoardResultMap">
-		<id property="infoBoardCode" 	  		column="info_board_code" />
+		<id 	property="infoBoardCode" 	  	column="info_board_code" />
 		<result property="userId" 	  			column="user_id" />
 		<result property="infoBoardTitle" 	  	column="info_board_title" />
 		<result property="infoBoardContent" 	column="info_board_content" />
@@ -19,13 +19,53 @@
 	</resultMap>
 		
 	<resultMap type="InfoBoardComment" id="infoBoardCommentMap">
-		<id property="infoBoardCommentCode" 	  	column="info_board_comment_code" />
+		<id		property="infoBoardCommentCode" 	column="info_board_comment_code" />
 		<result property="infoBoardCode" 	  		column="info_board_code" />
 		<result property="userId" 	  				column="user_id" />
 		<result property="userNickName" 			column="user_nickname" />
 		<result property="infoBoardCommentContent" 	column="info_board_comment_content" />
 		<result property="infoBoardCommentRegTime" 	column="info_board_comment_reg_time" />
 	</resultMap>
+	
+	<update id="viewIncrease" parameterType="String">
+		UPDATE
+			tb_info_board AS info
+		SET
+			info.info_board_view_cnt = info.info_board_view_cnt + 1
+		WHERE
+			info.info_board_code = #{infoBoardCode};
+	</update>
+	
+	<!-- 게시글 수정 (img 수정 x) -->
+	<update id="modifyInfoBoard" parameterType="InfoBoard">
+		UPDATE
+			tb_info_board AS info
+		SET
+			info.info_board_title = #{infoBoardTitle},
+			info.info_board_content = #{infoBoardContent},
+			info.info_board_reg_time = NOW()
+		WHERE
+			info.info_board_code = #{infoBoardCode};
+	</update>
+	
+	<!-- 댓글 수정 -->
+	<update id="modifyInfoBoardComment" parameterType="InfoBoardComment">
+		UPDATE
+			tb_info_board_comment AS comm
+		SET
+			comm.info_board_comment_content = #{infoBoardCommentContent},
+			comm.info_board_comment_reg_time = NOW()
+		WHERE
+			comm.info_board_comment_code = #{infoBoardCommentCode}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="removeInfoBoardComment" parameterType="String">
+		DELETE FROM
+			tb_info_board_comment AS comm
+		WHERE
+			comm.info_board_comment_code = #{infoBoardCommentCode};
+	</delete>
 	
 	<!-- 댓글 등록  -->
 	<insert id="addInfoBoardComment" parameterType="InfoBoardComment">
@@ -97,9 +137,9 @@
 			ON
 			info.user_id = u.user_id
 		ORDER BY
-			info_board_code DESC
-		<if test="startRowNum != null and startRowNum > -1">
-			LIMIT #{startRowNum}, #{rowPerPage};
+ 			CAST(SUBSTRING(info.info_board_code, 11) AS UNSIGNED) DESC
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
 		</if>
 	</select>
 	<!-- 정보 게시판 리스트 총 개수-->
@@ -113,6 +153,7 @@
 	<select id="getInfoBoardDetail" parameterType="String" resultMap="infoBoardResultMap">
 		SELECT
 			u.user_nickname,
+			info.user_id,
 			info.info_board_code,
 			info.info_board_title,
 			info.info_board_content,
@@ -147,6 +188,9 @@
 			ON
 			comm.user_id = u.user_id
 		WHERE
-			comm.info_board_code = #{infoBoardCode};
+			comm.info_board_code = #{infoBoardCode}
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
 	</select>
 </mapper>
