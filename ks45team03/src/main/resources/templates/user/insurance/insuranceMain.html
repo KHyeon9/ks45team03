@@ -5,21 +5,14 @@
 	  
 	  <th:block layout:fragment="customContents">	  
 		<style>
-			@media screen and (max-width: 800px) {
-				.searchDate {
-					display: none;
-				}
-				.searchInsurance {
-					display: none;
-				}
-				
+			table thead {
+				background-color: #f0f0f0;
+			}
+			@media screen and (max-width: 800px) {				
 				.iconInsuranceProcess {
 					display: none;
 				}
 				
-				.card-insurance {
-					display: none;
-				}
 			}
 		    		
 		</style>
@@ -31,50 +24,57 @@
           <div class="container justify-content-center">
           
           <!-- SEMI TITLE -->
-              <div class="col-md-12 text-center">
+              <div class="col-md-12 text-center" >
                 <div class="sectionTitle">
-                  <h1>Insurance</h1>
+                  <h1>INSURANCE</h1>
                   <p>오너의 상품을 렌탈해줄 때 자동으로 보험에 가입됩니다.</p>
                 </div>
               </div><br/>
-             	<div class="col-md-12 text-center iconInsuranceProcess" style="padding: 30px;">
-	             	<div class="row" style="margin: 10px;">
-	             	<div class="col-md-3 "><i class="bi bi-file-text" style="font-size: 8rem;"></i></div>
-	             	<div class="col-md-3 "><i class="bi bi-person-workspace" style="font-size: 8rem;"></i></div>
-	             	<div class="col-md-3 "><i class="bi bi-clipboard-check" style="font-size: 8rem;"></i></div>
-	             	<div class="col-md-3 "><i class="bi bi-cash-coin" style="font-size: 8rem;"></i></div>
-             	</div>
-	             	<div class="row"  style="margin: 10px;">
+              	<div class="sectionTitle text-center"><h2>PROCESS</h2></div>
+             	<div class="col-md-12 text-center iconInsuranceProcess" style="padding: 3rem;">
+	             	<div class="row">
+		             	<div class="col-md-3 "><i class="bi bi-file-text" style="font-size: 8rem; color: #343a40;"></i></div>
+		             	<div class="col-md-3 "><i class="bi bi-person-workspace" style="font-size: 8rem; color: #343a40;"></i></div>
+		             	<div class="col-md-3 "><i class="bi bi-clipboard-check" style="font-size: 8rem; color: #343a40;"></i></div>
+		             	<div class="col-md-3 "><i class="bi bi-cash-coin" style="font-size: 8rem; color: #343a40;"></i></div>
+             		</div><br/>
+	             	<div class="row">
 		             	<div class="col-md-3 "><h4>step1</h4></div>
 		             	<div class="col-md-3 "><h4>step2</h4></div>
 		             	<div class="col-md-3 "><h4>step3</h4></div>
 		             	<div class="col-md-3 "><h4>step4</h4></div>
              		</div>
-             		<div class="row"  style="margin: 10px;">
+             		<div class="row">
 		             	<div class="col-md-3 "><h4>청구서작성</h4></div>
 		             	<div class="col-md-3 "><h4>보험사전달</h4></div>
 		             	<div class="col-md-3 "><h4>적합성판단</h4></div>
 		             	<div class="col-md-3 "><h4>보상금지급</h4></div>
              		</div>
              	</div>
-              
-              
-            
-            <!-- THREE SECTION CARD -->
-            <div class="row card-insurance" style="background-color: #f0f0f0; height: 150px; pointer-events: none;">
-	           <div class="card card-body col-md-4 text-center">
-	      		<h4 class="card-title">Insurance</h4>
-	     			<p class="card-text"  th:text="${cntInsurance}"></p>
-	    		</div>
-	    		<div class="card card-body col-md-4 text-center">
-	      		<h4 class="card-title">Bill</h4>
-	     			<p class="card-text" th:text="${cntInsuranceBill}"></p>
-	    		</div>
-	    		<div class="card card-body col-md-4 text-center">
-	      		<h4 class="card-title">Payout</h4>
-	     			<p class="card-text" th:text="${cntInsurancePayout}"></p>
-	    		</div>
-	    	</div><br/><br/>
+             	
+<!--             THREE SECTION CARD
+				<h3>나의 보험정보</h3>
+			  	<div class="card-deck text-center col-md-12" style="pointer-events: none; margin:0;">
+				  <div class="card col-md-4" style="border: 1px solid; margin:1rem;">
+					<div class="card-block">
+					  <h4 class="card-title">Insurance</h4>
+					  <h6 class="card-subtitle text-muted">이용가능한 보험수</h6>
+					  <p class="card-text"  th:text="${cntInsurance}"></p>
+					</div>
+				  </div>
+				 <div class="card col-md-4" style="border: 1px solid; margin:1rem;">
+				   <div class="card-block">
+					 <h3 class="card-title">Bill</h3>
+					 <p class="card-text"  th:text="${cntInsurance}"></p>
+				   </div>
+				 </div>
+				  <div class="card col-md-4" style="border: 1px solid; margin:1rem;">
+					<div class="card-block">
+					  <h3 class="card-title">Payout</h3>
+					  <p class="card-text"  th:text="${cntInsurance}"></p>
+					</div>
+				  </div>
+				</div><br/><br/> -->
 			
 			<!-- FOUR TAB -->
 			<ul class="nav nav-tabs nav-pills nav-justified" role="tablist">
@@ -94,17 +94,12 @@
 			
             <!-- 나의 가입보험정보 -->
             <div class="tableInsurance">
-            	<div class="row">
-	            	<div class="sectionTitle col-md-8">
-	            		<h3 style="margin: 2px">01. 가입보험정보</h3>
-	            		<p>내가 가입된 보험을 볼 수 있습니다</p>
-	            	</div>
+	            	<h4>01. 가입보험정보</h4><br/>
 	            	<!-- <div class="input-group col-md-3 searchInsurance">
 						<input type="text" class="form-control" placeholder="search">
 						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
 					</div> -->
-                </div>
-		        	<table class="table table-hover table-responsive-md">
+		        	<table class="table table-responsive-md text-center">
 						<thead>
 							<tr>
 								<th>보험코드</th>
@@ -145,17 +140,12 @@
             
             <!-- 나의 제출한 보험 청구서 리스트 -->
             <div class="tableInsuranceBill" >
-            	<div class="row">
-	            	<div class="sectionTitle col-md-8">
-	            		<h3 style="margin: 2px">02. 보험청구서</h3>
-	            		<p>내가 작성한 보험청구서를 볼 수 있습니다</p>
-	            	</div>
+	            		<h4>02. 보험청구서</h4><br/>
 	            	<!-- <div class="input-group col-md-3 searchInsurance">
 						<input type="text" class="form-control" placeholder="search">
 						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
 					</div> -->
-                </div>
-	            	<table class="table table-hover table-responsive-md">
+	            	<table class="table table-responsive-md text-center">
 					  <thead>
 					    <tr>
 					      <th>보험청구코드</th>
@@ -192,17 +182,8 @@
             
             <!-- 나의 보상금지급내역 리스트 -->
             <div class="tableInsurancePayout">
-            	<div class="row">
-	            	<div class="sectionTitle col-md-8">
-	            		<h3 style="margin: 2px">03. 보상금지급내역</h3>
-	            		<p>내가 받은 보상금내역을 볼 수 있습니다</p>
-	            	</div>
-	            	<!-- <div class="input-group col-md-3 searchInsurance">
-						<input type="text" class="form-control" placeholder="search">
-						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
-					</div> -->
-                </div>
-	         		<table class="table table-hover table-responsive-md">
+	            <h4>03. 보상금지급내역</h4><br/>
+	         		<table class="table table-responsive-md text-center">
 					  <thead>
 					    <tr>
 					      <th>보험코드</th>
@@ -234,12 +215,12 @@
 	            <hr class="my-4"><br/>
             </div>
             
-            <div class="wrapper insurancePolicy" style="background-color: #f0f0f0; padding:30px;">
-            	<h4 class="text-left">사고발생시</h4>
-				<ol class="styled_list text-left">
-					<li class="col"><span>렌터와 오너가 합의한다.</span></li>
-					<li class="col">1번의 합의에 응하지 않았을 경우 운영에서 중재한다.</li>
-					<li class="col">2번의 경우에도 합의가 되지 않으면 오너는 보상금을 신청한다.</li>
+            <div class="wrapper insurancePolicy" style="background-color: #f0f0f0; padding:3rem;">
+            	<h4 class="text-left">사고 발생시</h4>
+				<ol class="styled_list text-left" >
+					<li style="width: 100%;">렌터와 오너가 합의한다.</li>
+					<li style="width: 100%;">1번의 합의에 응하지 않았을 경우 운영에서 중재한다.</li>
+					<li style="width: 100%;">2번의 경우에도 합의가 되지 않으면 오너는 보상금을 신청한다.</li>
 				</ol>
 				<!-- checked list -->
 				<h4 class="text-left">보험금 책정</h4>
@@ -252,7 +233,7 @@
             </div>
           </div>
         </div>
-        </div>
+       </div>
 	  </th:block>
 	   <th:block layout:fragment="customScript">
 	   		<script th:inline="javascript">
