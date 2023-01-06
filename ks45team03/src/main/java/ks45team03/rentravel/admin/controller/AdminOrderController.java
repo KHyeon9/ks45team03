@@ -176,8 +176,7 @@ public class AdminOrderController {
 	}
 	
 	@GetMapping("/adminReturnModify")
-	public String adminReturnModify(@RequestParam(value="rentalCode") String rentalCode, 
-									Model model) {
+	public String adminReturnModify(Model model) {
 		model.addAttribute("title","관리자 환불 수정");
 		
 		return "admin/order/adminReturnModify";
