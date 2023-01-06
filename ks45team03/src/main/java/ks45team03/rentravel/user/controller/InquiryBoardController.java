@@ -126,11 +126,11 @@ public class InquiryBoardController {
 	}
 	
 	
-	@GetMapping("/removeInquiry")
-	public String removeInquiryBoard (Model model) {
+	@PostMapping("/removeInquiry")
+	public String removeInquiryBoard (@RequestParam(value = "inquiryBoardCode") String inquiryBoardCode) {
+			
+		inquiryBoardService.removeInquiryBoard(inquiryBoardCode);	
 		
-		model.addAttribute("title","1 대 1 문의 게시글 삭제");
-		
-		return "user/board/removeInquiry";
+		return "redirect:/board/inquiryList";
 	}
 }

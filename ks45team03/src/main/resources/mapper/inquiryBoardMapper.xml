@@ -25,6 +25,26 @@
 	</resultMap>
 	
 	
+	<delete id="adminRemoveInquiryBoard" parameterType="String">
+	/* 1 대 1 문의 게시글 답변 삭제 */
+	DELETE 
+	FROM 
+		tb_inquiry_re_board AS ir
+	WHERE
+		ir.inquiry_re_board_code = #{inquiryReBoardCode}; 
+	
+	</delete>
+	
+	<delete id="removeInquiryBoard" parameterType="String">
+	/* 1 대 1 문의 게시글 삭제 */
+	DELETE 
+	FROM 
+		tb_inquiry_board AS ib
+	WHERE
+		ib.inquiry_board_code = #{inquiryBoardCode}; 
+	
+	</delete>
+	
 	<update id="modifyInquiryBoard" parameterType="InquiryBoard"> 
 	/* 1 대 1 문의 게시글 수정 */
 	UPDATE tb_inquiry_board

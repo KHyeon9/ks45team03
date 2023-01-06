@@ -38,8 +38,11 @@
 							<div class="x_content">
 
 								<div th:text="${adminGetInquiryReBoard.inquiryReBoardContent}" style="height: 500px; overflow: auto"></div>
-								<div class="ln_solid"></div>								
-								<a id="deleteBtn" class="btn btn-light" th:href="@{#}" style="float: left">삭제</a>
+								<div class="ln_solid"></div>
+								<form id="InquiryReDeleteForm" th:action="@{/admin/board/adminRemoveInquiry}" method="post">
+									<input type="hidden" th:value="${adminGetInquiryReBoard.inquiryReBoardCode}" readonly="readonly" name="inquiryReBoardCode">							
+									<button type="button" class="btn btn-light deleteInquiryReBoard" style="float: left">삭제</button>
+								</form>
 							</div>
 							</div>
 					</div>
@@ -49,10 +52,8 @@
 </th:block>
 	<th:block layout:fragment="customScript">
 		<script>
-			$('#deleteBtn').click(function(){
-				if(!confirm('정말로 삭제하시겠습니까?')) {
-					return false;
-				}
+			$('.deleteInquiryReBoard').click(function(){
+				if(confirm('정말로 삭제하시겠습니까?')) $('#InquiryReDeleteForm').submit(); 
 			});	
 		</script>
 	</th:block>

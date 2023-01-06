@@ -107,12 +107,12 @@ public class AdminInquiryBoardController {
 
 	
 	
-	@GetMapping("/adminRemoveInquiry")
-	public String adminRemoveInquiryBoard (Model model) {
+	@PostMapping("/adminRemoveInquiry")
+	public String adminRemoveInquiryBoard (@RequestParam(value = "inquiryReBoardCode") String inquiryReBoardCode) {
 		
-		model.addAttribute("title","1 대 1 문의 게시글 답글 삭제");
+		adminInquiryBoardService.adminRemoveInquiryBoard(inquiryReBoardCode);
 		
-		return "admin/board/adminRemoveInquiry";
+		return "redirect:/admin/board/adminInquiryList";
 	}
 	
 }
