@@ -9,7 +9,7 @@ import ks45team03.rentravel.dto.ChatRoom;
 
 @Mapper
 public interface ChatMapper {
-	public List<ChatRoom> getChatRoomList(String loginId);
+	public List<ChatRoom> getChatRoomList(String loginId,int startIndex, int pageSize);
 	
 	public ChatRoom getChatRoomCode(String chatRoomCode);
 	
@@ -22,4 +22,10 @@ public interface ChatMapper {
 	public ChatRoom checkChatRoom(ChatRoom chatRoom);
 	
 	public int modifyChatReadCheck(String chatRoomCode, String loginId);
+	
+	public int getChatRoomListCount(String loginId);
+	
+	public int removeChatMessage(String chatRoomCode);
+	
+	public int removeChatRoom(String chatRoomCode);
 }
