@@ -107,53 +107,51 @@
 
 		<section class="mainContent clearfix userProfile">
 			<div class="container">
-				<div class="innerWrapper">
+				<div class="col-sm-12">
+					<div class="innerWrapper">
+						<div class="orderBox myAddress wishList">
+							<h2 th:if="${loginUser.loginId.equals(chatRoomInfo.ownerId)}"
+								th:text="|Chatting with ${chatRoomInfo.renterId}|"></h2>
+							<h2 th:if="${loginUser.loginId.equals(chatRoomInfo.renterId)}"
+								th:text="|Chatting with ${chatRoomInfo.ownerId}|"></h2>
 
-					<input type="hidden" id="sessionId" value=""> <input
-						th:object="${chatRoomInfo}" type="hidden" id="chatRoomCode"
-						th:value="*{chatRoomCode}">
+							<input type="hidden" id="sessionId" value=""> <input
+								th:object="${chatRoomInfo}" type="hidden" id="chatRoomCode"
+								th:value="*{chatRoomCode}">
 
-					<h1 style="text-align: center;"></h1>
-					<div style="padding: 5px">
-						<h1 th:if="${loginUser.loginId.equals(chatRoomInfo.ownerId)}"
-							th:text="|Chatting with ${chatRoomInfo.renterId}|"
-							style="text-align: center"></h1>
-						<h1 th:if="${loginUser.loginId.equals(chatRoomInfo.renterId)}"
-							th:text="|Chatting with ${chatRoomInfo.ownerId}|"
-							style="text-align: center"></h1>
-					</div>
-					<div id="chating" class="chating"
-						style="height: 500px; overflow-y: auto">
-						<th:block th:each="cml : ${chatMessageList}">
-							<div class="bubbleWrapper"
-								th:if="${loginUser.loginId.equals(cml.userId)}">
-								<div class="inlineContainer own">
-									<div class="ownBubble own">[[${cml.chatMessage}]]</div>
-								</div>
-								<span class="own"
-									th:text="${#strings.substring(cml.messageSendTime,0,16)}"></span>
-								<span class="own" th:text="${cml.readCheck}"></span>
+							<div id="chating" class="chating"
+								style="height: 500px; overflow-y: auto">
+								<th:block th:each="cml : ${chatMessageList}">
+									<div class="bubbleWrapper"
+										th:if="${loginUser.loginId.equals(cml.userId)}">
+										<div class="inlineContainer own">
+											<div class="ownBubble own">[[${cml.chatMessage}]]</div>
+										</div>
+										<span class="own"
+											th:text="|${cml.readCheck} ${#strings.substring(cml.messageSendTime,0,16)}|"></span>
+									</div>
+									<div class="bubbleWrapper"
+										th:unless="${loginUser.loginId.equals(cml.userId)}">
+										<div class="inlineContainer">
+											<div class="otherBubble other">[[${cml.chatMessage}]]</div>
+										</div>
+										<span class="other"
+											th:text="${#strings.substring(cml.messageSendTime,0,16)}"></span>
+									</div>
+								</th:block>
 							</div>
-							<div class="bubbleWrapper"
-								th:unless="${loginUser.loginId.equals(cml.userId)}">
-								<div class="inlineContainer">
-									<div class="otherBubble other">[[${cml.chatMessage}]]</div>
-								</div>
-								<span class="other"
-									th:text="${#strings.substring(cml.messageSendTime,0,16)}"></span>
-							</div>
-						</th:block>
-					</div>
 
-					<div id="yourMsg">
-						<div id="input-group" class="input-group" style="width: 75%;">
-							<input type="text" class="form-control" id="chatting"
-								placeholder="메시지를 입력하세요. (최근 200개의 메시지만 표시됩니다.)"
-								aria-label="Recipient's username"
-								aria-describedby="basic-addon2">
-							<div class="input-group-append">
-								<button type="submit" onclick="send()" id="sendBtn"
-									class="btn btn-primary" style="height: 100%">보내기</button>
+							<div id="yourMsg">
+								<div id="input-group" class="input-group" style="width: 75%;">
+									<input type="text" class="form-control" id="chatting"
+										placeholder="메시지를 입력하세요. (최근 200개의 메시지만 표시됩니다.)"
+										aria-label="Recipient's username"
+										aria-describedby="basic-addon2">
+									<div class="input-group-append">
+										<button type="submit" onclick="send()" id="sendBtn"
+											class="btn btn-primary" style="height: 100%">보내기</button>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -211,7 +209,7 @@
 							}
 						}else if(d.type == "message"){
 							if(d.sessionId == $("#sessionId").val()){
-								$("#chating").append("<div class='bubbleWrapper'><div class='inlineContainer own'><div class='ownBubble own'>" + d.chatMessage + "</div></div><span class='own'>"+ nowDateTime() +"</span><span class='own'>안읽음</span></div>");	
+								$("#chating").append("<div class='bubbleWrapper'><div class='inlineContainer own'><div class='ownBubble own'>" + d.chatMessage + "</div></div><span class='own'>"+ nowDateTime() +"</span></div>");	
 								chatBox.scrollTop = chatBox.scrollHeight;								
 							}else{
 								$("#chating").append("<div class='bubbleWrapper'><div class='inlineContainer'><div class='otherBubble other'>" + d.chatMessage + "</div></div><span class='other'>"+ nowDateTime() +"</span></div>");

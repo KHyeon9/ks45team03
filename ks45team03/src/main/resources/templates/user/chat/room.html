@@ -46,91 +46,72 @@
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th></th>
-                          <th style="text-align:center; " colspan=2>대화 상대</th>
-                          <th style="width:15%; text-align:center; ">채팅방 생성 시간</th>
-                          <th style="width:15%; text-align:center; ">채팅방 입장</th>
+                          <th style="text-align:center;">삭제</th>
+                          <th style="text-align:center;">대화 상대</th>
+                          <th style="text-align:center; ">채팅방 생성 시간</th>
+                          <th style="text-align:center; ">채팅방 입장</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr th:each="crl : ${chatRoomList}">
-                          <td style="width:5%; text-align:center">
-                            <button style="text-align:center" type="button" class="close" data-dismiss="alert" aria-label="Close"><span style="text-align:center;" aria-hidden="true">&times;</span></button>
+                          <td style="text-align:center;">
+                          	<form class="removeChatRoomForm" th:action="@{/removeChatRoom}" method="POST">
+                          		<input type="hidden" name="chatRoomCode" th:value="${crl.chatRoomCode}">
+                          		<input type="hidden" name="curPage" th:value="${pagination.curPage}">
+ 	                           	<button type="button" class="bi bi-x-lg delBtn"></button>
+                          	</form>
                           </td>
-                          <td class="" style="text-align:center;"> 
-                            <span class="cartImage"><img src="user/assets/img/products/cart-image1.jpg" alt="image"></span>
-                          </td>
-                          
                           <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.renterId)}" th:text="${crl.ownerId}"></td>
                           <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.ownerId)}" th:text="${crl.renterId}"></td>
-						  <td style="width:15%; text-align:center; " th:text="${crl.chatRoomAddTime}"></td>
-						  <td style="width:15%; text-align:center" ><a th:href="@{/chat(chatRoomCode=${crl.chatRoomCode})}"><button type="button" class="btn btn-primary">입장</button></a></td>
-              
+                          <td style="text-align:center; " th:text="${crl.chatRoomAddTime}"></td>
+                          <td style="text-align:center;">
+                            <a th:href="@{/chat(chatRoomCode=${crl.chatRoomCode})}" class="btn btn-sm btn-primary-outlined">입장</a>
+                          </td>
                         </tr>
-
                       </tbody>
                     </table>
                   </div>
                 </div>
+              <div class="blogPage" style="display: flex; justify-content:center;">
+				<ul class="pagination" style="margin:3px">
+					<li th:if="${pagination.curRange != 1}">
+						<a th:href="@{/room}" aria-label="First"><span aria-hidden="true"></span></a>
+					</li>
+					<li th:if="${pagination.curPage != 1}">
+						<a th:href="@{/room(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+					</li>
+					
+					<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+						<li class="active" th:if="${pageNum == pagination.curPage}">
+							<a th:text="${pageNum}"></a>
+						</li>
+						<li th:unless="${pageNum == pagination.curPage}">
+							<a th:href="@{/room(curPage=${pageNum})}" th:text="${pageNum}"></a>
+						</li>
+					</th:block>
+
+					<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+						<a th:href="@{/room(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+					</li>
+					<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+						<a th:href="@{/room(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+					</li>
+				</ul>
+              </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+	<script th:inline="javascript">
+		$('.delBtn').click(function(){
+			
+			if(confirm('정말로 삭제하시겠습니까?')) $('.removeChatRoomForm').submit();
+			
+		});
+	</script>
 
-
-
-
-
-
-
-
-
-
-<!-- 
-		Grid wrapper for ell elements
-
-		<div class="grid-wrapper section">
-			<div class="container">
-				<div class="row">
-					<div class="col-12 col-lg-12 element-content pt-5">
-
-============================================= ## tables ===============================================
-
-						<div id="tables" class="element_single">
-							<div class="display-single_element">
-
-								<h3 style="margin: 30px 0">Table striped</h3>
-								<table class="table table-striped table-bordered">
-									<thead>
-										<tr>
-											<th>@</th>
-											<th>대화 상대</th>
-											<th>채팅방 생성 시간</th>
-											<th>채팅방 입장</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="crl : ${chatRoomList}">
-											<td>@</td>
-											<td style="text-align:center; font-size:15px" th:text="${crl.ownerId}"></td>
-											<td style="width:13%; text-align:center; font-size:15px" th:text="${crl.chatRoomAddTime}"></td>
-											<td style="width:13%; text-align:center" ><a><button type="button" class="btn btn-primary">채팅방 입장</button></a></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							Tables here
-						</div>
-					</div>
-					element-content ends
-				</div>
-			</div>
-			element main container ends
-		</div>
-		Grid wrapper ends
-		 -->
 	</th:block>
 </body>
 </html>
