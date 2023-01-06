@@ -25,6 +25,17 @@
 			</association>
 	</resultMap>
 	
+	<resultMap type="RegionSido" id="regionSidoResultMap">
+		<id property="regionSidoCode" column="region_sido_code" />
+		<result property="regionSidoName" column="region_sido_name" />
+	</resultMap>
+	
+	<resultMap type="RegionSgg" id="regionSggResultMap">
+		<id property="regionSggCode" column="region_sgg_code" />
+		<result property="regionSidoCode" column="region_sido_code" />
+		<result property="regionSggName" column="region_sgg_name" />
+	</resultMap>
+	
 	<select id="checkPwByUserId" parameterType="String" resultMap="userResultMap">
 		SELECT
 			 u.user_id
@@ -60,4 +71,50 @@
 			u.user_id = #{loginId};
 	</select>
 	
+	<insert id="addUser" parameterType="User">
+  		INSERT INTO tb_user
+  		(
+  			user_id, user_pw, user_name, user_nickname, user_email, user_phone_number, region_sgg_code, user_addr_desc, user_create_date
+  		)
+  		VALUES
+  		(
+  			#{userId}, #{userPw}, #{userName}, #{userNickName}, #{userEmail}, #{userPhoneNumber}, #{regionSggCode}, #{userAddrDesc}, NOW()
+  		)
+  	</insert>
+  	
+  	<select id="getRegionSido" resultMap="regionSidoResultMap">
+  		SELECT
+  			 sido.region_sido_code
+  			,sido.region_sido_name
+  		FROM
+  			tb_region_sido AS sido;
+  	</select>
+  	
+  	<select id="selectRegionSgg" resultMap="regionSggResultMap">
+		SELECT
+			 sgg.region_sgg_code
+			,sgg.region_sgg_name
+		FROM
+			tb_region_sgg AS sgg
+		WHERE 
+			sgg.region_sido_code = #{project};
+	</select>
+	
+	<select id="checkUserId" parameterType="String" resultType="boolean">
+		 SELECT
+	  		IF(COUNT(u.user_id)=1, 1, 0)
+	  	FROM 
+	  		tb_user AS u
+		WHERE
+			u.user_id = #{userId};
+	</select>
+	
+	<select id="checkUserNickName" parameterType="String" resultType="boolean">
+		 SELECT
+	  		IF(COUNT(u.user_nickname)=1, 1, 0)
+	  	FROM 
+	  		tb_user AS u
+		WHERE
+			u.user_nickname = #{userNickName};
+	</select>
 </mapper>

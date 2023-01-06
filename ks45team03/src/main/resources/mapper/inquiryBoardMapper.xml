@@ -25,12 +25,49 @@
 	</resultMap>
 	
 	
+	<update id="modifyInquiryBoard" parameterType="InquiryBoard"> 
+	/* 1 대 1 문의 게시글 수정 */
+	UPDATE tb_inquiry_board
+	SET
+		inquiry_board_content = #{inquiryBoardContent}	
+	WHERE 
+			inquiry_board_code = #{inquiryBoardCode}
+	
+	</update>
+	
+	<insert id="addInquiryBoard" parameterType="InquiryBoard">
+	/* 1 대 1 문의 게시글 추가 */
+	INSERT INTO tb_inquiry_board
+		(
+		inquiry_board_code, user_id, inquiry_board_content, inquiry_board_type, inquiry_board_reg_time, inquiry_board_title
+		)
+	VALUES 
+		(
+		#{inquiryBoardCode}, #{userId}, #{inquiryBoardContent}, #{inquiryBoardType}, now(), #{inquiryBoardTitle}
+		);
+	
+	</insert>
+	
+	
+	<insert id="adminAddInquiryBoard" parameterType="InquiryBoard">
+	/* 1 대 1 문의 게시글 답글 추가 */
+	INSERT INTO tb_inquiry_re_board
+		(
+		inquiry_re_board_code, user_id, inquiry_id, inquiry_re_board_title, inquiry_re_board_content, inquiry_board_re_reg_time, inquiry_board_code
+		)
+	VALUES 
+		(
+		#{inquiryReBoardCode}, #{userId}, #{inquiryId}, #{inquiryReBoardTitle}, #{inquiryReBoardContent}, now(), #{inquiryBoardCode}
+		);
+	
+	</insert>
+	
 	<select id="getInquiryReBoard" parameterType="String" resultMap="inquiryBoardResultMap">
 	/* 1 대 1 문의게시판 답변게시글 조회 */
 		SELECT
 			ir.inquiry_re_board_code
-			,ir.user_id		
-			,ir.inquiry_re_board_title
+			,ir.user_id	
+			,ir.inquiry_re_board_title	
 			,ir.inquiry_re_board_content
 			,ir.inquiry_board_re_reg_time
 			,u.user_nickname
@@ -49,7 +86,7 @@
 	/* 1 대 1 문의게시판 문의게시글 조회 */
 		SELECT
 			ib.inquiry_board_code
-			,ib.user_id			
+			,ib.user_id		
 			,ib.inquiry_board_title
 			,ib.inquiry_board_content
 			,ib.inquiry_board_type

@@ -9,6 +9,15 @@ import ks45team03.rentravel.dto.InquiryBoard;
 @Mapper
 public interface InquiryBoardMapper {
 	
+	/* 1 대 1 문의 게시글 수정 */
+	public int modifyInquiryBoard (InquiryBoard inquiryBoard);
+	
+	/* 1 대 1 문의 게시글 추가 */
+	public int addInquiryBoard (InquiryBoard inquiryBoard);
+	
+	/* 1 대 1 문의 게시글 답글 추가 */
+	public int adminAddInquiryBoard (InquiryBoard inquiryBoard);
+	
 	/* 1 대 1 문의게시판 답변 게시글 조회 */
 	public InquiryBoard getInquiryReBoard(String inquiryReBoardCode);
 	
