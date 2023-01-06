@@ -1,202 +1,183 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{user/layout/default}">
-	
-	<head>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="${title}"></title>
+		<head>
 		<style type="text/css">
-			table {
-				width: 100%;	
-				table-layout: auto;
+			#addForm {
+				font-size: 16px;
 			}
-			td {
-				height: 60px;
+			.form-control {
+				margin: 0 !important;
+			}		
+			.form-group span {
+				position: absolute;
 			}
-			#addUserForm input {
-				width: 99%;
-				height: 90%;
-				font-size: 20px;
-				padding-left: 14px;
+			
+			#userPhoneNumberCheck{
+				top: 100%;
 			}
-			#submitBtn {
-				width: 99%;
-				height: 90%;
-				font-size: 14px;
+			
+			label {
+				margin-top: 30px;
 			}
-			#checkBtn {
-				width: 95%;				
-				height: 54px;
-				padding: 8px;
-				margin-bottom: 34px;
-				font-size: 14px;
+			
+		
+			select {
+				padding-top: 0 !important; 
+				padding-bottom: 0 !important;
+				-webkit-appearance: none;
+				height: 52px !important;
 			}
-			#addUserForm label {
-				font-size: 14px;
-				font-weight: 900;	
+			select > option {
+				background-color: white;
 			}
-			#addUserForm #logo {
+			#logo {
+				margin-bottom: 30px;
+				text-align:center;
 				font-weight: 900;
 				font-size: 60px;
 			}
-			#logo-td {
-				text-align: center;
-				padding-bottom: 60px;
+			#logo a{
+				color: black;
 			}
-			#addUserForm #logo > span {
-				color: #47BAC1;
+			#logo span {
+				color: rgb(71, 186, 193);
 			}
-			#addUserForm #alert {
-				font-size: 14px;
-				color: red;
+			#submitBtn {
+				margin-top: 30px;
+				height: 52px;
 			}
-		</style>	
-	</head>
-	<th:block layout:fragment="customContents">
-	 <section class="mainContent clearfix logIn">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-md-7 col-lg-8 col-xl-7 col-12">
-		<form id="addUserForm" th:action="@{/addMember}" method="post">
-			<table>
-				<tbody>
-					<tr>
-						<td colspan="2" id="logo-td">
-							<span id="logo"><span>RENT</span>ravel</span>
-						</td>
-					<tr>
-						<td>
-						<label for="userId">아이디</label>
-							<input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요." />
-						</td>
-						<td width="100px" rowspan="2">
-							<button type="button" id="checkBtn" class="btn btn-success">중복체크</button>
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span>asdasd</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="userPw">비밀번호</label>
-							<input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력해주세요" />
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span></span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="userPwCheck">비밀번호 재확인</label>
-							<input type="password" id="userPwCheck" name="userPwCheck" placeholder="비밀번호를 다시 입력해주세요" />
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span></span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="userName">이름</label>
-							<input type="text" id="userName" name="userName" placeholder="이름을 입력해주세요" />
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span></span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="userNickName">닉네임</label>
-							<input type="text" id="userNickName" name="userNickName" placeholder="닉네임을 입력해주세요" />
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span></span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="userEmail">이메일</label>
-							<input type="text" id="userEmail" name="userEmail" placeholder="이메일을 입력해주세요" />
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span></span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="userPhoneNumber">전화번호</label>
-							<input type="text" id="userPhoneNumber" name="userPhoneNumber" placeholder="전화번호를 입력해주세요." />
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span></span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="regionSidoCode">주소</label>
-							<input type="text" id="regionSidoCode" name="regionSidoCode" placeholder="주소를 입력해주세요." />
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span></span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="userAddrDesc">상세주소</label>
-							<input type="text" id="userAddrDesc" name="userAddrDesc" placeholder="상세주소를 입력해주세요." />
-						</td>
-					</tr>
-					<tr>
-						<td id="alert">
-							<span></span>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2">
-							<button type="button" id="submitBtn" class="btn btn-success">회원가입</button>
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</form>
-		</div>
-		</div>
-		</div>
-		</section>
-		</th:block>
+		</style>
+			<link th:href="@{/user/assets/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/jquery-ui/jquery-ui.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/selectbox/select_option1.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/fancybox/jquery.fancybox.min.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/rateyo/jquery.rateyo.min.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/iziToast/css/iziToast.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/prismjs/prism.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/revolution/css/settings.css}" rel="stylesheet">
+		    <link th:href="@{/user/assets/plugins/animate/animate.css}" rel="stylesheet">
+		    <link rel="stylesheet" type="text/css" th:href="@{/user/assets/plugins/slick/slick.css}" media="screen">
+		    <link rel="stylesheet" type="text/css" th:href="@{/user/assets/plugins/slick/slick-theme.css}" media="screen">
+	
+	
+		    <!-- CUSTOM CSS -->
+		    <link th:href="@{/user/assets/css/style.css}" rel="stylesheet">
+		    <link rel="stylesheet" th:href="@{/user/assets/css/default.css}" id="option_style">
 		
-			<th:block layout:fragment="customJs">
-				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-			</th:block>
-			<th:block layout:fragment="customScript">
-			<script>
-				window.onload = function(){
-				    document.getElementById("regionSidoCode").addEventListener("click", function(){ //주소입력칸을 클릭하면
-				        //카카오 지도 발생
-				        new daum.Postcode({
-				            oncomplete: function(data) { //선택시 입력값 세팅
-				                document.getElementById("regionSidoCode").value = data.address; // 주소 넣기
-				                document.querySelector("input[name=userAddrDesc]").focus(); //상세입력 포커싱
-				            }
-				        }).open();
-				    });
-				}
-				</script>
-			</th:block>
+		    <!-- Icons -->
+		    <link rel="shortcut icon" th:href="@{/user/assets/img/favicon.png}">
+	</head>
+	<body>
+	  <!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix signUp">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="panel panel-default">
+	             <div id="logo" class="panel panel-header"><a th:href="@{/}"><span>RENT</span>ravel</a></div>
+                  <form id="addForm" th:action="@{/addUser}" method="POST">
+                    <div class="form-group">
+                      <label for="userId">아이디</label>
+                      <input type="text" class="form-control" id="userId" name="userId" placeholder="띄어쓰기 없이 영/숫자 5-12자"> 
+                      <span class="invalid-feedback" id="userIdCheck"></span>
+                    </div>
+                    <div class="form-group">
+                      <label for="userPw">비밀번호</label>
+                      <input type="password" class="form-control" id="userPw" name="userPw" placeholder="띄어쓰기 없는 영문 대/소문자, 숫자, 특수문자 8-15자">
+                      <span class="invalid-feedback" id="userPwCheck"></span>
+                    </div>
+                   <div class="form-group">
+                      <label for="userPwConfirm">비밀번호 재확인</label>
+                      <input type="password" class="form-control" id="userPwConfirm" name="userPwConfirm" placeholder="비밀번호를 한번 더 입력해주세요.">
+                      <span class="invalid-feedback" id="userPwConfirmCheck"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="userName">이름</label>
+                      <input type="text" class="form-control" id="userName" name="userName" placeholder="이름을 입력해주세요.">
+                      <span class="invalid-feedback" id="userNameCheck"></span>
+                    </div>
+                    <div class="form-group">
+                      <label for="userNickName">닉네임</label>
+                      <input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="띄어쓰기 없이 한글, 영문, 숫자 2-10자">
+                      <span class="invalid-feedback" id="userNickNameCheck"></span>
+                    </div>
+                    <div class="form-group">
+                      <label for="userEmail">이메일</label>
+                      <input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="이메일을 입력해주세요.">
+                      <span class="invalid-feedback" id="userEmailCheck"></span>
+                    </div>
+                    <div class="form-group row">
+                      <label for="userPhoneNumber" class="col-md-12">전화번호</label>
+                      <div class="input-group selectOptions col-md-12">
+	                      <select id="firstPhoneNumber" class="form-control col-md-2">
+                      		<option>010</option>
+                      		<option>011</option>
+                      		<option>016</option>
+                      		<option>017</option>
+                      		<option>018</option>
+                      		<option>019</option>
+	                      </select>
+                      <input type="text" class="form-control col-md-10" id="userPhoneNumber" name="userPhoneNumber" placeholder="핸드폰 번호 ('-'없이 입력해주세요.)">
+                      <span class="invalid-feedback" id="userPhoneNumberCheck"></span>                    
+                    </div>
+                    </div>
+                    <div class="form-group" style="margin: 0">
+                      <label for="regionSidoCode">주소</label>
+                      <div class="selectOptions row">
+                      	<div class="col-md-6">
+	                      <select id="regionSidoCode" name="regionSidoCode" class="form-control" >
+	                      	<option>시ㆍ도를 선택해주세요.</option>
+	                      	<th:block th:if="${not #lists.isEmpty(getRegionSido)}" th:each="sido : ${getRegionSido}">
+	                      		<option th:value="${sido.regionSidoCode}">[[${sido.regionSidoName}]]</option>
+	                      	</th:block>
+	                      	<th:block th:unless="${not #lists.isEmpty(getRegionSido)}">
+									<option>등록된 지역이 없습니다.</option>
+							</th:block>
+	                      </select>
+	                       <span class="invalid-feedback" id="regionSidoCodeCheck"></span>
+                      	</div>
+                      	<div class="col-md-6">
+	                      <select id="regionSggCode" name="regionSggCode" class="form-control">
+	                      	<option>등록된 지역이 없습니다.</option>
+	                      </select>
+	                    <span class="invalid-feedback" id="regionSggCodeCheck"></span>
+	                    </div>
+                      </div>
+                    </div>
+                      <div class="form-group">
+	                      <label for="userAddrDesc">상세주소</label>
+	                      <input type="text" class="form-control" id="userAddrDesc" name="userAddrDesc" placeholder="상세주소를 입력해주세요.">
+	                      <span class="invalid-feedback" id="userAddrDescCheck"></span>
+                   	 </div>
+                    <button id="submitBtn" type="submit" class="btn btn-primary btn-block">가입하기</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+      
+      	<div th:replace="~{user/fragments/copyRightFragment :: copyRightFragment}"></div>
+      
+    	<script th:src="@{/user/assets/plugins/jquery/jquery.min.js}"></script>
+		<script th:src="@{/user/assets/plugins/jquery/jquery-migrate-3.0.0.min.js}"></script>
+		<script th:src="@{/user/assets/plugins/jquery-ui/jquery-ui.js}"></script>
+		<script th:src="@{/user/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		<script th:src="@{/user/assets/plugins/revolution/js/jquery.themepunch.tools.min.js}"></script>
+		<script th:src="@{/user/assets/plugins/revolution/js/jquery.themepunch.revolution.min.js}"></script>
+		<script th:src="@{/user/assets/plugins/slick/slick.js}"></script>
+		<script th:src="@{/user/assets/plugins/fancybox/jquery.fancybox.min.js}"></script>
+		<script th:src="@{/user/assets/plugins/iziToast/js/iziToast.js}"></script>
+		<script th:src="@{/user/assets/plugins/prismjs/prism.js}"></script>
+		<script th:src="@{/user/assets/plugins/selectbox/jquery.selectbox-0.1.3.min.js}"></script>
+		<script th:src="@{/user/assets/plugins/countdown/jquery.syotimer.js}"></script>
+		<script th:src="@{/user/assets/plugins/velocity/velocity.min.js}"></script>
+		<script th:src="@{/user/assets/plugins/rateyo/jquery.rateyo.min.js}"></script>
+		<script th:src="@{/user/assets/js/custom.js}"></script>
+		<script th:src="@{/user/js/validation.js}"></script>
+	</body>
 </html>
