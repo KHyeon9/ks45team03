@@ -35,15 +35,18 @@
                         <tbody th:unless="${#lists.isEmpty(adminGetInquiryBoardList)}" th:each="inquiry : ${adminGetInquiryBoardList}">
 				          <tr style="text-align: center;">
 			                <td>[문의]</td>
-			                <td style="text-align: left;"><a th:href="@{/admin/board/adminInquiryDetail}" th:text="문의합니다." style="color:black;"></a></td>
+			                <td style="text-align: left;"><a th:href="@{/admin/board/adminInquiryDetail(inquiryBoardCode=${inquiry.inquiryBoardCode})}" th:text="문의합니다." style="color:black;"></a></td>
 			                <td th:text="${inquiry.user.userNickName}"></td>			               	
 			                <td th:text="${inquiry.inquiryBoardRegTime}"></td>	  
 							<tr style="text-align: center" th:unless="${#lists.isEmpty(adminGetInquiryReBoardList)}" th:each="re : ${adminGetInquiryReBoardList}">
 								<th:block th:if="${inquiry.inquiryBoardCode == re.inquiryBoardCode}">
 					                <td>[답변]</td>
-					                <td style="text-align: left;"><small style="font-size: 15px; margin-right:10px;"></small><a th:href="@{/admin/board/adminInquiryDetail}" style="color:black;">
+					                <td style="text-align: left;"><a th:href="@{/admin/board/adminInquiryReDetail(inquiryReBoardCode=${re.inquiryReBoardCode})}" style="color:black;">
+					                	
 					                	<i class="bi bi-arrow-return-right"></i>
-					                	<span th:text="|${inquiry.user.userNickName}님 답변입니다.| " ></span>
+					                	
+					                	<span th:text="${re.inquiryReBoardTitle}" ></span>
+					                	
 					                </a></td>
 					                <td th:text="${re.user.userNickName}"></td>			               	
 					                <td th:text="${re.inquiryBoardReRegTime}"></td>	  

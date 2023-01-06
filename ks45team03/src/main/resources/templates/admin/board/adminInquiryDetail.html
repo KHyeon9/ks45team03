@@ -3,10 +3,52 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/layout/default}">
 
-	<th:block layout:fragment="customContents">
-	관리자: 1 대 1 문의 게시글(조회)
-	<a th:href="@{/admin/board/adminAddInquiry}" style="color: blue;">1 대 1 문의 게시글 답글 추가</a>
-	<br>
-	<a th:href="@{/admin/board/adminRemoveInquiry}" style="color: blue;">1 대 1 문의 게시글 답글 삭제</a>
-	</th:block>
+<th:block layout:fragment="customContents">
+	<div class="right_col" role="main">
+		<div class="">
+			<div class="page-title"></div>
+
+			<div class="clearfix"></div>
+
+			<div class="row">
+				<div class="col-md-12 col-sm-12 ">
+					<div class="x_panel">
+							<div class="x_title">
+								<h2>1 대 1 문의 게시판</h2>
+								<a class="btn btn-light" th:href="@{/admin/board/adminNoticeBoard}" style="float: right">목록</a>
+								
+								<input id="userNickName" name="userNickName" th:value="${adminGetInquiryBoard.user.userNickName}"
+									hidden="hidden">
+								<input id="inquiryId" name="inquiryId" th:value="${adminGetInquiryBoard.userId}"
+									hidden="hidden">
+								<input id="inquiryBoardCode" name="inquiryBoardCode" th:value="${adminGetInquiryBoard.inquiryBoardCode}"
+									hidden="hidden">	
+								
+								<div class="clearfix"></div>
+							</div>
+							<div class="form-group row ">
+								<div class="col-md-12 col-sm-12 ">
+									<div th:text="문의합니다."
+										style="font-size: 25px"></div>
+									<div th:text="${adminGetInquiryBoard.userId}"></div>																		
+									<div>
+										<span th:text="${adminGetInquiryBoard.inquiryBoardRegTime}" style="margin-right: 10px"></span>										
+									</div>
+								</div>
+							</div>
+							<div class="ln_solid"></div>
+
+							<div class="x_content">								
+								<div th:text="${adminGetInquiryBoard.inquiryBoardContent}" style="height: 500px; overflow: auto"></div>		
+								<div class="ln_solid"></div>
+								<a class="btn btn-light"  th:href="@{/admin/board/adminAddInquiry(inquiryBoardCode=${adminGetInquiryBoard.inquiryBoardCode})}" style="float: left">답변 작성</a>						
+							</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</th:block>
+
+
 </html>

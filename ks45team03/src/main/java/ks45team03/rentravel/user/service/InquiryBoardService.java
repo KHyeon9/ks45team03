@@ -3,6 +3,7 @@ package ks45team03.rentravel.user.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ks45team03.rentravel.dto.InquiryBoard;
 import ks45team03.rentravel.mapper.InquiryBoardMapper;
 
 @Service
@@ -16,5 +17,9 @@ public class InquiryBoardService {
 	}
 	
 	
-	
+	/* 1 대 1 문의 게시글 추가 */
+	public int addInquiryBoard (InquiryBoard inquiryBoard) {
+		
+		return inquiryBoardMapper.addInquiryBoard(inquiryBoard);
+	}
 }
