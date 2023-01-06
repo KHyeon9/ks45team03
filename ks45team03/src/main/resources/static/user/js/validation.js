@@ -6,35 +6,35 @@ var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a
 var phoneJ = /^[0-9]{4,4}?[0-9]{4,4}$/;
 var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 
-$('#regionSidoCode').change(function(){
+	$('#regionSidoCode').change(function(){
     			
-	var project = $('#regionSidoCode').val();
+		var project = $('#regionSidoCode').val();
 		
-	$.ajax({
-			type: 'POST',
-			url: '/addUser/ajaxProject',
-			data: { project },
-			success: function(result){
-				
-				var sggOption = {};
-				var blankOption = '<option></option>';
-				var defaultOption = '<option>등록된 지역이 없습니다.</option>';
-				
-				for (var i = 0; i < result.length; i++) {
-				 sggOption += '<option value="' + result[i].regionSggCode + '">' + result[i].regionSggName + '</option>';	    			
+		$.ajax({
+				type: 'POST',
+				url: '/addUser/ajaxProject',
+				data: { project },
+				success: function(result){
+					
+					var sggOption = {};
+					var blankOption = '<option></option>';
+					var defaultOption = '<option>등록된 지역이 없습니다.</option>';
+					
+					for (var i = 0; i < result.length; i++) {
+					 sggOption += '<option value="' + result[i].regionSggCode + '">' + result[i].regionSggName + '</option>';	    			
+					}
+					
+					if(result == '' || result == 'undefined') {
+						 $('#regionSggCode').html(defaultOption);
+					}else{
+						 $('#regionSggCode').html(blankOption);
+						 $('#regionSggCode').append(sggOption);
+					}
+				},
+				error: function(project) {
+					alert("error");
 				}
-				
-				if(result == '' || result == 'undefined') {
-					 $('#regionSggCode').html(defaultOption);
-				}else{
-					 $('#regionSggCode').html(blankOption);
-					 $('#regionSggCode').append(sggOption);
-				}
-			},
-			error: function(project) {
-				alert("error");
-			}
-		})
+			})
 	});
 	
 	$(function(){
