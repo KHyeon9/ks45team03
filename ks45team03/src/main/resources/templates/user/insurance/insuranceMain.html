@@ -12,7 +12,16 @@
 				.searchInsurance {
 					display: none;
 				}
-			} 
+				
+				.iconInsuranceProcess {
+					display: none;
+				}
+				
+				.card-insurance {
+					display: none;
+				}
+			}
+		    		
 		</style>
 	  	 <div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
 	  	 
@@ -25,27 +34,45 @@
               <div class="col-md-12 text-center">
                 <div class="sectionTitle">
                   <h1>Insurance</h1>
-                  <p>상품이 거래가 일어나면 오너의 상품은 보험에 가입된다.</p>
+                  <p>오너의 상품을 렌탈해줄 때 자동으로 보험에 가입됩니다.</p>
                 </div>
               </div><br/>
+             	<div class="col-md-12 text-center iconInsuranceProcess" style="padding: 30px;">
+	             	<div class="row" style="margin: 10px;">
+	             	<div class="col-md-3 "><i class="bi bi-file-text" style="font-size: 8rem;"></i></div>
+	             	<div class="col-md-3 "><i class="bi bi-person-workspace" style="font-size: 8rem;"></i></div>
+	             	<div class="col-md-3 "><i class="bi bi-clipboard-check" style="font-size: 8rem;"></i></div>
+	             	<div class="col-md-3 "><i class="bi bi-cash-coin" style="font-size: 8rem;"></i></div>
+             	</div>
+	             	<div class="row"  style="margin: 10px;">
+		             	<div class="col-md-3 "><h4>step1</h4></div>
+		             	<div class="col-md-3 "><h4>step2</h4></div>
+		             	<div class="col-md-3 "><h4>step3</h4></div>
+		             	<div class="col-md-3 "><h4>step4</h4></div>
+             		</div>
+             		<div class="row"  style="margin: 10px;">
+		             	<div class="col-md-3 "><h4>청구서작성</h4></div>
+		             	<div class="col-md-3 "><h4>보험사전달</h4></div>
+		             	<div class="col-md-3 "><h4>적합성판단</h4></div>
+		             	<div class="col-md-3 "><h4>보상금지급</h4></div>
+             		</div>
+             	</div>
+              
+              
             
             <!-- THREE SECTION CARD -->
-            <div class="row card-insurance" style="background-color: #f0f0f0; height: 150px;">
-	           <div class="card card-body col-md-3 text-center">
-	      		<h4 class="card-title">이용가능보험</h4>
-	     			<p class="card-text">2</p>
+            <div class="row card-insurance" style="background-color: #f0f0f0; height: 150px; pointer-events: none;">
+	           <div class="card card-body col-md-4 text-center">
+	      		<h4 class="card-title">Insurance</h4>
+	     			<p class="card-text"  th:text="${cntInsurance}"></p>
 	    		</div>
-	    		<div class="card card-body col-md-3 text-center">
-	      		<h4 class="card-title">만료된보험</h4>
-	     			<p class="card-text">2</p>
+	    		<div class="card card-body col-md-4 text-center">
+	      		<h4 class="card-title">Bill</h4>
+	     			<p class="card-text" th:text="${cntInsuranceBill}"></p>
 	    		</div>
-	    		<div class="card card-body col-md-3 text-center">
-	      		<h4 class="card-title">청구서</h4>
-	     			<p class="card-text">1</p>
-	    		</div>
-	    		<div class="card card-body col-md-3 text-center">
-	      		<h4 class="card-title">지급내역</h4>
-	     			<p class="card-text">1</p>
+	    		<div class="card card-body col-md-4 text-center">
+	      		<h4 class="card-title">Payout</h4>
+	     			<p class="card-text" th:text="${cntInsurancePayout}"></p>
 	    		</div>
 	    	</div><br/><br/>
 			
@@ -65,31 +92,19 @@
 				</li>
 			</ul><br/><br/>
 			
-			<div class="col-md-12 searchDate" style="padding:10px; margin: 0 auto;">
-				<div class="row">
-					<label for="example-text-input" class="col-md-1 col-form-label">날짜별</label>
-		            <div class="col-md-3 text-center">
-						<input class="form-control" type="date" value="2017-06-19" id="example-datetime-local-input">
-					</div>
-					<p>~</p>
-					<div class="col-md-3 text-center">
-						<input class="form-control" type="date" value="2017-06-19" id="example-datetime-local-input">
-					</div>
-				</div>
-			</div>
-			<hr class="my-4"><br/>
-			
-			
             <!-- 나의 가입보험정보 -->
             <div class="tableInsurance">
             	<div class="row">
-	            	<div class="sectionTitle col-md-8"><h3>01. 가입보험정보</h3></div>
-	            	<div class="input-group col-md-3 searchInsurance">
+	            	<div class="sectionTitle col-md-8">
+	            		<h3 style="margin: 2px">01. 가입보험정보</h3>
+	            		<p>내가 가입된 보험을 볼 수 있습니다</p>
+	            	</div>
+	            	<!-- <div class="input-group col-md-3 searchInsurance">
 						<input type="text" class="form-control" placeholder="search">
 						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
-					</div>
+					</div> -->
                 </div>
-		        	<table class="table">
+		        	<table class="table table-hover table-responsive-md">
 						<thead>
 							<tr>
 								<th>보험코드</th>
@@ -113,12 +128,12 @@
 						      	</th:block>
 						      <td th:text="${l.paymentCode}"></td>
 						      <td th:text="${l.rentalCode}"></td>
-						      <td th:text="${l.insuranceAvailable}"></td>
+						      <td class="avlInsurance" th:text="${l.insuranceAvailable}"></td>
 						      <td th:text="${l.insuranceSignUpTime}"></td>
 						      <th:block th:object="${l.rental}">
 						      		<td th:text="*{rentalEndDate}"></td>
 						      	</th:block>
-						      <td><a th:href="@{/insurance/insuranceAddBill}" class="badge badge-primary">청구하기</a></td>
+						      <td><a th:href="@{/insurance/insuranceAddBill}" class="badge badge-primary btnaddBill">청구하기</a></td>
 						    </tr>
 						    <tr th:unless="${not #lists.isEmpty(insuranceList)}">
 						    	<td colspan="9">가입된 보험이 없습니다.</td>
@@ -130,8 +145,17 @@
             
             <!-- 나의 제출한 보험 청구서 리스트 -->
             <div class="tableInsuranceBill" >
-	            <div class="sectionTitle "><h3>02. 보상금청구서</h3></div><br/>
-	            	<table class="table">
+            	<div class="row">
+	            	<div class="sectionTitle col-md-8">
+	            		<h3 style="margin: 2px">02. 보험청구서</h3>
+	            		<p>내가 작성한 보험청구서를 볼 수 있습니다</p>
+	            	</div>
+	            	<!-- <div class="input-group col-md-3 searchInsurance">
+						<input type="text" class="form-control" placeholder="search">
+						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
+					</div> -->
+                </div>
+	            	<table class="table table-hover table-responsive-md">
 					  <thead>
 					    <tr>
 					      <th>보험청구코드</th>
@@ -140,12 +164,13 @@
 					      <th>상품명</th>
 					      <th>보험청구상태</th>
 					      <th>보험청구상태변경날짜</th>
+					      <th>상세보기</th>
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <tr th:if="${not #lists.isEmpty(insuranceBillList)}" th:each="l : ${insuranceBillList}" >
+					   <tr th:if="${not #lists.isEmpty(insuranceBillList)}" th:each="l : ${insuranceBillList}">
 					      <td th:text="${l.insuranceBillCode}"></td>
-					      <td th:text="${l.insuranceBillDetailCode}" ></td>
+					      <td th:text="${l.insuranceBillDetailCode}"></td>
 					       <th:block th:object="${l.goods}">
 					       		<td th:text="*{goodsCode}"></td>
 						      	<td th:text="*{goodsName}"></td>
@@ -154,9 +179,11 @@
 						   		<td class="billState"  th:text="*{insuranceBillStateName}"></td>
 						   </th:block>
 					      <td th:text="${l.insuranceBillModifyDate}"></td>
+					      <td><a th:href="@{/insurance/insuranceBillDetail}" class="badge badge-primary btnBillDetail">상세보기</a></td>
 					    </tr>
 					    <tr th:unless="${not #lists.isEmpty(insuranceBillList)}">
 					    	<td colspan="9">작성한 보상금청구서가 없습니다.</td>
+					    	
 					    </tr>
 					  </tbody>
 					</table>
@@ -165,26 +192,37 @@
             
             <!-- 나의 보상금지급내역 리스트 -->
             <div class="tableInsurancePayout">
-	            <div class="sectionTitle"><h3 id="">03. 보상금지급</h3></div><br/>
-	         		<table class="table">
+            	<div class="row">
+	            	<div class="sectionTitle col-md-8">
+	            		<h3 style="margin: 2px">03. 보상금지급내역</h3>
+	            		<p>내가 받은 보상금내역을 볼 수 있습니다</p>
+	            	</div>
+	            	<!-- <div class="input-group col-md-3 searchInsurance">
+						<input type="text" class="form-control" placeholder="search">
+						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
+					</div> -->
+                </div>
+	         		<table class="table table-hover table-responsive-md">
 					  <thead>
 					    <tr>
+					      <th>보험코드</th>
 					      <th>보상금지급코드</th>
-					      <th>상품코드</th>
-					      <th>상품명</th>
-					      <th>결제코드</th>
 					      <th>보상금청구서코드</th>
+					      <th>상품명</th>
 					      <th>보상금액</th>
 					      <th>보상금지급날짜</th>
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <tr th:if="${not #lists.isEmpty(insurancePayoutList)}"
-					    	 th:each="l: ${insurancePayoutList}">	
-					      <td th:text="${l.insurancePayoutCode}"></td>
-					      <td th:text="${l.userId}"></td>
-					      <td th:text="${l.insuranceBillDetailCode}"></td>
-					      <td th:text="${l.insuranceBillCode}"></td>
+					    <tr th:if="${not #lists.isEmpty(insurancePayoutList)}" th:each="l: ${insurancePayoutList}">
+					    <th:block th:object="${l.insuranceBillDetail}">
+					    	<td th:text="*{insuranceCode}"></td>
+						 </th:block>
+					     <td th:text="${l.insurancePayoutCode}"></td>
+					     <td th:text="${l.insuranceBillDetailCode}"></td>
+ 						<th:block th:object="${l.goods}">
+						      <td th:text="*{goodsName}"></td>
+						  </th:block>
 					      <td th:text="${l.insurancePayoutPrice}"></td>
 					      <td th:text="${l.insurancePayoutDate}"></td>
 					    </tr>
@@ -199,9 +237,9 @@
             <div class="wrapper insurancePolicy" style="background-color: #f0f0f0; padding:30px;">
             	<h4 class="text-left">사고발생시</h4>
 				<ol class="styled_list text-left">
-					<li>렌터와 오너가 합의한다.</li>
-					<li>1번의 합의에 응하지 않았을 경우 운영에서 중재한다.</li>
-					<li>2번의 경우에도 합의가 되지 않으면 오너는 보상금을 신청한다.</li>
+					<li class="col"><span>렌터와 오너가 합의한다.</span></li>
+					<li class="col">1번의 합의에 응하지 않았을 경우 운영에서 중재한다.</li>
+					<li class="col">2번의 경우에도 합의가 되지 않으면 오너는 보상금을 신청한다.</li>
 				</ol>
 				<!-- checked list -->
 				<h4 class="text-left">보험금 책정</h4>
@@ -249,31 +287,28 @@
 	   		    	$('.tableInsurancePayout').show();
 	   			});
 	   			
+	   			// 보험만료시 청구버튼 숨기기
+	   			console.log($(".btnaddBill"));
+	   			for(let j = 0; j < $('.avlInsurance').length; j++) {
+		   			if($('.avlInsurance')[j].innerText == "만료") {
+			   			$(".btnaddBill")[j].hidden=true;
+		   			}
+	   				
+	   			}
 	   			
+	   			// 상태 색깔 주기
 		   		for(let i = 0; i < $('.billState').length; i++) {
-		   			
 	   				let state_name = $('.billState')[i].innerText;
 	   				
-		   			console.log(state_name);
-		   			
 		   			if(state_name == "접수중"){
-		   				
 		   				$('.billState')[i].style.color="green";
-		   				
 		   			}else if(state_name == "적합성판단중") {
-		   				
 		   				$('.billState')[i].style.color="orange";
-		   				
 		   			}else if(state_name == "보상금지급대기") {
-		   				
 		   				$('.billState')[i].style.color="blue";
-		   				
 		   			}else if(state_name == "부적합") {
-		   				
 		   				$('.billState').style.color="red";
-		   				
 		   			}else {
-		   				
 		   				$('.billState').style.color="black";
 		   			}
 		   			

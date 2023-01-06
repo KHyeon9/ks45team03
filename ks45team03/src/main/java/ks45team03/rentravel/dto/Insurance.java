@@ -12,17 +12,18 @@ public class Insurance {
 	Goods goods;
 	Rental rental;
 	
-	public Goods getGoods() {
-		return goods;
-	}
-	public void setGoods(Goods goods) {
-		this.goods = goods;
-	}
+	
 	public Rental getRental() {
 		return rental;
 	}
 	public void setRental(Rental rental) {
 		this.rental = rental;
+	}
+	public Goods getGoods() {
+		return goods;
+	}
+	public void setGoods(Goods goods) {
+		this.goods = goods;
 	}
 	public Payment getPayment() {
 		return payment;
