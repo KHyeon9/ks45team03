@@ -39,6 +39,8 @@
 		</association>
 	</resultMap>
 	
+	<!-- 주소 가져오기 -->
+	
 	<!-- 자기 자신의 주문 목록 조회 -->
 	<select id="getUserOrderList" resultMap="orderMap" parameterType="String">
 		SELECT

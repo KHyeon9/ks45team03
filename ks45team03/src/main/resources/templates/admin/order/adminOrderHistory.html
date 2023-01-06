@@ -19,8 +19,8 @@
                       	<th class="column-title">상품명</th>
 				  		<th class="column-title">렌탈시작일</th>
 				  		<th class="column-title">렌탈종료일</th>
-				  		<th class="column-title">택배이용여부</th>
-				  		<th class="column-title">주소</th>
+				  		<!-- <th class="column-title">택배이용여부</th>
+				  		<th class="column-title">주소</th> -->
 				  		<th class="column-title">카드,계좌 번호</th>
 				  		<th class="column-title">결제기관</th>
 				  		<th class="column-title">지불방법</th>
@@ -32,7 +32,7 @@
 				  		<th class="column-title">렌탈오너정산금액</th>
 				  		<th class="column-title">결제시간</th>
 				  		<th class="column-title">렌탈상태</th>
-                        <th class="column-title">수정</th>
+                        <th class="column-title"></th>
                         <th class="bulk-actions" colspan="17">
                           <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                         </th>
@@ -45,8 +45,8 @@
 						  		<td th:text="${order.goodsName}"></td>
 						  		<td th:text="${order.rentalStartDate}"></td>
 						  		<td th:text="${order.rentalEndDate}"></td>
-						  		<td th:text="${order.selectDelivery}"></td>
-						  		<td th:text="${order.sidoName} + ' ' + ${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
+						  		<!-- <td th:text="${order.selectDelivery}"></td>
+						  		<td th:text="${order.sidoName} + ' ' + ${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td> -->
 						  		<th:block th:object="${order.payment}">
 							  		<td th:text="*{paymentAccountOrCardNumber}"></td>
 							  		<td th:text="*{paymentAgency}"></td>
@@ -68,8 +68,8 @@
 	                         <td th:text="${order.goodsName}"></td>
 						  		<td th:text="${order.rentalStartDate}"></td>
 						  		<td th:text="${order.rentalEndDate}"></td>
-						  		<td th:text="${order.selectDelivery}"></td>
-						  		<td th:text="${order.sidoName} + ' ' + ${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
+						  		<!-- <td th:text="${order.selectDelivery}"></td>
+						  		<td th:text="${order.sidoName} + ' ' + ${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td> -->
 						  		<th:block th:object="${order.payment}">
 							  		<td th:text="*{paymentAccountOrCardNumber}"></td>
 							  		<td th:text="*{paymentAgency}"></td>

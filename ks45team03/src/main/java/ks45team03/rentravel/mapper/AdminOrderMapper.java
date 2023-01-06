@@ -14,6 +14,7 @@ import ks45team03.rentravel.dto.WaybillRenter;
 @Mapper
 public interface AdminOrderMapper {
 	
+	
 	// 주문 내역 조회
 	public List<Rental> getOrderHistory(Map<String, Object> paramMap);
 	
@@ -28,12 +29,30 @@ public interface AdminOrderMapper {
 	
 	// 주문 환불 내역 조회
 	public List<Return> getReturnList();
+
+	// 오너 운송장 번호 조회
+	public WaybillOwner getOwnerWayBill(String waybillOwnerCode);
 	
-	// 오더 운송자 번호 관리
-	public List<WaybillOwner> getWaybillOwnerList();
+	// 오너 운송장 번호 관리
+	public List<WaybillOwner> getWaybillOwnerList(int startIndex, int pageSize);
+	
+	// 오너 운송장 번호 수정
+	public int modifyWaybillOwner(WaybillOwner waybillOwner);
+	
+	// 오너 운송장 번호 갯수 조회
+	public int getOwnerWaybillCnt();
+	
+	// 렌터 운송장 번호 조회
+	public WaybillRenter getRenterWayBill(String waybillRenterCode);
 	
 	// 렌터 운송장 번호 관리
-	public List<WaybillRenter> getWaybillRenterList();
+	public List<WaybillRenter> getWaybillRenterList(int startIndex, int pageSize);
+	
+	// 렌터 운송장 번호 수정
+	public int modifyWaybillRenter(WaybillRenter waybillRenter);
+	
+	// 렌터 운송장 번호 갯수 조회
+	public int getRenterWaybillCnt();
 	
 	// 주문 수정 폼 정보 조회
 	public Rental getOrderInfoByRentalCode(String rentalCode);
