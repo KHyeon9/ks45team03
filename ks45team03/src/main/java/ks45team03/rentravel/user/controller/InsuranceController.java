@@ -41,9 +41,18 @@ public class InsuranceController {
 			List<InsuranceBill> insuranceBillList = insuranceMapper.getInsuranceBillInfoById(loginId);
 			List<InsurancePayout> insurancePayoutList = insuranceMapper.getInsurancePayoutInfoById(loginId);
 			
+			Integer cntInsurance = insuranceMapper.countInsurance(loginId);
+			Integer cntInsuranceBill = insuranceMapper.countInsuranceBill(loginId);
+			Integer cntInsurancePayout = insuranceMapper.countInsurancePayout(loginId);
+
+			
 			model.addAttribute("insuranceList", insuranceList);
 			model.addAttribute("insuranceBillList", insuranceBillList);
 			model.addAttribute("insurancePayoutList", insurancePayoutList);
+			model.addAttribute("cntInsurance", cntInsurance);
+			model.addAttribute("cntInsuranceBill", cntInsuranceBill);
+			model.addAttribute("cntInsurancePayout", cntInsurancePayout);
+
 			
 			return "user/insurance/insuranceMain";
 			
@@ -72,6 +81,7 @@ public class InsuranceController {
 	@GetMapping("/insuranceAddBill")
 	public String addInsuranceBillDetail(Model model) {
 		
+		model.addAttribute("title", "보상금청구서등록");
 		model.addAttribute("title", "보상금청구서등록");
 		
 		return "user/insurance/insuranceAddBill";

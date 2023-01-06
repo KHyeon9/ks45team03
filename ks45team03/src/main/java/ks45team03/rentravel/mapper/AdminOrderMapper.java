@@ -16,19 +16,19 @@ public interface AdminOrderMapper {
 	
 	
 	// 주문 내역 조회
-	public List<Rental> getOrderHistory(Map<String, Object> paramMap);
+	public List<Rental> getOrderHistory(int startIndex, int pageSize);
 	
 	// 주문 내역 행 갯수 조회
 	public int getOrderHistoryCnt();
 	
 	// 주문 취소 내역 조회
-	public List<RentalCancel> getRentalCancelHistory(Map<String, Object> paramMap);
+	public List<RentalCancel> getRentalCancelHistory(int startIndex, int pageSize);
 	
 	// 주문 취소 내역 행 갯수 조회
 	public int getRentalCancelHistoryCnt();
 	
 	// 주문 환불 내역 조회
-	public List<Return> getReturnList();
+	public List<Return> getReturnHistory(int startIndex, int pageSize);
 
 	// 오너 운송장 번호 조회
 	public WaybillOwner getOwnerWayBill(String waybillOwnerCode);

@@ -17,6 +17,13 @@ private final InquiryBoardMapper inquiryBoardMapper;
 		this.inquiryBoardMapper = inquiryBoardMapper;
 	}
 	
+	
+	/* 1 대 1 문의 게시글 답글 삭제 */
+	public int adminRemoveInquiryBoard (String inquiryReBoardCode) {
+		
+		return inquiryBoardMapper.adminRemoveInquiryBoard(inquiryReBoardCode);
+	}
+	
 	/* 1 대 1 문의 게시글 답글 추가 */
 	public int adminAddInquiryBoard (InquiryBoard inquiryBoard) {
 		

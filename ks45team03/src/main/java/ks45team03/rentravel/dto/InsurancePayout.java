@@ -8,6 +8,28 @@ public class InsurancePayout {
 	private int insurancePayoutPrice;
 	private String insurancePayoutDate;
 	
+	Insurance insurance;
+	Goods goods;
+	InsuranceBillDetail insuranceBillDetail;
+	
+	public Insurance getInsurance() {
+		return insurance;
+	}
+	public void setInsurance(Insurance insurance) {
+		this.insurance = insurance;
+	}
+	public Goods getGoods() {
+		return goods;
+	}
+	public void setGoods(Goods goods) {
+		this.goods = goods;
+	}
+	public InsuranceBillDetail getInsuranceBillDetail() {
+		return insuranceBillDetail;
+	}
+	public void setInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail) {
+		this.insuranceBillDetail = insuranceBillDetail;
+	}
 	public String getInsurancePayoutCode() {
 		return insurancePayoutCode;
 	}

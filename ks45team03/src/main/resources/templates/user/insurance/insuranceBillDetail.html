@@ -5,18 +5,112 @@
 	  
 	  <th:block layout:fragment="customContents">
 	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
-	  	<h1>보상금청구서상세화면</h1>
-	  	<!-- MAIN CONTENT SECTION -->
+	 	<!-- MAIN CONTENT SECTION -->
 	      <section class="mainContent clearfix blogPage">
 	        <div class="container">
-	          <div class="row">
-	            <div class="col-lg-9 col-sm-12 order-lg-12">
-	              <div class="row">
-	                <div class="col-sm-12">
-	                	<div class="thumbnail">
-	                   		<div class="caption">
-	                     		<div class="row">
-									<table class="table">
+	        	<div class="row float-right">
+	        		<button class="btn btn-primary-outlined btn-sm" style="margin: 5px;">수정</a></button>
+	        		<button class="btn btn-primary-outlined btn-sm"  style="margin: 5px;">삭제</button>
+	        	</div>
+		        	<h1 style="font-style: italic;">보험금 청구 접수증</h1>
+	        	<hr class="my-4"><br/>
+	        	
+	      			<div class="form-group row">
+						<label for="example-text-input" class="col-md-2 col-form-label">보험코드</label>
+						<label for="example-text-input" class="col-md-2 col-form-label">상품코드</label>
+						<label for="example-text-input" class="col-md-2 col-form-label">상품명</label>
+						<label for="example-text-input" class="col-md-2 col-form-label">상품정보</label>
+                    </div>
+	      			
+	      			<br/><h4>1. 인적사항</h4><br/>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-md-2 col-form-label">성명</label>
+							<div class="col-md-10">
+								<p>홍길동</p>
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">이메일</label>
+							<div class="col-md-10">
+								<p>id001@email.com</p>
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">연락처</label>
+							<div class="col-md-10">
+								<p>000-0000-0000</p>
+							</div>
+						</div>
+					
+						<br/><h4>2. 사고사항</h4><br/>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-md-2 col-form-label">사고유형</label>
+							<div class="col-md-10">
+								<p>분실</p>
+							</div>
+							<label for="example-datetime-local-input" class="col-md-2 col-form-label">사고일시</label>
+							<div class="col-md-10">
+								<p>2023-01-06</p>
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">사고내용</label>
+							<div class="col-md-10">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+							</div>
+						</div>
+						
+						<br/><h4>3. 계좌정보</h4><br/>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-md-2 col-form-label">은행</label>
+							<div class="col-md-10">
+								<p>국민</p>
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">계좌번호</label>
+							<div class="col-md-10">
+								<p>756402-01-156402</p>
+							</div>
+							<label for="example-text-input" class="col-md-2 col-form-label">예금주</label>
+							<div class="col-md-10">
+								<p>홍길동</p>
+							</div>
+						</div>
+						<br/><br/><br/><br/><br/><br/><br/><br/>
+						<h4 class="text-center">2023-01-06</h4>
+						<h4 class="text-right">피보험자:			홍길동</h4>
+					
+							
+							
+				</div>
+
+	      </section>
+	  </th:block>
+	  <th:block layout:fragment="customScript">
+		<script th:inline="javascript"> 
+			
+		</script>
+	</th:block>
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+
+<!-- 									<table class="table">
 									  <thead>
 									    <tr>
 									      <th scope="col">insurance_bill_detail_code</th>
@@ -55,28 +149,7 @@
 									    	<td colspan="9">등록된 상품이 없습니다.</td>
 									    </tr>
 									  </tbody>
-									</table>
-	                     		</div>
-	                   		</div>
-	                  	</div>
-	                </div>
-	              </div>
-	            </div>
-	            <div class="col-lg-3 col-sm-12 order-lg-1 sideBar">
-	              <div class="panel panel-default">
-	                <div class="panel-heading">보험</div>
-	                <div class="panel-body">
-	                  <ul class="list-unstyle sidebar-list">
-	                    <li><a th:href="@{/insurance/insuranceList}" ><i class="fa fa-caret-right"></i> 보험가입정보 <span></span></a></li>
-	                    <li><a th:href="@{/insurance/insuranceAddBill}" ><i class="fa fa-caret-right" ></i> 보상금 청구하기 <span></span></a></li>
-	                    <li><a th:href="@{/insurance/insuranceBillList}"><i class="fa fa-caret-right" ></i> 나의 보상금 청구서 확인 <span></span></a></li>
-	                    <li><a th:href="@{/insurance/insurancePayoutList}" ><i class="fa fa-caret-right"></i> 보상내역 <span></span></a></li>
-	                  </ul>
-	                </div>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	      </section>
+									</table> -->
+	                     		
 	  </th:block>
 </html>
