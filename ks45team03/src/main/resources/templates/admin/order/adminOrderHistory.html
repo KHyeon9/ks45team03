@@ -33,7 +33,7 @@
 				  		<th class="column-title">결제시간</th>
 				  		<th class="column-title">렌탈상태</th>
                         <th class="column-title"></th>
-                        <th class="bulk-actions" colspan="17">
+                        <th class="bulk-actions" colspan="15">
                           <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                         </th>
                       </tr>
@@ -93,126 +93,40 @@
 						</tr>
                        </tbody>
                        <tfoot>
-				  		 <tr>
-				  			<td colspan="17">
-				  				<div class="col-sm-12">
-				  					<div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate">
-				  						<ul class="pagination">
-				  							<li class="paginate_button previous disabled" id="datatable-checkbox_previous">
-				  								<a th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" aria-controls="datatable-checkbox" data-dt-idx="0" tabindex="0">
-				  									Prev
-				  								</a>
-				  								<a th:unless="${currentPage > 10}" aria-controls="datatable-checkbox" data-dt-idx="0" tabindex="0">
-				  									Prev
-				  								</a>
-				  							</li>
-				  							<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
-					  							<li class="paginate_button active">
-					  								<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" th:text="|${num}|" aria-controls="datatable-checkbox" data-dt-idx="1" tabindex="0">
-					  								</a>
-					  								<a th:unless="${currentPage != num}" th:text="|${num}|" aria-controls="datatable-checkbox" data-dt-idx="1" tabindex="0">
-					  								</a>
-					  							</li>
-					  						</th:block>
-				  							<li class="paginate_button next" id="datatable-checkbox_next">
-				  								<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" aria-controls="datatable-checkbox" data-dt-idx="7" tabindex="0">
-				  									Next
-				  								</a>
-				  								<a th:unless="${endPageNum < lastPage}" aria-controls="datatable-checkbox" data-dt-idx="7" tabindex="0">
-				  									Next
-				  								</a>
-				  							</li>
-				  						</ul>
-				  					</div>
-				  				</div>
-				  				<!-- <a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
-				  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
-				  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
-				  					<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
-				  					</a>
-				  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
-				  				</th:block>
-				  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
-				  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span> -->
-				  			</td>
+                       	  <tr>
+				  		    <td colspan="15">
+				  		   	  <div class="col-sm-12">
+					            <div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate">
+								  <ul class="pagination">
+									 <li class="paginate_button previous disabled" id="datatable-checkbox_previous" th:if="${pagination.curPage != 1}">
+										<a th:href="@{/admin/order/adminOrderHistory(curPage=${pagination.curPage})}" aria-label="Prev">Prev</a>
+									 </li>
+										
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="active" th:if="${pageNum == pagination.curPage}">
+											<a th:text="${pageNum}"></a>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage}">
+											<a th:href="@{/admin/order/adminOrderHistory(curPage=${pagination.curPage})}" th:text="${pageNum}"></a>
+										</li>
+									</th:block>
+			
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<a th:href="@{/admin/order/adminOrderHistory(curPage=${pagination.curPage})}" aria-label="Next">Next</a>
+									</li>
+								  </ul>
+								</div>
+					          </div>
+				  		    </td>
 				  		  </tr>
-			  			</tfoot>
+                        </tfoot>
                		  </table>
                 	</div>
                   </div>
             	</div>
          	  </div>
         	</div>
-        	<th:block layout:fragment="customScript">
-        	</th:block>
-		
-		    <!-- <div id="tableDiv">
-			<div>
-				<table>
-				  <thead>
-				  	<tr>
-				  		<th>상품명</th>
-				  		<th>렌탈시작일</th>
-				  		<th>렌탈종료일</th>
-				  		<th>택배이용여부</th>
-				  		<th>주소</th>
-				  		<th>카드,계좌 번호</th>
-				  		<th>결제기관</th>
-				  		<th>지불방법</th>
-				  		<th>결제예정금액</th>
-				  		<th>플랫폼결제수수료금액</th>
-				  		<th>적립금사용금액</th>
-				  		<th>적립되는적립금</th>
-				  		<th>적립금을제외한금액</th>
-				  		<th>렌탈오너정산금액</th>
-				  		<th>결제시간</th>
-				  		<th>렌탈상태</th>
-				  	</tr>
-				  </thead>
-				  <tbody>
-				  	<tr th:unless="${#lists.isEmpty(orderHistory)}" th:each="order : ${orderHistory}">
-				  		<td th:text="${order.goodsName}"></td>
-				  		<td th:text="${order.rentalStartDate}"></td>
-				  		<td th:text="${order.rentalEndDate}"></td>
-				  		<td th:text="${order.selectDelivery}"></td>
-				  		<td th:text="${order.sigunguName} + ' ' + ${order.payment.userAddrDesc}"></td>
-				  		<th:block th:object="${order.payment}">
-					  		<td th:text="*{paymentAccountOrCardNumber}"></td>
-					  		<td th:text="*{paymentAgency}"></td>
-					  		<td th:text="*{paymentType}"></td>
-				  			<td th:text="*{expectedPaymentAmount}"></td>
-					  		<td th:text="*{goodsCommisionTotalPrice}"></td>
-					  		<td th:text="*{mileageUsePrice}"></td>
-					  		<td th:text="*{saveMileage}"></td>
-					  		<td th:text="*{amountExcludingMileage}"></td>
-					  		<td th:text="*{settlementAmount}"></td>
-					  		<td th:text="*{paymentTime}"></td>
-					  		<td th:text="수정"></td>
-				  		</th:block>
-				  		<td th:text="${order.orderStateName}"></td>
-				  	</tr>
-				  	<tr th:if="${#lists.isEmpty(orderHistory)}">
-						<td colspan="16">등록한 결제가 없습니다.</td>
-					</tr>
-				  </tbody>
-				  <tfoot>
-			  		<tr>
-			  			<td colspan="16">
-			  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
-			  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
-			  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
-			  					<a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
-			  					</a>
-			  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
-			  				</th:block>
-			  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
-			  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
-			  			</td>
-			  		</tr>
-			  	</tfoot>
-				</table>
-			</div>
-		</div> -->
+       	 <th:block layout:fragment="customScript">
+       </th:block>
 	</th:block>
-
 </html>

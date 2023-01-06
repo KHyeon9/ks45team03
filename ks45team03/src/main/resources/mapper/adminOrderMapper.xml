@@ -279,7 +279,7 @@
 	
 	
 	<!-- 횐불 내역 조회 -->
-	<select id="getReturnList" resultMap="returnMap">
+	<select id="getReturnHistory" resultMap="returnMap">
 		SELECT
 			g.goods_name,
 			ren.rental_start_date, 
@@ -308,7 +308,10 @@
 			ON
 			pay.trade_status_code = tra.trade_status_code
 		ORDER BY
-			CAST(SUBSTRING(ret.return_code, 7) AS UNSIGNED) DESC;
+			CAST(SUBSTRING(ret.return_code, 7) AS UNSIGNED) DESC
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
 
 	</select>
 
@@ -332,8 +335,8 @@
 			tb_rental_cancel AS can
 		ORDER BY 
 			CAST(SUBSTRING(can.rental_cancel_code,14) AS UNSIGNED) DESC
-		<if test="startRowNum != null and startRowNum > -1">
-			LIMIT #{startRowNum}, #{rowPerPage};
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
 		</if>
 	</select>
 	
@@ -391,8 +394,8 @@
 			ren.goods_code = g.goods_code
 		ORDER BY
  			CAST(SUBSTRING(pay.payment_code,8) AS UNSIGNED) DESC
-		<if test="startRowNum != null and startRowNum > -1">
-			LIMIT #{startRowNum}, #{rowPerPage};
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
 		</if>
 	</select>
 	

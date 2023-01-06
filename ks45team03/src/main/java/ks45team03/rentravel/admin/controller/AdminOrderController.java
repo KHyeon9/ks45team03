@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminOrderService;
+import ks45team03.rentravel.dto.InfoBoard;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
@@ -31,30 +32,18 @@ public class AdminOrderController {
 		this.adminOrderMapper = adminOrderMapper;
 	}
 	
-	//주문 내역 리스트 조회
-	@SuppressWarnings("unchecked")
+	// 주문 내역 리스트 조회
 	@GetMapping("/adminOrderHistory")
-	public String adminOrderHistory(@RequestParam(value = "int currentPage", defaultValue = "1", required = false) int currentPage, 
+	public String adminOrderHistory(@RequestParam(value="curPage", defaultValue="1", required=false) int curPage, 
 									Model model) {
 		
-		Map<String, Object> paramMap = adminOrderService.getOrderHistory(currentPage);
-		
-		List<Rental> orderHistory = (List<Rental>) paramMap.get("orderHistory");
-		int lastPage = (int) paramMap.get("lastPage");
-		int startPageNum = (int) paramMap.get("startPageNum");
-		int endPageNum = (int) paramMap.get("endPageNum");
-		int nextPage = (int) paramMap.get("nextPage");
-		int prevPage = (int) paramMap.get("prevPage");
+		int listCnt = adminOrderMapper.getOrderHistoryCnt();
+		Pagination pagination = new Pagination(listCnt, curPage);
+		List<Rental> orderHistory = adminOrderMapper.getOrderHistory(pagination.getStartIndex(), pagination.getPageSize());
 		
 		model.addAttribute("title","관리자 주문 내역");
-		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("pagination", pagination);
 		model.addAttribute("orderHistory", orderHistory);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		model.addAttribute("nextPage", nextPage);
-		model.addAttribute("prevPage", prevPage);
-		
 		
 		return "admin/order/adminOrderHistory";
 	}
@@ -82,8 +71,8 @@ public class AdminOrderController {
 	}
 	
 	// 운송장 번호 목록 조회
-	@GetMapping("/adminWaybillList")
-	public String adminWaybillList(@RequestParam(value="ownerCurPage", defaultValue="1", required=false) int ownerCurPage,
+	@GetMapping("/adminWaybillHistory")
+	public String adminWaybillHistory(@RequestParam(value="ownerCurPage", defaultValue="1", required=false) int ownerCurPage,
 			 					   @RequestParam(value="renterCurPage", defaultValue="1", required=false) int renterCurPage,
 								   Model model) {
 		int ownerWaybillCnt = adminOrderMapper.getOwnerWaybillCnt();
@@ -101,7 +90,7 @@ public class AdminOrderController {
 		model.addAttribute("paginationOwner", paginationOwner);
 		model.addAttribute("paginationRenter", paginationRenter);
 		
-		return "admin/order/adminWaybillList";
+		return "admin/order/adminWaybillHistory";
 	}
 	
 	// 오너 운송장 번호 수정 post
@@ -111,7 +100,7 @@ public class AdminOrderController {
 		
 		adminOrderMapper.modifyWaybillOwner(waybillOwner);
 		
-		return "redirect:/admin/order/adminWaybillList";
+		return "redirect:/admin/order/adminWaybillHistory";
 	}
 	
 	// 오너 운송장 번호 수정 get
@@ -134,7 +123,7 @@ public class AdminOrderController {
 		
 		adminOrderMapper.modifyWaybillRenter(waybillRenter);
 		
-		return "redirect:/admin/order/adminWaybillList";
+		return "redirect:/admin/order/adminWaybillHistory";
 	}
 	
 	// 렌터 운송장 번호 수정 get
@@ -150,30 +139,19 @@ public class AdminOrderController {
 	}
 	
 	// 주문 취소 내역 조회 
-	@SuppressWarnings("unchecked")
-	@GetMapping("/adminRentalcancelList")
-	public String adminRentalcancelList(@RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage,
-										Model model) {
-		Map<String, Object> paramMap = adminOrderService.getRentalCancelHistory(currentPage);
+	@GetMapping("/adminRentalcancelHistory")
+	public String adminRentalcancelHistory(@RequestParam(value="curPage", defaultValue="1", required=false) int curPage,
+										   Model model) {
 		
-		List<RentalCancel> rentalCancelHistory =  (List<RentalCancel>) paramMap.get("rentalCancelHistory");
-		
-		int lastPage = (int) paramMap.get("lastPage");
-		int startPageNum = (int) paramMap.get("startPageNum");
-		int endPageNum = (int) paramMap.get("endPageNum");
-		int nextPage = (int) paramMap.get("nextPage");
-		int prevPage = (int) paramMap.get("prevPage");
+		int listCnt = adminOrderMapper.getRentalCancelHistoryCnt();
+		Pagination pagination = new Pagination(listCnt, curPage);
+		List<RentalCancel> rentalCancelHistory = adminOrderMapper.getRentalCancelHistory(pagination.getStartIndex(), pagination.getPageSize());
 		
 		model.addAttribute("title","관리자 주문 취소 리스트");
-		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("pagination", pagination);
 		model.addAttribute("rentalCancelHistory", rentalCancelHistory);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		model.addAttribute("nextPage", nextPage);
-		model.addAttribute("prevPage", prevPage);
 		
-		return "admin/order/adminRentalcancelList";
+		return "admin/order/adminRentalcancelHistory";
 	}
 	
 	@GetMapping("/adminRentalcancelModify")
@@ -182,20 +160,23 @@ public class AdminOrderController {
 		return "admin/order/adminRentalcancelModify";
 	}
 	
-	@GetMapping("/adminReturnList")
-	public String adminReturnList(Model model) {
+	@GetMapping("/adminReturnHistory")
+	public String adminReturnHistory(@RequestParam(value="curPage", defaultValue="1", required=false) int curPage,
+								      Model model) {
 		
-		List<Return> returnList = adminOrderService.getReturnList();
+		int listCnt = adminOrderMapper.getRentalCancelHistoryCnt();
+		Pagination pagination = new Pagination(listCnt, curPage);
+		List<Return> returnHistory = adminOrderMapper.getReturnHistory(pagination.getStartIndex(), pagination.getPageSize());
 		
 		model.addAttribute("title","관리자 환불 리스트");
-		model.addAttribute("returnList", returnList);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("returnHistory", returnHistory);;
 		
-		return "admin/order/adminReturnList";
+		return "admin/order/adminReturnHistory";
 	}
 	
 	@GetMapping("/adminReturnModify")
-	public String adminReturnModify(@RequestParam(value="rentalCode") String rentalCode, 
-									Model model) {
+	public String adminReturnModify(Model model) {
 		model.addAttribute("title","관리자 환불 수정");
 		
 		return "admin/order/adminReturnModify";
