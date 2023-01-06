@@ -1,5 +1,8 @@
 package ks45team03.rentravel.dto;
 
+import lombok.ToString;
+
+@ToString
 public class WaybillOwner {
 	private String waybillOwnerCode;
 	private String ownerId;
@@ -8,7 +11,6 @@ public class WaybillOwner {
 	private String courierName;
 	private String waybillNumber;
 	private String waybillRegDate;
-	
 	
 	
 	public String getWaybillOwnerCode() {

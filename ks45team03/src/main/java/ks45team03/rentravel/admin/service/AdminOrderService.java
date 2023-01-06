@@ -36,13 +36,13 @@ public class AdminOrderService {
 	}
 	
 	// 오너 운송장번호 내역 조회
-	public List<WaybillOwner> getWaybillOwners() {
-		return adminOrderMapper.getWaybillOwnerList();
+	public List<WaybillOwner> getWaybillOwners(int startIndex, int pageSize) {
+		return adminOrderMapper.getWaybillOwnerList(startIndex, pageSize);
 	}
 	
 	// 렌터 운송장번호 내역 조회
-	public List<WaybillRenter> getWaybillRenters() {
-		return adminOrderMapper.getWaybillRenterList();
+	public List<WaybillRenter> getWaybillRenters(int startIndex, int pageSize) {
+		return adminOrderMapper.getWaybillRenterList(startIndex, pageSize);
 	}
 	
 	// 주문 환불 내역 조회

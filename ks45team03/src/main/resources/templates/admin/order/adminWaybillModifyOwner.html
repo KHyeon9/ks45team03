@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<th:block layout:fragment="customContents">
+		<div class="right_col" role="main">
+           <div class="">
+             <div class="clearfix"></div>
+
+             <div class="row">
+                <div class="col-md-12 col-sm-12">
+                   	<div class="x_panel">
+                           <div class="x_title">
+                               <h2>오너 운송번호 수정 <small>Owner</small></h2>
+                               <div class="clearfix"></div>
+                           </div>
+                           <div class="x_content">
+                               <form class="modifyOrderInfo" th:action="@{/admin/order/adminWaybillModifyOwner}" method="post" novalidate>
+                               	  <input type="hidden" th:value="${waybillOwner.waybillOwnerCode}"  name="waybillOwnerCode">
+                                   <div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">오너 ID</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${waybillOwner.ownerId}"  class="form-control" name="ownerId" type="text" readonly="readonly" />
+                                       </div>
+                                   </div>
+                                   <div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">렌터 ID</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${waybillOwner.renterId}" class="form-control" name="renterId"  required="required" data-name="상품명"
+                                         data-parsley-empty-message="상품명을 입력해주세요"  readonly="readonly"/>
+                                       </div>
+                                   </div>
+                                   <div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">택배사 이름</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${waybillOwner.courierName}"  class="form-control" name="courierName" required="required" type="text" /></div>
+                                   </div>
+                                   	<div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">운송장번호</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${waybillOwner.waybillNumber}"  class="form-control" type="text" name="waybillNumber" required='required'></div>
+                                    </div>
+                                   <div class="ln_solid">
+                                   	  <br>
+                                       <div class="form-group">
+                                           <div class="col-md-6 offset-md-3">
+                                               <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+                                               <button type='reset'  class="btn btn-success">Reset</button>
+                                               <button type='button' class="btn btn-success cancel">Cancel</button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </form>
+                           </div>
+                       </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         
+         <!-- 사용자 지정 js 파일 -->
+		<th:block layout:fragment="customJs">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		    <script src="../vendors/validator/multifield.js"></script>
+		    <script src="../vendors/validator/validator.js"></script>
+		    <script src="../build/js/custom.min.js"></script>
+		</th:block>
+		<!-- 사용자 지정 js script -->
+		<th:block layout:fragment="customScript">
+			<script>
+				function hideshow(){
+					var password = document.getElementById("password1");
+					var slash = document.getElementById("slash");
+					var eye = document.getElementById("eye");
+					
+					if(password.type === 'password'){
+						password.type = "text";
+						slash.style.display = "block";
+						eye.style.display = "none";
+					}
+					else{
+						password.type = "password";
+						slash.style.display = "none";
+						eye.style.display = "block";
+					}
+		
+				}
+		        // initialize a validator instance from the "FormValidator" constructor.
+		        // A "<form>" element is optionally passed as an argument, but is not a must
+		        var validator = new FormValidator({
+		            "events": ['blur', 'input', 'change'],
+		            
+		        	
+		        }, document.forms[0]);
+		        // on form "submit" event
+		        document.forms[0].onsubmit = function(e) {
+		            var submit = true,
+		                validatorResult = validator.checkAll(this);
+		            console.log(validatorResult);
+		            return !!validatorResult.valid;
+		        };
+		        // on form "reset" event
+		        document.forms[0].onreset = function(e) {
+		            validator.reset();
+		        };
+		        // stuff related ONLY for this demo page:
+		        $('.toggleValidationTooltips').change(function() {
+		            validator.settings.alerts = !this.checked;
+		            if (this.checked)
+		                $('form .alert').remove();
+		        }).prop('checked', false);
+		        
+		    	$('.cancel').click(function(){
+		    		location.href = '/admin/order/adminWaybillList';
+		    	})
+		    </script>
+		</th:block>
+	</th:block>
+</html>
