@@ -164,7 +164,7 @@
 			i.payment_code,
 			i.rental_code,
 			i.insurance_available,
-			SUBSTRING(i.insurance_sign_up_time, 1, 10) as insurance_sign_up_time ,
+			SUBSTRING(i.insurance_sign_up_time, 1, 10) as insurance_sign_up_time,
 			r.rental_end_date
 		FROM
 			tb_insurance AS i
@@ -195,7 +195,7 @@
 			ibd.bank_name,
 			ibd.account_holder,
 			ibd.account_number,
-			ibd.request_date
+			SUBSTRING(ibd.request_date, 1, 10) as request_date
 		FROM
 			tb_insurance_bill_detail AS ibd
 		WHERE
@@ -212,7 +212,7 @@
 			g.goods_code,
 			g.goods_name,
 			ibs.insurance_bill_state_name,
-			ib.insurance_bill_modify_date
+			SUBSTRING(ib.insurance_bill_modify_date, 1, 10) as insurance_bill_modify_date
 		FROM
 			tb_insurance_bill AS ib
 			INNER JOIN
@@ -241,7 +241,7 @@
 				ip.insurance_bill_detail_code,
 				g.goods_name,
 				ip.insurance_payout_price,
-				ip.insurance_payout_date
+				SUBSTRING(ip.insurance_payout_date, 1, 10) as insurance_payout_date
 			FROM
 				tb_insurance_payout AS ip
 				LEFT JOIN
