@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.AdminNoticeBoardMapper">
+	<resultMap type="NoticeBoard" id="noticeBoardResultMap">
+		<id property="noticeBoardCode" column="notice_board_code" />
+		<result property="userId" column="user_id" />
+		<result property="noticeBoardTitle" column="notice_board_title" />
+		<result property="noticeBoardContent" column="notice_board_content" />
+		<result property="noticeBoardFile" column="notice_board_file" />
+		<result property="noticeBoardLikeCnt" column="notice_board_like_cnt" />
+		<result property="noticeBoardViewCnt" column="notice_board_view_cnt" />
+		<result property="noticeBoardRegTime" column="notice_board_reg_time" />
+	</resultMap>
+	
+	<select id="adminNoticeBoardList" resultMap="noticeBoardResultMap">
+		SELECT
+			@rownum:=@rownum+1 AS num
+			,nb.notice_board_code
+			,nb.user_id
+			,nb.notice_board_title
+			,nb.notice_board_content
+			,nb.notice_board_file
+			,nb.notice_board_like_cnt
+			,nb.notice_board_view_cnt
+			,nb.notice_board_reg_time
+		FROM
+			tb_notice_board AS nb, (SELECT @rownum:=0) AS TMP
+		ORDER BY 
+			num DESC;
+	</select>
+	
+	<select id="adminDetailNoticeBoard" parameterType="String" resultMap="noticeBoardResultMap">
+	   SELECT
+			 nb.user_id
+			,nb.notice_board_code
+			,nb.notice_board_title
+			,nb.notice_board_content
+			,nb.notice_board_file
+			,nb.notice_board_view_cnt
+			,nb.notice_board_reg_time
+		FROM
+			tb_notice_board AS nb
+		WHERE
+			nb.notice_board_code = #{noticeBoardCode};
+	</select>
+	
+	<insert id="adminAddNoticeBoard" parameterType="NoticeBoard">
+  		INSERT INTO tb_notice_board
+  		(
+  			notice_board_code, user_id, notice_board_title, notice_board_content, notice_board_file, notice_board_reg_time
+  		)
+  		VALUES
+  		(
+  			sf_new_notice_board_code(), #{userId}, #{noticeBoardTitle}, #{noticeBoardContent}, #{noticeBoardFile}, NOW()
+  		)
+  	</insert>
+  	
+  	<delete id="removeNoticeBoard" parameterType="String">
+  		DELETE FROM 
+  			tb_notice_board 
+  		WHERE 
+  			notice_board_code = #{noticeBoardCode};
+  	</delete>
+  	
+  	<select id="modifyNoticeBoard" parameterType="String" resultMap="noticeBoardResultMap">
+		SELECT
+			 nb.user_id
+			,nb.notice_board_code
+			,nb.notice_board_title
+			,nb.notice_board_content
+			,nb.notice_board_file
+		FROM
+			tb_notice_board AS nb
+		WHERE 
+  			notice_board_code = #{noticeBoardCode};
+  	</select>
+  	
+  	<update id="modifyNoticeBoardAction" parameterType="NoticeBoard">
+  		UPDATE tb_notice_board
+	  <trim prefix="SET" prefixOverrides=",">
+  	  <if test="noticeBoardTitle != null and noticeBoardTitle != ''">
+	  		 notice_board_title = #{noticeBoardTitle}
+  	  </if>
+  	  <if test="noticeBoardContent != null and noticeBoardContent != ''">
+			,notice_board_content = #{noticeBoardContent}
+  	  </if>
+  	   <if test="noticeBoardFile != null and noticeBoardFile != ''">
+			,notice_board_file = #{noticeBoardFile}
+  	  </if>
+  	  </trim>
+		WHERE
+			notice_board_code = #{noticeBoardCode};
+  	  </update>
+</mapper>

@@ -50,61 +50,9 @@
 		<div th:replace="~{user/fragments/copyRightFragment :: copyRightFragment}"></div>
 		<!-- footer(하단메뉴) end -->
 	</div>
-	<!-- LOGIN MODAL -->
-	<div class="modal fade login-modal" id="login" tabindex="-1" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header justify-content-center">
-					<h3 class="modal-title">log in</h3>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				</div>
-				<div class="modal-body">
-					<form id="loginForm" th:action="@{/}" method="post" role="form">
-						<div class="form-group">
-							<label for="userId">아이디</label>
-							<input id="userId" name="userId" type="text" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="userPw">비밀번호</label>
-							<input id="userPw" name="userPw" type="password" class="form-control">
-						</div>
-						<button id="submitBtn" type="submit" class="btn btn-primary btn-block">log in</button>
-						<button type="button" class="btn btn-link btn-block">Forgot Password?</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 
-	<!-- SIGN UP MODAL -->
-	<div class="modal fade " id="signup" tabindex="-1" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header justify-content-center">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">Create an account</h3>
-				</div>
-				<div class="modal-body">
-					<form action="" method="POST" role="form">
-						<div class="form-group">
-							<label for="">Enter Email</label>
-							<input type="email" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="">Password</label>
-							<input type="password" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="">Confirm Password</label>
-							<input type="password" class="form-control">
-						</div>
-						<button type="submit" class="btn btn-primary btn-block">Sign up</button>
-						<button type="button" class="btn btn-link btn-block">New User?</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 	
 	
 

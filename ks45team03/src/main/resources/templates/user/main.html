@@ -38,50 +38,12 @@
 					  	<h3><a th:href="@{/goods/goodsList}" style="color:blue;">상품 리스트</a></h3>
 					  	<h3><a th:href="@{/infoboard/infoBoardList}" style="color:blue;">정보 게시판 리스트</a></h3>
 					  	<h3><a th:href="@{/board/inquiryList}" style="color:blue;">1 대 1 문의 게시판 리스트</a></h3>
-					  	<h3><a th:href="@{/myPage/myInfo}" style="color:blue;">마이페이지</a></h3>
-					  	<h3><a th:href="@{/addUser}" style="color:blue;">회원가입</a></h3>
 					  	<h3><a th:href="@{/goods/addGoods}" style="color:blue;">상품추가</a></h3>
-					  	<h3><a th:href="@{/chat/chatRoomList}" style="color:blue;">내 채팅방 목록</a></h3>
+					  	<h3><a th:href="@{/room}" style="color:blue;">내 채팅방 목록(로그인 필요)</a></h3>
 					  	<h3><a th:href="@{/board/noticeBoard}" style="color:blue;">공지사항</a></h3>
 					</div>
 				</div>
 			</div>
 		</section>
 	  </th:block>
-	  <th:block layout:fragment="customScript">
-		<script th:inline="javascript"> 
-				  $(function(){ // 요소가 다그려지고 나서 실행해 주세요
-		                const msg = [[ ${msg} ]];
-		                if(msg != null) {
-					                		alert(msg);
-					                		$('#loginBtn').trigger('click');
-					                	}
-		                
-		                $('#submitBtn').click(function(){
-		                  
-		                    const userId = $('#userId').val();
-		                    const userPw = $('#userPw').val();
-		
-		                    if(typeof userId == 'undifined' 
-		                    		|| userId == null 
-		                    		|| userId == ''){
-		                        alert('아이디를 입력하세요.');
-		                        $('#userId').focus();
-		                        return false;
-		                    }
-		
-		                    if(typeof userPw == 'undifined' 
-		                    		|| userPw == null 
-		                    		|| userPw == ''){
-		                        alert('비밀번호를 입력하세요.');
-		                        $('#userPw').focus();
-		                        return false;
-		                    }
-		                    
-		                    $('#loginForm').submit();
-		                })
-		
-		            });
-		</script>
-</th:block>
 </html>

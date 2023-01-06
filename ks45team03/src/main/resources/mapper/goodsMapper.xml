@@ -8,7 +8,6 @@
 	<resultMap type="Goods" id="goodsResultMap">
 		<id property="goodsCode" 			column="goods_code"/>
 		<result property="goodsName" 		column="goods_name"/>
-		<result property="goodsCategoryCode" 		column="goods_category_code"/>
 		<result property="userId" 	column="user_id"/>
 		<result property="goodsRentalAvailability" 	column="goods_rental_availability"/>
 		<result property="goodsValuePrice" 	column="goods_value_price"/>
@@ -20,7 +19,10 @@
 		<result property="goodsDetail" 	column="goods_detail"/>
 		<result property="goodsRegDate" 	column="goods_reg_date"/>
 		<result property="regionSggCode" 	column="region_sgg_code"/>
+		
+		<result property="goodsCategoryCode" 		column="goods_category_code"/>
 		<result property="goodsCategoryName" 	column="goods_category_name"/>
+		<result property="countByCategory" 	column="count_by_category"/>
 		
 	</resultMap>
 
@@ -30,6 +32,31 @@
 		<result property="goodsImgRowNum" 		column="row_number() OVER()"/>
 	</resultMap>
 
+	<select id="getGoodsListNotLogin" resultMap="goodsResultMap">
+    
+    /* 상품 목록 리스트 조회 */
+		SELECT
+			g.goods_code
+			, g.goods_name
+			, g.user_id
+			, g.goods_rental_availability
+			, g.goods_value_price
+			, g.goods_day_price
+			, g.goods_reg_date
+			, g.goods_detail
+			, g.goods_category_code
+			, gc.goods_category_name
+		FROM
+			tb_goods AS g
+		JOIN
+			tb_goods_category AS gc
+		ON
+			g.goods_category_code = gc.goods_category_code
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
+		
+    </select>
     <select id="getGoodsList" resultMap="goodsResultMap">
     
     /* 상품 목록 리스트 조회 */
@@ -42,14 +69,25 @@
 			, g.goods_day_price
 			, g.goods_reg_date
 			, g.goods_detail
+			, g.goods_category_code
 			, gc.goods_category_name
 		FROM
 			tb_goods AS g
 		JOIN
 			tb_goods_category AS gc
 		ON
-			g.goods_category_code = gc.goods_category_code;
-    
+			g.goods_category_code = gc.goods_category_code
+		WHERE
+    		g.user_id NOT IN (	SELECT 
+								  		b.blocked_user_id
+							   	FROM 
+										tb_block AS b
+								WHERE 
+									b.blocking_user_id = #{loginId})
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
+		
     </select>
     
     <select id="getGoodsImg" parameterType="String" resultMap="goodsImgResultMap">
@@ -132,4 +170,59 @@
 			goods_code=#{goodsCode};
 			
     </update>
+    
+    <select id="getGoodsCategoryAndCount" resultMap="goodsResultMap">
+    
+		SELECT 
+			gc.goods_category_code
+			,gc.goods_category_name
+			,IFNULL(g.count_by_category, 0) AS 'count_by_category'
+		FROM
+			tb_goods_category AS gc
+			LEFT JOIN(
+			   SELECT
+				 	goods_category_code
+					,COUNT(1) AS count_by_category
+			    FROM
+				 	tb_goods
+			    GROUP BY
+				 	goods_category_code
+			)AS g
+		ON g.goods_category_code = gc.goods_category_code;
+    
+    </select>
+    
+    <select id="getGoodsListCount" resultType="int">
+    
+    	SELECT
+			COUNT(1)
+		FROM
+			tb_goods;
+    
+    </select>
+    
+    <select id="getGoodsListByGoodsCategory" resultMap="goodsResultMap">
+    /* 상품 카테고리별 리스트 뽑는 건데 원래 쿼리문에 if 문 써서 하는게 맞을 듯 삭제해야함 */
+    	SELECT
+			g.goods_code
+			, g.goods_name
+			, g.goods_category_code
+			, gc.goods_category_name
+			, g.user_id
+			, g.goods_rental_availability
+			, g.goods_value_price
+			, g.goods_day_price
+			, g.goods_detail
+			, g.goods_reg_date 
+		FROM
+			tb_goods AS g
+		JOIN
+			tb_goods_category AS gc
+		ON
+			g.goods_category_code = gc.goods_category_code
+		WHERE
+			gc.goods_category_code = #{goodsCategoryCode};
+    
+    </select>
+
 </mapper>

@@ -14,12 +14,6 @@ public interface AdminInsuranceMapper {
 	// 보험가입리스트 조회
 	public List<Insurance> adminGetInsuranceList();
 	
-	// 보험 등록
-	public int adminAddInsurance();
-	
-	//보험 삭제
-	public void adminRemoveInsurance();
-	
 	// 보상금청구서리스트
 	public List<InsuranceBill> adminGetInsuranceBillList();
 	

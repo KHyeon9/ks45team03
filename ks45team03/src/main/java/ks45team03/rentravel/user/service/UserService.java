@@ -1,11 +1,14 @@
 package ks45team03.rentravel.user.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ks45team03.rentravel.dto.RegionSgg;
+import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.mapper.UserMapper;
 
@@ -17,6 +20,13 @@ public class UserService {
 	
 	public UserService(UserMapper userMapper) {
 		this.userMapper = userMapper;
+	}
+	
+	public List<RegionSgg> selectRegionSgg(String project){
+		
+		List<RegionSgg> selectRegionSgg = userMapper.selectRegionSgg(project);
+		
+		return selectRegionSgg;
 	}
 	
 	// 로그인 회원정보(비밀번호) 확인
@@ -38,5 +48,17 @@ public class UserService {
 		resultMap.put("userInfo", user);
 		
 		return resultMap;
+	}
+	
+	public void addUser(User user) {
+		
+		userMapper.addUser(user);
+	}
+	
+	public List<RegionSido> getRegionSido() {
+		
+		List<RegionSido> getRegionSido = userMapper.getRegionSido();
+		
+		return getRegionSido;
 	}
 }

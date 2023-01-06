@@ -16,31 +16,48 @@ import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.UserBlockMapper;
+import ks45team03.rentravel.mapper.UserMapper;
+import ks45team03.rentravel.user.service.InfoBoardService;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.UserBlockService;
+import lombok.AllArgsConstructor;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/myPage")
 public class MyPageController {
 	
-	private final UserBlockService userBlockService;
 	private final UserBlockMapper userBlockMapper;
-	private final OrderService orderService;  
+	private final OrderService orderService;
+	private final UserMapper userMapper;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
-	public MyPageController (UserBlockService userBlockService, UserBlockMapper userBlockMapper, OrderService orderService) {
-		this.userBlockService = userBlockService;	
-		this.userBlockMapper = userBlockMapper;	
-		this.orderService = orderService;
-	}
-	
-	
 	@GetMapping("/myInfo")
-	private String myInfo(Model model) {
+	private String myInfo(Model model, HttpSession session) {
+		
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String redirectURI = "user/myPage/myPage";
+		
+		if(loginUser == null) {
+					
+			redirectURI = "redirect:/login";	
+	
+		}else {
+		
+		String loginNickName = loginUser.getLoginNickName();
+		String loginId = loginUser.getLoginId();
+		User userInfo = userMapper.userInfo(loginId);
+		
 		model.addAttribute("title", "내 정보");
-		return "user/myPage/myPage";
+		model.addAttribute("loginNickName", loginNickName);
+		model.addAttribute("userInfo", userInfo);
+		
+		}
+		return redirectURI;
 	}
 	
 	@GetMapping("/modifyUser")
@@ -107,26 +124,19 @@ public class MyPageController {
 	public String getUserBlockrList(Model model
 									,HttpSession session) {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String redirectURI = "user/myPage/myBlockList";
-		
-		if(loginUser == null) {
-			
-			redirectURI = "redirect:/";		
-
-		}else {
-		
-		List<Block> getUserBlockrList = userBlockMapper.getUserBlockrList(loginUser.getLoginId());
+				
+		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
 		
 		String loginNickName = loginUser.getLoginNickName();	
 		
 		model.addAttribute("title","나의 차단 리스트");
-		model.addAttribute("getUserBlockrList",getUserBlockrList);
+		model.addAttribute("getUserBlockList",getUserBlockList);
 		model.addAttribute("loginNickName",loginNickName);
 
 
-		}
 		
-		return redirectURI;
+		
+		return "user/myPage/myBlockList";
 	}
 	
 	
@@ -137,20 +147,14 @@ public class MyPageController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
-		String redirectURI = "user/myPage/myProfitList";
 		
-		if(loginUser == null) {
-					
-			redirectURI = "redirect:/";		
-	
-		}else {
 		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 수익목록 리스트");
 		model.addAttribute("loginNickName",loginNickName);
 		
-		}
-		return redirectURI;
+		
+		return "user/myPage/myProfitList";
 	}
 	
 	

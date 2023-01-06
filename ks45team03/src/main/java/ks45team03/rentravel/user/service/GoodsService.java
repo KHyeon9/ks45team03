@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.mapper.GoodsMapper;
@@ -17,9 +18,9 @@ public class GoodsService {
 		this.goodsMapper = goodsMapper;
 	}
 	
-	public List<Goods> getGoodsList(){
+	public List<Goods> getGoodsList(String loginId, int startIndex, int pageSize){
 		
-		List<Goods> goodsList = goodsMapper.getGoodsList();
+		List<Goods> goodsList = goodsMapper.getGoodsList(loginId, startIndex, pageSize);
 		
 		return goodsList;
 	}
@@ -46,5 +47,28 @@ public class GoodsService {
 	public int modifyGoods(Goods goods) {
 		
 		return goodsMapper.modifyGoods(goods);
+	}
+	
+	public List<Goods> getGoodsCategoryAndCount(){
+		
+		List<Goods> goodsCategoryAndCount = goodsMapper.getGoodsCategoryAndCount();
+		
+		return goodsCategoryAndCount;
+	}
+	
+	public int getGoodsListCount() {
+		
+		int goodsListCount = goodsMapper.getGoodsListCount();
+		
+		return goodsListCount;
+	}
+	
+	public List<Goods> getGoodsListByGoodsCategory(String goodsCategoryCode){
+		
+		List<Goods> goodsListByGoodsCategory = goodsMapper.getGoodsListByGoodsCategory(goodsCategoryCode);
+		
+		return goodsListByGoodsCategory;
+		
+		
 	}
 }

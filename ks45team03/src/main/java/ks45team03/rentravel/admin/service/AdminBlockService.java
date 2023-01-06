@@ -58,7 +58,7 @@ public class AdminBlockService {
 			endPageNum = lastPage;
 		}
 		
-		// 주문 목록 조회 시 Limit 인수 파라미터 셋팅
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("startRowNum", startRowNum);
 		paramMap.put("rowPerPage", rowPerPage);

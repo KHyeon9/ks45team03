@@ -2,11 +2,188 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
-	  
 	  <th:block layout:fragment="customContents">
-	  	<h1>1 대 1 문의 게시글 목록(조회)</h1>
-	  	<br>
-	  	<h2><a th:href="@{/board/addInquiry}" style="color:blue;">1 대 1 문의 게시글 추가</a></h2>
-	  	<h2><a th:href="@{/board/inquiryDetail}" style="color:blue;">1 대 1 문의 게시글(조회)</a></h2>
+		<!-- LIGHT SECTION -->
+		<section class="lightSection clearfix pageHeader">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-6">
+		        <div class="page-title">
+		          <h2>Inquiry Board List</h2>
+		        </div>
+		      </div>
+		      <div class="col-md-6">
+		        <ol class="breadcrumb float-right">
+		          <li>
+		            <a th:href="@{/}">Home</a>
+		          </li>
+		          <li class="active">Inquiry Board List</li>
+		        </ol>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+	  	<!-- 	<h1>1대1 문의 게시판 리스트</h1> -->
+	  	<!-- MAIN CONTENT SECTION -->
+		<section class="mainContent clearfix blogPage">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-lg-9 col-sm-12 order-lg-12">
+		      <!-- 게시판 시작 -->
+		        <div class="row">
+		        <!-- 게시판 행 시작 -->
+		          <div class="col-sm-12" th:unless="${#lists.isEmpty(getInquiryBoardList)}" th:each="inquiry : ${getInquiryBoardList}">
+		            <div class="thumbnail" style="padding:0; margin:0">
+		            <!-- <img src="assets/img/blog/blog-02.jpg" alt="blog-image"> -->
+		             <!--  <a href="blog-single-left-sidebar.html"><img class="mw-100" src="assets/img/blog/blog-01.jpg" alt="blog-image"></a> -->
+		              <div class="caption">
+		                <div class="row">  
+		                 
+		                  
+		                  <div class="col-md-9 order-md-1">		                  
+		                 <h5><small style="font-size: 15px; margin-right:10px;">[문의]</small><a href="blog-single-left-sidebar.html"  th:href="@{/board/inquiryDetail(inquiryBoardCode=${inquiry.inquiryBoardCode})}" th:text="문의합니다." style="color:black;"></a></h5>
+		                 
+		                    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> -->
+		                    <ul class="list-unstyled">
+		                      <li><a href="#" ><i class="fa fa-user" aria-hidden="true"></i><span th:text="${inquiry.user.userNickName}"></span></a></li>
+		                      <li><i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${inquiry.inquiryBoardRegTime}"></span></li>
+		                      <!-- <li><a href="#"><i class="fa fa-tags" aria-hidden="true"></i>Travel</a></li>
+		                      <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>8 comments</a></li> -->
+		                    </ul>		                		  
+		                  </div>
+		                  		                  	       
+		                   <div style="margin-bottom: 2%" class="col-md-12 order-md-1 row" th:each="re : ${getInquiryBoardReList}" >
+		                   <div class="col-md-1"></div>
+		                   <div>
+		                 <th:block th:if="${inquiry.inquiryBoardCode == re.inquiryBoardCode}">
+		                 <h5><small style="font-size: 15px; margin-right:10px;"><i class="bi bi-arrow-return-right"></i> [답변]</small><a href="blog-single-left-sidebar.html" th:href="@{/board/inquiryReDetail(inquiryReBoardCode=${re.inquiryReBoardCode})}" th:text="|${inquiry.user.userNickName}님 답변입니다.| " style="color:black;"></a> </h5>
+		                 
+		                    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> -->
+		                    <ul class="list-unstyled">
+		                      <li><a href="#" ><i class="fa fa-user" aria-hidden="true"></i><span th:text="${re.user.userNickName}"></span></a></li>
+		                      <li><i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${re.inquiryBoardReRegTime}"></span></li>
+		                      <!-- <li><a href="#"><i class="fa fa-tags" aria-hidden="true"></i>Travel</a></li>
+		                      <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>8 comments</a></li> -->
+		                    </ul>	
+		                    </th:block>	  
+		                    </div>              		  
+		                  </div>	                  		                                		  
+		                </div>
+		              </div>
+		            </div>
+		           
+		          </div>		          
+	         
+		          <div class="col-sm-12" th:if="${#lists.isEmpty(getInquiryBoardList)}" th:each="inquiry : ${getInquiryBoardList}">
+		            <div class="thumbnail">
+		            <!-- <img src="assets/img/blog/blog-02.jpg" alt="blog-image"> -->
+		             <!--  <a href="blog-single-left-sidebar.html"><img class="mw-100" src="assets/img/blog/blog-01.jpg" alt="blog-image"></a> -->
+		              <div class="caption">
+		                <div class="row">  
+		                   <div class="col-md-9 order-md-1">
+		                    <h3><a href="blog-single-left-sidebar.html">게시글이 존재하지 않습니다.</a> </h3>
+		                    <p>게시글을 입력해주세요.</p>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		        <!-- 페이징 -->
+		        <div class="row" style="margin-top: 40px">
+		          <div class="col-sm-6">
+							<div class="text-left">
+								<ul class="pagination">
+									<li th:if="${pagination.curRange != 1}">
+										<a th:href="@{/board/inquiryList}" aria-label="First"><span aria-hidden="true"><<</span></a>
+									</li>
+									<li th:if="${pagination.curPage != 1}">
+										<a th:href="@{/board/inquiryList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+									</li>
+									
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="active" th:if="${pageNum == pagination.curPage}">
+											<a th:text="${pageNum}"></a>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage}">
+											<a th:href="@{/board/inquiryList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+										</li>
+									</th:block>
+
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<a th:href="@{/board/inquiryList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+									</li>
+									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+										<a th:href="@{/board/inquiryList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+		          <div class="col-sm-6" style="text-align: right;">
+		         
+		          	<a th:if="${session.S_USER_INFO != null}" th:href="@{/board/addInquiry}" class="btn btn-primary" id="inquiryAdd">글쓰기</a>
+		          
+		          </div>
+		        </div>
+		      </div>
+		      <div class="col-lg-3 col-sm-12 order-lg-1 sideBar">
+		        <div class="input-group">
+		          <input type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon2">
+		          <a href="#" class="input-group-addon" id="basic-addon2"><i class="fa fa-search"></i></a>
+		        </div>
+		       <div class="panel panel-default">
+		          <div class="panel-heading">categories</div>
+		          <div class="panel-body">
+		            <ul class="list-unstyle sidebar-list">
+		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Accessories <span>(6)</span></a></li>
+		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bag <span>(6)</span></a></li>
+		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cloths <span>(25)</span></a></li>
+		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bed &amp; Bath <span>(2)</span></a></li>
+		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Swimming costume <span>(5)</span></a></li>
+		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Sport Tops &amp; Shoes <span>(3)</span></a></li>
+		            </ul>
+		          </div>
+		        </div>
+		        <div class="panel panel-default recentBlogPosts">
+		          <div class="panel-heading">recent posts</div>
+		          <div class="panel-body">
+		            <div class="media">
+		              <a class="media-left" href="blog-single-right-sidebar.html">
+		                <img class="media-object" src="/user/assets/img/blog/blog-small-01.jpg" alt="Image">
+		              </a>
+		              <div class="media-body">
+		                <h4 class="media-heading"><a href="blog-single-right-sidebar.html">Totam Rem Aperiam Ea queab Ipsa.</a></h4>
+		                <p><i class="fa fa-calendar" aria-hidden="true"></i>5 March, 2016</p>
+		              </div>
+		            </div>
+		            <div class="media">
+		              <a class="media-left" href="blog-single-right-sidebar.html">
+		                <img class="media-object" src="/user/assets/img/blog/blog-small-02.jpg" alt="Image">
+		              </a>
+		              <div class="media-body">
+		                <h4 class="media-heading"><a href="blog-single-right-sidebar.html">Totam Rem Aperiam Ea queab Ipsa.</a></h4>
+		                <p><i class="fa fa-calendar" aria-hidden="true"></i>5 March, 2016</p>
+		              </div>
+		            </div>
+		            <div class="media">
+		              <a class="media-left" href="blog-single-right-sidebar.html">
+		                <img class="media-object" src="/user/assets/img/blog/blog-small-03.jpg" alt="Image">
+		              </a>
+		              <div class="media-body">
+		                <h4 class="media-heading"><a href="blog-single-right-sidebar.html">Totam Rem Aperiam Ea queab Ipsa.</a></h4>
+		                <p><i class="fa fa-calendar" aria-hidden="true"></i>5 March, 2016</p>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</section>
 	  </th:block>
+	  <!-- 사용자 지정 js 파일 -->
+	<th:block layout:fragment="customJs"></th:block>
+	<!-- 사용자 지정 js script -->
+	<th:block layout:fragment="customScript">
+	</th:block>
 </html>

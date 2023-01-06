@@ -41,15 +41,16 @@
 		                  <div class="col-md-3 order-md-12" >
 		                    <h5 >Board Info</h5>
 		                    <ul class="list-unstyled">
-		                      <li><a href="#" ><i class="fa fa-user" aria-hidden="true"></i><span th:text="${info.user.userNickName}"></span></a></li>
 		                      <li><i class="bi bi-hand-thumbs-up-fill"></i><span th:text="${info.infoBoardLikeCnt} + ' likes'"></span></li>
 		                      <li><i class="bi bi-eye-fill"></i><span th:text="${info.infoBoardViewCnt} + ' views'"></span></li>
+		                      <li><i class="fa fa-envelope" aria-hidden="true"></i><span th:text="${info.commentCnt} + ' comments'"></span></li>
 		                    </ul>
 		                  </div>
 		                  <div class="col-md-9 order-md-1">
-		                    <h3><a href="blog-single-left-sidebar.html" th:href="@{/infoboard/infoBoardDetail(infoBoardCode=${info.infoBoardCode}, c=1)}" th:text="${info.infoBoardTitle}"></a> </h3>
+		                    <h3><a href="blog-single-left-sidebar.html" th:href="@{/infoboard/infoBoardDetail(infoBoardCode=${info.infoBoardCode})}" th:text="${info.infoBoardTitle}"></a> </h3>
 		                    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> -->
 		                    <ul class="list-unstyled">
+		                      <li><a href="#" ><i class="fa fa-user" aria-hidden="true"></i><span th:text="${info.user.userNickName}"></span></a></li>
 		                      <li><i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${info.infoBoardRegTime}">Mar 20, 2016</span></li>
 		                      <!-- <li><a href="#"><i class="fa fa-tags" aria-hidden="true"></i>Travel</a></li>
 		                      <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>8 comments</a></li> -->
@@ -77,27 +78,35 @@
 		        <!-- 페이징 -->
 		        <div class="row">
 		          <div class="col-sm-9">
-		            <div class="text-left">
-		              <ul class="pagination">
-		              	<li th:if="${currentPage > 10}" th:href="@{/admin/order/getOrderHistory(currentPage=${prevPage}, c=1)}">
-		                  <a href="#" aria-label="Prev">
-		                    <span aria-hidden="true">&laquo;</span>
-		                  </a>
-		                </li>
-		                <th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
-		                	<li class="active"><a th:if="${currentPage != num}" th:href="@{/admin/order/getOrderHistory(currentPage=${num})}" th:text="${num}"></a></li>
-		                	<li class="active"><a th:if="${currentPage == num}" th:href="@{#}" th:text="${num}"></a></li>
-		                </th:block>
-		                <li th:if="${endPageNum < lastPage}" th:href="@{/admin/order/getOrderHistory(currentPage=${nextPage})}" >
-		                  <a href="#" aria-label="Next">
-		                    <span aria-hidden="true">&raquo;</span>
-		                  </a>
-		                </li>
-		              </ul>
-		            </div>
+		          	<div class="text-left">
+						<ul class="pagination">
+							<li th:if="${pagination.curRange != 1}">
+								<a th:href="@{/infoboard/infoBoardList}" aria-label="First"><span aria-hidden="true"><<</span></a>
+							</li>
+							<li th:if="${pagination.curPage != 1}">
+								<a th:href="@{/infoboard/infoBoardList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+							</li>
+							
+							<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+								<li class="active" th:if="${pageNum == pagination.curPage}">
+									<a th:text="${pageNum}"></a>
+								</li>
+								<li th:unless="${pageNum == pagination.curPage}">
+									<a th:href="@{/infoboard/infoBoardList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+								</li>
+							</th:block>
+
+							<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+								<a th:href="@{/infoboard/infoBoardList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+							</li>
+							<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+								<a th:href="@{/infoboard/infoBoardList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+							</li>
+						</ul>
+					</div>
 		          </div>
 		          <div class="col-sm-3" style="text-align: right;">
-		          	<a th:href="@{/infoboard/addInfoBoard(userId=${userId})}" class="btn btn-primary" id="infoAdd">등록</a>
+		          	<a th:href="@{/infoboard/addInfoBoard}" class="btn btn-primary" id="infoAdd">등록</a>
 		          </div>
 		        </div>
 		      </div>

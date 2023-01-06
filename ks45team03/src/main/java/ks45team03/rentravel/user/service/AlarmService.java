@@ -18,6 +18,10 @@ public class AlarmService {
 		this.alarmMapper = alarmMapper;
 	}
 	
+	/**
+	 *
+	 * @return
+	 */
 	public List<AlarmWish> getAlarmWishList(){
 		List<AlarmWish> alarmWishList = alarmMapper.getAlarmWishList();
 		

@@ -30,11 +30,25 @@ public class UserBlockController {
 	
 
 
-	@GetMapping("/removeBlock")
-	public String removeUserBlock (Model model) {
+	@PostMapping("/removeBlock")
+	public String removeUserBlock (@RequestParam(value="blockedUserId") String blockedUserId
+									,HttpSession session
+									,Model model) {
 		
-		model.addAttribute("title","회원 아이디 차단 삭제");
-		return "user/block/removeBlock";
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		userBlockService.removeUserBlock(blockedUserId);
+		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
+		
+		String loginNickName = loginUser.getLoginNickName();	
+		
+		model.addAttribute("title","나의 차단 리스트");
+		model.addAttribute("getUserBlockList",getUserBlockList);
+		model.addAttribute("loginNickName",loginNickName);
+		
+		
+		
+		return "user/myPage/myBlockList";
 	}
 	
 	
@@ -46,28 +60,21 @@ public class UserBlockController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
-		String redirectURI ="user/myPage/myBlockList";
-		
-		if(loginUser == null) {
-			
-			redirectURI = "redirect:/";		
-
-		}else {
 		
 		
 		userBlockService.addUserBlock(userId, loginUser.getLoginId());
-		List<Block> getUserBlockrList = userBlockMapper.getUserBlockrList(loginUser.getLoginId());
+		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
 		
 		String loginNickName = loginUser.getLoginNickName();	
 		
 		model.addAttribute("title","나의 차단 리스트");
-		model.addAttribute("getUserBlockrList",getUserBlockrList);
+		model.addAttribute("getUserBlockList",getUserBlockList);
 		model.addAttribute("loginNickName",loginNickName);
 
 		
-		}
 		
-		return redirectURI;
+		
+		return "user/myPage/myBlockList";
 
 	}			
 	

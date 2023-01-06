@@ -4,9 +4,84 @@
 	  layout:decorate="~{user/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
-	  	<h1>1 대 1 문의 게시글(조회)</h1>
-	  	<h2><a th:href="@{/board/modifyInquiry}" style="color:blue;">1 대 1 문의 게시글 수정</a></h2>
-	  	<h2><a th:href="@{/board/removeInquiry}" style="color:blue;">1 대 1 문의 게시글 삭제</a></h2>
-	  	
+		<!-- LIGHT SECTION -->
+		<section class="lightSection clearfix pageHeader">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-6">
+		        <div class="page-title">
+		          <h2>Inquiry Board Detail</h2>
+		        </div>
+		      </div>
+		      <div class="col-md-6">
+		        <ol class="breadcrumb float-right">
+		          <li>
+		            <a th:href="@{/}">Home</a>
+		          </li>
+		          <li>
+		          	<a th:href="@{/board/inquiryList}">Inquiry Board List</a>
+		          </li>
+		          <li class="active">Inquiry Board Detail</li>
+		        </ol>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+	  	<section class="mainContent clearfix blogPage singleBlog">
+		  <div class="container">
+		  	<!-- <h3>1대1 문의 게시판 상세</h3> -->
+		    <div class="row">
+		      <div class="col-md-12">
+		        <div class="thumbnail">
+		          <div class="caption">
+		            <div class="row">
+		              <div class="col-md-3 order-md-12">
+		               
+		                <ul class="list-unstyled">
+		                  <li>
+		                    <i class="fa fa-user" aria-hidden="true"></i><span th:text="${getInquiryBoard.user.userNickName}"></span>
+		                  </li>
+		                  <li>
+		                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${getInquiryBoard.inquiryBoardRegTime}"></span>
+	                      </li>                     	                      	                  
+		                </ul>
+		               		          
+		                <ul class="list-unstyled">
+		                	<li>
+		                		<a th:if="${session.S_USER_INFO.loginId == getInquiryBoard.userId}" th:href="@{/board/modifyInquiry(inquiryBoardCode=${getInquiryBoard.inquiryBoardCode})}" type="button" class="btn btn-primary">수정</a>
+		                		<button th:if="${session.S_USER_INFO.loginId == getInquiryBoard.userId}" onclick="location.href='/board/removeInquiry'" type="button" class="btn btn-primary">삭제</button>
+		                	</li>
+		                </ul>
+		              </div>
+		              <div class="col-md-9 order-md-1">
+		                <h3 th:text="${getInquiryBoard.inquiryBoardTitle}"></h3>
+		                
+		                <p th:text="${getInquiryBoard.inquiryBoardContent}"></p>
+		              </div>
+		            </div>
+		          </div>
+		          <ul class="pager" style="overflow: hidden;">
+		           <!-- <li class="previous">
+		              <a href="float-right"></a>
+		            </li> -->
+		            <li class="next float-right" style="text-align: right;">
+		              <a th:href="@{/board/inquiryList}">목록으로</a>
+		            </li>
+		          </ul>		         
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-md-12">
+		       
+		      </div>
+		    </div>
+		  </div>
+		</section>
 	  </th:block>
+	  
+	  <!-- 사용자 지정 js 파일 -->
+	<th:block layout:fragment="customJs"></th:block>
+	<!-- 사용자 지정 js script -->
+	<th:block layout:fragment="customScript"></th:block>
 </html>
