@@ -16,6 +16,14 @@ public class InquiryBoardService {
 		this.inquiryBoardMapper = inquiryBoardMapper;
 	}
 	
+	
+	/* 1 대 1 문의 게시글 삭제 */
+	public int removeInquiryBoard (String inquiryBoardCode) {
+		
+		return inquiryBoardMapper.removeInquiryBoard(inquiryBoardCode);
+	}
+	
+	
 	/* 1 대 1 문의 게시글 수정 */
 	public int modifyInquiryBoard (InquiryBoard inquiryBoard) {
 		
