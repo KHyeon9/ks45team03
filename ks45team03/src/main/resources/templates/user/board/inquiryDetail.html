@@ -48,8 +48,8 @@
 		               		          
 		                <ul class="list-unstyled">
 		                	<li>
-		                		<a href="@{/board//modifyInquiry}" type="button" class="btn btn-primary">수정</a>
-		                		<button onclick="location.href='/board/removeInquiry'" type="button" class="btn btn-primary">삭제</button>
+		                		<a th:if="${session.S_USER_INFO.loginId == getInquiryBoard.userId}" href="@{/board//modifyInquiry}" type="button" class="btn btn-primary">수정</a>
+		                		<button th:if="${session.S_USER_INFO.loginId == getInquiryBoard.userId}" onclick="location.href='/board/removeInquiry'" type="button" class="btn btn-primary">삭제</button>
 		                	</li>
 		                </ul>
 		              </div>

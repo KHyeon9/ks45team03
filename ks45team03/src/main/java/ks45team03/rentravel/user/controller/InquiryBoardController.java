@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.InquiryBoard;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
+import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.InquiryBoardMapper;
 import ks45team03.rentravel.user.service.InquiryBoardService;
 
@@ -21,10 +23,12 @@ public class InquiryBoardController {
 	
 	private final InquiryBoardService inquiryBoardService;
 	private final InquiryBoardMapper inquiryBoardMapper;
+	private final CommonNewCode commonNewCode;
 	
-	public InquiryBoardController (InquiryBoardService inquiryBoardService, InquiryBoardMapper inquiryBoardMapper) {
+	public InquiryBoardController (InquiryBoardService inquiryBoardService, InquiryBoardMapper inquiryBoardMapper, CommonNewCode commonNewCode) {
 		this.inquiryBoardService = inquiryBoardService;
 		this.inquiryBoardMapper = inquiryBoardMapper;
+		this.commonNewCode = commonNewCode;
 	}
 	
 	@GetMapping("/inquiryList")
@@ -82,6 +86,17 @@ public class InquiryBoardController {
 		
 		
 		return "user/board/addInquiry";
+	}
+	
+	
+	@PostMapping("/addInquiry")
+	public String addInquiryBoard(InquiryBoard inquiryBoard) {
+		
+		String inquiryBoardCode = commonNewCode.getCommonNewCode("tb_inquiry_board", "inquiry_board_code");
+		inquiryBoard.setInquiryBoardCode(inquiryBoardCode);
+		inquiryBoardService.addInquiryBoard(inquiryBoard);
+		
+		return "redirect:/board/inquiryList";
 	}
 	
 	
