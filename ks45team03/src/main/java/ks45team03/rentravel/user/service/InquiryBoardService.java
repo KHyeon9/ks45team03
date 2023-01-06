@@ -16,6 +16,12 @@ public class InquiryBoardService {
 		this.inquiryBoardMapper = inquiryBoardMapper;
 	}
 	
+	/* 1 대 1 문의 게시글 수정 */
+	public int modifyInquiryBoard (InquiryBoard inquiryBoard) {
+		
+		return inquiryBoardMapper.modifyInquiryBoard(inquiryBoard);
+	}
+	
 	
 	/* 1 대 1 문의 게시글 추가 */
 	public int addInquiryBoard (InquiryBoard inquiryBoard) {

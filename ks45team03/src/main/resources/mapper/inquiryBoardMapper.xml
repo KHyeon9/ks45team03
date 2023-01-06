@@ -25,6 +25,16 @@
 	</resultMap>
 	
 	
+	<update id="modifyInquiryBoard" parameterType="InquiryBoard"> 
+	/* 1 대 1 문의 게시글 수정 */
+	UPDATE tb_inquiry_board
+	SET
+		inquiry_board_content = #{inquiryBoardContent}	
+	WHERE 
+			inquiry_board_code = #{inquiryBoardCode}
+	
+	</update>
+	
 	<insert id="addInquiryBoard" parameterType="InquiryBoard">
 	/* 1 대 1 문의 게시글 추가 */
 	INSERT INTO tb_inquiry_board

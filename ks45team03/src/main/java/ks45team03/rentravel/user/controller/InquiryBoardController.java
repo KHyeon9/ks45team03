@@ -1,5 +1,7 @@
 package ks45team03.rentravel.user.controller;
 
+import static org.junit.Assert.fail;
+
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -101,11 +103,26 @@ public class InquiryBoardController {
 	
 	
 	@GetMapping("/modifyInquiry")
-	public String modifyInquiryBoard (Model model) {
+	public String modifyInquiryBoard (@RequestParam(value="inquiryBoardCode", required = false) String inquiryBoardCode
+									,HttpSession session
+									,Model model) {
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		InquiryBoard getInquiryBoard = inquiryBoardMapper.getInquiryBoard(inquiryBoardCode);
 		
 		model.addAttribute("title","1 대 1 문의 게시글 수정");
+		model.addAttribute("loginId",loginInfo.getLoginId());
+		model.addAttribute("getInquiryBoard",getInquiryBoard);
 		
 		return "user/board/modifyInquiry";
+	}
+	
+	
+	@PostMapping("/modifyInquiry")
+	public String modifyInquiryBoard(InquiryBoard inquiryBoard) {
+		
+		inquiryBoardService.modifyInquiryBoard(inquiryBoard);
+		return "redirect:/board/inquiryList";
 	}
 	
 	
