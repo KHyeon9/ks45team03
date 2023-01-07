@@ -4,11 +4,145 @@
 	layout:decorate="~{admin/layout/default}">
 
 	<th:block layout:fragment="customContents">
-		<div id="rightcolumn" class="right_col" role="main">
-			<div class="col-md-12 col-sm-12">
-				<h1>관리자 주문 취소 수정</h1>
-			</div>
-		</div>
+		<div class="right_col" role="main">
+           <div class="">
+             <div class="clearfix"></div>
+               <div class="row">
+                 <div class="col-md-12 col-sm-12">
+                   	<div class="x_panel">
+                           <div class="x_title">
+                               <h2>주문 취소 수정 <small>User</small></h2>
+                               <div class="clearfix"></div>
+                           </div>
+                           <div class="x_content">
+                               <form class="modifyOrderInfo" th:action="@{/admin/order/adminRentalcancelModify}" method="post" novalidate>
+                               	  <input type="hidden" th:value="${rentalCancelInfo.rentalCancelCode}"  name="rentalCancelCode">
+                                   <div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">취소 회원 ID</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.cancelUserId}"  class="form-control" name="cancelUserId" type="text" readonly="readonly" />
+                                       </div>
+                                   </div>
+                                   <div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">렌탈 취소 신청일자</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.rentalCancelSignupDate}" class="form-control" name="rentalCancelSignupDate" type="datetime-local" required="required" />
+                                       </div>
+                                   </div>
+                                   <div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">환불 담당자 ID</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.refundUserId}"  class="form-control" name="refundUserId" required="required" type="text" readonly="readonly" /></div>
+                                   </div>
+                                   	<div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">환불 처리일자</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.refundCancelSignupDate}"  class="form-control" name="refundCancelSignupDate"  type="datetime-local" required='required'></div>
+                                    </div>
+                                   	<div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">오너 확인일자</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.ownerCancelSignupCheckDate}"  class="form-control" name="ownerCancelSignupCheckDate" type="datetime-local" required='required'></div>
+                                    </div>
+                                   	<div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">환불 수단</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.refundWay}"  class="form-control" name="refundWay" type="text" required='required'></div>
+                                    </div>
+                                   	<div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">환불 금액</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.refundMoney}"  class="form-control" name="refundMoney" type="number" required='required'></div>
+                                    </div>
+                                   	<div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">사용 마일리지 금액</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.mileageUsePrice}"  class="form-control" name="mileageUsePrice" type="number"  required='required'></div>
+                                    </div>
+                                   	<div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">적립 마일리지 금액</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.saveMileage}"  class="form-control" name="saveMileage" type="number" required='required'></div>
+                                    </div>
+                                   	<div class="field item form-group">
+                                       <label class="col-form-label col-md-3 col-sm-3  label-align">적립금 상세 그룹코드</label>
+                                       <div class="col-md-6 col-sm-6">
+                                           <input th:value="${rentalCancelInfo.mileageGroupCode}"  class="form-control" name="mileageGroupCode" type="text" required='required' readonly="readonly"></div>
+                                    </div>
+                                   <div class="ln_solid">
+                                   	  <br>
+                                       <div class="form-group">
+                                           <div class="col-md-6 offset-md-3">
+                                               <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+                                               <button type='reset'  class="btn btn-success">Reset</button>
+                                               <button type='button' class="btn btn-success cancel">Cancel</button>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </form>
+                           </div>
+                       </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         
+         <!-- 사용자 지정 js 파일 -->
+		<th:block layout:fragment="customJs">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		    <script src="../vendors/validator/multifield.js"></script>
+		    <script src="../vendors/validator/validator.js"></script>
+		    <script src="../build/js/custom.min.js"></script>
+		</th:block>
+		<!-- 사용자 지정 js script -->
+		<th:block layout:fragment="customScript">
+			<script>
+				function hideshow(){
+					var password = document.getElementById("password1");
+					var slash = document.getElementById("slash");
+					var eye = document.getElementById("eye");
+					
+					if(password.type === 'password'){
+						password.type = "text";
+						slash.style.display = "block";
+						eye.style.display = "none";
+					}
+					else{
+						password.type = "password";
+						slash.style.display = "none";
+						eye.style.display = "block";
+					}
+		
+				}
+		        // initialize a validator instance from the "FormValidator" constructor.
+		        // A "<form>" element is optionally passed as an argument, but is not a must
+		        var validator = new FormValidator({
+		            "events": ['blur', 'input', 'change'],
+		            
+		        	
+		        }, document.forms[0]);
+		        // on form "submit" event
+		        document.forms[0].onsubmit = function(e) {
+		            var submit = true,
+		                validatorResult = validator.checkAll(this);
+		            console.log(validatorResult);
+		            return !!validatorResult.valid;
+		        };
+		        // on form "reset" event
+		        document.forms[0].onreset = function(e) {
+		            validator.reset();
+		        };
+		        // stuff related ONLY for this demo page:
+		        $('.toggleValidationTooltips').change(function() {
+		            validator.settings.alerts = !this.checked;
+		            if (this.checked)
+		                $('form .alert').remove();
+		        }).prop('checked', false);
+		        
+		    	$('.cancel').click(function(){
+		    		location.href = '/admin/order/adminWaybillList';
+		    	})
+		    </script>
+		</th:block>
 	</th:block>
-
 </html>

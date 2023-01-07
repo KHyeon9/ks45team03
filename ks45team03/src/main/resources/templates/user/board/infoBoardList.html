@@ -116,15 +116,15 @@
 		          <a href="#" class="input-group-addon" id="basic-addon2"><i class="fa fa-search"></i></a>
 		        </div>
 		        <div class="panel panel-default">
-		          <div class="panel-heading">categories</div>
+		          <div class="panel-heading">상품 카테고리</div>
 		          <div class="panel-body">
 		            <ul class="list-unstyle sidebar-list">
-		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Accessories <span>(6)</span></a></li>
-		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bag <span>(6)</span></a></li>
-		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cloths <span>(25)</span></a></li>
-		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bed &amp; Bath <span>(2)</span></a></li>
-		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Swimming costume <span>(5)</span></a></li>
-		              <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Sport Tops &amp; Shoes <span>(3)</span></a></li>
+		              <li th:each="cate : ${goodsCategoryList}">
+		              	<a href="#">
+		              		<i class="fa fa-caret-right" aria-hidden="true"></i>
+		              		<span th:text="${cate.goodsCategoryName}"></span>
+		              	</a>
+		              </li>
 		            </ul>
 		          </div>
 		        </div>

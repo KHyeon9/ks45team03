@@ -45,16 +45,35 @@ public class AdminOrderService {
 		return adminOrderMapper.getWaybillRenterList(startIndex, pageSize);
 	}
 	
-	// 주문 환불 내역 조회
+	// 주문 반납 내역 조회
 	public List<Return> getReturnHistory(int startIndex, int pageSize) {
 		return adminOrderMapper.getReturnHistory(startIndex, pageSize);
 	}
 	
+	// 주문 반납 수정 폼 조회
+	public Return getReturn(String returnCode) {
+		return adminOrderMapper.getReturn(returnCode);
+	}
+	
+	// 주문 반납 수정
+	public int modifyReturn (Return returnInfo) {
+		return adminOrderMapper.modifyReturn(returnInfo);
+	}
 	
 	// 주문 취소 내역 조회
 	public List<RentalCancel> getRentalCancelHistory(int startIndex, int pageSize) {
 		return adminOrderMapper.getRentalCancelHistory(startIndex, pageSize);
 	}
+	
+	// 주문 취소 정보 주문 취소 코드로 조회
+	public  RentalCancel getRentalCancel(String rentalCancelCode) {
+		return adminOrderMapper.getRentalCancel(rentalCancelCode);
+	}
+	
+	// 주문 취소 정보 수정
+	public int modifyRentalCancel(RentalCancel rentalCancel) {
+		return adminOrderMapper.modifyRentalCancel(rentalCancel);
+	};
 	
 	// 주문 내역 조회
 	public List<Rental> getOrderHistory(int startIndex, int pageSize) {
