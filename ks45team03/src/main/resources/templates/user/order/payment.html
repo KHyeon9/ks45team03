@@ -109,11 +109,15 @@
                	  <div class="form-group col-md-6 col-12">
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select name="country" class="form-control select-drop">
-	                       <option></option>
-	                       <option>USA</option>
-	                       <option>Singapore</option>
-	                       <option>Bangladesh</option>
+	                     <select id="regionSidoCode" name="regionSidoCode" class="form-control select-drop">
+	                       <option>시ㆍ도를 선택해주세요.</option>
+	                      	<th:block th:if="${not #lists.isEmpty(getRegionSido)}" th:each="sido : ${getRegionSido}">
+	                      		<option th:if="${sido.regionSidoCode.equals(userInfo.regionSgg.regionSidoCode)}" th:value="${sido.regionSidoCode}" selected>[[${sido.regionSidoName}]]</option>
+	                      		<option th:unless="${sido.regionSidoCode.equals(userInfo.regionSgg.regionSidoCode)}" th:value="${sido.regionSidoCode}">[[${sido.regionSidoName}]]</option>
+	                      	</th:block>
+	                      	<th:block th:unless="${not #lists.isEmpty(getRegionSido)}">
+									<option>등록된 지역이 없습니다.</option>
+							</th:block>
 	                     </select>
 	                   </div>
 	                 </div>
@@ -121,18 +125,21 @@
 	               <div class="form-group col-md-6 col-12">
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select name="country" class="form-control select-drop">
-	                       <option></option>
-	                       <option>USA</option>
-	                       <option>Singapore</option>
-	                       <option>Bangladesh</option>
+	                     <select id="regionSggCode" name="regionSggCode" class="form-control">
+	                       <th:block th:if="${not #lists.isEmpty(getRegionSgg)}" th:each="sgg : ${getRegionSgg}">
+	                      		<option th:if="${sgg.regionSggCode.equals(userInfo.regionSggCode)}" th:value="${sgg.regionSggCode}" selected>[[${sgg.regionSggName}]]</option>
+	                      		<option th:unless="${sgg.regionSggCode.equals(userInfo.regionSggCode)}" th:value="${sgg.regionSggCode}">[[${sgg.regionSggName}]]</option>
+	                      	</th:block>
+	                      	<th:block th:unless="${not #lists.isEmpty(getRegionSgg)}">
+									<option>등록된 지역이 없습니다.</option>
+							</th:block>
 	                     </select>
 	                   </div>
 	                 </div>
 	               </div>
 	               <div class="form-group col-md-7 col-12" style="margin-top: 30px;">
 	                 <label for="">지역 상세</label>
-	                 <input type="text" class="form-control" id="">
+	                 <input th:value="${userInfo.userAddrDesc}" type="text" class="form-control" id="">
 	               </div>
 	               <div class="col-12">
 	                 <div class="page-header">
@@ -207,7 +214,9 @@
 		</section>
 	  </th:block>
 	 <!-- 사용자 지정 js 파일 -->
-	<th:block layout:fragment="customJs"></th:block>
+	<th:block layout:fragment="customJs">
+		<script th:src="@{/user/js/validation.js}"></script>
+	</th:block>
 	
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript">
