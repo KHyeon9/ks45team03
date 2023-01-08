@@ -110,16 +110,20 @@
                 </li>
                 <li class="nav-item dropdown ">
                   <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Chat</a>
-                  <ul class="dropdown-menu dropdown-menu-right">
+                  <ul class="dropdown-menu dropdown-menu-left">
                     <li class=""><a th:href="@{/chat/chatRoomList}">Chat Room</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown ">
-                  <a th:href="@{/insurance/insuranceMain}" class="dropdown-toggle nav-link">Insurance</b></a>
+                  <a th:href="@{/insurance/insuranceMain}" class="dropdown-toggle nav-link">Insurance</a>
+                  <ul class="dropdown-menu dropdown-menu-left">
+                    <li class=""><a th:href="@{/insurance/insuranceMain}">보험정보</a></li>
+                    <li class=""><a th:href="@{/insurance/insuranceaddBillPersonInfo}">보험청구하기</a></li>
+                  </ul>
                 </li>
                  <li class="nav-item dropdown ">
                   <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Community</a>
-                  <ul class="dropdown-menu dropdown-menu-right">
+                  <ul class="dropdown-menu dropdown-menu-left">
                     <li class=""><a th:href="@{/infoboard/infoBoardList}">Info Board</a></li>
                     <li class=""><a href="">#Notice</a></li>
                     <li class=""><a th:href="@{/board/inquiryList}">FAQ</a></li>

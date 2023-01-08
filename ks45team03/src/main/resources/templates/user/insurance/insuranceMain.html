@@ -128,7 +128,9 @@
 						      <th:block th:object="${l.rental}">
 						      		<td th:text="*{rentalEndDate}"></td>
 						      	</th:block>
-						      <td><a th:href="@{/insurance/insuranceAddBill}" class="badge badge-primary btnaddBill">청구하기</a></td>
+						      <td>
+						      	<a th:href="@{/insurance/insuranceaddBillPersonInfo}" class="badge badge-primary btnaddBill">청구하기</a>
+						      </td>
 						    </tr>
 						    <tr th:unless="${not #lists.isEmpty(insuranceList)}">
 						    	<td colspan="9">가입된 보험이 없습니다.</td>

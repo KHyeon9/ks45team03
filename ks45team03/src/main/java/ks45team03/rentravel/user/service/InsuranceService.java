@@ -36,7 +36,9 @@ public class InsuranceService {
 	 */
 	public int addInsuranceBillDetail() {
 		
-		return insuranceMapper.addInsuranceBillDetail();
+		int result = insuranceMapper.addInsuranceBillDetail();
+		
+		return result;
 	}
 	
 	/**
