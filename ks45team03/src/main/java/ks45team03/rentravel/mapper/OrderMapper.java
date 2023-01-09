@@ -11,6 +11,18 @@ import ks45team03.rentravel.dto.User;
 @Mapper
 public interface OrderMapper {
 	
+	// 마일리지 적립율 조회
+	public float getUserSaveMileageRate(String userId);
+	
+	// 수수료율 조회
+	public float getCommisionRate();
+	
+	// 그룹 코드 날짜 부분
+	public String getGroupCodeDate(String date);
+	
+	// 렌탈 등록
+	public int addRental(Rental rental);
+	
 	// 시군구 불러오기
 	public List<RegionSgg> getRegionSggBySidoCode(String regionSidoCode);
 	

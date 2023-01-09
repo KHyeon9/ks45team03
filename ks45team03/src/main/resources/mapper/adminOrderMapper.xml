@@ -179,9 +179,7 @@
 			ON
 			ren.goods_code = g.goods_code
 		WHERE 
-			ren.rental_code = #{rentalCode}
-		ORDER BY
- 			CAST(SUBSTRING(pay.payment_code,8) AS UNSIGNED) DESC;
+			ren.rental_code = #{rentalCode};
 	</select>
 	
 	<!-- 오너 운송장번호 목록 조회 -->
