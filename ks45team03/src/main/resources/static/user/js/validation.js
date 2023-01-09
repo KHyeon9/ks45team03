@@ -1,51 +1,45 @@
-var idJ = /^[a-z0-9]{5,12}$/;
-var pwJ = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
-var nameJ = /^[A-Za-z가-힣]{2,20}$/;
-var nicknameJ = /^[A-Za-z가-힣0-9]{2,10}$/;
-var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-var phoneJ = /^[0-9]{4,4}?[0-9]{4,4}$/;
 var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 
-	$('#regionSidoCode').change(function(){
-    			
-		var project = $('#regionSidoCode').val();
-		
-		$.ajax({
-				type: 'POST',
-				url: '/addUser/ajaxProject',
-				data: { project },
-				success: function(result){
-					
-					var sggOption = {};
-					var blankOption = '<option></option>';
-					var defaultOption = '<option>등록된 지역이 없습니다.</option>';
-					
-					for (var i = 0; i < result.length; i++) {
-					 sggOption += '<option value="' + result[i].regionSggCode + '">' + result[i].regionSggName + '</option>';	    			
-					}
-					
-					if(result == '' || result == 'undefined') {
-						 $('#regionSggCode').html(defaultOption);
-					}else{
-						 $('#regionSggCode').html(blankOption);
-						 $('#regionSggCode').append(sggOption);
-					}
-				},
-				error: function(project) {
-					alert("error");
-				}
-			})
-	});
+$('#regionSidoCode').change(function(){
+			
+	var project = $('#regionSidoCode').val();
 	
-	$(function(){
-		function validateValue(checkValue){
-			if(typeof checkValue == 'undefined'
-					|| checkValue == null
-					|| checkValue == '' ){
-				return true;
+	$.ajax({
+			type: 'POST',
+			url: '/addUser/ajaxProject',
+			data: { project },
+			success: function(result){
+				
+				var sggOption = {};
+				var blankOption = '<option></option>';
+				var defaultOption = '<option>등록된 지역이 없습니다.</option>';
+				
+				for (var i = 0; i < result.length; i++) {
+				 sggOption += '<option value="' + result[i].regionSggCode + '">' + result[i].regionSggName + '</option>';	    			
+				}
+				
+				if(result == '' || result == 'undefined') {
+					 $('#regionSggCode').html(defaultOption);
+				}else{
+					 $('#regionSggCode').html(blankOption);
+					 $('#regionSggCode').append(sggOption);
+				}
+			},
+			error: function(project) {
+				alert("error");
 			}
-			return false;
+		})
+});
+	
+$(function(){
+	function validateValue(checkValue){
+		if(typeof checkValue == 'undefined'
+				|| checkValue == null
+				|| checkValue == '' ){
+			return true;
 		}
+		return false;
+	}
 		
 	$("#userId").blur(function() {
 		
@@ -210,7 +204,7 @@ var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 		$(this).removeClass('is-valid');
 	});
 	
-	$('#userEmail').blur(function() {
+	$('input[name="paymentAccountOrCardNumber"]').blur(function() {
 		
 		if(validateValue($(this).val())) {
 			$('#userEmailCheck').html('필수정보입니다.');
