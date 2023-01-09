@@ -27,7 +27,7 @@
                            <th class="column-title">렌터ID</th>
                            <th class="column-title">렌탈상태</th>
                            <th class="column-title">반납날짜</th>
-                           <th class="column-title">수정</th>
+                           <th class="column-title"></th>
                            <th class="bulk-actions" colspan="7">
                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                            </th>
@@ -35,9 +35,9 @@
                        </thead>
 
                        <tbody>
-                       	<th:block th:unless="${#lists.isEmpty(returnList)}" th:each="return, returnState : ${returnList}">
+                       	<th:block th:unless="${#lists.isEmpty(returnHistory)}" th:each="return, returnState : ${returnHistory}">
                        		<tr class="even pointer" th:if="${returnState.index % 2 == 0}">
-	                            <td th:text="${return.goodsName}"></td>
+                   				<td th:text="${return.goodsName}"></td>
 	                            <td th:text="${return.rentalStartDate}"></td>
 	                            <td th:text="${return.rentalEndDate}"></td>
 	                            <td th:text="${return.ownerId}"></td>
@@ -45,7 +45,7 @@
 	                            <td th:text="${return.orderStateName}"></td>
 	                            <td th:text="${return.returnDate}"></td>
 	                            <td>
-	                            	<a th:href="@{/admin/order/adminReturnModify}">수정</a>
+	                            	<a th:href="@{/admin/order/adminReturnModify(returnCode=${return.returnCode})}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                             	</td>
 	                          </tr>
 	                          <tr class="odd pointer" th:unless="${returnState.index % 2 == 0}">
@@ -57,14 +57,42 @@
 	                            <td th:text="${return.orderStateName}"></td>
 	                            <td th:text="${return.returnDate}"></td>
 	                            <td>
-	                            	<a th:href="@{/admin/order/adminReturnModify}">수정</a>
+	                            	<a th:href="@{/admin/order/adminReturnModify(returnCode=${return.returnCode})}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                             	</td>
 	                          </tr>
                        	</th:block>
-                       	<tr th:if="${#lists.isEmpty(returnList)}">
-							<td colspan="7">등록한 결제가 없습니다.</td>
+                       	<tr th:if="${#lists.isEmpty(returnHistory)}">
+							<td colspan="7">등록한 환불이 없습니다.</td>
 					  	</tr>
                        </tbody>
+                       <tfoot>
+                       	  <tr>
+				  		    <td colspan="8">
+				  		   	  <div class="col-sm-12">
+					            <div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate">
+								  <ul class="pagination">
+									 <li class="paginate_button previous disabled" id="datatable-checkbox_previous" th:if="${pagination.curPage != 1}">
+										<a th:href="@{/admin/order/adminReturnHistory(curPage=${pagination.curPage})}" aria-label="Prev">Prev</a>
+									 </li>
+										
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="active" th:if="${pageNum == pagination.curPage}">
+											<a th:text="${pageNum}"></a>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage}">
+											<a th:href="@{/admin/order/adminReturnHistory(curPage=${pagination.curPage})}" th:text="${pageNum}"></a>
+										</li>
+									</th:block>
+			
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<a th:href="@{/admin/order/adminReturnHistory(curPage=${pagination.curPage})}" aria-label="Next">Next</a>
+									</li>
+								  </ul>
+								</div>
+					          </div>
+				  		    </td>
+				  		  </tr>
+                        </tfoot>
                      </table>
                    </div>
                  </div>
@@ -72,5 +100,12 @@
         	</div>
 		</div>
 	</th:block>
-
+	 <!-- 사용자 지정 js 파일 -->
+	<th:block layout:fragment="customJs"></th:block>
+	
+	<!-- 사용자 지정 js script -->
+	<th:block layout:fragment="customScript">
+		<script th:inline="javascript">
+		</script>
+	</th:block>
 </html>

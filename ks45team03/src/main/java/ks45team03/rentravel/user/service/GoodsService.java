@@ -18,9 +18,9 @@ public class GoodsService {
 		this.goodsMapper = goodsMapper;
 	}
 	
-	public List<Goods> getGoodsList(String loginId){
+	public List<Goods> getGoodsList(String loginId, int startIndex, int pageSize){
 		
-		List<Goods> goodsList = goodsMapper.getGoodsList(loginId);
+		List<Goods> goodsList = goodsMapper.getGoodsList(loginId, startIndex, pageSize);
 		
 		return goodsList;
 	}
@@ -47,5 +47,28 @@ public class GoodsService {
 	public int modifyGoods(Goods goods) {
 		
 		return goodsMapper.modifyGoods(goods);
+	}
+	
+	public List<Goods> getGoodsCategoryAndCount(){
+		
+		List<Goods> goodsCategoryAndCount = goodsMapper.getGoodsCategoryAndCount();
+		
+		return goodsCategoryAndCount;
+	}
+	
+	public int getGoodsListCount() {
+		
+		int goodsListCount = goodsMapper.getGoodsListCount();
+		
+		return goodsListCount;
+	}
+	
+	public List<Goods> getGoodsListByGoodsCategory(String goodsCategoryCode){
+		
+		List<Goods> goodsListByGoodsCategory = goodsMapper.getGoodsListByGoodsCategory(goodsCategoryCode);
+		
+		return goodsListByGoodsCategory;
+		
+		
 	}
 }

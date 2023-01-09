@@ -48,7 +48,7 @@
 	                      	<i class="bi bi-hand-thumbs-up-fill"></i><span th:text="${infoBoardDetail.infoBoardLikeCnt}"></span>
 	                      </li>
 	                      <li>
-	                      	<i class="bi bi-eye-fill"></i><span th:text="${infoBoardDetail.infoBoardViewCnt}"></span>
+	                      	<i class="bi bi-eye-fill"></i><span th:text="${infoBoardDetail.infoBoardViewCnt} + ' views'"></span>
 	                      	</li>
 		                  <li>
 		                    <i class="fa fa-envelope" aria-hidden="true"></i><span th:text="${commentCnt} + ' comments'"></span></li>
@@ -78,9 +78,11 @@
 		                  </li>
 		                </ul>
 		                <ul class="list-unstyled">
-		                	<li>
-		                		<button onclick="location.href='/infoboard/modifyInfoBoard'" type="button" class="btn btn-primary">수정</button>
-		                		<button onclick="location.href='/infoboard/removeInfoBoard'" type="button" class="btn btn-primary">삭제</button>
+		                	<li style="margin-bottom: 3px;">
+		                		<th:block th:if = "${loginInfo != null && loginInfo.loginId.equals(infoBoardDetail.userId)}">
+									<button type="button" class="btn btn-primary modifyInfoBoard" th:data-infoboard-code="${infoBoardDetail.infoBoardCode}">수정</button>
+		                			<button type="button" class="btn btn-primary deleteInfoBoard" th:data-infoboard-code="${infoBoardDetail.infoBoardCode}">삭제</button>		                		
+		                		</th:block>
 		                	</li>
 		                </ul>
 		              </div>
@@ -103,45 +105,83 @@
 		            <h3 th:text="${commentCnt} + ' Comments'"></h3>
 		            <!-- 댓글 -->
 		            <th:block th:if="${commentCnt != 0}" th:unless="${#lists.isEmpty(commentList)}" th:each="comm : ${commentList}">
-		            	<div class="media flex-wrap">
+		            	<div class="media flex-wrap commentInfo">
 			              <a class="media-left" href="#">
 			                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
 			              </a>
 			              <div class="media-body">
-			                <h4 class="media-heading" th:text="${comm.userNickName}">Jessica Brown </h4>
+			                <h4 class="media-heading" th:text="${comm.userNickName}"></h4>
 			                <h4>
 			                  <span>
 			                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${comm.infoBoardCommentRegTime}"></span>
 			                  </span>
 			                </h4>
-			                <p th:text="${comm.infoBoardCommentContent}"></p>
-			                <div>
-								<button class="btn btn-link" type="submit">수정</button> /
-			                	<button class="btn btn-link" type="submit">삭제</button>			                
+			                <div class="change-section">
+			                	<p th:text="${comm.infoBoardCommentContent}"></p>
+			                	<th:block th:if="${loginInfo != null && (loginInfo.loginId == comm.userId || loginInfo.loginLevelName.equals('관리자'))}">
+			                		<button class="btn btn-link modifyBtn" type="button"  th:data-comment-code = "${comm.infoBoardCommentCode}" th:data-comment-cotent = "${comm.infoBoardCommentContent}">수정</button> /
+				                	<button class="btn btn-link deleteBtn" type="button" th:data-comment-code ="${comm.infoBoardCommentCode}">삭제</button>			                
+			                	</th:block>
 			                </div>
 			              </div>
 			            </div>
 		            </th:block>
 		            <!-- 댓글 끝 -->
+		            <!-- 페이징 -->
+		            <th:block th:if="${commentCnt != 0}">
+		              <div class="row">
+	          		    <div class="col-sm-12">
+	          	    	  <div class="text-left">
+					  	    <ul class="pagination">
+							  <li th:if="${pagination.curRange != 1}">
+							    <a th:href="@{/infoboard/infoBoardDetail(infoBoardCode=${infoBoardDetail.infoBoardCode})}" aria-label="First"><span aria-hidden="true"><<</span></a>
+							  </li>
+						      <li th:if="${pagination.curPage != 1}">
+							    <a th:href="@{/infoboard/infoBoardDetail(infoBoardCode=${infoBoardDetail.infoBoardCode}, curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+						      </li>
+						      <th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+							    <li class="active" th:if="${pageNum == pagination.curPage}">
+								  <a th:text="${pageNum}"></a>
+							    </li>
+							    <li th:unless="${pageNum == pagination.curPage}">
+								  <a th:href="@{/infoboard/infoBoardDetail(infoBoardCode=${infoBoardDetail.infoBoardCode}, curPage=${pageNum})}" th:text="${pageNum}"></a>
+							    </li>
+						      </th:block>
+
+						      <li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+							    <a th:href="@{/infoboard/infoBoardDetail(infoBoardCode=${infoBoardDetail.infoBoardCode}, curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+						      </li>
+						      <li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+							    <a th:href="@{/infoboard/infoBoardDetail(infoBoardCode=${infoBoardDetail.infoBoardCode}, curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+						      </li>
+						    </ul>
+					      </div>
+	          	 	    </div>
+	        	      </div>
+	        	   </th:block>
 		          </div>
 		        </div>
 		      </div>
 		    </div>
-		    <div class="row">
+		    <div th:if="${loginInfo != null}" class="row">
 		      <div class="col-md-12">
 		        <form action="" method="POST" role="form" class="commentsForm">
 		          <h3>Leave Comments</h3>
 		          <div class="row">
 		            <div class="col-md-12">
-		              <div><h4>회원님</h4></div>
+	            	  <a class="media-left" href="#">
+		                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
+		              </a>
 		              <br>
-		              <div class="form-group">
-		                <textarea class="form-control" rows="3" placeholder="Comment"></textarea>
+		              <div><h4 th:text="${nickName}"></h4></div>
+		              <div class="form-group" style="margin-top: 30px;">
+		              	<input id="boardCode" type="hidden" th:value="${infoBoardDetail.infoBoardCode}" readonly="readonly">
+		              	<input id="commentId" type="hidden" th:value="${loginInfo.loginId}" readonly="readonly">
+		                <textarea class="form-control" rows="3" id="comment" name="comment" placeholder="Comment"></textarea>
 		              </div>
 		            </div>
-		
 		          </div>
-		          <button type="submit" class="btn btn-primary">post comment</button>
+		          <button id="commentBtn" type="button" class="btn btn-primary">post comment</button>
 		        </form>
 		      </div>
 		    </div>
@@ -151,6 +191,140 @@
 	  
 	  <!-- 사용자 지정 js 파일 -->
 	<th:block layout:fragment="customJs"></th:block>
+	
 	<!-- 사용자 지정 js script -->
-	<th:block layout:fragment="customScript"></th:block>
+	<th:block layout:fragment="customScript">
+		<script th:inline="javascript">
+			$('.modifyInfoBoard').click(function(){
+				location.href='/infoboard/modifyInfoBoard?infoBoardCode=' + $(this).attr('data-infoboard-code');
+			})
+		
+			$('.deleteInfoBoard').click(function(){
+				const deleteForm = $('<form></form>');
+				deleteForm.attr({
+					action:'/infoboard/removeInfoBoard',
+					method:'POST'
+				});
+				deleteForm.append('<input />', {
+					value: $(this).data('infoboardCode'),
+					name: 'infoboardCode',
+					type: 'hidden'
+				})
+				
+				$('body').appendTo(deleteForm);
+				
+				deleteForm.submit();
+			})
+		
+			$(document).on('click', '.modifyBtn', function(){
+				
+				const infoBoardCommentContent = $(this).attr("data-comment-cotent");
+				const infoBoardCommentCode = $(this).attr("data-comment-code");
+				console.log($(this).parents('div.commentInfo').find('div.change-section'));
+				const changeSection = $(this).parents('div.commentInfo').find('div.change-section');
+				changeSection.empty();
+				
+				const $textArea = $('<textarea />', {
+					class:'form-control modifyComment',
+					rows:'3',
+					name:'modifyComment',
+					style:'margin-bottom:2px;',
+					text:infoBoardCommentContent
+				});
+				
+				const $modifyActionBtn = $('<button />',{
+					class:'btn btn-link modifyActionBtn',
+					type:'button',
+					text:'수정',
+					click: function(){
+						const infoBoardCommentContentValue = $(this).parent().find('textarea.modifyComment').val();
+						console.log(infoBoardCommentContentValue);
+						const commentObj = {
+								'infoBoardCommentCode':infoBoardCommentCode,
+			   					'infoBoardCommentContent':infoBoardCommentContentValue,
+   							};
+						
+						$.ajax({
+			   				type:'POST',
+			   				url:'/infoboard/infoBoardDetail/modifyComment',
+			   				contentType: "application/json; charset=UTF-8",
+			   				data: JSON.stringify(commentObj),
+				   			success: function(data) {
+				   					location.reload();
+				   	          		console.log("성공");
+				   			},
+				   			error: function(e) {
+				   				alert("ERROR : " + e);
+				   			}	
+						});// 댓글 비동기 끝
+					}
+				});
+				
+			    const $modifyCancelBtn = $('<button />',{
+					class:'btn btn-link modifyCancelBtn',
+					type:'button',
+					text:'취소',
+					click: function(){
+						location.reload();
+					}
+				});
+			    
+				changeSection.append($textArea);
+				changeSection.append($modifyActionBtn);
+				changeSection.append(' /');
+				changeSection.append($modifyCancelBtn);
+				console.log(infoBoardCommentContent);
+			})
+		
+			$(document).on('click','.deleteBtn',function(){
+				const infoBoardCommentCode = $(this).attr('data-comment-code');
+				
+				$.ajax({
+	   				type:'POST',
+	   				url:'/infoboard/infoBoardDetail/removeComment',
+	   				contentType: "application/json; charset=UTF-8",
+	   				data: infoBoardCommentCode,
+		   			success: function(data) {
+		   					location.reload();
+		   	          		console.log("성공");
+		   			},
+		   			error: function(e) {
+		   				alert("ERROR : " + e);
+		   			}	
+				});// 댓글 비동기 끝
+			})
+		
+			$('#commentBtn').click(function(){
+				const userId= $('#commentId').val();
+				const infoBoardCode = $('#boardCode').val();
+				const infoBoardCommentContent = $('#comment').val();
+				console.log(userId);
+				console.log(infoBoardCode);
+				console.log(infoBoardCommentContent);
+					
+				if(infoBoardCommentContent == '') {
+					alert('내용을 입력하세요.');
+				}
+				const userObj = {
+									'userId':userId,
+				   					'infoBoardCode':infoBoardCode,
+				   					'infoBoardCommentContent' : infoBoardCommentContent
+	   							};
+				
+				$.ajax({
+	   				type:'POST',
+	   				url:'/infoboard/infoBoardDetail/addComment',
+	   				contentType: "application/json; charset=UTF-8",
+	   				data: JSON.stringify(userObj),
+		   			success: function(data) {
+		   					location.reload();
+		   	          		console.log("성공");
+		   			},
+		   			error: function(e) {
+		   				alert("ERROR : " + e);
+		   			}		
+	   			});// 댓글 비동기 끝
+			})
+		</script>
+	</th:block>
 </html>

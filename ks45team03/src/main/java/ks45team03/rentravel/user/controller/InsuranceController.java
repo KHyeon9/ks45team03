@@ -1,17 +1,12 @@
 package ks45team03.rentravel.user.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.http.HttpResponse;
 import java.util.List;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,95 +30,82 @@ public class InsuranceController {
 		this.insuranceMapper = insuranceMapper;
 		this.insuranceService = insuranceService;
 	}
-	
 	@GetMapping("/insuranceMain")
-	public String insuranceMain(Model model) {		
-		model.addAttribute("title", "보험메인화면");
-		
-		return "user/insurance/insuranceMain";
-	}
-
-	@GetMapping("/insuranceList")
 	public String getInsuranceList(HttpServletResponse response, Model model, HttpSession session) throws IOException {
-		//로그인 하지 않으면 에러가 난다
-		
-		List<Insurance> insuranceList = insuranceService.getInsuranceList();
 		
 		if(session.getAttribute("S_USER_INFO") != null) {
-
-		   LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
-		   String loginId =  loginInfo.getLoginId();
-			model.addAttribute("title", "보험가입정보");
-			model.addAttribute("insuranceList", insuranceList);
-			model.addAttribute("loginId", loginId);
+			model.addAttribute("title", "Insurance");
+			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
+			String loginId =  loginInfo.getLoginId();
 			
-			return "user/insurance/insuranceList"; //html경로를 찾아감
+			List<Insurance> insuranceList = insuranceMapper.getInsuranceInfoById(loginId);
+			List<InsuranceBill> insuranceBillList = insuranceMapper.getInsuranceBillInfoById(loginId);
+			List<InsurancePayout> insurancePayoutList = insuranceMapper.getInsurancePayoutInfoById(loginId);
+			
+			Integer cntInsurance = insuranceMapper.countInsurance(loginId);
+			Integer cntInsuranceBill = insuranceMapper.countInsuranceBill(loginId);
+			Integer cntInsurancePayout = insuranceMapper.countInsurancePayout(loginId);
+
+			
+			model.addAttribute("insuranceList", insuranceList);
+			model.addAttribute("insuranceBillList", insuranceBillList);
+			model.addAttribute("insurancePayoutList", insurancePayoutList);
+			model.addAttribute("cntInsurance", cntInsurance);
+			model.addAttribute("cntInsuranceBill", cntInsuranceBill);
+			model.addAttribute("cntInsurancePayout", cntInsurancePayout);
+
+			
+			return "user/insurance/insuranceMain";
 			
 		} else {
 			
 			CommonController.alertPlzLogin(response);
 			
-			return "user/insurance/insuranceMain";
+			return "user/user/login";
 		}
-		
-		
 		
 	}
 	
-	@GetMapping("/insuranceBillList")
-	public String getInsuranceBillList(Model model) {		
+	@GetMapping("/insuranceaddBillPersonInfo")
+	public String insuranceaddBillPersonInfo(Model model) {
 		
-		List<InsuranceBill> insuranceBillList = insuranceService.getInsuranceBillList();
-		
-		model.addAttribute("title", "보험청구서");
-		model.addAttribute("insuranceBillList", insuranceBillList);
-		
-		return "user/insurance/insuranceBillList";
+		return "user/insurance/insuranceaddBillPersonInfo";
+
 	}
+	
 	
 	@GetMapping("/insuranceBillDetail")
 	public String getInsuranceBillDetail(Model model) {
 		
 		List<InsuranceBillDetail> insuranceBillDetail = insuranceService.getInsuranceBillDetail();
-		
-		model.addAttribute("title", "보상금청구서상세화면");
+
 		model.addAttribute("insuranceBillDetail", insuranceBillDetail);
 		
 		
 		return "user/insurance/insuranceBillDetail";
 	}
 	
+	
 	@GetMapping("/insuranceAddBill")
 	public String addInsuranceBillDetail(Model model) {
-		
-		model.addAttribute("title", "보상금청구서등록");
-		
+				
 		return "user/insurance/insuranceAddBill";
 	}
 	
+	
 	@GetMapping("/insuranceModifyBill")
-	public String modifyInsuranceBillDetail(Model model) {		
-		model.addAttribute("title", "보상금청구서수정");
+	public String modifyInsuranceBillDetail(Model model) {
+		
 		
 		return "user/insurance/insuranceModifyBill";
 	}
 	
 	@GetMapping("/insuranceRemoveBill")
 	public String removeInsuranceBillDetail(Model model) {
-		model.addAttribute("title", "보상금청구서삭제");
 		
 		return "user/insurance/insuranceRemoveBill";
 	}
 	
-	@GetMapping("/insurancePayoutList")
-	public String getInsurancePayoutList(Model model) {
-		
-		List<InsurancePayout> insurancePayoutList = insuranceService.getInsurancePayoutList();
-		
-		model.addAttribute("title", "보상금지급내역");
-		model.addAttribute("insurancePayoutList", insurancePayoutList);
-		
-		return "user/insurance/insurancePayoutList";
-	}
+
 	
 }

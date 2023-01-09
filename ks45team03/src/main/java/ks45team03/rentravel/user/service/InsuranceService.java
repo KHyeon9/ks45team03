@@ -21,35 +21,6 @@ public class InsuranceService {
 	}
 	
 	/**
-	 * 보험 조회
-	 * @return List<Insurance>
-	 */
-	public List<Insurance> getInsuranceList() {
-		
-		List<Insurance> insuranceList = insuranceMapper.getInsuranceList();
-		
-		return insuranceList;
-	}
-	
-	/**
-	 * 
-	 */
-	//public List<Insurance> getInsuranceInfoById(String userId) {
-		
-	//}
-	
-	/**
-	 * 보상금청구서 조회
-	 * @return List<InsuranceBill>
-	 */
-	public List<InsuranceBill> getInsuranceBillList() {
-		List<InsuranceBill> insuranceBillList = insuranceMapper.getInsuranceBillList();
-		
-		return insuranceBillList;
-		
-	}
-	
-	/**
 	 * 보상금청구서 상세화면
 	 * @return List<InsuranceBillDetail>
 	 */
@@ -65,7 +36,9 @@ public class InsuranceService {
 	 */
 	public int addInsuranceBillDetail() {
 		
-		return insuranceMapper.addInsuranceBillDetail();
+		int result = insuranceMapper.addInsuranceBillDetail();
+		
+		return result;
 	}
 	
 	/**
@@ -84,31 +57,5 @@ public class InsuranceService {
 		
 		insuranceMapper.removeInsuranceBillDetail();
 	}
-	
-	/**
-	 * 보상금지급내역
-	 * @return List<InsurancePayout>
-	 */
-	public List<InsurancePayout> getInsurancePayoutList() {
-		
-		List<InsurancePayout> insurancePayout = insuranceMapper.getInsurancePayoutList();
-		
-		return insurancePayout;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

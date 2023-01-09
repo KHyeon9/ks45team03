@@ -38,79 +38,108 @@
 	               <div class="col-6 progress-wizard-step active">
 	                 <div class="text-center progress-wizard-stepnum">Payment</div>
 	                 <div class="progress"><div class="progress-bar"></div></div>
-	                 <a href="checkout-step-1.html" class="progress-wizard-dot"></a>
+	                 <span class="progress-wizard-dot"></span>
 	               </div>
 	
 	               <div class="col-6 progress-wizard-step disabled">
 	                 <div class="text-center progress-wizard-stepnum">Result</div>
 	                 <div class="progress"><div class="progress-bar"></div></div>
-	                 <a href="checkout-step-2.html" class="progress-wizard-dot"></a>
+	                 <span class="progress-wizard-dot"></span>
 	               </div>
 	             </div>
 	
-	             <form action="" class="row" method="POST" role="form">
+	             <form action="/order/payment" class="row" method="POST" role="form">
 	               <div class="col-12">
 	                 <div class="page-header">
 	                   <h4>Rental Infomation</h4>
 	                 </div>
 	               </div>
-	               <div class="form-group col-md-6 col-12">
-	                 <label for="">First Name</label>
-	                 <input type="text" class="form-control" id="">
+	               <div class="form-group col-md-7 col-12">
+	                 <label for="">상품명</label>
+	                 <input type="hidden" readonly="readonly" class="goodsCode" name="goodsCode" th:value="${goods.goodsCode}">
+	                 <input type="text" class="form-control" th:value="${goods.goodsName}">
+	               </div>
+	               <div class="form-group col-md-7 col-12">
+	                 <label for="">상품 일당 가격</label>
+	                 <input type="text" class="form-control" th:value="${goods.goodsDayPrice}">
 	               </div>
 	               <div class="form-group col-md-6 col-12">
-	                 <label for="">Last Name</label>
-	                 <input type="text" class="form-control" id="">
+	                 <div class="form-group row">
+						<label for="example-datetime-local-input" class="col-md-12 col-form-label">렌탈 시작일</label>
+						<div class="col-md-10">
+							<input class="form-control" type="date" th:value="${rentalStartDate}">
+						</div>
+					</div>
 	               </div>
 	               <div class="form-group col-md-6 col-12">
-	                 <label for="">Email</label>
-	                 <input type="email" class="form-control" id="">
+	                 <div class="form-group row">
+						<label for="example-datetime-local-input" class="col-md-12 col-form-label">렌탈 종료일</label>
+						<div class="col-md-10">
+							<input class="form-control" type="date" th:value="${rentalEndDate}">
+						</div>
+					</div>
 	               </div>
-	               <div class="form-group col-md-6 col-12">
-	                 <label for="">Company</label>
-	                 <input type="text" class="form-control" id="">
-	               </div>
-	               <div class="form-group col-md-6 col-12">
-	                 <label for="">Address</label>
-	                 <input type="text" class="form-control" id="">
-	               </div>
-	               <div class="form-group col-md-6 col-12">
-	                 <label for="">Phone</label>
-	                 <input type="text" class="form-control" id="">
-	               </div>
-	               <div class="form-group col-md-6 col-12">
-	                 <label for="">City</label>
+	               <div class="form-group col-md-7 col-12" style="margin-bottom: 30px;">
+	                 <label for="">택배 여부</label>
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select name="country" class="form-control select-drop">
-	                       <option></option>
-	                       <option>New York</option>
-	                       <option>Chicago</option>
-	                       <option>California</option>
+	                     <select name="selectDelivery" class="form-control select-drop">
+	                    	<th:block th:if="${selectDelivery.equals('N')}">
+	                    		<option value="N" selected>직거래</option>
+	                       		<option value="Y">택배</option>
+	                    	</th:block>
+	                    	<th:block th:unless="${selectDelivery.equals('N')}">
+	                    		<option value="N">직거래</option>
+	                       		<option value="Y" selected>택배</option>
+	                    	</th:block>
+	                       
+	                     </select>
+	                   </div>
+	                 </div>
+	               </div>
+	               <div class="form-group col-md-7 col-12">
+	                 <label for="">마일리지 사용</label>
+	                 <input type="number" class="form-control" name="mileageUsePrice">
+	               </div>
+	               <div class="form-group col-md-2 col-12">
+	               </div>
+	               <div class="form-group col-md-12 col-12">
+	               		<label for="">지역</label>
+	               </div>
+               	  <div class="form-group col-md-6 col-12">
+	                 <div class="form-group row">
+	                   <div class="quick-drop col-12 selectOptions ">
+	                     <select id="regionSidoCode" name="regionSidoCode" class="form-control select-drop">
+	                       <option>시ㆍ도를 선택해주세요.</option>
+	                      	<th:block th:if="${not #lists.isEmpty(getRegionSido)}" th:each="sido : ${getRegionSido}">
+	                      		<option th:if="${sido.regionSidoCode.equals(userInfo.regionSgg.regionSidoCode)}" th:value="${sido.regionSidoCode}" selected>[[${sido.regionSidoName}]]</option>
+	                      		<option th:unless="${sido.regionSidoCode.equals(userInfo.regionSgg.regionSidoCode)}" th:value="${sido.regionSidoCode}">[[${sido.regionSidoName}]]</option>
+	                      	</th:block>
+	                      	<th:block th:unless="${not #lists.isEmpty(getRegionSido)}">
+									<option>등록된 지역이 없습니다.</option>
+							</th:block>
 	                     </select>
 	                   </div>
 	                 </div>
 	               </div>
 	               <div class="form-group col-md-6 col-12">
-	                 <label for="">Zip Code</label>
-	                 <input type="text" class="form-control" id="">
-	               </div>
-	               <div class="form-group col-md-6 col-12">
-	                 <label for="">Country</label>
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select name="country" class="form-control select-drop">
-	                       <option></option>
-	                       <option>USA</option>
-	                       <option>Singapore</option>
-	                       <option>Bangladesh</option>
+	                     <select id="regionSggCode" name="regionSggCode" class="form-control">
+	                       <th:block th:if="${not #lists.isEmpty(getRegionSgg)}" th:each="sgg : ${getRegionSgg}">
+	                      		<option th:if="${sgg.regionSggCode.equals(userInfo.regionSggCode)}" th:value="${sgg.regionSggCode}" selected>[[${sgg.regionSggName}]]</option>
+	                      		<option th:unless="${sgg.regionSggCode.equals(userInfo.regionSggCode)}" th:value="${sgg.regionSggCode}">[[${sgg.regionSggName}]]</option>
+	                      	</th:block>
+	                      	<th:block th:unless="${not #lists.isEmpty(getRegionSgg)}">
+									<option>등록된 지역이 없습니다.</option>
+							</th:block>
 	                     </select>
 	                   </div>
 	                 </div>
 	               </div>
-	               <div class="form-group col-md-6 col-12">
-	                 <label for="">Fax</label>
-	                 <input type="text" class="form-control" id="">
+	               <div class="form-group col-md-7 col-12" style="margin-top: 30px;">
+	                 <label for="">지역 상세</label>
+	                 <input th:value="${userInfo.userAddrDesc}" type="text" class="form-control" id="">
 	               </div>
 	               <div class="col-12">
 	                 <div class="page-header">
@@ -119,12 +148,12 @@
 	               </div>
 	               <div class=" checkboxArea card-check">
                     <div class="col-sm-12 mb-2">
-                      <input id="checkbox1" type="radio" name="checkbox" value="1" >
-                      <label for="checkbox1"><span></span>Pay with Paypal</label>
+                      <input id="checkbox1" type="radio" name="checkbox" value="통장" >
+                      <label for="checkbox1"><span></span>통장</label>
                     </div>
                     <div class="col-sm-12 mb-2">
-                      <input id="checkbox2" type="radio" name="checkbox" value="1" checked="checked">
-                      <label for="checkbox2"><span></span>Credit Card</label>
+                      <input id="checkbox2" type="radio" name="checkbox" value="카드" checked="checked">
+                      <label for="checkbox2"><span></span>카드</label>
                       <small class="mb-2 d-block">We accept following credit card</small>
                       <ul class="list-unstyled list-inline">
                         <li><img src="/user/assets/img/products/card1.jpg" alt=""><!--  --></li>
@@ -134,25 +163,22 @@
                       </ul>
                       <div class="form-group row my-3 ml-3">
                         <div class="col-md-6">
-                          <label for="" class="col-form-label">Name on Card</label>
-                          <input class="form-control" type="text" >
+                          <label for="" class="col-form-label">결제 회사</label>
+                          <input class="form-control" name="" type="text" >
                         </div>
 
                         <div class="col-md-6">
-                          <label for="" class="col-form-label">Card Number</label>
+                          <label for="" class="col-form-label">결제 번호</label>
                           <input class="form-control" type="text" >
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-12 mb-2">
-                      <input id="checkbox1" type="radio" name="checkbox" value="1" >
-                      <label for="checkbox1"><span></span>Reward Points</label>
                     </div>
                   </div>
 	               <div class="col-12">
 	                 <div class="well well-lg clearfix">
 	                   <ul class="pager">
-	                     <li class="next "><a class="btn btn-primary btn-default float-right" th:href="@{/goods/goodsList}">결제 <i class="fa fa-angle-right"></i></a></li>
+	                     <li class="next"><button type="submit" style=" margin-left: 10px; font-weight: 700;" class="btn btn-primary btn-default float-right">결제 <i class="fa fa-angle-right"></i></button></li>
+	                     <li class="prev"><button type="button" style=" margin-left: 10px; font-weight: 700;" class="btn btn-primary btn-default float-right" ><i class="fa fa-angle-left"></i> 이전</button></li>
 	                   </ul>
 	                 </div>
 	               </div>
@@ -187,5 +213,19 @@
 	     </div>
 		</section>
 	  </th:block>
-	  
+	 <!-- 사용자 지정 js 파일 -->
+	<th:block layout:fragment="customJs">
+		<script th:src="@{/user/js/validation.js}"></script>
+	</th:block>
+	
+	<!-- 사용자 지정 js script -->
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			$('.prev').click(function(){
+				const goodsCode = $('.goodsCode').val();
+				console.log(goodsCode);
+				location.href="/goods/goodsDetail?goodsCode=" + goodsCode;
+			})
+		</script>
+	</th:block>	
 </html>

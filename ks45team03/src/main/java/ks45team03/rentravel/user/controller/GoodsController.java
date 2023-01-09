@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
-import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.mapper.GoodsMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.user.service.GoodsService;
@@ -25,42 +25,51 @@ import ks45team03.rentravel.user.service.GoodsService;
 @RequestMapping("/goods")
 public class GoodsController {
 	
-	
 	private static final Logger log = LoggerFactory.getLogger(GoodsController.class);
 
 	private final GoodsService goodsService;
-	private final UserBlockMapper userBlockMapper;
 	private final GoodsMapper goodsMapper;
 	
 	public GoodsController(GoodsService goodsService, UserBlockMapper userBlockMapper, GoodsMapper goodsMapper) {
 			this.goodsService = goodsService;
-			this.userBlockMapper = userBlockMapper;
 			this.goodsMapper = goodsMapper;
 }
 	
 	@GetMapping("/goodsList")
 	public String goodsList(Model model
-							,HttpSession session) {
-		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+							,HttpSession session
+							,@RequestParam(defaultValue="1", required=false) int curPage) {
 		
-		String redirectURI = "user/goods/goodsList";
+		int goodsListCount = goodsService.getGoodsListCount();
+		Pagination pagination = new Pagination(goodsListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		
+		List<Goods> goodsCategoryAndCount = goodsService.getGoodsCategoryAndCount();
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
 		if(loginUser == null) {
 			
-			List<Goods> goodsList = goodsMapper.getGoodsListNotUser();
+			List<Goods> goodsList = goodsMapper.getGoodsListNotLogin(startIndex, pageSize);
 			model.addAttribute("goodsList", goodsList);
+			model.addAttribute("pagination", pagination);
+			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
 			model.addAttribute("title", "상품 리스트 화면");
+			
 		}else {
-		
-		List<Goods> goodsList = goodsService.getGoodsList(loginUser.getLoginId());
-		
-		model.addAttribute("goodsList", goodsList);
-		model.addAttribute("title", "상품 리스트 화면");
+			
+			List<Goods> goodsList = goodsService.getGoodsList(loginUser.getLoginId(), startIndex, pageSize);
+			model.addAttribute("goodsList", goodsList);
+			model.addAttribute("pagination", pagination);
+			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
+			model.addAttribute("title", "상품 리스트 화면");
 		
 		}
 		
 		return "user/goods/goodsList";
 	}
+	
 	
 	
 	@GetMapping("/goodsDetail")

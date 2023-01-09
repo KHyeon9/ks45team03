@@ -6,13 +6,18 @@
         <div class="topBar">
           <div class="container">
             <div class="row">
-              <div class="col-md-6 d-none d-md-block"></div>
+              <div class="col-md-6 d-none d-md-block">
+	              <ul class="list-inline">
+	                  <li th:if="${session.S_USER_INFO != null and session.S_USER_INFO.loginLevelName.equals('관리자')}"><a th:href="@{/admin}"  style="color: white">관리자페이지</a></li>
+	               </ul>
+              </div>
+
               <div class="col-md-6 col-12">
                 <ul class="list-inline float-right top-right">
-                  <li th:unless="${session.S_USER_INFO != null}" class="account-login"><span><a id="loginBtn" data-toggle="modal" href='.login-modal'>Login</a><small>or</small><a data-toggle="modal" href='#signup'>Create an account</a></span></li>
-                  <li th:if="${session.S_USER_INFO != null}" style="color: white; font-weight: 900; font-size: 14px;"><span th:text="|${session.S_USER_INFO.loginNickName}님 |"></span><span><a th:href="@{/logout}">로그아웃</a></span></li>
-                  <li class="searchBox"><a th:href="@{/myPage/myOrderHistory}">My Order</a></li>
-                  <li class="dropdown cart-dropdown"><a th:href="@{/myPage/myInfo}">My Page</a></li>
+                  <li th:unless="${session.S_USER_INFO != null}" class="account-login"><span><a th:href="@{/login}">Login</a><small>or</small><a th:href="@{/addUser}">Create an account</a></span></li>
+                  <li th:if="${session.S_USER_INFO != null}" class="dropdown-center"><span th:text="|${session.S_USER_INFO.loginNickName}님 |" style="color: white; font-weight: 900; font-size:14px"></span><span><a th:href="@{/logout}">로그아웃</a></span></li>
+                  <li th:if="${session.S_USER_INFO != null}" class="searchBox"><a th:href="@{/myPage/myOrderHistory}">My Order</a></li>
+                  <li th:if="${session.S_USER_INFO != null}" class="dropdown cart-dropdown"><a th:href="@{/myPage/myInfo}">My Page</a></li>
                 </ul>
               </div>
             </div>
@@ -23,7 +28,7 @@
         <nav class="navbar navbar-main navbar-default navbar-expand-md navbar-scrollUp navbar-sticky" role="navigation">
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <a class="navbar-brand" id="logo-a" th:href="@{/}">
+            <a class="navbar-brand" id="logo-a" th:href="@{/}">	
               <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -105,22 +110,20 @@
                 </li>
                 <li class="nav-item dropdown ">
                   <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Chat</a>
-                  <ul class="dropdown-menu dropdown-menu-right">
+                  <ul class="dropdown-menu dropdown-menu-left">
                     <li class=""><a th:href="@{/chat/chatRoomList}">Chat Room</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown ">
-                  <a th:href="@{/insurance/insuranceMain}" class="dropdown-toggle nav-link">Insurance</b></a>
- 					<ul class="dropdown-menu dropdown-menu-left">
-	                    <li class=""><a th:href="@{/insurance/insuranceList}">보험가입정보</a></li>
-	                    <li class=""><a th:href="@{/insurance/insuranceAddBill}">보상금 청구하기</a></li>
-	                    <li class=""><a th:href="@{/insurance/insuranceBillList}">나의 보상금 청구서</a></li>
-	                    <li class=""><a th:href="@{/insurance/insurancePayoutList}">보상내역</a></li>
-                  	</ul>
+                  <a th:href="@{/insurance/insuranceMain}" class="dropdown-toggle nav-link">Insurance</a>
+                  <ul class="dropdown-menu dropdown-menu-left">
+                    <li class=""><a th:href="@{/insurance/insuranceMain}">보험정보</a></li>
+                    <li class=""><a th:href="@{/insurance/insuranceaddBillPersonInfo}">보험청구하기</a></li>
+                  </ul>
                 </li>
                  <li class="nav-item dropdown ">
                   <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Community</a>
-                  <ul class="dropdown-menu dropdown-menu-right">
+                  <ul class="dropdown-menu dropdown-menu-left">
                     <li class=""><a th:href="@{/infoboard/infoBoardList}">Info Board</a></li>
                     <li class=""><a href="">#Notice</a></li>
                     <li class=""><a th:href="@{/board/inquiryList}">FAQ</a></li>

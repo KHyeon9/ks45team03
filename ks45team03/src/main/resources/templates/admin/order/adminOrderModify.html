@@ -87,7 +87,6 @@
                 </div>
             </div>
             <!-- /page content -->
-            
             <!-- 사용자 지정 js 파일 -->
 			<th:block layout:fragment="customJs">
 				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -115,9 +114,6 @@
 						}
 			
 					}
-					
-				</script>
-				<script>
 			        // initialize a validator instance from the "FormValidator" constructor.
 			        // A "<form>" element is optionally passed as an argument, but is not a must
 			        var validator = new FormValidator({
@@ -143,16 +139,13 @@
 			                $('form .alert').remove();
 			        }).prop('checked', false);
 			        
-			        
-			
-			    </script>
-			    <script>
 			    	$('.cancel').click(function(){
 			    		location.href = '/admin/order/adminOrderHistory';
 			    	})
 			    </script>
 			</th:block>
+           
 			<!-- contents end -->
 	</th:block>
-
+	 
 </html>

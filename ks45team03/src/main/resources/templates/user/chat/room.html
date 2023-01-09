@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{user/layout/default}">
+<head>
+<meta charset="UTF-8">
+<title>Room</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+	<th:block layout:fragment="customContents">
+
+		<!-- LIGHT SECTION -->
+	      <section class="lightSection clearfix pageHeader">
+	        <div class="container">
+	          <div class="row">
+	            <div class="col-md-6">
+	              <div class="page-title">
+	                <h2>chatroom list</h2>
+	              </div>
+	            </div>
+	            <div class="col-md-6">
+	              <ol class="breadcrumb pull-right">
+	                <li>
+	                  <a th:href="@{/}">Home</a>
+	                </li>
+	                <li class="active">chatroom list</li>
+	              </ol>
+	            </div>
+	          </div>
+	        </div>
+	      </section>
+
+
+
+
+      <!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix userProfile">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="innerWrapper">
+                <div class="orderBox myAddress wishList">
+                  <h2>ChatRoom List</h2>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="text-align:center;">삭제</th>
+                          <th style="text-align:center;">대화 상대</th>
+                          <th style="text-align:center; ">채팅방 생성 시간</th>
+                          <th style="text-align:center; ">채팅방 입장</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="crl : ${chatRoomList}">
+                          <td style="text-align:center;">
+                          	<form class="removeChatRoomForm" th:action="@{/removeChatRoom}" method="POST">
+                          		<input type="hidden" name="chatRoomCode" th:value="${crl.chatRoomCode}">
+                          		<input type="hidden" name="curPage" th:value="${pagination.curPage}">
+ 	                           	<button type="button" class="bi bi-x-lg delBtn"></button>
+                          	</form>
+                          </td>
+                          <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.renterId)}" th:text="${crl.ownerId}"></td>
+                          <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.ownerId)}" th:text="${crl.renterId}"></td>
+                          <td style="text-align:center; " th:text="${crl.chatRoomAddTime}"></td>
+                          <td style="text-align:center;">
+                            <a th:href="@{/chat(chatRoomCode=${crl.chatRoomCode})}" class="btn btn-sm btn-primary-outlined">입장</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              <div class="blogPage" style="display: flex; justify-content:center;">
+				<ul class="pagination" style="margin:3px">
+					<li th:if="${pagination.curRange != 1}">
+						<a th:href="@{/room}" aria-label="First"><span aria-hidden="true"></span></a>
+					</li>
+					<li th:if="${pagination.curPage != 1}">
+						<a th:href="@{/room(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+					</li>
+					
+					<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+						<li class="active" th:if="${pageNum == pagination.curPage}">
+							<a th:text="${pageNum}"></a>
+						</li>
+						<li th:unless="${pageNum == pagination.curPage}">
+							<a th:href="@{/room(curPage=${pageNum})}" th:text="${pageNum}"></a>
+						</li>
+					</th:block>
+
+					<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+						<a th:href="@{/room(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+					</li>
+					<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+						<a th:href="@{/room(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+					</li>
+				</ul>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+	<script th:inline="javascript">
+		$('.delBtn').click(function(){
+			
+			if(confirm('정말로 삭제하시겠습니까?')) $('.removeChatRoomForm').submit();
+			
+		});
+	</script>
+
+	</th:block>
+</body>
+</html>
