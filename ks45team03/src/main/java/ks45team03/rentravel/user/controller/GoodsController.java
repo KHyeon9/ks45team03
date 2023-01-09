@@ -81,16 +81,18 @@ public class GoodsController {
 	
 	@GetMapping("/goodsDetail")
 	public String goodsDetail(Model model
-							 ,@RequestParam(value="goodsCode") String goodsCode
-							 ,@RequestParam(value="userId") String userId) {
+							 ,@RequestParam(value="goodsCode") String goodsCode) {
 		
 		List<GoodsImg> goodsImg = goodsService.getGoodsImg(goodsCode);
 		Goods goodsDetail = goodsService.getGoodsDetailByGoodsCode(goodsCode);
-		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId);
+		/*
+		 * @RequestParam(value="userId") String userId List<Goods> goodsListByUserId =
+		 * goodsService.getGoodsListByUserId(userId);
+		 */
 		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("goodsDetail",goodsDetail);
-		model.addAttribute("goodsListByUserId",goodsListByUserId);
+		/* model.addAttribute("goodsListByUserId",goodsListByUserId); */
 		model.addAttribute("title","상품 상세 정보 화면");
 		
 		return "user/goods/goodsDetail";

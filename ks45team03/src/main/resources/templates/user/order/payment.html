@@ -267,8 +267,6 @@
 			endDate.setDate(today.getDate() + 14);
 			defailtDate.setDate(today.getDate() + 1);
 			
-			$startDate.value = today.toISOString().substring(0, 10);
-			$endDate.value = defailtDate.toISOString().substring(0, 10);
 			
 			$startDate.setAttribute('min', startDate.toISOString().substring(0, 10));
 			$startDate.setAttribute('max', endDate.toISOString().substring(0, 10));

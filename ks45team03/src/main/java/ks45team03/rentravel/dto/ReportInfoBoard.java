@@ -9,7 +9,7 @@ public class ReportInfoBoard {
 	private String reportingUserId;
 	private String reportedUserId;
 	private String reportInfoBoardContent;
-	private String reportDatetime;
+	private String reportInfoBoardDatetime;
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -28,7 +28,7 @@ public class ReportInfoBoard {
 		builder.append(", reportInfoBoardContent=");
 		builder.append(reportInfoBoardContent);
 		builder.append(", reportDatetime=");
-		builder.append(reportDatetime);
+		builder.append(reportInfoBoardDatetime);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -74,10 +74,11 @@ public class ReportInfoBoard {
 	public void setReportInfoBoardContent(String reportInfoBoardContent) {
 		this.reportInfoBoardContent = reportInfoBoardContent;
 	}
-	public String getReportDatetime() {
-		return reportDatetime;
+	public String getReportInfoBoardDatetime() {
+		return reportInfoBoardDatetime;
 	}
-	public void setReportDatetime(String reportDatetime) {
-		this.reportDatetime = reportDatetime;
+	public void setReportInfoBoardDatetime(String reportInfoBoardDatetime) {
+		this.reportInfoBoardDatetime = reportInfoBoardDatetime;
 	}
+	
 }
