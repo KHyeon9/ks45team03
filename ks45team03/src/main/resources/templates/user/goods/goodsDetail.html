@@ -9,6 +9,7 @@
 </head>
 
 <body>
+
     <th:block layout:fragment="customContents">
     
       <!-- LIGHT SECTION -->
@@ -93,8 +94,8 @@
                             
                    <form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
                    		<h4 th:text="'ID: '+*{userId}"></h4>
-                   		<button th:if="${session.S_USER_INFO != null}"
-                   		type="submit" id="submitBtn" class="btn btn-secondary" th:value="*{userId}" name="userId">차단하기</button>
+                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
+                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">차단하기</button>
                    </form>
                    	
                    <p th:text="*{goodsDetail}"></p>
@@ -557,8 +558,17 @@
 				$endDate.value = changeDate.toISOString().substring(0, 10)
 			}) 
 			
+			
+	
+		$('#submitBtn').click(function(){
+						
+			if(!confirm('해당 아이디를 차단하시겠습니까?')) {
+				return false;
+			}else{
+				$('#addBlockForm').submit();
+			}
+		}) 
 		</script>
 	</th:block>
 </body>
-
 </html>
