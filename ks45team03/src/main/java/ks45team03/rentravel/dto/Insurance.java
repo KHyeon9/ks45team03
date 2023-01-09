@@ -12,7 +12,6 @@ public class Insurance {
 	Goods goods;
 	Rental rental;
 	
-	
 	public Rental getRental() {
 		return rental;
 	}

@@ -14,6 +14,23 @@ public class InsuranceBillDetail {
 	private String accountHolder;
 	private String accountNumber;
 	private String requestDate;
+	
+	User user;
+	Goods goods;
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Goods getGoods() {
+		return goods;
+	}
+	public void setGoods(Goods goods) {
+		this.goods = goods;
+	}
+	
 	public String getInsuranceBillDetailCode() {
 		return insuranceBillDetailCode;
 	}
