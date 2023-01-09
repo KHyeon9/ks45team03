@@ -140,30 +140,6 @@
                    </form>
                  
 
-                  <div class="tabArea d-none">
-                    <ul class="nav nav-tabs bar-tabs">
-                      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#details">details</a></li>
-                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#about-art">about art</a></li>
-                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#shipping">shipping</a></li>
-                    </ul>
-                    <div class="tab-content">
-                      <div id="details" class="tab-pane fade show active">
-                        <p>LContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin liter ature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-                        <ul class="list-unstyled">
-                          <li>Black, Crew Neck</li>
-                          <li>75% Cotton, 25% Rayon</li>
-                          <li>Waterbased Ink</li>
-                          <li>Wash Cold, dry low</li>
-                        </ul>
-                      </div>
-                      <div id="about-art" class="tab-pane fade">
-                        <p>Nulla facilisi. Mauris efficitur, massa et iaculis accumsan, mauris velit ultrices purus, quis condimentum nibh dolor ut tortor. Donec egestas tortor quis mattis gravida. Ut efficitur elit vitae dignissim volutpat. </p>
-                      </div>
-                      <div id="shipping" class="tab-pane fade">
-                        <p>Mauris lobortis augue ex, ut faucibus nisi mollis ac. Sed volutpat scelerisque ex ut ullamcorper. Cras at velit quis sapien dapibus laoreet a id odio. Sed sit amet accumsan ante, eu congue metus. Aenean eros tortor, cursus quis feugiat sed, vestibulum vel purus.</p>
-                      </div>
-                    </div>
-                  </div>
                   <a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}" style="color:red">상품 수정 버튼</a>
 				
                   <form id="addChatRoomForm" th:action="@{/addChatRoom}" method="post">
@@ -181,9 +157,9 @@
                 <div class="media-body">
                   <div class="tabArea">
                     <ul class="nav nav-tabs bar-tabs">
-                      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#OurDetails">Details</a></li>
-                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Reviews">Reviews</a></li>
-                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#OurShipping">shipping</a></li>
+                      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#OurDetails">상품 상세 정보</a></li>
+                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Reviews">상품평</a></li>
+                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#OurShipping">여기에 이용약관,보험약관 넣으면 좋을 듯</a></li>
                     </ul>
                     <div class="tab-content">
                       <div id="OurDetails" class="tab-pane fade show active">
@@ -447,7 +423,7 @@
           </div>
 
           <div class="page-header">
-            <h4>Related Products</h4>
+            <h4>(판매자아이디)님의 다른 상품</h4>
           </div>
           <div class="row productsContent">
             
