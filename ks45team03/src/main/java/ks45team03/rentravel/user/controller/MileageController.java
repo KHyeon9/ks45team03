@@ -18,6 +18,6 @@ public class MileageController {
 		return "/user/myPage/myMileageList";
 	}
 
-	
+
 	
 }
