@@ -3,6 +3,7 @@ package ks45team03.rentravel.dto;
 public class Pagination {
 	
 	public Pagination(int listCnt, int curPage) {
+		
 		// 현재 페이지
 		setCurPage(curPage);
 		
@@ -176,8 +177,9 @@ public class Pagination {
 			this.endPage = pageCnt;
 		}
 		
-		this.prevPage = curPage - 1;
-		this.nextPage = curPage + 1;
+		this.prevPage = curPage - 1;   
+		this.nextPage = curPage + 1;   
+		
 	}
 	
 }

@@ -42,7 +42,6 @@ public class ChatController {
     	List<ChatMessage> chatMessageList = chatService.getChatMessageList(chatRoomCode);
     	ChatRoom chatRoomInfo = chatMapper.getChatRoomCode(chatRoomCode);
     	
-    	chatService.modifyChatReadCheck(chatRoomCode, loginId);
     	
     	model.addAttribute("title","chat");
     	model.addAttribute("loginUser",loginUser);

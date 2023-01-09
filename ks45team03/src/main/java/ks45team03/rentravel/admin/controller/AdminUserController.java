@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.admin.service.AdminUserService;
 import ks45team03.rentravel.dto.LoginHistory;
+import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.UserLevel;
 import ks45team03.rentravel.mapper.AdminUserMapper;
@@ -84,13 +86,12 @@ public class AdminUserController {
 	}
 	
 	@GetMapping("/loginHistory")
-	public String loginHistory(Model model) {
+	public String loginHistory(Model model, HttpSession session) {
 		
 		List<LoginHistory> loginHistory = adminUserMapper.loginHistory();
 		
 		model.addAttribute("title", "로그인 이력");
 		model.addAttribute("loginHistory", loginHistory);
-		
 		
 		return "admin/userManagement/loginHistory";
 	}
