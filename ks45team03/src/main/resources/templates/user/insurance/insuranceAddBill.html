@@ -18,7 +18,7 @@
 		              <div class="innerWrapper clearfix stepsPage">
 		                <div class="row progress-wizard" style="border-bottom:0;">
 		                  <div class="col-4 progress-wizard-step complete fullBar">
-		                    <div class="text-center progress-wizard-stepnum">개인정보 이용동의</div>
+		                    <div class="text-center progress-wizard-stepnum">개인정보이용동의</div>
 		                    <div class="progress"><div class="progress-bar"></div></div>
 		                    <div class="progress-wizard-dot"></div>
 		                  </div>
@@ -39,7 +39,7 @@
 		            </div>
 		         </div>
 
-	      		<form id="addInsuranceBillForm" th:action="@{/user/insurance/insuranceAddBill}" method="post">
+<!-- 	      		<form id="addInsuranceBillForm" th:action="@{/user/insurance/insuranceAddBill}" method="post"> -->
 	      			<div class="form-group row">
 						<label for="example-text-input" class="col-md-2 col-form-label">보험선택</label>
 						<div class="col-md-5 selectOptions mb-4">
@@ -111,6 +111,11 @@
 							<label for="example-text-input" class="col-md-2 col-form-label">첨부파일</label>
 							<input type="file" id="fileUpload" />
 						</div>
+						
+						<div class="mb-3">
+					  <label for="formFile" class="form-label">Default file input example</label>
+					  <input class="form-control" type="file" id="formFile">
+					</div>
 
 						<div class="form-group row">
 							<label for="example-text-input" class="col-md-2 col-form-label">알림</label>
@@ -118,8 +123,8 @@
 							<label for="checkbox-1" class="checkbox-custom-label form-check-label">E-mail</label>
 						</div>
 						
-						<button class="btn btn-primary btn-default card-btn billBtn"   type="submit"  style="float: right;">제출하기</button>
-					</form>
+						<a th:href="@{/insurance/insuranceBillDetail}" class="btn btn-primary btn-default card-btn billBtn" style="float: right; ">제출하기</a>
+					<!--</form>  -->
 				</div>
 	      </section>
 	  </th:block>

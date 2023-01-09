@@ -2,7 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
-	  
+	  <head>
+	  	<style type="text/css">
+	  		select.selectInvalid{
+				border-color: #dc3545;
+				padding-right: calc(1.5em + 0.75rem);
+				background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+				background-repeat: no-repeat;
+				background-position: 93% center;
+				background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+	  		}
+	  	
+	  	</style>
+	  </head>
 	  <th:block layout:fragment="customContents">
 	  	<!-- LIGHT SECTION -->
 		<section class="lightSection clearfix pageHeader">
@@ -48,7 +60,7 @@
 	               </div>
 	             </div>
 	
-	             <form action="/order/payment" class="row" method="POST" role="form">
+	             <form id="paymentForm" action="/order/payment" class="row" method="POST" role="form">
 	               <div class="col-12">
 	                 <div class="page-header">
 	                   <h4>Rental Infomation</h4>
@@ -57,17 +69,17 @@
 	               <div class="form-group col-md-7 col-12">
 	                 <label for="">상품명</label>
 	                 <input type="hidden" readonly="readonly" class="goodsCode" name="goodsCode" th:value="${goods.goodsCode}">
-	                 <input type="text" class="form-control" th:value="${goods.goodsName}">
+	                 <input type="text" class="form-control" th:value="${goods.goodsName}" readonly="readonly">
 	               </div>
 	               <div class="form-group col-md-7 col-12">
 	                 <label for="">상품 일당 가격</label>
-	                 <input type="text" class="form-control" th:value="${goods.goodsDayPrice}">
+	                 <input type="text" class="form-control" th:value="${goods.goodsDayPrice}" readonly="readonly">
 	               </div>
 	               <div class="form-group col-md-6 col-12">
 	                 <div class="form-group row">
 						<label for="example-datetime-local-input" class="col-md-12 col-form-label">렌탈 시작일</label>
 						<div class="col-md-10">
-							<input class="form-control" type="date" th:value="${rentalStartDate}">
+							<input id="rentalStartDate" name="rentalStartDate" class="form-control" type="date" th:value="${rentalStartDate}">
 						</div>
 					</div>
 	               </div>
@@ -75,7 +87,7 @@
 	                 <div class="form-group row">
 						<label for="example-datetime-local-input" class="col-md-12 col-form-label">렌탈 종료일</label>
 						<div class="col-md-10">
-							<input class="form-control" type="date" th:value="${rentalEndDate}">
+							<input id="rentalEndDate" name="rentalEndDate" class="form-control" type="date" th:value="${rentalEndDate}">
 						</div>
 					</div>
 	               </div>
@@ -83,7 +95,7 @@
 	                 <label for="">택배 여부</label>
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select name="selectDelivery" class="form-control select-drop">
+	                     <select name="selectDelivery" class="form-control">
 	                    	<th:block th:if="${selectDelivery.equals('N')}">
 	                    		<option value="N" selected>직거래</option>
 	                       		<option value="Y">택배</option>
@@ -99,7 +111,7 @@
 	               </div>
 	               <div class="form-group col-md-7 col-12">
 	                 <label for="">마일리지 사용</label>
-	                 <input type="number" class="form-control" name="mileageUsePrice">
+	                 <input id="mileageUse" type="number" th:value="0" class="form-control" name="payment.mileageUsePrice">
 	               </div>
 	               <div class="form-group col-md-2 col-12">
 	               </div>
@@ -109,7 +121,7 @@
                	  <div class="form-group col-md-6 col-12">
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select id="regionSidoCode" name="regionSidoCode" class="form-control">
+	                     <select id="regionSidoCode" name="payment.regionSidoCode" class="form-control">
 	                       <option>시ㆍ도를 선택해주세요.</option>
 	                      	<th:block th:if="${not #lists.isEmpty(getRegionSido)}" th:each="sido : ${getRegionSido}">
 	                      		<option th:if="${sido.regionSidoCode.equals(userInfo.regionSgg.regionSidoCode)}" th:value="${sido.regionSidoCode}" selected>[[${sido.regionSidoName}]]</option>
@@ -125,7 +137,7 @@
 	               <div class="form-group col-md-6 col-12">
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select id="regionSggCode" name="regionSggCode" class="form-control" >
+	                     <select id="regionSggCode" name="payment.regionSggCode" class="form-control" >
 	                       <th:block th:if="${not #lists.isEmpty(getRegionSgg)}" th:each="sgg : ${getRegionSgg}">
 	                      		<option th:if="${sgg.regionSggCode.equals(userInfo.regionSggCode)}" th:value="${sgg.regionSggCode}" selected>[[${sgg.regionSggName}]]</option>
 	                      		<option th:unless="${sgg.regionSggCode.equals(userInfo.regionSggCode)}" th:value="${sgg.regionSggCode}">[[${sgg.regionSggName}]]</option>
@@ -139,7 +151,7 @@
 	               </div>
 	               <div class="form-group col-md-7 col-12" style="margin-top: 30px;">
 	                 <label for="">지역 상세</label>
-	                 <input th:value="${userInfo.userAddrDesc}" type="text" class="form-control" id="">
+	                 <input th:value="${userInfo.userAddrDesc}" name="payment.userAddrDesc" type="text" class="form-control" id="userAddrDesc">
 	               </div>
 	               <div class="col-12">
 	                 <div class="page-header">
@@ -147,37 +159,58 @@
 	                 </div>
 	               </div>
 	               <div class=" checkboxArea card-check">
-                    <div class="col-sm-12 mb-2">
-                      <input id="checkbox1" type="radio" name="checkbox" value="통장" >
-                      <label for="checkbox1"><span></span>통장</label>
-                    </div>
-                    <div class="col-sm-12 mb-2">
-                      <input id="checkbox2" type="radio" name="checkbox" value="카드" checked="checked">
-                      <label for="checkbox2"><span></span>카드</label>
-                      <small class="mb-2 d-block">We accept following credit card</small>
-                      <ul class="list-unstyled list-inline">
-                        <li><img src="/user/assets/img/products/card1.jpg" alt=""><!--  --></li>
-                        <li><img src="/user/assets/img/products/card2.jpg" alt=""><!--  --></li>
-                        <li><img src="/user/assets/img/products/card3.jpg" alt=""><!--  --></li>
-                        <li><img src="/user/assets/img/products/card4.jpg" alt=""><!--  --></li>
-                      </ul>
-                      <div class="form-group row my-3 ml-3">
+	               	<div class="col-sm-12 mb-2">
+                      <input id="checkbox1" type="radio" name="payment.paymentType" value="카드" checked="checked">
+                      <label for="checkbox1"><span></span>카드</label>
+                      <div class="form-group row my-3 ml-3" id="card">
                         <div class="col-md-6">
                           <label for="" class="col-form-label">결제 회사</label>
-                          <input class="form-control" name="" type="text" >
+                          <select id="cardAgency" name="payment.paymentAgency" class="form-control" >
+                      		<option value="삼성" selected>삼성</option>
+                      		<option value="우리" >우리</option>
+                      		<option value="신한" >신한</option>
+                      		<option value="KB국민" >KB국민</option>
+                      		<option value="하나" >하나</option>
+                      		<option value="현대" >현대</option>
+                      		<option value="롯데" >롯데</option>
+	                     </select>
                         </div>
 
                         <div class="col-md-6">
                           <label for="" class="col-form-label">결제 번호</label>
-                          <input class="form-control" type="text" >
+                          <input id="cardNumber" name="payment.paymentAccountOrCardNumber" class="form-control" type="text" placeholder="####.####.####.####">
                         </div>
                       </div>
                     </div>
-                  </div>
+                    <div class="col-sm-12 mb-2">
+                      <input id="checkbox2" type="radio" name="payment.paymentType" value="통장" >
+                      <label for="checkbox2"><span></span>통장</label>
+                    </div>
+                    <div class="form-group row my-3 ml-3" id="account">
+                        <div class="col-md-6">
+                          <label for="" class="col-form-label">결제 회사</label>
+                          <select id="accountAgency" name="payment.paymentAgency" class="form-control"  disabled>
+                      		<option value="KB국민" selected>KB국민</option>
+                      		<option value="신한" >신한</option>
+                      		<option value="우리" >우리</option>
+                      		<option value="하나" >하나</option>
+                      		<option value="농협" >농협</option>
+                      		<option value="수협" >수협</option>
+                      		<option value="IBK" >IBK</option>
+                      		<option value="카카오" >카카오</option>
+                      		<option value="토스" >토스</option>
+	                     </select>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="" class="col-form-label">결제 번호</label>
+                          <input id="accountNumber" name="payment.paymentAccountOrCardNumber" class="form-control" type="text" disabled placeholder="####.####.####.####">
+                        </div>
+                      </div>
+                   </div>
 	               <div class="col-12">
 	                 <div class="well well-lg clearfix">
 	                   <ul class="pager">
-	                     <li class="next"><button type="submit" style=" margin-left: 10px; font-weight: 700;" class="btn btn-primary btn-default float-right">결제 <i class="fa fa-angle-right"></i></button></li>
+	                     <li class="next"><button type="submit" style=" margin-left: 10px; font-weight: 700;" id="submitBtn" class="btn btn-primary btn-default float-right">결제 <i class="fa fa-angle-right"></i></button></li>
 	                     <li class="prev"><button type="button" style=" margin-left: 10px; font-weight: 700;" class="btn btn-primary btn-default float-right" ><i class="fa fa-angle-left"></i> 이전</button></li>
 	                   </ul>
 	                 </div>
@@ -215,16 +248,41 @@
 	  </th:block>
 	 <!-- 사용자 지정 js 파일 -->
 	<th:block layout:fragment="customJs">
-		<script th:src="@{/user/js/validation.js}"></script>
+		<script th:src="@{/user/js/validation_payment.js}"></script>
 	</th:block>
 	
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
-			$('.prev').click(function(){
-				const goodsCode = $('.goodsCode').val();
-				console.log(goodsCode);
-				location.href="/goods/goodsDetail?goodsCode=" + goodsCode;
+			const $prev = document.querySelector('.prev');
+			const $goodsCode = document.querySelector('.goodsCode').value;
+			const $startDate = document.getElementById('rentalStartDate');
+			const $endDate = document.getElementById('rentalEndDate');
+			const today = new Date();
+			
+			const startDate = new Date(today);
+			const endDate = new Date(today);
+			const defailtDate = new Date(today);
+			
+			endDate.setDate(today.getDate() + 14);
+			defailtDate.setDate(today.getDate() + 1);
+			
+			$startDate.value = today.toISOString().substring(0, 10);
+			$endDate.value = defailtDate.toISOString().substring(0, 10);
+			
+			$startDate.setAttribute('min', startDate.toISOString().substring(0, 10));
+			$startDate.setAttribute('max', endDate.toISOString().substring(0, 10));
+			$endDate.setAttribute('min', defailtDate.toISOString().substring(0, 10));
+			
+			$startDate.addEventListener('change', function(){
+				$endDate.setAttribute('min', $startDate.value);
+				changeDate = new Date($startDate.value);
+				changeDate.setDate(changeDate.getDate() + 1)
+				$endDate.value = changeDate.toISOString().substring(0, 10)
+			}) 
+			
+			$prev.addEventListener('click', function(){
+				location.href="/goods/goodsDetail?goodsCode=" + $goodsCode;
 			})
 		</script>
 	</th:block>	

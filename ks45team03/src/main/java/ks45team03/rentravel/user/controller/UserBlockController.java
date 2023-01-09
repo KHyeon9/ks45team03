@@ -54,15 +54,18 @@ public class UserBlockController {
 	
 	
 	@PostMapping("/addUserBlock")
-	public String addUserBlock(String userId
+	public String addUserBlock(@RequestParam(value = "userId", required = false) String userId
 								,HttpSession session
 								,Model model) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
+		System.out.println(userId+"<-userId");
 		
 		
 		userBlockService.addUserBlock(userId, loginUser.getLoginId());
+		
+		
 		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
 		
 		String loginNickName = loginUser.getLoginNickName();	
