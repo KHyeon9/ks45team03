@@ -5,11 +5,15 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks45team03.rentravel.dto.GoodsCategory;
 import ks45team03.rentravel.dto.InfoBoard;
 import ks45team03.rentravel.dto.InfoBoardComment;
 
 @Mapper
 public interface InfoBoardMapper {
+	
+	// 상품 카테고리 조회
+	public List<GoodsCategory> getGoodsCategory();
 	
 	// 조회수 증가 처리
 	public int viewIncrease(String infoBoardCode);

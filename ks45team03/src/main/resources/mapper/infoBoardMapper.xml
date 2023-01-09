@@ -27,6 +27,21 @@
 		<result property="infoBoardCommentRegTime" 	column="info_board_comment_reg_time" />
 	</resultMap>
 	
+	<resultMap type="GoodsCategory" id="goodsCategoryMap">
+		<id		property="goodsCategoryCode" 	column="goods_category_code" />
+		<result property="goodsCategoryName" 	column="goods_category_name" />
+	</resultMap>
+	
+	<!-- 상품 카테고리 조회 -->
+	<select id="getGoodsCategory" resultMap="goodsCategoryMap">
+		SELECT
+			cate.goods_category_code,
+			cate.goods_category_name
+		FROM
+			tb_goods_category AS cate;
+	</select>
+	
+	<!-- 조회수 증가  -->
 	<update id="viewIncrease" parameterType="String">
 		UPDATE
 			tb_info_board AS info
@@ -122,7 +137,7 @@
 	</insert>
 	
 	<!-- 정보 게시판 리스트 -->
-	<select id="getInfoBoardList" parameterType="map" resultMap="infoBoardResultMap">
+	<select id="getInfoBoardList" resultMap="infoBoardResultMap">
 		SELECT
 			info.info_board_code,
 			info.info_board_title,
@@ -170,7 +185,7 @@
 			info.info_board_code = #{infoBoardCode};
 	</select>
 	<!-- 개시글 댓글 조회 -->
-	<select id="getInfoBoardComment" parameterType="String" resultMap="infoBoardCommentMap">
+	<select id="getInfoBoardComment" resultMap="infoBoardCommentMap">
 		SELECT
 			u.user_nickname,
 			comm.info_board_comment_code,

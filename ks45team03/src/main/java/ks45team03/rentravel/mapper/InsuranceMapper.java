@@ -15,6 +15,15 @@ public interface InsuranceMapper {
 	// 나의 보험 정보 조회
 	public List<Insurance> getInsuranceInfoById(String loginId);
 	
+	// 보험정보 카운트
+	public Integer countInsurance(String loginId);
+	
+	// 보상금청구서 카운트
+	public Integer countInsuranceBill(String loginId);
+	
+	// 보상금지급내역 카운트
+	public Integer countInsurancePayout(String loginId);
+	
 	// 나의 보상금청구서 조회
 	public List<InsuranceBill> getInsuranceBillInfoById(String loginId);
 	

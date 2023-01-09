@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.ChatMessage;
 import ks45team03.rentravel.dto.ChatRoom;
 import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.mapper.ChatMapper;
 import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.user.service.ChatService;
@@ -66,17 +67,24 @@ public class ChatController {
 	 * @return
 	 */
 	@GetMapping("/room")
-	public String room(Model model,HttpSession session) {
+	public String room(Model model,HttpSession session, @RequestParam(defaultValue="1", required=false) int curPage) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String loginId = loginUser.getLoginId();
-		List<ChatRoom> chatRoomList = chatService.getChatRoomList(loginId);
 		
-		model.addAttribute("title", "room");
+		int chatRoomListCount = chatService.getChatRoomListCount(loginId);
+		Pagination pagination = new Pagination(chatRoomListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		
+		List<ChatRoom> chatRoomList = chatService.getChatRoomList(loginId,startIndex,pageSize);
+		
+		model.addAttribute("title", "채팅방 목록");
 		
 		model.addAttribute("loginUser",loginUser);
-		
 		model.addAttribute("chatRoomList",chatRoomList);
+		model.addAttribute("pagination",pagination);
 		
 		return "user/chat/room";
 	}
@@ -109,6 +117,17 @@ public class ChatController {
 		}
 		
 		return redirectNewChatRoom;
+	}
+	
+	@PostMapping("/removeChatRoom")
+	public String removeChatRoom(String chatRoomCode, int curPage) {
+		
+		chatService.removeChatMessage(chatRoomCode);
+		chatService.removeChatRoom(chatRoomCode);
+		
+		String redirectRoomCurPage = "redirect:/room?curPage="+curPage;
+		
+		return redirectRoomCurPage;
 	}
 
 }

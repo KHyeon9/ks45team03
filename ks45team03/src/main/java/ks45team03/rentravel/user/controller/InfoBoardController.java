@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
+import ks45team03.rentravel.dto.GoodsCategory;
 import ks45team03.rentravel.dto.InfoBoard;
 import ks45team03.rentravel.dto.InfoBoardComment;
 import ks45team03.rentravel.dto.LoginInfo;
@@ -80,10 +81,12 @@ public class InfoBoardController {
 		int listCnt = infoBoardMapper.getInfoBoardListCnt();
 		Pagination pagination = new Pagination(listCnt, curPage);
 		List<InfoBoard> infoBoardList = infoBoardService.getInfoBoardList(pagination.getStartIndex(), pagination.getPageSize());
+		List<GoodsCategory> goodsCategoryList = infoBoardMapper.getGoodsCategory();
 		
 		model.addAttribute("title", "정보게시판리스트");
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("infoBoardList", infoBoardList);
+		model.addAttribute("goodsCategoryList", goodsCategoryList);
 
 		return "user/board/infoBoardList";
 	}

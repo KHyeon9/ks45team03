@@ -48,8 +48,12 @@
 		               		          
 		                <ul class="list-unstyled">
 		                	<li>
-		                		<a href="@{/board//modifyInquiry}" type="button" class="btn btn-primary">수정</a>
-		                		<button onclick="location.href='/board/removeInquiry'" type="button" class="btn btn-primary">삭제</button>
+		                		<form id="InquiryDeleteForm" th:action="@{/board/removeInquiry}" method="post">
+		                			<input type="hidden" th:value="${getInquiryBoard.inquiryBoardCode}" readonly="readonly" name="inquiryBoardCode">
+		                			<a th:if="${session.S_USER_INFO.loginId == getInquiryBoard.userId}" th:href="@{/board/modifyInquiry(inquiryBoardCode=${getInquiryBoard.inquiryBoardCode})}" type="button" class="btn btn-primary">수정</a>
+		                			<button th:if="${session.S_USER_INFO.loginId == getInquiryBoard.userId}" type="button" class="btn btn-primary deleteInquiryBoard">삭제</button>
+		                		</form>
+		                		
 		                	</li>
 		                </ul>
 		              </div>
@@ -83,5 +87,15 @@
 	  <!-- 사용자 지정 js 파일 -->
 	<th:block layout:fragment="customJs"></th:block>
 	<!-- 사용자 지정 js script -->
-	<th:block layout:fragment="customScript"></th:block>
+	<th:block layout:fragment="customScript">
+		<script th:inline="javascript">
+		
+		$('.deleteInquiryBoard').click(function(){
+			
+			if(confirm('정말로 삭제하시겠습니까?')) $('#InquiryDeleteForm').submit(); 
+
+		})
+		
+		</script>
+	</th:block>
 </html>

@@ -4,10 +4,18 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.Rental;
+import ks45team03.rentravel.dto.User;
 
 @Mapper
 public interface OrderMapper {
+	
+	// 시군구 불러오기
+	public List<RegionSgg> getRegionSggBySidoCode(String regionSidoCode);
+	
+	// 로그인 아이디로 유저 주소 정보 조회
+	public User loginUserInfo(String userId); 
 	
 	// 회원의 자신 주문 내역 조회
 	public List<Rental> getUserOrderList(String userId);

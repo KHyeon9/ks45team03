@@ -17,9 +17,9 @@ public class ChatService {
 		this.chatMapper = chatMapper;
 	}
 	
-	public List<ChatRoom> getChatRoomList(String loginId){
+	public List<ChatRoom> getChatRoomList(String loginId,int startIndex, int pageSize){
 		
-		List<ChatRoom> chatRoomList = chatMapper.getChatRoomList(loginId);
+		List<ChatRoom> chatRoomList = chatMapper.getChatRoomList(loginId,startIndex,pageSize);
 		
 		return chatRoomList;
 	}
@@ -53,5 +53,21 @@ public class ChatService {
 		int modifyChatReadCheck = chatMapper.modifyChatReadCheck(chatRoomCode, loginId);
 		
 		return modifyChatReadCheck;
+	}
+	
+	public int getChatRoomListCount(String loginId) {
+		
+		int chatRoomListCount = chatMapper.getChatRoomListCount(loginId);
+		
+		return chatRoomListCount;
+	}
+	
+	public int removeChatMessage(String chatRoomCode) {
+		int removeChatMessage = chatMapper.removeChatMessage(chatRoomCode);
+		return removeChatMessage;
+	}
+	public int removeChatRoom(String chatRoomCode) {
+		int removeChatRoom = chatMapper.removeChatRoom(chatRoomCode);
+		return removeChatRoom;
 	}
 }

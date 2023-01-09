@@ -11,6 +11,7 @@ public class Return {
 	private String goodsName;
 	private String rentalStartDate;
 	private String rentalEndDate;
+	private String tradeStatusCode;
 	private String orderStateName;
 	
 	
@@ -74,5 +75,41 @@ public class Return {
 	public void setOrderStateName(String orderStateName) {
 		this.orderStateName = orderStateName;
 	}
+	public String getTradeStatusCode() {
+		return tradeStatusCode;
+	}
+	public void setTradeStatusCode(String tradeStatusCode) {
+		this.tradeStatusCode = tradeStatusCode;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Return [returnCode=");
+		builder.append(returnCode);
+		builder.append(", ownerId=");
+		builder.append(ownerId);
+		builder.append(", renterId=");
+		builder.append(renterId);
+		builder.append(", rentalCode=");
+		builder.append(rentalCode);
+		builder.append(", paymentCode=");
+		builder.append(paymentCode);
+		builder.append(", returnDate=");
+		builder.append(returnDate);
+		builder.append(", goodsName=");
+		builder.append(goodsName);
+		builder.append(", rentalStartDate=");
+		builder.append(rentalStartDate);
+		builder.append(", rentalEndDate=");
+		builder.append(rentalEndDate);
+		builder.append(", tradeStatusCode=");
+		builder.append(tradeStatusCode);
+		builder.append(", orderStateName=");
+		builder.append(orderStateName);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 	
 }

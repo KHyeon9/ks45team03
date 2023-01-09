@@ -10,9 +10,10 @@
            <div class="clearfix"></div>
 
            <!-- menu profile quick info -->
-           <div class="profile clearfix"> 
+           <div class="profile clearfix text-center"> 
              <div class="profile_pic">
                <i class="bi bi-person-circle" style="font-size: 4rem; margin-left: 10px;"></i>
+
              </div>
              <div class="profile_info" style="padding-top: 15px">
 	             <span style="margin-bottom: 10px">환영합니다.</span>
@@ -30,8 +31,8 @@
            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
              <div class="menu_section">
                <ul class="nav side-menu ">
-               	<li><a th:href="@{/}"><i class="bi bi-house-fill" style="font-size: 1rem;"></i> 메인페이지 <span></span></a></li>
-                 <li><a><i class="bi bi-emoji-smile"></i> 회원관리 <span class="fa fa-chevron-down"></span></a>
+               	<li><a th:href="@{/}"><i class="bi bi-house-fill" style="font-size: 1rem; display: inline-block;"></i> 메인페이지 <span></span></a></li>
+                 <li><a><i class="bi bi-emoji-smile" style="font-size: 1rem; display: inline-block;"></i> 회원관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/userManagement/userList}">!회원관리</a></li>
                      <li><a th:href="@{/admin/userManagement/loginHistory}">!로그인이력관리</a></li>
@@ -39,50 +40,50 @@
                      <li><a th:href="@{/admin/userManagement/removeAccount}">!탈퇴계정관리</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-bag-check"  style="font-size: 1rem;"></i> 상품관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-bag-check"  style="font-size: 1rem; display: inline-block;"></i> 상품관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/goods/adminGoodsList}">!상품관리</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-minecart"  style="font-size: 1rem;"></i> 주문관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-minecart" style="font-size: 1rem; display: inline-block;"></i> 주문관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/order/adminOrderHistory}">!주문내역관리</a></li>
-                     <li><a th:href="@{/admin/order/adminWaybillList}">!운송장번호내역관리</a></li>
-                     <li><a th:href="@{/admin/order/adminRentalcancelList}">!주문취소내역관리</a></li>
-                     <li><a th:href="@{/admin/order/adminReturnList}">!환불내역관리</a></li>
+                     <li><a th:href="@{/admin/order/adminWaybillHistory}">!운송장번호내역관리</a></li>
+                     <li><a th:href="@{/admin/order/adminRentalcancelHistory}">!주문취소내역관리</a></li>
+                     <li><a th:href="@{/admin/order/adminReturnHistory}">!환불내역관리</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-card-text"  style="font-size: 1rem;"></i> 상품평 관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-card-text"  style="font-size: 1rem; display: inline-block;"></i> 상품평관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/review/adminReviewList}" >!상품평관리</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-dash-circle"  style="font-size: 1rem;"></i> 회원차단관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-dash-circle"  style="font-size: 1rem; display: inline-block;"></i> 회원차단관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/block/adminBlockList}" >!회원차단목록</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-bar-chart-fill"  style="font-size: 1rem;"></i> 회원수익관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-bar-chart-fill"  style="font-size: 1rem; display: inline-block;"></i> 회원수익관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/profit/adminProfitList}" >!회원수익목록</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-coin"  style="font-size: 1rem;"></i> 적립금관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-coin"  style="font-size: 1rem; display: inline-block;"></i> 적립금관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/mileage/adminMileageList}" >!적립금내역목록</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-bell"  style="font-size: 1rem;"></i> 알림관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-bell"  style="font-size: 1rem; display: inline-block;"></i> 알림관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/alarm/adminAlarmList}" >알림내용목록</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-exclamation-triangle"  style="font-size: 1rem;"></i> 신고관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-exclamation-triangle"  style="font-size: 1rem; display: inline-block;"></i> 신고관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/report/adminReportList}">신고목록</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-files"  style="font-size: 1rem;"></i>보험<span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-files"  style="font-size: 1rem; display: inline-block;"></i> 보험 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/insurance/adminInsuranceList}">보험리스트</a></li>
                      <li><a th:href="@{/admin/insurance/adminInsuranceBillDetail}">#보상금신청서상세화면</a></li>
@@ -91,14 +92,14 @@
                      <li><a th:href="@{/admin/insurance/adminAddInsurancePayout}">#보상금지급내역등록</a></li>
                    </ul>
                  </li>
-                   <li><a><i class="bi bi-bag-check"  style="font-size: 1rem;"></i> 게시판 <span class="fa fa-chevron-down"></span></a>
+                   <li><a><i class="bi bi-bag-check"  style="font-size: 1rem; display: inline-block;"></i> 게시판 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/board/adminNoticeBoard}">#공지사항</a></li>
                      <li><a th:href="@{/admin/board/adminFaq}">#FAQ</a></li>
                       <li><a th:href="@{/admin/board/adminInquiryList}">#1 대 1 문의</a></li>
                    </ul>
                  </li>
-                 <li><a><i class="bi bi-coin"  style="font-size: 1rem;"></i>수수료율 관리 <span class="fa fa-chevron-down"></span></a>
+                 <li><a><i class="bi bi-coin"  style="font-size: 1rem; display: inline-block;"></i> 수수료율관리 <span class="fa fa-chevron-down"></span></a>
                    <ul class="nav child_menu">
                      <li><a th:href="@{/admin/commisionRate/adminCommisionRateList}" >!플랫폼 수수료율 목록</a></li>
                    </ul>
