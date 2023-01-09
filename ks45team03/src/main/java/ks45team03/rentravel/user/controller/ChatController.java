@@ -89,7 +89,7 @@ public class ChatController {
 		return "user/chat/room";
 	}
 	
-	@PostMapping("/addChatRoom")
+	@GetMapping("/addChatRoom")
 	public String addChatRoom(@RequestParam(value="userId") String userId,ChatRoom chatRoom,HttpSession session) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");

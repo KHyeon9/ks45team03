@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title}"></title>
+	<link th:href="@{/user/assets/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/jquery-ui/jquery-ui.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/selectbox/select_option1.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/fancybox/jquery.fancybox.min.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/rateyo/jquery.rateyo.min.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/iziToast/css/iziToast.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/prismjs/prism.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/revolution/css/settings.css}" rel="stylesheet">
+    <link th:href="@{/user/assets/plugins/animate/animate.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/user/assets/plugins/slick/slick.css}" media="screen">
+    <link rel="stylesheet" type="text/css" th:href="@{/user/assets/plugins/slick/slick-theme.css}" media="screen">
+
+
+    <!-- CUSTOM CSS -->
+    <link th:href="@{/user/assets/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/user/assets/css/default.css}" id="option_style">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.png}">
+</head>
+<body id="body" class="body-wrapper version1 up-scroll">
+    
+	<div class="main-wrapper">
+		<!-- navibar(상단메뉴) start -->
+		<div th:replace="~{user/fragments/naviFragment :: naviFragment}"></div>
+		<div th:replace="~{user/fragments/bannerFragment :: bannerFragment}"></div>
+		<!-- navibar(상단메뉴) end -->
+		
+		<!-- contents start -->
+		<section class="mainContent clearfix logIn">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-7 col-lg-8 col-xl-7 col-12">
+						<!-- 페이지마다 변경되는 contents -->
+						<th:block layout:fragment="customContents"></th:block>
+					</div>
+				</div>
+			</div>
+		</section>
+				
+		<!-- footer(하단메뉴) start -->
+		<div th:replace="~{user/fragments/footerFragment :: footerFragment}"></div>
+		<div th:replace="~{user/fragments/copyRightFragment :: copyRightFragment}"></div>
+		<!-- footer(하단메뉴) end -->
+	</div>
+	<!-- LOGIN MODAL -->
+	<div class="modal fade login-modal" id="login" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header justify-content-center">
+					<h3 class="modal-title">log in</h3>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form action="" method="POST" role="form">
+						<div class="form-group">
+							<label for="">Enter Email</label>
+							<input type="email" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">Password</label>
+							<input type="password" class="form-control">
+						</div>
+						<div class="checkbox">
+							<input id="checkbox-1" class="checkbox-custom form-check-input" name="checkbox-1" type="checkbox" checked>
+							<label for="checkbox-1" class="checkbox-custom-label form-check-label">Remember me</label>
+						</div>
+						<button type="submit" class="btn btn-primary btn-block">log in</button>
+						<button type="button" class="btn btn-link btn-block">Forgot Password?</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- SIGN UP MODAL -->
+	<div class="modal fade " id="signup" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header justify-content-center">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="modal-title">Create an account</h3>
+				</div>
+				<div class="modal-body">
+					<form action="" method="POST" role="form">
+						<div class="form-group">
+							<label for="">Enter Email</label>
+							<input type="email" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">Password</label>
+							<input type="password" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">Confirm Password</label>
+							<input type="password" class="form-control">
+						</div>
+						<button type="submit" class="btn btn-primary btn-block">Sign up</button>
+						<button type="button" class="btn btn-link btn-block">New User?</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<script th:src="@{/user/assets/plugins/jquery/jquery.min.js}"></script>
+	<script th:src="@{/user/assets/plugins/jquery/jquery-migrate-3.0.0.min.js}"></script>
+	<script th:src="@{/user/assets/plugins/jquery-ui/jquery-ui.js}"></script>
+	<script th:src="@{/user/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/user/assets/plugins/revolution/js/jquery.themepunch.tools.min.js}"></script>
+	<script th:src="@{/user/assets/plugins/revolution/js/jquery.themepunch.revolution.min.js}"></script>
+	<script th:src="@{/user/assets/plugins/slick/slick.js}"></script>
+	<script th:src="@{/user/assets/plugins/fancybox/jquery.fancybox.min.js}"></script>
+	<script th:src="@{/user/assets/plugins/iziToast/js/iziToast.js}"></script>
+	<script th:src="@{/user/assets/plugins/prismjs/prism.js}"></script>
+	<script th:src="@{/user/assets/plugins/selectbox/jquery.selectbox-0.1.3.min.js}"></script>
+	<script th:src="@{/user/assets/plugins/countdown/jquery.syotimer.js}"></script>
+	<script th:src="@{/user/assets/plugins/velocity/velocity.min.js}"></script>
+	<script th:src="@{/user/assets/plugins/rateyo/jquery.rateyo.min.js}"></script>
+	<script th:src="@{/user/assets/js/custom.js}"></script>
+	<!-- 사용자 지정 js 파일 -->
+	<th:block layout:fragment="customJs"></th:block>
+	<!-- 사용자 지정 js script -->
+	<th:block layout:fragment="customScript"></th:block>
+	<!-- contents end -->
+
+</body>
+</html>
