@@ -12,6 +12,7 @@ import ks45team03.rentravel.dto.User;
 @Mapper
 public interface UserMapper {
 	
+	public int ModifyuserInfo(User user);
 	// 비밀번호 일치
 	public User checkPwByUserId(String userId);
 	
@@ -20,6 +21,8 @@ public interface UserMapper {
 	public int addUser(User user);
 	
 	public List<RegionSido> getRegionSido();
+	
+	public List<RegionSido> getMyPageRegionSido(String regionSidoCode);
 	
 	public List<RegionSgg> selectRegionSgg(String project);
 	

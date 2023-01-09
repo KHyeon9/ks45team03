@@ -2,7 +2,8 @@ var idJ = /^[a-z0-9]{5,12}$/;
 var pwJ = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 var nameJ = /^[A-Za-z가-힣]{2,20}$/;
 var nicknameJ = /^[A-Za-z가-힣0-9]{2,10}$/;
-var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+var mailIdJ = /^[0-9a-z]{2,20}$/;
+var mailAddrJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 var phoneJ = /^[0-9]{4,4}?[0-9]{4,4}$/;
 var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 
@@ -36,6 +37,15 @@ var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 				}
 			})
 	});
+	
+	$('#selectEmail').change(function(){
+		var selectEmail = $('#selectEmail').val();
+		if(selectEmail == ''){
+			$('#userEmailAddr').val('');
+		}
+			$('#userEmailAddr').val(selectEmail);
+	});
+	
 	
 	$(function(){
 		function validateValue(checkValue){
@@ -210,7 +220,7 @@ var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 		$(this).removeClass('is-valid');
 	});
 	
-	$('#userEmail').blur(function() {
+	$('#userEmailId').blur(function() {
 		
 		if(validateValue($(this).val())) {
 			$('#userEmailCheck').html('필수정보입니다.');
@@ -219,14 +229,35 @@ var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 			return false;
 		}
 		
-		if(!mailJ.test($(this).val())){
-			$('#userEmailCheck').html('이메일 주소를 다시 확인해주세요.');
+		if(!mailIdJ.test($(this).val())){
+			$('#userEmailCheck').html('이메일 아이디를 다시 확인해주세요.');
 			$(this).removeClass('is-valid');
 			$(this).addClass('is-invalid');
 			return false;	
 		}
 		
 		$('#userEmailCheck').html('');
+		$(this).removeClass('is-invalid');
+		$(this).addClass('is-valid');
+	});
+	
+		$('#userEmailAddr').blur(function() {
+		
+		if(validateValue($(this).val())) {
+			$('#userEmailCheck2').html('필수정보입니다.');
+			$(this).removeClass('is-valid');
+			$(this).addClass('is-invalid');
+			return false;
+		}
+		
+		if(!mailAddrJ.test($(this).val())){
+			$('#userEmailCheck2').html('이메일 주소를 다시 확인해주세요.');
+			$(this).removeClass('is-valid');
+			$(this).addClass('is-invalid');
+			return false;	
+		}
+		
+		$('#userEmailCheck2').html('');
 		$(this).removeClass('is-invalid');
 		$(this).addClass('is-valid');
 	});
@@ -441,22 +472,49 @@ $(function(){
 			}
 		});
 		
-		var userEmail = $('#userEmail').val();
-		if(validateValue(userEmail)) {
+		var userEmailId = $('#userEmailId').val();
+		$('#userEmailId').blur(function() {
+		
+		if(validateValue(userEmailId)) {
 			$('#userEmailCheck').html('필수정보입니다.');
-			$('#userEmail').removeClass('is-valid');
-			$('#userEmail').addClass('is-invalid');
-			$('#userEmail').focus();
+			$(this).removeClass('is-valid');
+			$(this).addClass('is-invalid');
 			return false;
 		}
 		
-		if(!mailJ.test(userEmail)){
-			$('#userEmailCheck').html('이메일 주소를 다시 확인해주세요.');
-			$('#userEmail').removeClass('is-valid');
-			$('#userEmail').addClass('is-invalid');
-			$('#userEmail').focus();
+		if(!mailIdJ.test($(this).val())){
+			$('#userEmailCheck').html('이메일 아이디를 다시 확인해주세요.');
+			$(this).removeClass('is-valid');
+			$(this).addClass('is-invalid');
 			return false;	
 		}
+		
+		$('#userEmailCheck').html('');
+		$(this).removeClass('is-invalid');
+		$(this).addClass('is-valid');
+	});
+	
+		var userEmailAddr = $('#userEmailAddr').val();	
+		$('#userEmailAddr').blur(function() {
+		
+		if(validateValue(userEmailAddr)) {
+			$('#userEmailCheck2').html('필수정보입니다.');
+			$(this).removeClass('is-valid');
+			$(this).addClass('is-invalid');
+			return false;
+		}
+		
+		if(!mailAddrJ.test($(this).val())){
+			$('#userEmailCheck2').html('이메일 주소를 다시 확인해주세요.');
+			$(this).removeClass('is-valid');
+			$(this).addClass('is-invalid');
+			return false;	
+		}
+		
+		$('#userEmailCheck2').html('');
+		$(this).removeClass('is-invalid');
+		$(this).addClass('is-valid');
+	});
 		
 		var userPhoneNumber = $('#userPhoneNumber').val();
 		if(validateValue(userPhoneNumber)) {
@@ -510,7 +568,7 @@ $(function(){
 		}
 		
 		userPhoneNumber = $('firstPhoneNumber').val() + userPhoneNumber;
-		
+		$('#userEmail').val(userEmailId + '@' + userEmailAddr);
 		$('#addForm').submit();
 		
 		});
