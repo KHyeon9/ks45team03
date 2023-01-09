@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks45team03.rentravel.mapper.AdminReportMapper">
+	<!-- tb_report_comment -->
+	<resultMap type="ReportComment" id="reportCommentResultMap">
+		<id property="reportCommentCode" column="report_comment_code" />
+		<result property="reportTypeCode" column="report_type_code" />
+		<result property="infoBoardCommentCode" column="info_board_comment_code" />
+		<result property="reportStateCode" column="report_state_code" />
+		<result property="reportingUserId" column="reporting_user_id" />
+		<result property="reportedUserId" column="reported_user_id" />
+		<result property="reportCommentContent" column="report_comment_content" />
+		<result property="reportCommentDatetime" column="report_comment_datetime" />
+		<association property="reportType" javaType="ReportType">
+			<id property="reportTypeCode" column="report_type_code" />
+			<result property="reportType" column="report_type" />
+		</association>
+		<association property="reportState" javaType="ReportState">
+			<id property="reportStateCode" column="report_state_code" />
+			<result property="reportStateName" column="report_state_name" />
+		</association>
+	</resultMap>
+	<!-- tb_report_goods -->
+	<resultMap type="ReportGoods" id="reportGoodsResultMap">
+		<id property="reportGoodsCode" column="report_goods_code" />
+		<result property="reportTypeCode" column="report_type_code" />
+		<result property="goodsCode" column="goods_code" />
+		<result property="reportStateCode" column="report_state_code" />
+		<result property="reportingUserId" column="reporting_user_id" />
+		<result property="reportedUserId" column="reported_user_id" />
+		<result property="reportGoodsContent" column="report_goods_content" />
+		<result property="reportGoodsDateTime" column="report_goods_datetime" />
+	</resultMap>
+	<!-- tb_report_info_board -->
+	<resultMap type="ReportInfoBoard" id="reportInfoBoardResultMap">
+		<id property="reportInfoBoardCode" column="report_info_board_code" />
+		<result property="reportTypeCode" column="report_type_code" />
+		<result property="InfoBoardCode" column="info_board_code" />
+		<result property="reportStateCode" column="report_state_code" />
+		<result property="reportingUserId" column="reporting_user_id" />
+		<result property="reportedUserId" column="reported_user_id" />
+		<result property="reportInfoBoardContent" column="report_info_board_content" />
+		<result property="reportInfoBoardDatetime" column="report_info_board_datetime" />
+	</resultMap>
+	<!-- tb_report_review -->
+	<resultMap type="ReportReview" id="reportReviewResultMap">
+		<id property="reportReviewCode" column="report_review_code" />
+		<result property="reportTypeCode" column="report_type_code" />
+		<result property="reviewCode" column="review_code" />
+		<result property="reportStateCode" column="report_state_code" />
+		<result property="reportingUserId" column="reporting_user_id" />
+		<result property="reportedUserId" column="reported_user_id" />
+		<result property="reportReviewContent" column="report_review_content" />
+		<result property="reportReviewDatetime" column="report_review_datetime" />
+	</resultMap>
+	
+	<select id="adminGetReportCommentList" parameterType="String" resultMap="reportCommentResultMap">
+	/*신고된 댓글 목록 조회*/	
+	SELECT
+			c.report_comment_code
+			,c.report_type_code
+			,c.info_board_comment_code
+			,c.report_state_name
+			,c.reporting_user_id
+			,c.reported_user_id
+			,c.report_comment_content
+			,c.report_comment_datetime
+			,t.report_type
+		
+		FROM
+			tb_report_comment AS c
+			inner join
+			tb_report_type AS t
+			on
+			c.report_type_code = t.report_type_code;
+			
+	</select>
+	<select id="adminGetReportGoodsList" parameterType="String" resultMap="reportGoodsResultMap">
+	SELECT
+			report_goods_code
+			,report_type_code
+			,goods_code
+			,report_state_code
+			,reporting_user_id
+			,reported_user_id
+			,report_goods_content
+			,report_goods_datetime
+		
+		FROM
+			tb_report_goods
+	
+	</select>
+	<select id="adminGetReportInfoBoardList" parameterType="String" resultMap="reportInfoBoardResultMap">
+SELECT
+		i.report_info_board_code
+		,i.report_type_code
+		,i.info_board_code
+		,i.report_state_code
+		,i.reporting_user_id
+		,i.reported_user_id
+		,i.report_info_board_content
+		,i.report_info_board_datetime
+		
+		FROM
+			tb_report_info_board AS i
+	
+	
+	</select>
+	<select id="adminGetReportReviewList" parameterType="String" resultMap="reportReviewResultMap">
+	SELECT
+		i.report_review_code
+		,i.report_type_code
+		,i.review_code
+		,i.report_state_code
+		,i.reporting_user_id
+		,i.reported_user_id
+		,i.report_review_content
+		,i.report_review_datetime
+		
+		FROM
+			tb_report_review AS i
+	
+	</select>
+</mapper>

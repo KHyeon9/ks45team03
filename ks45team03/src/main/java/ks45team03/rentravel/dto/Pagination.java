@@ -24,6 +24,32 @@ public class Pagination {
 		
 	}
 	
+	//상품 카테고리 별 페이징
+	public Pagination(int listCnt, int curPage,String goodsCategoryCode) {
+		
+		// 현재 페이지
+		setCurPage(curPage);
+		
+		// 총 게시물 수
+		setListCnt(listCnt);
+		
+		// 총 페이지 수
+		setPageCnt(listCnt);
+		
+		// 총 블럭(range) 수
+		setRangeCnt(pageCnt);
+		
+		// 블럭(range) setting
+		rangeSetting(curPage);
+		
+		// Limit 인수 파라미터 셋팅
+		setStartIndex(curPage);
+		
+		//상품 카테고리 셋팅
+		setGoodsCategoryCode(goodsCategoryCode);
+		
+	}
+	
 	// 한 페이지당 게시글 수
 	private int pageSize = 10;
 	
@@ -62,6 +88,11 @@ public class Pagination {
 	
 	// 다음 페이지
 	private int nextPage;
+	
+	
+	//상품 카테고리
+	private String goodsCategoryCode;
+	
 
 	public int getPageSize() {
 		return pageSize;
@@ -167,6 +198,14 @@ public class Pagination {
 		this.nextPage = nextPage;
 	}
 	
+	public String getGoodsCategoryCode() {
+		return goodsCategoryCode;
+	}
+
+	public void setGoodsCategoryCode(String goodsCategoryCode) {
+		this.goodsCategoryCode = goodsCategoryCode;
+	}
+
 	public void rangeSetting(int curPage) {
 		
 		setCurRange(curPage);

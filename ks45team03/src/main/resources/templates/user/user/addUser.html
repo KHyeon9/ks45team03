@@ -48,8 +48,14 @@
 				margin-top: 30px;
 				height: 52px;
 			}
-			#userEmailCheck{
-				position: relative;
+			#userEmailCheck {
+				position: absolute;
+				top: 100%;
+			}
+			#userEmailCheck2 {
+				position: absolute;
+				top: 100%;
+				left: 36%;
 			}
 		</style>
 			<link th:href="@{/user/assets/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -106,15 +112,18 @@
                     <div class="form-group">
                       <label for="userNickName">닉네임</label>
                       <input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="띄어쓰기 없이 한글, 영문, 숫자 2-10자">
+                      <span class="invalid-feedback" id="userNickNameCheck"></span>
                     </div>
-                    <div class="form-group col-md-13">
+                    <div class="form-group">
                       <label for="userEmail">이메일</label>
-                    <div class="input-group">
-                      <input id="userEmailId" name="userEmailId" type="text" class="form-control col-md-4">
-                      <p class="px-1" style="margin-top:17px; font-size: 17px">@</p>
-                      <input type="text" class="form-control col-md-4" id="userEmailAddr" name="userEmailAddr">
-                      <input type="text" class="form-control" id="userEmail" name="userEmail" hidden>
-                         <select id="selectEmail" class="form-control col-md-4">
+                    <div class="input-group col-md-13">
+                      <input id="userEmailId" name="userEmailId" type="text" class="form-control">
+                      <span class="invalid-feedback" id="userEmailCheck"></span>
+                      <p class="px-1" style="margin-top:17px; font-size: 14px">@</p>
+	                      <input type="text" class="form-control" id="userEmailAddr" name="userEmailAddr">
+	                      <span class="invalid-feedback" id="userEmailCheck2"></span>
+                      
+                         <select id="selectEmail" class="form-control">
 	                      		<option>직접입력</option>
 	                      		<option>naver.com</option>
 	                      		<option>daum.net</option>
@@ -130,9 +139,9 @@
 	                      		<option>gmail.com</option>
 	                      		<option>hanmil.com</option>
 		                      </select>
-		              <span class="invalid-feedback" id="userEmailCheck"></span>
-                    </div>
-                    </div>
+		                      </div>
+                      <input type="text" class="form-control" id="userEmail" name="userEmail" hidden>
+                    	</div>
                     <div class="form-group row">
                       <label for="userPhoneNumber" class="col-md-12">전화번호</label>
                       <div class="input-group selectOptions col-md-12">

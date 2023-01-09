@@ -7,55 +7,57 @@ var mailAddrJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 var phoneJ = /^[0-9]{4,4}?[0-9]{4,4}$/;
 var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 
-	$('#regionSidoCode').change(function(){
-    			
-		var project = $('#regionSidoCode').val();
-		
-		$.ajax({
-				type: 'POST',
-				url: '/addUser/ajaxProject',
-				data: { project },
-				success: function(result){
-					
-					var sggOption = {};
-					var blankOption = '<option></option>';
-					var defaultOption = '<option>등록된 지역이 없습니다.</option>';
-					
-					for (var i = 0; i < result.length; i++) {
-					 sggOption += '<option value="' + result[i].regionSggCode + '">' + result[i].regionSggName + '</option>';	    			
-					}
-					
-					if(result == '' || result == 'undefined') {
-						 $('#regionSggCode').html(defaultOption);
-					}else{
-						 $('#regionSggCode').html(blankOption);
-						 $('#regionSggCode').append(sggOption);
-					}
-				},
-				error: function(project) {
-					alert("error");
+$('#regionSidoCode').change(function(){
+			
+	var project = $('#regionSidoCode').val();	
+	
+	$.ajax({
+			type: 'POST',
+			url: '/addUser/ajaxProject',
+			data: { project },
+			success: function(result){
+				
+				var sggOption = {};
+				var blankOption = '<option></option>';
+				var defaultOption = '<option>등록된 지역이 없습니다.</option>';
+				
+				for (var i = 0; i < result.length; i++) {
+				 sggOption += '<option value="' + result[i].regionSggCode + '">' + result[i].regionSggName + '</option>';	    			
 				}
-			})
-	});
-	
-	$('#selectEmail').change(function(){
-		var selectEmail = $('#selectEmail').val();
-		if(selectEmail == ''){
-			$('#userEmailAddr').val('');
-		}
-			$('#userEmailAddr').val(selectEmail);
-	});
-	
-	
-	$(function(){
-		function validateValue(checkValue){
-			if(typeof checkValue == 'undefined'
-					|| checkValue == null
-					|| checkValue == '' ){
-				return true;
+				
+				if(result == '' || result == 'undefined') {
+					 $('#regionSggCode').html(defaultOption);
+				}else{
+					 $('#regionSggCode').html(blankOption);
+					 $('#regionSggCode').append(sggOption);
+				}
+			},
+			error: function(project) {
+				alert("error");
 			}
-			return false;
+		})
+});
+
+$('#selectEmail').change(function(){
+	var selectEmail = $('#selectEmail').val();
+	if(selectEmail == '직접입력'){
+		$('#userEmailAddr').val('');
+		$('#userEmailAddr').focus();
+	}else{
+		$('#userEmailAddr').val(selectEmail);
+		$('#userEmailAddr').focus();
+	}
+});
+	
+$(function(){
+	function validateValue(checkValue){
+		if(typeof checkValue == 'undefined'
+				|| checkValue == null
+				|| checkValue == '' ){
+			return true;
 		}
+		return false;
+	}
 		
 	$("#userId").blur(function() {
 		
@@ -230,7 +232,7 @@ var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 		}
 		
 		if(!mailIdJ.test($(this).val())){
-			$('#userEmailCheck').html('이메일 아이디를 다시 확인해주세요.');
+			$('#userEmailCheck').html('이메일을 다시 확인해주세요.');
 			$(this).removeClass('is-valid');
 			$(this).addClass('is-invalid');
 			return false;	
@@ -251,7 +253,7 @@ var addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 		}
 		
 		if(!mailAddrJ.test($(this).val())){
-			$('#userEmailCheck2').html('이메일 주소를 다시 확인해주세요.');
+			$('#userEmailCheck2').html('이메일을 다시 확인해주세요.');
 			$(this).removeClass('is-valid');
 			$(this).addClass('is-invalid');
 			return false;	
@@ -473,48 +475,37 @@ $(function(){
 		});
 		
 		var userEmailId = $('#userEmailId').val();
-		$('#userEmailId').blur(function() {
 		
 		if(validateValue(userEmailId)) {
 			$('#userEmailCheck').html('필수정보입니다.');
-			$(this).removeClass('is-valid');
-			$(this).addClass('is-invalid');
+			$('#userEmailId').removeClass('is-valid');
+			$('#userEmailId').addClass('is-invalid');
 			return false;
 		}
 		
-		if(!mailIdJ.test($(this).val())){
-			$('#userEmailCheck').html('이메일 아이디를 다시 확인해주세요.');
+		if(!mailIdJ.test(userEmailId)){
+			$('#userEmailCheck').html('이메일을 다시 확인해주세요.');
 			$(this).removeClass('is-valid');
 			$(this).addClass('is-invalid');
 			return false;	
 		}
 		
-		$('#userEmailCheck').html('');
-		$(this).removeClass('is-invalid');
-		$(this).addClass('is-valid');
-	});
 	
 		var userEmailAddr = $('#userEmailAddr').val();	
-		$('#userEmailAddr').blur(function() {
 		
 		if(validateValue(userEmailAddr)) {
 			$('#userEmailCheck2').html('필수정보입니다.');
-			$(this).removeClass('is-valid');
-			$(this).addClass('is-invalid');
+			 $('#userEmailAddr').removeClass('is-valid');
+			 $('#userEmailAddr').addClass('is-invalid');
 			return false;
 		}
 		
-		if(!mailAddrJ.test($(this).val())){
-			$('#userEmailCheck2').html('이메일 주소를 다시 확인해주세요.');
-			$(this).removeClass('is-valid');
-			$(this).addClass('is-invalid');
+		if(!mailAddrJ.test(userEmailAddr)){
+			$('#userEmailCheck2').html('이메일을 다시 확인해주세요.');
+			$('#userEmailAddr').removeClass('is-valid');
+			$('#userEmailAddr').addClass('is-invalid');
 			return false;	
 		}
-		
-		$('#userEmailCheck2').html('');
-		$(this).removeClass('is-invalid');
-		$(this).addClass('is-valid');
-	});
 		
 		var userPhoneNumber = $('#userPhoneNumber').val();
 		if(validateValue(userPhoneNumber)) {
@@ -534,13 +525,14 @@ $(function(){
 		}
 	
 		var regionSidoCode = $('#regionSidoCode').val();
-		if(regionSidoCode == '시ㆍ도를 선택해주세요.'){
+		if(regionSidoCode == '시ㆍ도를 선택해주세요.' || regionSidoCode == '' ||  regionSidoCode == 'undefined' ||  regionSidoCode == null){
 			$('#regionSidoCodeCheck').html('필수정보입니다.');
 			$('#regionSidoCode').removeClass('is-valid');
 			$('#regionSidoCode').addClass('is-invalid');
 			$('#regionSidoCode').focus();
 			return false;
 		}
+		
 		var regionSggCode = $('#regionSggCode').val();
 		if(regionSggCode == ''){
 			$('#regionSggCodeCheck').html('필수정보입니다.');

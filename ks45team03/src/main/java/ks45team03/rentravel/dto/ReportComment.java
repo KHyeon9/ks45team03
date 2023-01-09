@@ -10,6 +10,23 @@ public class ReportComment {
 	private String reportedUserId;
 	private String reportCommentContent;
 	private String reportCommentDatetime;
+	
+	ReportType reportType;
+	ReportState reportState;
+	
+	
+	public ReportState getReportState() {
+		return reportState;
+	}
+	public void setReportState(ReportState reportState) {
+		this.reportState = reportState;
+	}
+	public ReportType getReportType() {
+		return reportType;
+	}
+	public void setReportType(ReportType reportType) {
+		this.reportType = reportType;
+	}
 	public String getReportCommentCode() {
 		return reportCommentCode;
 	}
@@ -77,8 +94,13 @@ public class ReportComment {
 		builder.append(reportCommentContent);
 		builder.append(", reportCommentDatetime=");
 		builder.append(reportCommentDatetime);
+		builder.append(", reportType=");
+		builder.append(reportType);
+		builder.append(", reportState=");
+		builder.append(reportState);
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 }
