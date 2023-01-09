@@ -109,7 +109,7 @@
                	  <div class="form-group col-md-6 col-12">
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select id="regionSidoCode" name="regionSidoCode" class="form-control select-drop">
+	                     <select id="regionSidoCode" name="regionSidoCode" class="form-control">
 	                       <option>시ㆍ도를 선택해주세요.</option>
 	                      	<th:block th:if="${not #lists.isEmpty(getRegionSido)}" th:each="sido : ${getRegionSido}">
 	                      		<option th:if="${sido.regionSidoCode.equals(userInfo.regionSgg.regionSidoCode)}" th:value="${sido.regionSidoCode}" selected>[[${sido.regionSidoName}]]</option>
@@ -125,7 +125,7 @@
 	               <div class="form-group col-md-6 col-12">
 	                 <div class="form-group row">
 	                   <div class="quick-drop col-12 selectOptions ">
-	                     <select id="regionSggCode" name="regionSggCode" class="form-control">
+	                     <select id="regionSggCode" name="regionSggCode" class="form-control" >
 	                       <th:block th:if="${not #lists.isEmpty(getRegionSgg)}" th:each="sgg : ${getRegionSgg}">
 	                      		<option th:if="${sgg.regionSggCode.equals(userInfo.regionSggCode)}" th:value="${sgg.regionSggCode}" selected>[[${sgg.regionSggName}]]</option>
 	                      		<option th:unless="${sgg.regionSggCode.equals(userInfo.regionSggCode)}" th:value="${sgg.regionSggCode}">[[${sgg.regionSggName}]]</option>
