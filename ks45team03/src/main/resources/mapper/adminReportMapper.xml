@@ -33,6 +33,14 @@
 		<result property="reportedUserId" column="reported_user_id" />
 		<result property="reportGoodsContent" column="report_goods_content" />
 		<result property="reportGoodsDateTime" column="report_goods_datetime" />
+		<association property="reportType" javaType="ReportType">
+			<id property="reportTypeCode" column="report_type_code" />
+			<result property="reportType" column="report_type" />
+		</association>
+		<association property="reportState" javaType="ReportState">
+			<id property="reportStateCode" column="report_state_code" />
+			<result property="reportStateName" column="report_state_name" />
+		</association>
 	</resultMap>
 	<!-- tb_report_info_board -->
 	<resultMap type="ReportInfoBoard" id="reportInfoBoardResultMap">
@@ -44,7 +52,16 @@
 		<result property="reportedUserId" column="reported_user_id" />
 		<result property="reportInfoBoardContent" column="report_info_board_content" />
 		<result property="reportInfoBoardDatetime" column="report_info_board_datetime" />
+		<association property="reportType" javaType="ReportType">
+			<id property="reportTypeCode" column="report_type_code" />
+			<result property="reportType" column="report_type" />
+		</association>
+		<association property="reportState" javaType="ReportState">
+			<id property="reportStateCode" column="report_state_code" />
+			<result property="reportStateName" column="report_state_name" />
+		</association>
 	</resultMap>
+	
 	<!-- tb_report_review -->
 	<resultMap type="ReportReview" id="reportReviewResultMap">
 		<id property="reportReviewCode" column="report_review_code" />
@@ -55,73 +72,111 @@
 		<result property="reportedUserId" column="reported_user_id" />
 		<result property="reportReviewContent" column="report_review_content" />
 		<result property="reportReviewDatetime" column="report_review_datetime" />
+		<association property="reportType" javaType="ReportType">
+			<id property="reportTypeCode" column="report_type_code" />
+			<result property="reportType" column="report_type" />
+		</association>
+		<association property="reportState" javaType="ReportState">
+			<id property="reportStateCode" column="report_state_code" />
+			<result property="reportStateName" column="report_state_name" />
+		</association>
 	</resultMap>
 	
 	<select id="adminGetReportCommentList" parameterType="String" resultMap="reportCommentResultMap">
-	/*신고된 댓글 목록 조회*/	
-	SELECT
+		/*신고된 댓글 목록 조회*/	
+		SELECT
 			c.report_comment_code
-			,c.report_type_code
 			,c.info_board_comment_code
-			,c.report_state_name
 			,c.reporting_user_id
 			,c.reported_user_id
 			,c.report_comment_content
 			,c.report_comment_datetime
 			,t.report_type
+			,s.report_state_name
 		
 		FROM
 			tb_report_comment AS c
 			inner join
 			tb_report_type AS t
 			on
-			c.report_type_code = t.report_type_code;
+			c.report_type_code = t.report_type_code
+			INNER join
+			tb_report_state AS s
+			on
+			s.report_state_code = c.report_state_code
 			
 	</select>
 	<select id="adminGetReportGoodsList" parameterType="String" resultMap="reportGoodsResultMap">
-	SELECT
-			report_goods_code
-			,report_type_code
-			,goods_code
-			,report_state_code
-			,reporting_user_id
-			,reported_user_id
-			,report_goods_content
-			,report_goods_datetime
+		/*신고된 상품 조회*/
+		SELECT
+			g.report_goods_code
+			,g.goods_code
+			,g.reporting_user_id
+			,g.reported_user_id
+			,g.report_goods_content
+			,g.report_goods_datetime
+			,t.report_type
+			,s.report_state_name
 		
 		FROM
-			tb_report_goods
+			tb_report_goods AS g
+			inner join
+			tb_report_type AS t
+			on
+			g.report_type_code = t.report_type_code
+			INNER join
+			tb_report_state AS s
+			on
+			s.report_state_code = g.report_state_code
 	
 	</select>
 	<select id="adminGetReportInfoBoardList" parameterType="String" resultMap="reportInfoBoardResultMap">
-SELECT
-		i.report_info_board_code
-		,i.report_type_code
-		,i.info_board_code
-		,i.report_state_code
-		,i.reporting_user_id
-		,i.reported_user_id
-		,i.report_info_board_content
-		,i.report_info_board_datetime
+		/*신고된 정보게시글 조회*/
+		SELECT
+			b.report_info_board_code
+			,b.info_board_code
+			,b.reporting_user_id
+			,b.reported_user_id
+			,b.report_info_board_content
+			,b.report_info_board_datetime
+			,t.report_type
+			,s.report_state_name
 		
 		FROM
-			tb_report_info_board AS i
+			tb_report_info_board AS b
+			inner join
+			tb_report_type AS t
+			on
+			b.report_type_code = t.report_type_code
+			INNER join
+			tb_report_state AS s
+			on
+			s.report_state_code = b.report_state_code
 	
 	
 	</select>
 	<select id="adminGetReportReviewList" parameterType="String" resultMap="reportReviewResultMap">
-	SELECT
-		i.report_review_code
-		,i.report_type_code
-		,i.review_code
-		,i.report_state_code
-		,i.reporting_user_id
-		,i.reported_user_id
-		,i.report_review_content
-		,i.report_review_datetime
+		/*신고된 상품평 조회*/
+		SELECT
+			r.report_review_code
+			,r.review_code
+			,r.reporting_user_id
+			,r.reported_user_id
+			,r.report_review_content
+			,r.report_review_datetime
+			,t.report_type
+			,s.report_state_name
 		
 		FROM
-			tb_report_review AS i
+			tb_report_review AS r
+			inner join
+			tb_report_type AS t
+			on
+			r.report_type_code = t.report_type_code
+			INNER join
+			tb_report_state AS s
+			on
+			s.report_state_code = r.report_state_code
 	
 	</select>
 </mapper>
