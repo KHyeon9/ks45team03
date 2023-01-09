@@ -16,7 +16,12 @@ public class User {
 	private String userLevelCode;
 	private String userLevelName;
 	private String userEmail;
+	private String userEmailId;
+	private String userEmailAddr;
 	private String userPhoneNumber;
+	private String userFirstPhoneNumber;
+	private String userMiddlePhoneNumber;
+	private String userLastPhoneNumber;
 	private String userImage;
 	private int totalExp;
 	private String regionSggCode;
@@ -26,4 +31,5 @@ public class User {
 	private String userCreateDate;
 	
 	private RegionSgg regionSgg;
+	private RegionSido regionSido;
 }

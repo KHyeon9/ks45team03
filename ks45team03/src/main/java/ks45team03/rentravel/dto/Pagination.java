@@ -216,8 +216,9 @@ public class Pagination {
 			this.endPage = pageCnt;
 		}
 		
-		this.prevPage = curPage - 1;
-		this.nextPage = curPage + 1;
+		this.prevPage = curPage - 1;   
+		this.nextPage = curPage + 1;   
+		
 	}
 	
 }
