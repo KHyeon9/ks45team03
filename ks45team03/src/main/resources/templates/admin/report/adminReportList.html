@@ -118,9 +118,13 @@ table thead {
 									th:each="l : ${reportGoodsList}">
 
 									<td th:text="${l.reportGoodsCode}"></td>
-									<td th:text="${l.reportTypeCode}"></td>
+									<th:block th:object="${l.reportType}">
+						      			<td th:text="*{reportType}"></td>
+						      		</th:block>
 									<td th:text="${l.goodsCode}"></td>
-									<td th:text="${l.reportStateCode}"></td>
+									<th:block th:object="${l.reportState}">
+						      			<td th:text="*{reportStateName}"></td>
+						      		</th:block>
 									<td th:text="${l.reportingUserId}"></td>
 									<td th:text="${l.reportedUserId}"></td>
 									<td th:text="${l.reportGoodsContent}"></td>
@@ -157,9 +161,13 @@ table thead {
 									th:each="l: ${reportInfoBoardList}">
 
 									<td th:text="${l.reportInfoBoardCode}"></td>
-									<td th:text="${l.reportTypeCode}"></td>
+									<th:block th:object="${l.reportType}">
+						      			<td th:text="*{reportType}"></td>
+						      		</th:block>
 									<td th:text="${l.InfoBoardCode}"></td>
-									<td th:text="${l.reportStateCode}"></td>
+									<th:block th:object="${l.reportState}">
+						      			<td th:text="*{reportStateName}"></td>
+						      		</th:block>
 									<td th:text="${l.reportingUserId}"></td>
 									<td th:text="${l.reportedUserId}"></td>
 									<td th:text="${l.reportInfoBoardContent}"></td>
@@ -196,9 +204,13 @@ table thead {
 									th:each="l: ${reportReviewList}">
 
 									<td th:text="${l.reportReviewCode}"></td>
-									<td th:text="${l.reportTypeCode}"></td>
+									<th:block th:object="${l.reportType}">
+						      			<td th:text="*{reportType}"></td>
+						      		</th:block>
 									<td th:text="${l.reviewCode}"></td>
-									<td th:text="${l.reportStateCode}"></td>
+									<th:block th:object="${l.reportState}">
+						      			<td th:text="*{reportStateName}"></td>
+						      		</th:block>
 									<td th:text="${l.reportingUserId}"></td>
 									<td th:text="${l.reportedUserId}"></td>
 									<td th:text="${l.reportReviewContent}"></td>
