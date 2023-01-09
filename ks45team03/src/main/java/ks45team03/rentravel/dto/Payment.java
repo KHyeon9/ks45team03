@@ -135,6 +135,50 @@ public class Payment {
 	public void setMileageUseGroupCode(String mileageUseGroupCode) {
 		this.mileageUseGroupCode = mileageUseGroupCode;
 	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Payment [paymentCode=");
+		builder.append(paymentCode);
+		builder.append(", goodsCode=");
+		builder.append(goodsCode);
+		builder.append(", rentalCode=");
+		builder.append(rentalCode);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", regionSggCode=");
+		builder.append(regionSggCode);
+		builder.append(", userAddrDesc=");
+		builder.append(userAddrDesc);
+		builder.append(", paymentAccountOrCardNumber=");
+		builder.append(paymentAccountOrCardNumber);
+		builder.append(", paymentAgency=");
+		builder.append(paymentAgency);
+		builder.append(", paymentType=");
+		builder.append(paymentType);
+		builder.append(", expectedPaymentAmount=");
+		builder.append(expectedPaymentAmount);
+		builder.append(", goodsCommisionTotalPrice=");
+		builder.append(goodsCommisionTotalPrice);
+		builder.append(", mileageUsePrice=");
+		builder.append(mileageUsePrice);
+		builder.append(", saveMileage=");
+		builder.append(saveMileage);
+		builder.append(", amountExcludingMileage=");
+		builder.append(amountExcludingMileage);
+		builder.append(", settlementAmount=");
+		builder.append(settlementAmount);
+		builder.append(", paymentTime=");
+		builder.append(paymentTime);
+		builder.append(", tradeStatusCode=");
+		builder.append(tradeStatusCode);
+		builder.append(", mileageSaveGroupCode=");
+		builder.append(mileageSaveGroupCode);
+		builder.append(", mileageUseGroupCode=");
+		builder.append(mileageUseGroupCode);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 	
 }
