@@ -44,7 +44,6 @@ public class OrderService {
 		Date endDate = format.parse(rental.getRentalEndDate());
 		long dayGap = (endDate.getTime() - startDate.getTime()) /  86400000;
 		
-		System.out.println(dayGap + "렌탈 날짜~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 		float commisionRate = orderMapper.getCommisionRate();
 		float saveMileageRate = orderMapper.getUserSaveMileageRate(rental.getUserId());
@@ -70,9 +69,6 @@ public class OrderService {
 		paymentInfo.setTradeStatusCode("trade_status1");
 		paymentInfo.setMileageUseGroupCode(milegeUseGroupCode);
 		paymentInfo.setMileageSaveGroupCode(milegeSaveGroupCode);
-		
-		log.info("제발 나와주세요 payment : {} ~~~~~~~~~~~~~~~~~~~", paymentInfo);
-		log.info("제발 나와주세요 rental  : {} ~~~~~~~~~~~~~~~~~~~", rental);
 		
 		
 		result = orderMapper.addRental(rental) + orderMapper.addPayment(paymentInfo);
