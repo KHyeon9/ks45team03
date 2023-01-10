@@ -412,8 +412,10 @@
 			
 	
 		$('#submitBtn').click(function(){
+			
+			const userId =  document.getElementById("submitBtn").value;
 						
-			if(!confirm('해당 아이디를 차단하시겠습니까?')) {
+			if(!confirm(userId+'님을 차단하시겠습니까?')) {
 				return false;
 			}else{
 				$('#addBlockForm').submit();

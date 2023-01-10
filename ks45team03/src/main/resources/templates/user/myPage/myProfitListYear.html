@@ -3,6 +3,14 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 	  
+	  <head>
+		<style type="text/css">
+			th, td {
+				text-align: center !important;
+			}
+		</style>
+	</head>	  
+	  
 	<th:block layout:fragment="customContents">
 	  <!-- LIGHT SECTION -->
       <section class="lightSection clearfix pageHeader">
@@ -47,12 +55,22 @@
             <div class="col-sm-12">
               <div class="innerWrapper">
                 <div class="orderBox myAddress wishList">
-                   <h2 th:text="${loginNickName} + '님 YEAR PROFIT LIST'"></h2>
+                <div class="col-md-13 row">
+                   <h2 class="col-md-8" th:text="${loginNickName} + '님 YEAR PROFIT LIST'"></h2>
+                   
+                   <form class="col-md-4" th:action="@{/myPage/myProfitListYear}" method="get">     
+                   	<input type="hidden" th:value="ownerProfitYear" readonly="readonly" name="ownerProfitYear">         
+                  	<div class="form-group input-group">
+						<input class="form-control" name="searchYear" type="text" placeholder="년">
+						<button type="submit" class="form-control btn btn-primary col-md-3" style="margin-left: 10px">조회</button>
+					</div>
+					<br>
+					</form>
+                </div>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
-                        <tr>
-                          <th></th>
+                        <tr>                         
                           <th>ID</th>
                           <th>연도</th>
                           <th>1월</th>
@@ -72,24 +90,23 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>                     
-                          <td></td>
-                          <td></td>
-                          <td></td>       
-                          <td></td>
-                          <td></td>
-                          <td></td>       
-                          <td></td>
-                          <td></td>
-                          <td></td>       
-                          <td></td>
-                          <td></td>
-                          <td></td>       
-                          <td></td>
-                          <td></td>
-                          <td></td>       
-                          <td></td>
-                         
+                        <tr th:unless="${#lists.isEmpty(getUserYearProfitList)}" th:each="py : ${getUserYearProfitList}">      
+                          <td th:text="${py.userId}"></td>             
+                          <td th:text="${py.ownerProfitYear}"></td>
+                          <td th:text="${py.ownerProfitJanuary}"></td>
+                          <td th:text="${py.ownerProfitFebruary}"></td>       
+                          <td th:text="${py.ownerProfitMarch}"></td>
+                          <td th:text="${py.ownerProfitApril}"></td>
+                          <td th:text="${py.ownerProfitMay}"></td>       
+                          <td th:text="${py.ownerProfitJune}"></td>
+                          <td th:text="${py.ownerProfitJuly}"></td>
+                          <td th:text="${py.ownerProfitAugust}"></td>       
+                          <td th:text="${py.ownerProfitSeptember}"></td>
+                          <td th:text="${py.ownerProfitOctober}"></td>
+                          <td th:text="${py.ownerProfitNovember}"></td>       
+                          <td th:text="${py.ownerProfitDecember}"></td>
+                          <td th:text="${py.ownerProfitYearTotal}"></td>
+                                                                                
                         </tr>
                        
                       </tbody>
