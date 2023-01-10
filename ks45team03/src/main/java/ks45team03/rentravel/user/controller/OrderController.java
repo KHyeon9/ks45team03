@@ -1,5 +1,6 @@
 package ks45team03.rentravel.user.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.LoginInfo;
@@ -49,10 +51,11 @@ public class OrderController {
 	
 	
 	@PostMapping("/payment")
-	public String payment(Rental rental, HttpSession session) {
+	public String payment(Rental rental, HttpSession session){
 		String rentalCode = commonNewCode.getCommonNewCode("tb_rental", "rental_code");
 		String paymentCode = commonNewCode.getCommonNewCode("tb_payment","payment_code");
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
 		rental.setRentalCode(rentalCode);
 		rental.setUserId(loginInfo.getLoginId());
 		rental.getPayment().setPaymentCode(paymentCode);
@@ -68,11 +71,19 @@ public class OrderController {
 						  @RequestParam(value = "selectDelivery", required = false) String selectDelivery,
 						  @RequestParam(value = "rentalStartDate", required = false) String rentalStartDate,
 						  @RequestParam(value = "rentalEndDate", required = false) String rentalEndDate,
+						  HttpServletResponse response,
 						  HttpSession session,
-						  Model model) {
+						  Model model) throws IOException {
 		Goods goods = goodsService.getGoodsDetailByGoodsCode(goodsCode);
 		log.info("goods : {}", goods);
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		if (loginInfo == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
+		
 		User userInfo = orderMapper.loginUserInfo(loginInfo.getLoginId());
 		List<RegionSido> getRegionSido = userService.getRegionSido();
 		List<RegionSgg> getRegionSgg = orderMapper.getRegionSggBySidoCode(userInfo.getRegionSgg().getRegionSidoCode());

@@ -88,7 +88,24 @@
 		              </div>
 		              <div class="col-md-9 order-md-1">
 		                <h3 th:text="${infoBoardDetail.infoBoardTitle}"></h3>
-		                <img src="/user/assets/img/blog/blog-01.jpg" alt="blog-image">
+		                <img th:each="img : ${infoBoardImgList}" th:src="@{|/files/${img}|}" alt="blog-image">
+		                <!-- 캐러셀 시작 -->
+						<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+						  <div class="carousel-inner">
+						    <div th:each="img : ${infoBoardImgList}"  class="carousel-item active">
+						      <img th:src="@{|/files/${img}|}" class="d-block w-100" alt="blog-image">
+						    </div>
+						  </div>
+						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+						    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						    <span class="visually-hidden">Previous</span>
+						  </button>
+						  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+						    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						    <span class="visually-hidden">Next</span>
+						  </button>
+						</div>
+						<!-- 캐러셀 종료 -->
 		                <p th:text="${infoBoardDetail.infoBoardContent}"></p>
 		              </div>
 		            </div>
@@ -107,7 +124,7 @@
 		            <th:block th:if="${commentCnt != 0}" th:unless="${#lists.isEmpty(commentList)}" th:each="comm : ${commentList}">
 		            	<div class="media flex-wrap commentInfo">
 			              <a class="media-left" href="#">
-			                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
+			                <img class="media-object" th:src="/user/assets/img/blog/avatar.jpg" alt="Image">
 			              </a>
 			              <div class="media-body">
 			                <h4 class="media-heading" th:text="${comm.userNickName}"></h4>
