@@ -38,12 +38,10 @@ public class UserBlockController {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
 		userBlockService.removeUserBlock(blockedUserId);
-		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
 		
 		String loginNickName = loginUser.getLoginNickName();	
 		
 		model.addAttribute("title","나의 차단 리스트");
-		model.addAttribute("getUserBlockList",getUserBlockList);
 		model.addAttribute("loginNickName",loginNickName);
 		
 		
@@ -61,17 +59,12 @@ public class UserBlockController {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
 		System.out.println(userId+"<-userId");
-		
-		
+				
 		userBlockService.addUserBlock(userId, loginUser.getLoginId());
-		
-		
-		List<Block> getUserBlockList = userBlockMapper.getUserBlockList(loginUser.getLoginId());
 		
 		String loginNickName = loginUser.getLoginNickName();	
 		
 		model.addAttribute("title","나의 차단 리스트");
-		model.addAttribute("getUserBlockList",getUserBlockList);
 		model.addAttribute("loginNickName",loginNickName);
 
 		
