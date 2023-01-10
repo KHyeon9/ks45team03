@@ -11553,7 +11553,6 @@ input.form-control.is-valid.focus, input.form-control.is-valid:focus, input.form
   color: #797979;
   font-size: 13px;
   padding: 5px 15px;
-  text-transform: uppercase;
 }
 
 .selectOptions .sbOptions a:hover {

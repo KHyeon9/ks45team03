@@ -30,13 +30,43 @@
 	 	<!-- MAIN CONTENT SECTION -->
 	      <section class="mainContent clearfix blogPage">
 	        <div class="container">
+				<!-- progress-wizard SECTION -->
+	        	<div class="row">
+		            <div class="col-md-12">
+		              <div class="innerWrapper clearfix stepsPage">
+		                <div class="row progress-wizard" style="border-bottom:0;">
+		                  <div class="col-4 progress-wizard-step complete fullBar">
+		                    <div class="text-center progress-wizard-stepnum">개인정보이용동의</div>
+		                    <div class="progress"><div class="progress-bar"></div></div>
+		                    <div class="progress-wizard-dot"></div>
+		                  </div>
+		  
+		                  <div class="col-4 progress-wizard-step complete fullBar">
+		                    <div class="text-center progress-wizard-stepnum">보험금청구서작성</div>
+		                    <div class="progress"><div class="progress-bar"></div></div>
+		                    <div class="progress-wizard-dot"></div>
+		                  </div>
+		  
+		                  <div class="col-4 progress-wizard-step active">
+		                    <div class="text-center progress-wizard-stepnum">접수완료/접수증</div>
+		                    <div class="progress"><div class="progress-bar"></div></div>
+		                    <div class="progress-wizard-dot"></div>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		         </div>
+	        
 	        	<div class="col-md-12 row" style="margin:0; padding:0;">
+	        	
 		        	<h1>보험금청구접수증</h1>
 		        	<div style="margin-left:auto;">
 	        			<a th:href="@{insurance/insuranceModifyBill}" class="btn btn-primary-outlined btn-md" style="margin-right: 5px;">수정</a>
 	        			<a th:href="@{insurance/insuranceRemoveBill}" class="btn btn-primary-outlined btn-md" style="margin-right:0">삭제</a>
 	        		</div>
 	        	</div>
+	        		        	
+			   
 
 			    <div class="col-md-12"  th:if="${not #lists.isEmpty(insuranceBillDetail)}" th:each="l: ${insuranceBillDetail}"
 			    		style="border: 1px solid #dee2e6; padding: 5rem; margin-top: 2rem;">
@@ -120,72 +150,7 @@
 			
 		</script>
 	</th:block>
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
 
-<!-- 									<table class="table">
-									  <thead>
-									    <tr>
-									      <th scope="col">insurance_bill_detail_code</th>
-									      <th scope="col">insurance_code</th>
-									      <th scope="col">user_id</th>
-									      <th scope="col">goods_code</th>
-									      <th scope="col">payment_code</th>
-									      <th scope="col">accident_date</th>
-									      <th scope="col">accident_type</th>
-									      <th scope="col">accident_content</th>
-									      <th scope="col">insurance_evidence</th>
-									      <th scope="col">bank_name</th>
-									      <th scope="col">account_holder</th>
-									      <th scope="col">account_number</th>
-									      <th scope="col">request_date</th>
-									    </tr>
-									  </thead>
-									  <tbody>
-									    <tr th:if="${not #lists.isEmpty(insuranceBillDetail)}"
-									    	 th:each="l : ${insuranceBillDetail}">	
-									      <td th:text="${l.insuranceBillDetailCode}"></td>
-									      <td th:text="${l.insuranceCode}"></td>
-									      <td th:text="${l.userId}"></td>
-									      <td th:text="${l.goodsCode}"></td>
-									      <td th:text="${l.paymentCode}"></td>
-									      <td th:text="${l.accidentDate}"></td>
-									      <td th:text="${l.accidentType}"></td>
-									      <td th:text="${l.accidentContent}"></td>
-									      <td th:text="${l.insuranceEvidence}"></td>
-									      <td th:text="${l.bankName}"></td>
-									      <td th:text="${l.accountHolder}"></td>
-									      <td th:text="${l.accountNumber}"></td>
-									      <td th:text="${l.requestDate}"></td>
-									    </tr>
-									    <tr th:unless="${not #lists.isEmpty(insuranceBillDetail)}">
-									    	<td colspan="9">등록된 상품이 없습니다.</td>
-									    </tr>
-									  </tbody>
-									</table> -->
 	                     		
 	  </th:block>
 </html>
