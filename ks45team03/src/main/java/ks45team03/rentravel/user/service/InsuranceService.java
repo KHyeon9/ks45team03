@@ -19,28 +19,7 @@ public class InsuranceService {
 	public InsuranceService(InsuranceMapper insuranceMapper) {
 		this.insuranceMapper = insuranceMapper;
 	}
-	
-	/**
-	 * 보상금청구서 상세화면
-	 * @return List<InsuranceBillDetail>
-	 */
-	public  List<InsuranceBillDetail> getInsuranceBillDetail() {
-		List<InsuranceBillDetail> insuranceBillDetail = insuranceMapper.getInsuranceBillDetail();
 		
-		return insuranceBillDetail;
-	}
-	
-	/**
-	 * 보상금청구서 등록
-	 * @return int
-	 */
-	public int addInsuranceBillDetail() {
-		
-		int result = insuranceMapper.addInsuranceBillDetail();
-		
-		return result;
-	}
-	
 	/**
 	 * 보상금청구서 수정
 	 * @return int

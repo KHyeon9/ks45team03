@@ -13,6 +13,10 @@
 					display: none;
 				}
 				
+				.searchInsurance {
+					display: none;
+				}
+				
 			}
 		    		
 		</style>
@@ -27,7 +31,7 @@
               <div class="col-md-12 text-center" >
                 <div class="sectionTitle">
                   <h1>INSURANCE</h1>
-                  <p>오너의 상품을 렌탈해줄 때 자동으로 보험에 가입됩니다.</p>
+                  <p>상품을 렌탈해줄 때 자동으로 보험에 가입됩니다.</p>
                 </div>
               </div><br/>
               	<div class="sectionTitle text-center"><h2>PROCESS</h2></div>
@@ -91,14 +95,17 @@
 					<a class="nav-link tabInsurancePayout" data-toggle="tab" href="#justified4" role="tab">PAYOUT</a>
 				</li>
 			</ul><br/><br/>
+
+
+           	<!-- 검색 -->
+           	<div class="input-group col-sm-3  row searchInsurance" style="margin-left:auto; margin-bottom: 1rem">
+				<input type="text" class="form-control" placeholder="search" style="line-height: 1px; font-size: 14px; padding: 10px 20px;">
+				<button type="submit" class="input-group-addon" style="background-color:#47BAC1; color:white;  font-size: 14px;">검색</button>
+			</div>
 			
             <!-- 나의 가입보험정보 -->
             <div class="tableInsurance">
 	            	<h4>01. 가입보험정보</h4><br/>
-	            	<!-- <div class="input-group col-md-3 searchInsurance">
-						<input type="text" class="form-control" placeholder="search">
-						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
-					</div> -->
 		        	<table class="table table-responsive-md text-center">
 						<thead>
 							<tr>
@@ -129,7 +136,7 @@
 						      		<td th:text="*{rentalEndDate}"></td>
 						      	</th:block>
 						      <td>
-						      	<a th:href="@{/insurance/insuranceaddBillPersonInfo}" class="badge badge-primary btnaddBill">청구하기</a>
+						      	<a th:href="@{/insurance/insuranceaddBillPersonInfo/{insuranceCode}(insuranceCode=${l.insuranceCode})}" class="badge badge-primary btnaddBill">청구하기</a>
 						      </td>
 						    </tr>
 						    <tr th:unless="${not #lists.isEmpty(insuranceList)}">
@@ -143,14 +150,11 @@
             <!-- 나의 제출한 보험 청구서 리스트 -->
             <div class="tableInsuranceBill" >
 	            		<h4>02. 보험청구서</h4><br/>
-	            	<!-- <div class="input-group col-md-3 searchInsurance">
-						<input type="text" class="form-control" placeholder="search">
-						<button id="btnSearchInsurance"><i class="icon-v2 fa fa-search icon-sm"></i></button>
-					</div> -->
 	            	<table class="table table-responsive-md text-center">
 					  <thead>
 					    <tr>
 					      <th>보험청구코드</th>
+					      <th>보험코드</th>
 					      <th>보험청구서코드</th>
 					      <th>상품코드</th>
 					      <th>상품명</th>
@@ -162,6 +166,7 @@
 					  <tbody>
 					   <tr th:if="${not #lists.isEmpty(insuranceBillList)}" th:each="l : ${insuranceBillList}">
 					      <td th:text="${l.insuranceBillCode}"></td>
+					      <td th:text="${l.insuranceCode}"></td>
 					      <td th:text="${l.insuranceBillDetailCode}"></td>
 					       <th:block th:object="${l.goods}">
 					       		<td th:text="*{goodsCode}"></td>
@@ -171,11 +176,10 @@
 						   		<td class="billState"  th:text="*{insuranceBillStateName}"></td>
 						   </th:block>
 					      <td th:text="${l.insuranceBillModifyDate}"></td>
-					      <td><a th:href="@{/insurance/insuranceBillDetail}" class="badge badge-primary btnBillDetail">상세보기</a></td>
-					    </tr>
+					      <td><a th:href="@{/insurance/insuranceBillDetail/{insuranceBillDetailCode}(insuranceBillDetailCode=${l.insuranceBillDetailCode})}" class="badge badge-primary btnBillDetail">상세보기</a></td>
+					    </tr>	
 					    <tr th:unless="${not #lists.isEmpty(insuranceBillList)}">
 					    	<td colspan="9">작성한 보상금청구서가 없습니다.</td>
-					    	
 					    </tr>
 					  </tbody>
 					</table>
