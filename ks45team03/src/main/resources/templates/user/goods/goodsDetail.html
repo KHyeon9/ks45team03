@@ -92,23 +92,29 @@
                   <h2 th:text="*{goodsName}"></h2>
                   <h3 th:text="'1일당 '+*{goodsDayPrice}+'원'"></h3>
                             
-                   <form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
-                   		<h4 th:text="'ID: '+*{userId}"></h4>
-                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
-                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">차단하기</button>
-                   </form>
+                   		<h4 th:text="'판매자 닉네임: '+*{userNickname}"></h4>
+                   		<h4 th:text="'카테고리: '+*{goodsCategoryName}"></h4>
+                   		<h4 th:text="'등록일자: '+*{goodsRegDate}"></h4>
+                   		<h4 th:text="'상품가치: '+*{goodsValuePrice}"></h4>
+
                    	
                    <form id="getRentalInfo" action="/order/payment" method="get">
                    	 <input th:value="${goodsDetail.goodsCode}" name="goodsCode" type="hidden" readonly="readonly"/>
                      <div class="row">
                    	   <div class="col-12">
-	                      <h5 class="mr-4" style="margin-bottom: 20px;">택배여부</h5>
+	                      <h5 class="mr-4" style="margin-bottom: 7px; margin-top: 7px;">택배여부</h5>
 		                  <div class="form-group row">
 		                    <div class="quick-drop col-4 selectOptions mb-2">
-		                      <select id="deliveryType" name="selectDelivery" class="form-control select-drop">
+		                      <select id="deliveryType" name="selectDelivery" class="form-control" style="margin-bottom:0px;">
 	                            <option value="N" selected>직거래</option>
 		                        <option value="Y">택배</option>
 		                      </select>
+		                 	 </div>
+		                 	 <div class="quick-drop col-4 selectOptions mb-2">
+           	   	                <form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
+			                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
+			                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
+			                   </form>
 		                 	 </div>
 		                  </div>
 	                   </div>
@@ -134,12 +140,23 @@
 	                    </div>
 	                  </div>
 	                  <div class="btn-area mb-0">
-	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="width: 125px; text-align:center; font-weight: bold;">결제하기<i class="fa fa-angle-right" aria-hidden="true"></i></button>
-						<a th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="width: 125px; text-align:center; font-weight: bold;">chat if문</button></a>		    		
-		    			<a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}"><button type="button" class="btn btn-primary" style="width: 125px; text-align:center; font-weight: bold;">상품 수정</button></a>
+	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+						<a th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
 	                  </div>
                    </form>
-				
+        	          <div class="btn-area mb-0" style="margin-top:10px; display:flex;" th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == goodsDetail.userId}">
+		    			<a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold; margin-right:3px;">수정</button></a>
+			    			<form id="removeGoodsForm" th:action="@{/goods/removeGoods}" method="post" style="width:0%">
+			    				<button type="submit"
+			    						class="btn btn-primary"
+			    						id="removeGoodsButton"
+			    						style="width: 100px;
+			    						text-align:center;
+			    						font-weight: bold;"
+			    						th:value="${goodsDetail.goodsCode}"
+			    						name="goodsCode">삭제</button>
+			    			</form>
+	                  </div>
          
                 </div>
               </div>
@@ -351,7 +368,7 @@
           </div>
 
           <div class="page-header">
-            <h4 th:text="|${goodsDetail.userId}님의 다른 상품|"></h4>
+            <h4 th:text="|${goodsDetail.userNickname}님의 다른 상품|"></h4>
           </div>
           <div class="row productsContent">
             
@@ -418,7 +435,17 @@
 			}else{
 				$('#addBlockForm').submit();
 			}
-		}) 
+		}); 
+			
+		$('#removeGoodsButton').click(function(){
+			
+			if(!confirm('상품을 삭제하시겠습니까?')) {
+				return false;
+			}else{
+				$('#removeGoodsForm').submit();
+				alert('상품이 삭제되었습니다.');
+			}
+		}); 
 		</script>
 	</th:block>
 </body>

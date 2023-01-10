@@ -29,4 +29,10 @@ public interface GoodsMapper {
 	public List<Goods> getGoodsListByGoodsCategory(String goodsCategoryCode);
 	
 	public List<Goods> getGoodsListByUserId(String userId);
+	
+	public int removeGoods(String goodsCode);
+	
+	public List<Goods> getMyGoodsList(String loginId,int startIndex, int pageSize);
+	
+	public int getMyGoodsListCount(String loginId);
 }

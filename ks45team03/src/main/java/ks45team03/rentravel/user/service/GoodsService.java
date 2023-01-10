@@ -115,4 +115,21 @@ public class GoodsService {
 		
 		return goodsListByUserId;
 	}
+	
+	public int removeGoods(String goodsCode) {
+		
+		return goodsMapper.removeGoods(goodsCode);
+	}
+	
+	public List<Goods> getMyGoodsList(String loginId,int startIndex, int pageSize){
+		
+		List<Goods> myGoodsList = goodsMapper.getMyGoodsList(loginId,startIndex,pageSize);
+		
+		return myGoodsList;
+	}
+	
+	public int getMyGoodsListCount(String loginId) {
+		
+		return goodsMapper.getMyGoodsListCount(loginId);
+	}
 }

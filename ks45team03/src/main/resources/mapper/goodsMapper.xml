@@ -19,11 +19,14 @@
 		<result property="goodsDetail" 	column="goods_detail"/>
 		<result property="goodsRegDate" 	column="goods_reg_date"/>
 		<result property="regionSggCode" 	column="region_sgg_code"/>
+		<result property="goodsState" 	column="goods_state"/>
 		
 		<result property="goodsCategoryCode" 		column="goods_category_code"/>
 		<result property="goodsCategoryName" 	column="goods_category_name"/>
 		<result property="countByCategory" 	column="count_by_category"/>
 		<result property="userRegion" 	column="user_region"/>
+		
+		<result property="userNickname" 	column="user_nickname"/>
 		
 	</resultMap>
 
@@ -48,6 +51,7 @@
 			, g.goods_category_code
 			, gc.goods_category_name
 			, CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
+			, u.user_nickname
 		FROM
 			tb_goods AS g
 		join
@@ -62,9 +66,14 @@
 			tb_goods_category AS gc
 		on
 			gc.goods_category_code = g.goods_category_code
+		JOIN
+			tb_user AS u
+		ON
+			u.user_id = g.user_id	
 		<where>
+			g.goods_state = 'activate'
 			<if test="goodsCategoryCode != 'all'">
-				gc.goods_category_code = #{goodsCategoryCode}
+				and gc.goods_category_code = #{goodsCategoryCode}
 			</if>
 			
 			<if test="searchKey != null and searchKey != ''">
@@ -100,13 +109,29 @@
 			, g.goods_detail
 			, g.goods_category_code
 			, gc.goods_category_name
+			, CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
+			, u.user_nickname
 		FROM
 			tb_goods AS g
-		JOIN
-			tb_goods_category AS gc
+		join
+			tb_region_sgg AS rsgg
 		ON
-			g.goods_category_code = gc.goods_category_code
+		 	rsgg.region_sgg_code = g.region_sgg_code
+		join
+			tb_region_sido AS rsido
+		on
+			rsgg.region_sido_code = rsido.region_sido_code
+		join
+			tb_goods_category AS gc
+		on
+			gc.goods_category_code = g.goods_category_code
+		JOIN
+			tb_user AS u
+		ON
+			u.user_id = g.user_id	
 		<where>
+			g.goods_state = 'activate'
+			and
     		g.user_id NOT IN (	SELECT 
 								  		b.blocked_user_id
 							   	FROM 
@@ -129,6 +154,7 @@
 			<if test='goodsRentalAvailability == "N"'>
 				and goods_rental_availability = 'N'
 			</if>
+			
 		</where>		
 			<if test="startIndex != null and startIndex > -1">
 				LIMIT #{startIndex}, #{pageSize}
@@ -162,13 +188,28 @@
 			,g.goods_purchase_date
 			,g.goods_day_price
 			,g.goods_detail
+			,g.goods_reg_date
 			,gc.goods_category_name
+			, CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
+			, u.user_nickname
 		FROM
 			tb_goods AS g
-		JOIN
-			tb_goods_category AS gc
+		join
+			tb_region_sgg AS rsgg
 		ON
-			g.goods_category_code = gc.goods_category_code
+		 	rsgg.region_sgg_code = g.region_sgg_code
+		join
+			tb_region_sido AS rsido
+		on
+			rsgg.region_sido_code = rsido.region_sido_code
+		join
+			tb_goods_category AS gc
+		on
+			gc.goods_category_code = g.goods_category_code
+		JOIN
+			tb_user AS u
+		ON
+			u.user_id = g.user_id	
 		WHERE
 			g.goods_code = #{goodsCode};
     </select>
@@ -231,10 +272,13 @@
 					,COUNT(1) AS count_by_category
 			    FROM
 				 	tb_goods
+				where
+					goods_state = 'activate'
 			    GROUP BY
 				 	goods_category_code
 			)AS g
 		ON g.goods_category_code = gc.goods_category_code;
+		
     
     </select>
     
@@ -245,8 +289,9 @@
 		FROM
 			tb_goods
 		<where>
+			goods_state = 'activate'
 			<if test="goodsCategoryCode != 'all'">
-				goods_category_code = #{goodsCategoryCode}
+				and	goods_category_code = #{goodsCategoryCode}
 			</if>
 			
 			<if test='goodsRentalAvailability == "Y"'>
@@ -279,6 +324,71 @@
 		ORDER BY
 			goods_reg_date desc
 		LIMIT 4;
+    
+    </select>
+    
+    <update id="removeGoods" parameterType="String">
+    
+    	UPDATE
+			tb_goods AS g
+		SET
+			g.goods_state = 'disabled'
+		WHERE
+			g.goods_code = #{goodsCode};
+    
+    </update>
+    
+    <select id="getMyGoodsList" parameterType="String" resultMap="goodsResultMap">
+
+		SELECT
+			g.goods_code
+			, g.goods_name
+			, g.user_id
+			, g.goods_rental_availability
+			, g.goods_value_price
+			, g.goods_day_price
+			, g.goods_reg_date
+			, g.goods_detail
+			, g.goods_category_code
+			, gc.goods_category_name
+			, CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
+		FROM
+			tb_goods AS g
+		join
+			tb_region_sgg AS rsgg
+		ON
+		 	rsgg.region_sgg_code = g.region_sgg_code
+		join
+			tb_region_sido AS rsido
+		on
+			rsgg.region_sido_code = rsido.region_sido_code
+		join
+			tb_goods_category AS gc
+		on
+			gc.goods_category_code = g.goods_category_code
+		where
+			g.user_id = #{loginId}
+		and
+			g.goods_state = 'activate'
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize}
+		</if>
+			
+    
+    </select>
+    
+        <select id="getMyGoodsListCount" resultType="int">
+    
+    	SELECT
+			COUNT(1)
+		FROM
+			tb_goods
+		where
+			goods_state = 'activate'
+			and
+			user_id=#{loginId};
+		
+
     
     </select>
     
