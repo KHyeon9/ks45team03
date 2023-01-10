@@ -1,6 +1,10 @@
 package ks45team03.rentravel.user.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,19 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.LoginInfo;
-import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.OrderMapper;
-import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.user.service.GoodsService;
-import ks45team03.rentravel.user.service.InfoBoardService;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -50,7 +52,7 @@ public class OrderController {
 	
 	
 	@PostMapping("/payment")
-	public String payment(Rental rental, HttpSession session) throws ParseException {
+	public String payment(Rental rental, HttpSession session) throws ParseException{
 		String rentalCode = commonNewCode.getCommonNewCode("tb_rental", "rental_code");
 		String paymentCode = commonNewCode.getCommonNewCode("tb_payment","payment_code");
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
@@ -70,11 +72,24 @@ public class OrderController {
 						  @RequestParam(value = "selectDelivery", required = false) String selectDelivery,
 						  @RequestParam(value = "rentalStartDate", required = false) String rentalStartDate,
 						  @RequestParam(value = "rentalEndDate", required = false) String rentalEndDate,
+						  HttpServletResponse response,
 						  HttpSession session,
-						  Model model) {
+						  Model model) throws IOException, ParseException {
 		Goods goods = goodsService.getGoodsDetailByGoodsCode(goodsCode);
 		log.info("goods : {}", goods);
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		if (loginInfo == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date startDate = format.parse(rentalStartDate);
+		Date endDate = format.parse(rentalEndDate);
+		long dayGap = (endDate.getTime() - startDate.getTime()) /  (24*60*60*1000);
+		
 		User userInfo = orderMapper.loginUserInfo(loginInfo.getLoginId());
 		List<RegionSido> getRegionSido = userService.getRegionSido();
 		List<RegionSgg> getRegionSgg = orderMapper.getRegionSggBySidoCode(userInfo.getRegionSgg().getRegionSidoCode());
@@ -87,6 +102,9 @@ public class OrderController {
 		model.addAttribute("selectDelivery", selectDelivery);
 		model.addAttribute("rentalStartDate", rentalStartDate);
 		model.addAttribute("rentalEndDate", rentalEndDate);
+		model.addAttribute("dayGap", dayGap);
+		model.addAttribute("totalPrice", goods.getGoodsDayPrice() * dayGap);
+		
 		
 		return "user/order/payment";
 	}
