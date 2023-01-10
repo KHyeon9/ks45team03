@@ -18,16 +18,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.LoginInfo;
-import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.OrderMapper;
-import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.user.service.GoodsService;
-import ks45team03.rentravel.user.service.InfoBoardService;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -55,7 +52,7 @@ public class OrderController {
 	
 	
 	@PostMapping("/payment")
-	public String payment(Rental rental, HttpSession session){
+	public String payment(Rental rental, HttpSession session) throws ParseException{
 		String rentalCode = commonNewCode.getCommonNewCode("tb_rental", "rental_code");
 		String paymentCode = commonNewCode.getCommonNewCode("tb_payment","payment_code");
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
@@ -63,11 +60,11 @@ public class OrderController {
 		rental.setRentalCode(rentalCode);
 		rental.setUserId(loginInfo.getLoginId());
 		rental.getPayment().setPaymentCode(paymentCode);
+		rental.getPayment().setUserId(loginInfo.getLoginId());
 		
-		log.info("제발 잘 나와주세요 : ~~~~~~~~~~~~~ {}", rental);
+		orderService.addOrder(rental);
 		
-		
-		return "redirect:/order/paymentResult";
+		return "redirect:/order/paymentResult?rentalCode=" + rentalCode;
 	}
 	
 	@GetMapping("/payment")
@@ -96,8 +93,6 @@ public class OrderController {
 		User userInfo = orderMapper.loginUserInfo(loginInfo.getLoginId());
 		List<RegionSido> getRegionSido = userService.getRegionSido();
 		List<RegionSgg> getRegionSgg = orderMapper.getRegionSggBySidoCode(userInfo.getRegionSgg().getRegionSidoCode());
-		
-		log.info("{}", userInfo.getUserAddrDesc());
 		
 		model.addAttribute("title", "결제 화면");
 		model.addAttribute("goods", goods);

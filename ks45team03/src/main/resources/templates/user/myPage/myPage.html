@@ -5,18 +5,15 @@
 	  
   	<th:block layout:fragment="customContents">
 
-		<!-- <a th:href="@{/myPage/modifyUser}" style="color:blue;">수정</a>
-		<a th:href="@{/myPage/removeUser}" style="color:blue;">탈퇴</a> -->
-
 	<!-- MAIN CONTENT SECTION -->
       <section class="mainContent clearfix userProfile">
         <div class="container">
           <div class="row">
             <div class="col-12">
               <div class="btn-group" role="group" aria-label="...">
-              	<a th:href="@{/myPage/myInfo}" class="btn btn-default active"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+              	<a th:href="@{/myPage/checkPassword}" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>내 정보</a>
                 <a th:href="@{/myPage/myGoodsList}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>내 상품</a>
-                <a th:href="@{/myPage/myReviewList}" class="btn btn-default active"><i class="fa fa-list" aria-hidden="true"></i>내 리뷰</a>
+                <a th:href="@{/myPage/myReviewList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 리뷰</a>
                 <a th:href="@{/myPage/myWishList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 관심상품</a>
                 <a th:href="@{/myPage/myOrderList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 주문 내역</a>
                 <a th:href="@{/myPage/userEvaluation}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 평가</a>
@@ -26,74 +23,12 @@
                 <a th:href="@{/myPage/myMileageList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 적립금 내역</a>
                 <a th:href="@{/myPage/alarmList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 알림 목록</a>
                 <a th:href="@{/myPage/myExperience}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 경험치</a>
+                <a th:href="@{/report/reportTest}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>상품 신고하기 실험</a>
+               	
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="innerWrapper profile">
-                <div class="orderBox">
-                  <h2 th:text="${loginNickName}"></h2>
-                </div>
-                <div class="row">
-                  <div class="col-md-4 col-lg-3 col-xl-2 col-12">
-                    <div class="thumbnail">
-                      <img src="assets/img/products/profile/profile-image.jpg" alt="profile-image">
-                      <div class="caption">
-                        <a href="#" class="btn btn-primary btn-block" role="button">Change Avatar</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-8 col-lg-9 col-xl-10 col-12">
-                      <form class="form-horizontal">
-                        <div class="form-group row">
-                          <label for="" class="col-md-3 control-label">아이디</label>
-                          <div class="col-md-7">
-                            <input type="text" class="form-control" id="userId" name="userId" readonly th:value="${userInfo.userId}">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="" class="col-md-3 control-label">비밀번호</label>
-                          <div class="col-md-7">
-                            <input type="password" class="form-control" id="userPw" name="userPw" th:value="${userInfo.userPw}">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="" class="col-md-3 control-label">이름</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control" id="userName" name="userName" th:value="${userInfo.userName}">
-                          </div>
-                        </div>	
-                        <div class="form-group row">
-                          <label for="" class="col-md-3 control-label">이메일</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control" id="userEmail" name="userEmail" th:value="${userInfo.userEmail}">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="" class="col-md-3 control-label">전화번호</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control" id="userPhoneNumber" name="userPhoneNumber" th:value="${userInfo.userPhoneNumber}">
-                          </div>
-                        </div>
-                         <div class="form-group row">
-                          <label for="" class="col-md-3 control-label">주소</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control" id="regionSggName" name="regionSggName" th:value="${userInfo.regionSgg.regionSggName}">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <div class=" col-md-12 ">
-                            <button type="submit" class="btn btn-primary float-right">SAVE INFO</button>
-                          </div>
-                        </div>
-                      </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </div> 
         </div>
       </section>
-	</th:block>
-</html>
+      
+      

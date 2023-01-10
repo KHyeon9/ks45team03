@@ -26,6 +26,8 @@ public class Goods {
 	private String countByCategory;
 	
 	private String goodsCategoryName;
+	
+	private String userRegion;
 
 	
 }

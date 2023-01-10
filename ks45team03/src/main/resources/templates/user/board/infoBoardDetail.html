@@ -3,6 +3,17 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 	  
+	  <head>
+	  	<style type="text/css">
+	  		.carousel-control-prev-icon{
+	  			filter: invert(40%) sepia(84%) saturate(381%) hue-rotate(178deg) brightness(95%) contrast(91%);
+	  		}
+	  		.carousel-control-next-icon{
+	  			filter: invert(40%) sepia(84%) saturate(381%) hue-rotate(178deg) brightness(95%) contrast(91%);
+	  		}
+	  	
+	  	</style>
+	  </head>
 	  <th:block layout:fragment="customContents">
 		<!-- LIGHT SECTION -->
 		<section class="lightSection clearfix pageHeader">

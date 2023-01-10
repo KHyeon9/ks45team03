@@ -10,6 +10,22 @@ public class ReportReview {
 	private String reportedUserId;
 	private String reportReviewContent;
 	private String reportReviewDatetime;
+	
+	ReportState reportState;
+	ReportType reportType;
+	
+	public ReportState getReportState() {
+		return reportState;
+	}
+	public void setReportState(ReportState reportState) {
+		this.reportState = reportState;
+	}
+	public ReportType getReportType() {
+		return reportType;
+	}
+	public void setReportType(ReportType reportType) {
+		this.reportType = reportType;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

@@ -3,7 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks45team03.rentravel.mapper.InsuranceMapper">
-
+	
+	<!-- insuranceResultMap -->
 	<resultMap type="Insurance"	id="insuranceResultMap">
 		<id property="insuranceCode" column="insurance_code" />
 		<result property="userId" column="user_id" />
@@ -15,19 +16,6 @@
 		<association property="goods" javaType="Goods">
 			<id property="goodsCode" 			column="goods_code"/>
 			<result property="goodsName" 		column="goods_name"/>
-			<result property="goodsCategoryCode" 		column="goods_category_code"/>
-			<result property="userId" 	column="user_id"/>
-			<result property="goodsRentalAvailability" 	column="goods_rental_availability"/>
-			<result property="goodsValuePrice" 	column="goods_value_price"/>
-			<result property="goodsPurchaseDate" 	column="goods_purchase_date"/>
-			<result property="goodsDayPrice" 	column="goods_day_price"/>
-			<result property="commisionRateCode" 	column="commision_rate_code"/>
-			<result property="commisionRate" 	column="commision_rate"/>
-			<result property="goodsCommisionDayPrice" 	column="goods_commision_day_price"/>
-			<result property="goodsDetail" 	column="goods_detail"/>
-			<result property="goodsRegDate" 	column="goods_reg_date"/>
-			<result property="regionSggCode" 	column="region_sgg_code"/>
-			<result property="goodsCategoryName" 	column="goods_category_name"/>
 		</association>
 		<association property="rental"  javaType="Rental">
 			<id 	property="rentalCode" 	  		column="rental_code" />
@@ -35,15 +23,10 @@
 			<result property="userId" 	  			column="user_id" />
 			<result property="rentalStartDate" 		column="rental_start_date" />
 			<result property="rentalEndDate" 		column="rental_end_date" />
-			<result property="selectDelivery" 		column="select_delivery" />
-			<result property="rentalOrderDate" 		column="rental_order_date" />
-			<result property="goodsName" 			column="goods_name" />
-			<result property="sidoName" 			column="region_sido_name" />
-			<result property="sigunguName" 			column="region_sgg_name" />
-			<result property="orderStateName" 		column="order_state_standard_name" />
 		</association>
 	</resultMap>
 	
+	<!-- insuranceBillDetailResultMap -->
 	<resultMap type="InsuranceBillDetail" id="insuranceBillDetailResultMap">
 		<id property="insuranceBillDetailCode" column="insurance_bill_detail_code" />
 		<result property="insuranceCode" column="insurance_code" />
@@ -58,30 +41,30 @@
 		<result property="accountHolder" column="account_holder" />
 		<result property="accountNumber" column="account_number" />
 		<result property="requestDate" column="request_date" />
+		<association property="goods" javaType="Goods">
+			<id property="goodsCode" 			column="goods_code"/>
+			<result property="goodsName" 		column="goods_name"/>
+		</association>
+		<association property="user" javaType="User">
+			<id 	property="userId" 	  		column="user_id" />
+			<result property="userName" 	column="user_name" />
+			<result property="userPhoneNumber" 	column="user_phone_number" />
+			<result property="userEmail" 	column="user_email" />
+			<result property="userAddrDesc" 	  	column="user_addr_desc" />
+		</association>
+		
 	</resultMap>
 	
 	<resultMap type="InsuranceBill" id="insuranceBillResultMap">
 		<id property="insuranceBillCode" column="insurance_bill_code" />
 		<result property="userId" column="user_id" />
+		<result property="insuranceCode" column="insurance_code" />
 		<result property="insuranceBillDetailCode" column="insurance_bill_detail_code" />
 		<result property="insuranceBillStateCode" column="insurance_bill_state_code" />
 		<result property="insuranceBillModifyDate" column="insurance_bill_modify_date" />
 		<association property="goods" javaType="Goods">
 			<id property="goodsCode" 			column="goods_code"/>
 			<result property="goodsName" 		column="goods_name"/>
-			<result property="goodsCategoryCode" 		column="goods_category_code"/>
-			<result property="userId" 	column="user_id"/>
-			<result property="goodsRentalAvailability" 	column="goods_rental_availability"/>
-			<result property="goodsValuePrice" 	column="goods_value_price"/>
-			<result property="goodsPurchaseDate" 	column="goods_purchase_date"/>
-			<result property="goodsDayPrice" 	column="goods_day_price"/>
-			<result property="commisionRateCode" 	column="commision_rate_code"/>
-			<result property="commisionRate" 	column="commision_rate"/>
-			<result property="goodsCommisionDayPrice" 	column="goods_commision_day_price"/>
-			<result property="goodsDetail" 	column="goods_detail"/>
-			<result property="goodsRegDate" 	column="goods_reg_date"/>
-			<result property="regionSggCode" 	column="region_sgg_code"/>
-			<result property="goodsCategoryName" 	column="goods_category_name"/>
 		</association>
 		<association property="insuranceBillDetail" javaType="InsuranceBillDetail">
 			<id property="insuranceBillDetailCode" column="insurance_bill_detail_code" />
@@ -115,18 +98,6 @@
 			<id property="goodsCode" 			column="goods_code"/>
 			<result property="goodsName" 		column="goods_name"/>
 			<result property="goodsCategoryCode" 		column="goods_category_code"/>
-			<result property="userId" 	column="user_id"/>
-			<result property="goodsRentalAvailability" 	column="goods_rental_availability"/>
-			<result property="goodsValuePrice" 	column="goods_value_price"/>
-			<result property="goodsPurchaseDate" 	column="goods_purchase_date"/>
-			<result property="goodsDayPrice" 	column="goods_day_price"/>
-			<result property="commisionRateCode" 	column="commision_rate_code"/>
-			<result property="commisionRate" 	column="commision_rate"/>
-			<result property="goodsCommisionDayPrice" 	column="goods_commision_day_price"/>
-			<result property="goodsDetail" 	column="goods_detail"/>
-			<result property="goodsRegDate" 	column="goods_reg_date"/>
-			<result property="regionSggCode" 	column="region_sgg_code"/>
-			<result property="goodsCategoryName" 	column="goods_category_name"/>
 		</association>
 		<association property="insuranceBillDetail" javaType="InsuranceBillDetail">
 			<id property="insuranceBillDetailCode" column="insurance_bill_detail_code" />
@@ -180,35 +151,79 @@
 			i.insurance_code;
 	</select>
 	
-	<select id="getInsuranceBillDetail" resultMap="insuranceBillDetailResultMap">
-		/* 보상금청구서 상세 조회 */
+	<select id="getInsuranceBillDetailInfoById" parameterType="String" resultMap="insuranceBillDetailResultMap">
+		/* 보상금 접수증 조회 */
 		SELECT
-			ibd.insurance_bill_detail_code,
-			ibd.insurance_code,
 			ibd.user_id,
-			ibd.goods_code,
-			ibd.payment_code,
-			ibd.accident_date,
+			u.user_name,
+			u.user_email,
+			u.user_phone_number,
+			u.user_addr_desc,
 			ibd.accident_type,
+			ibd.accident_date,
 			ibd.accident_content,
-			ibd.insurance_evidence,
 			ibd.bank_name,
 			ibd.account_holder,
 			ibd.account_number,
-			SUBSTRING(ibd.request_date, 1, 10) as request_date
+			ibd.insurance_code,
+			ibd.insurance_bill_detail_code,
+			ibd.goods_code,
+			SUBSTRING(ibd.request_date, 1, 10) as request_date,
+			g.goods_name
 		FROM
 			tb_insurance_bill_detail AS ibd
+			LEFT JOIN
+			tb_user AS u
+			ON
+			ibd.user_id = u.user_id
+			INNER JOIN
+			tb_goods AS g
+			ON
+			ibd.goods_code = g.goods_code
 		WHERE
-			ibd.user_id = #{loginId}
-		ORDER BY
-			ibd.insurance_bill_detail_code;
+			ibd.insurance_bill_detail_code = #{insuranceBillDetailCode};
+			
+	</select>
 	
+	<select id="getInsuranceBillReciptInfoById" parameterType="String" resultMap="insuranceBillDetailResultMap">
+		/* 보상금 접수증 조회 */
+		SELECT
+			ibd.user_id,
+			u.user_name,
+			u.user_email,
+			u.user_phone_number,
+			u.user_addr_desc,
+			ibd.accident_type,
+			ibd.accident_date,
+			ibd.accident_content,
+			ibd.bank_name,
+			ibd.account_holder,
+			ibd.account_number,
+			ibd.insurance_code,
+			ibd.insurance_bill_detail_code,
+			ibd.goods_code,
+			SUBSTRING(ibd.request_date, 1, 10) as request_date,
+			g.goods_name
+		FROM
+			tb_insurance_bill_detail AS ibd
+			LEFT JOIN
+			tb_user AS u
+			ON
+			ibd.user_id = u.user_id
+			INNER JOIN
+			tb_goods AS g
+			ON
+			ibd.goods_code = g.goods_code
+		WHERE
+			ibd.insurance_code = #{insuranceCode};
+			
 	</select>
 	
 	<select id="getInsuranceBillInfoById" parameterType="String" resultMap="insuranceBillResultMap">
 		SELECT
 			ib.insurance_bill_code,
 			ib.insurance_bill_detail_code,
+			ib.insurance_code,
 			g.goods_code,
 			g.goods_name,
 			ibs.insurance_bill_state_name,
