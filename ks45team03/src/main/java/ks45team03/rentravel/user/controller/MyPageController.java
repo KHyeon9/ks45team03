@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Block;
+import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Profit;
@@ -25,6 +26,8 @@ import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
+import ks45team03.rentravel.user.service.GoodsService;
+import ks45team03.rentravel.user.service.InfoBoardService;
 import ks45team03.rentravel.mapper.UserProfitMapper;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.UserProfitService;
@@ -41,6 +44,7 @@ public class MyPageController {
 	private final OrderService orderService;
 	private final UserService userService;
 	private final UserMapper userMapper;
+	private final GoodsService goodsService;
 	private final UserProfitService userProfitService;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
@@ -140,9 +144,36 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myGoodsList")
-	public String myGoodsList(Model model) {
+	public String myGoodsList(Model model
+							 ,HttpSession session
+							 ,@RequestParam(defaultValue="1", required=false) int curPage) {
+		
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String loginId = loginUser.getLoginId();
+		
+		int myGoodsListCount = goodsService.getMyGoodsListCount(loginId);
+
+		Pagination pagination = new Pagination(myGoodsListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		
+		List<Goods> myGoodsList = goodsService.getMyGoodsList(loginId,startIndex,pageSize);
+		
+		model.addAttribute("myGoodsList",myGoodsList);
+		model.addAttribute("pagination",pagination);
 		model.addAttribute("title","마이페이지 화면");
+		
 		return "user/myPage/myGoodsList";
+	}
+	
+	@PostMapping("/myRemoveGoods")
+	public String myRemoveGoods(@RequestParam(value="goodsCode") String goodsCode) {
+		
+		goodsService.removeGoods(goodsCode);
+		
+		return "redirect:/myPage/myGoodsList";
 	}
 	
 	@GetMapping("/myReviewList")

@@ -61,9 +61,9 @@
  	                           	<button type="button" class="bi bi-x-lg delBtn"></button>
                           	</form>
                           </td>
-                          <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.renterId)}" th:text="${crl.ownerId}"></td>
-                          <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.ownerId)}" th:text="${crl.renterId}"></td>
-                          <td style="text-align:center; " th:text="${crl.chatRoomAddTime}"></td>
+                          <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.renterId)}" th:text="${crl.ownerNickname}"></td>
+                          <td style="text-align:center;" th:if="${loginUser.loginId.equals(crl.ownerId)}" th:text="${crl.renterNickname}"></td>
+                          <td style="text-align:center;" th:text="${crl.chatRoomAddTime}"></td>
                           <td style="text-align:center;">
                             <a th:href="@{/chat(chatRoomCode=${crl.chatRoomCode})}" class="btn btn-sm btn-primary-outlined">입장</a>
                           </td>
