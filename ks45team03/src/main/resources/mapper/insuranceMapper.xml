@@ -215,7 +215,7 @@
 			ON
 			ibd.goods_code = g.goods_code
 		WHERE
-			ibd.insurance_bill_detail_code = #{insuranceCode};
+			ibd.insurance_code = #{insuranceCode};
 			
 	</select>
 	
