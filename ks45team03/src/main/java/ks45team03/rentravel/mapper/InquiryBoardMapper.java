@@ -36,7 +36,6 @@ public interface InquiryBoardMapper {
 	/* 1 대 1 문의게시판 목록 조회 */
 	public List<InquiryBoard> getInquiryBoardList (int startIndex, int pageSize);
 	
-	
 	/* 1 대 1 문의게시판 목록 행 갯수 */
 	public int inquiryBoardListCnt ();
 	

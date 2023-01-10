@@ -10,7 +10,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="page-title">
-                <h2>MY PROFIT LIST</h2>
+                <h2>MY DAY PROFIT LIST</h2>
               </div>
             </div>
             <div class="col-md-6">
@@ -21,7 +21,10 @@
                 <li>
                   <a th:href="@{/myPage/myInfo}">myInfo</a>
                 </li>
-                <li class="active">MY PROFIT LIST</li>
+                <li>
+                  <a th:href="@{/myPage/myProfitList}">MY PROFIT LIST</a>
+                </li>
+                <li class="active">MY DAY PROFIT LIST</li>
               </ol>
             </div>
           </div>
@@ -44,44 +47,74 @@
             <div class="col-sm-12">
               <div class="innerWrapper">
                 <div class="orderBox myAddress wishList">
-                   <h2 th:text="${loginNickName} + '님 PROFIT LIST'"></h2>
-                  <div class="table-responsive">
+                   <h2 th:text="${loginNickName} + '님 DAY PROFIT LIST'"></h2>
+                  
+                   <form th:action="@{/myPage/myProfitListDay}" method="get">     
+                   <input type="hidden" th:value="profitDayGroup" readonly="readonly" name="profitDayGroup">         
+                  	<div class="form-group row">
+						<div class="col-md-3">						
+							<input class="form-control" name="searchYear" type="text" placeholder="년">
+						</div>
+						<div class="col-md-3 selectOptions ">
+							<select name="searchMonth" class="form-control select-drop">
+								<option value="01">1월</option>
+								<option value="02">2월</option>
+								<option value="03">3월</option>
+								<option value="04">4월</option>
+								<option value="05">5월</option>
+								<option value="06">6월</option>
+								<option value="07">7월</option>
+								<option value="08">8월</option>
+								<option value="09">9월</option>
+								<option value="10">10월</option>
+								<option value="11">11월</option>
+								<option value="11">12월</option>								
+							</select>
+						</div>
+						<div class="col-md-3">
+							<input class="form-control" name="searchDay" type="text" placeholder="일">
+						</div>
+						<button type="submit" class="btn btn-primary btn-lg">조회</button>
+					</div>
+					<br>
+					
+					</form>
+                  <div class="table-responsive">                               
+                  
                     <table class="table">
                       <thead>
-                        <tr>                          
+                        <tr>                        
                           <th style="text-align: center;">ID</th>
-                          <th style="text-align: center;">적립된 정산금</th>
-                          <th style="text-align: center;">총 정산금</th>
+                          <th style="text-align: center;">일별 정산금 합계</th>
                           <th style="text-align: center;">정산금 지급 날짜</th>
                           
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:unless="${#lists.isEmpty(getUserProfitList)}" th:each="pl : ${getUserProfitList}">                                               
-                          <td style="text-align: center;" th:text="${pl.userId}"></td>
-                          <td style="text-align: center;" th:text="${pl.profitAmountSave}"></td>
-                          <td style="text-align: center;" th:text="${pl.profitTotal}"></td>
-                          <td style="text-align: center;" th:text="${pl.profitSaveTime}"></td>
+                        <tr th:unless="${#lists.isEmpty(getUserDayProfitList)}" th:each="pd : ${getUserDayProfitList}">                                             
+                          <td style="text-align: center;" th:text="${pd.userId}"></td>
+                          <td style="text-align: center;" th:text="${pd.profitDayTotal}"></td>                           
+                          <td style="text-align: center;" th:text="|20${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}-${#strings.substring(pd.profitDayGroup,16,18)}|"></td>                        
                          
                         </tr>
-                        <tr th:if="${#lists.isEmpty(getUserProfitList)}">
-			              	<td colspan="5">등록된 수익이 없습니다.</td>
+                        <tr th:if="${#lists.isEmpty(getUserDayProfitList)}">
+			              	<td colspan="5">등록된 일별 수익이 없습니다.</td>
 			            </tr>
                        
                       </tbody>
                     </table>
                   </div>
                 </div>
-                 <!-- 페이징 -->
+                <!-- 페이징 -->
       			<div style="margin-top: 50px; display: flex; justify-content: center;" class="blogPage">
 		          <div class="col-sm-6">
 							<div class="text-left">
 								<ul class="pagination" style="justify-content: center;">
 									<li th:if="${pagination.curRange != 1}">
-										<a th:href="@{/myPage/myProfitList}" aria-label="First"><span aria-hidden="true"><<</span></a>
+										<a th:href="@{/myPage/myProfitListDay}" aria-label="First"><span aria-hidden="true"><<</span></a>
 									</li>
 									<li th:if="${pagination.curPage != 1}">
-										<a th:href="@{/myPage/myProfitList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
 									</li>
 									
 									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
@@ -89,15 +122,15 @@
 											<a th:text="${pageNum}"></a>
 										</li>
 										<li th:unless="${pageNum == pagination.curPage}">
-											<a th:href="@{/myPage/myProfitList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+											<a th:href="@{/myPage/myProfitListDay(curPage=${pageNum})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
 
 									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-										<a th:href="@{/myPage/myProfitList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
 									</li>
 									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-										<a th:href="@{/myPage/myProfitList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
 									</li>
 								</ul>
 							</div>
