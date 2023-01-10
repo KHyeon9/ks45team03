@@ -28,7 +28,7 @@ public interface GoodsMapper {
 	
 	public List<Goods> getGoodsListByGoodsCategory(String goodsCategoryCode);
 	
-	public List<Goods> getGoodsListByUserId(String userId);
+	public List<Goods> getGoodsListByUserId(String userId, String goodsCode);
 	
 	public int removeGoods(String goodsCode);
 	

@@ -53,7 +53,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:each="crl : ${chatRoomList}">
+                        <tr th:each="crl : ${chatRoomList}" th:if="${not #lists.isEmpty(chatRoomList)}">
                           <td style="text-align:center;">
                           	<form class="removeChatRoomForm" th:action="@{/removeChatRoom}" method="POST">
                           		<input type="hidden" name="chatRoomCode" th:value="${crl.chatRoomCode}">
@@ -68,6 +68,9 @@
                             <a th:href="@{/chat(chatRoomCode=${crl.chatRoomCode})}" class="btn btn-sm btn-primary-outlined">입장</a>
                           </td>
                         </tr>
+                        <tr th:unless="${not #lists.isEmpty(chatRoomList)}">
+							<td colspan="4" style="text-align:center;">생성된 채팅방이 없습니다.</td>
+						</tr>
                       </tbody>
                     </table>
                   </div>
@@ -85,7 +88,7 @@
 						<li class="active" th:if="${pageNum == pagination.curPage}">
 							<a th:text="${pageNum}"></a>
 						</li>
-						<li th:unless="${pageNum == pagination.curPage}">
+						<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
 							<a th:href="@{/room(curPage=${pageNum})}" th:text="${pageNum}"></a>
 						</li>
 					</th:block>
