@@ -90,7 +90,7 @@ public class GoodsController {
 		
 		
 		
-		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId);
+		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
 		 
 		
 		model.addAttribute("goodsImgs",goodsImg);
