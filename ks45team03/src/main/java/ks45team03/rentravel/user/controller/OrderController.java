@@ -1,6 +1,10 @@
 package ks45team03.rentravel.user.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -73,7 +77,7 @@ public class OrderController {
 						  @RequestParam(value = "rentalEndDate", required = false) String rentalEndDate,
 						  HttpServletResponse response,
 						  HttpSession session,
-						  Model model) throws IOException {
+						  Model model) throws IOException, ParseException {
 		Goods goods = goodsService.getGoodsDetailByGoodsCode(goodsCode);
 		log.info("goods : {}", goods);
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
@@ -83,6 +87,11 @@ public class OrderController {
 			
 			return "user/user/login";
 		}
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date startDate = format.parse(rentalStartDate);
+		Date endDate = format.parse(rentalEndDate);
+		long dayGap = (endDate.getTime() - startDate.getTime()) /  (24*60*60*1000);
 		
 		User userInfo = orderMapper.loginUserInfo(loginInfo.getLoginId());
 		List<RegionSido> getRegionSido = userService.getRegionSido();
@@ -98,6 +107,9 @@ public class OrderController {
 		model.addAttribute("selectDelivery", selectDelivery);
 		model.addAttribute("rentalStartDate", rentalStartDate);
 		model.addAttribute("rentalEndDate", rentalEndDate);
+		model.addAttribute("dayGap", dayGap);
+		model.addAttribute("totalPrice", goods.getGoodsDayPrice() * dayGap);
+		
 		
 		return "user/order/payment";
 	}
