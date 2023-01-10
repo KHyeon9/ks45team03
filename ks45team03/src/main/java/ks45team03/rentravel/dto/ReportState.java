@@ -4,6 +4,7 @@ public class ReportState {
 
 	private String reportStateCode;
 	private String reportStateName;
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

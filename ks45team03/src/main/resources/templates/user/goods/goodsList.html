@@ -36,39 +36,42 @@
           <div class="row">
             <div class="col-lg-3 col-md-4 sideBar" >
              <div class="panel panel-default priceRange">
-                <div class="panel-heading">가격 검색</div>
+                <div class="panel-heading">렌탈 가능 여부</div>
                 <div class="panel-body clearfix">
-                  <div class="price-slider-inner">
-                    <span class="amount-wrapper">
-                      가격:
-                      <input type="text" id="price-amount-1" readonly>
-                      <strong>-</strong>
-                      <input type="text" id="price-amount-2" readonly>
-                    </span>
-                    <div id="price-range"></div>
-                  </div>
-                  <input class="btn-default" type="submit" value="Search">
+                   	<a th:href="@{/goods/goodsList}"><button type="button" class="btn btn-primary">전체</button></a>
+                   	<a th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode}, searchKey=${searchResult.searchKey}, searchValue=${searchResult.searchValue}, goodsRentalAvailability=Y)}"><button type="button" class="btn btn-info">가능</button></a>
+                   	<a th:href="@{/goods/goodsList(goodsRentalAvailability=N)}"><button type="button" class="btn btn-danger">불가</button></a>
+                   	
                   <!-- <span class="priceLabel">Price: <strong>$12 - $30</strong></span> -->
                 </div>
               </div>
               <div class="panel panel-default filterNormal">
                 <div class="panel-heading">카테고리</div>
                 <div class="panel-body">
+                  <ul class="list-unstyled">
+                  	<li><a th:href="@{/goods/goodsList}">전체보기</a></li>
+                  </ul>
                   <ul class="list-unstyled" th:each="gcac : ${goodsCategoryAndCount}">
-                    <li><a th:href="@{/goods/goodsListBygoodsCategory(goodsCategoryCode=${gcac.goodsCategoryCode})}" th:text="|${gcac.goodsCategoryName} ( ${gcac.countByCategory} )|"></a></li>
+                  	
+                    <li><a th:href="@{/goods/goodsList(goodsCategoryCode=${gcac.goodsCategoryCode})}" th:text="|${gcac.goodsCategoryName} ( ${gcac.countByCategory} )|"></a></li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div class="col-lg-9 col-md-8">
+            
+            
+            
+            <div class="col-lg-9 col-md-8" th:if="${pagination.listCnt > 0}">
               <div class="row filterArea">
                 <div class="col-6">
-                  <select name="guiest_id1" id="guiest_id1" class="select-drop">
-                    <option value="0">여기검색넣으면될듯</option>
-                    <option value="1">Sort by rating</option>
-                    <option value="2">Sort by newness</option>
-                    <option value="3">Sort by price</option>
-                  </select>
+			 		<form th:href="@{/goods/goodsList}">
+						<select name="searchKey">
+							<option value="goodsName">상품명</option>
+							<option value="userId">판매자 아이디</option>
+						</select>
+						<input type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
+						<button type="submit">검색</button>
+					</form>
                 </div>
 				<div class="col-6">
 
@@ -118,7 +121,7 @@
 		      </div>
               <div class="row productListSingle">
                 
-                <th:block th:each="gl : ${goodsList}">
+                <th:block th:each="gl : ${goodsList}" th:if="${pagination.pageCnt > 0 }">
                 
 	                <div class="col-sm-12">
 	                  <div class="media flex-wrap productBox">
@@ -127,7 +130,7 @@
 	                        <img src="/user/assets/img/products/products-03.jpg" alt="products-img">
 	                        <div class="productMasking">
 	                          <ul class="list-inline btn-group" role="group">
-	                            <li><a class="btn btn-default" data-toggle="modal" href=".quick-view" ><i class="fa fa-eye"></i></a></li>
+	                            <li><a class="btn btn-default" th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}"><i class="fa fa-eye"></i></a></li>
 	                            <li></li>
 	                            <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
 	                          </ul>
@@ -135,61 +138,110 @@
 	                      </div>
 	                    </div>
 	                    <div class="media-body">
-	                      <h4 class="media-heading"><a th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode})}" th:text="${gl.goodsName}"></a></h4>
-	                      <p th:text="${gl.goodsDetail}"></p>
-	                      <h3 th:text="${gl.goodsDayPrice}">$249</h3>
-	                      <div class="btn-group" role="group">
-	                        <button type="button" class="btn btn-default"><i class="fa fa-heart" aria-hidden="true"></i></button>
-	                      </div>
+	                      <h4 class="media-heading"><a th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}" th:text="${gl.goodsName}"></a></h4>
+	                      <p th:text="|판매자 아이디: ${gl.userId}|"></p>
+	                      <h4 th:text="|렌탈 가능 여부: ${gl.goodsRentalAvailability}|"></h4>
+	                      <h4 th:text="|상품 가치: ${gl.goodsValuePrice}|"></h4>
+	                      <h4 th:text="|카테고리: ${gl.goodsCategoryName}|"></h4>
+	                      <h4 th:text="|일당 가격: ${gl.goodsDayPrice}|"></h4>
+	                      <h4 th:text="|판매지역: ${gl.userRegion}|"></h4>
+	                      <h4 th:text="${gl.goodsRegDate}"></h4>
 	                    </div>
 	                  </div>
 	                </div>  
                                       
                 </th:block>
+                
+                
+                
               </div>
-
 				<div class="blogPage" style="display: flex; justify-content: center;" >
 					<nav aria-label="Page navigation example">
 						<ul class="pagination pagination-lg" style="margin:3px">
 							<li class="page-item" th:if="${pagination.curRange != 1}">
-								<a class="page-link" th:href="@{/goods/goodsList}"
+								<a class="page-link" th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode})}"
 								aria-label="First"><span aria-hidden="true"></span></a>
 							</li>
 							<li class="page-item" th:if="${pagination.curPage != 1}">
 								<a class="page-link"
-								th:href="@{/goods/goodsList(curPage=${pagination.prevPage})}"
+								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.prevPage})}"
 								aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
 							</li>
 
-							<th:block
-								th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+							<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
 								<li class="active" th:if="${pageNum == pagination.curPage}">
 									<a class="page-link" th:text="${pageNum}"></a>
 								</li>
 								<li class="page-item"
 									th:unless="${pageNum == pagination.curPage}"><a
 									class="page-link"
-									th:href="@{/goods/goodsList(curPage=${pageNum})}"
-									th:text="${pageNum}"></a></li>
+									th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pageNum})}"
+									th:text="${pageNum}"></a>
+								</li>
 							</th:block>
 
 							<li class="page-item"
 								th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
 								<a class="page-link"
-								th:href="@{/goods/goodsList(curPage=${pagination.nextPage})}"
+								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.nextPage})}"
 								aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
 							</li>
 							<li class="page-item"
 								th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
 								<a class="page-link"
-								th:href="@{/goods/goodsList(curPage=${pagination.pageCnt})}"
+								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.pageCnt})}"
 								aria-label="Last"> <span aria-hidden="true">>></span></a>
 							</li>
 						</ul>
 					</nav>
 				</div>
-
 			</div>
+			
+			
+			
+			
+			
+			
+			<div class="col-lg-9 col-md-8" th:unless="${pagination.listCnt > 0}">
+              <div class="row filterArea">
+                <div class="col-6">
+			 		<form th:href="@{/goods/goodsList}">
+						<select name="searchKey">
+							<option value="goodsName">상품명</option>
+							<option value="userId">판매자 아이디</option>
+						</select>
+						<input type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
+						<button type="submit">검색</button>
+					</form>
+                </div>
+				<div class="col-6">
+				</div>
+
+		      </div>
+              <div class="row productListSingle">
+                
+                
+	                <div class="col-sm-12">
+	                  <div class="media flex-wrap productBox">
+	                    <div class="media-left">
+	                      <div class="productImage clearfix">
+	                      </div>
+	                    </div>
+	                    <div class="media-body">
+	                      <h4 class="media-heading">등록된 상품이 없습니다. 이거 이쁘게 꾸미는 법 아시는 분</h4>
+	                    </div>
+	                  </div>
+	                </div>  
+                                      
+              </div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
           </div>
         </div>
         

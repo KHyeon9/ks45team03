@@ -35,8 +35,31 @@
 			<result property="paymentTime" 	  					column="payment_time" />
 			<result property="tradeStatusCode" 					column="trade_status_code" />
 			<result property="mileageSaveGroupCode" 			column="mileage_save_group_code" />
-			<result property="mileageUseGroupCode" 	  			column="user_image" />
+			<result property="mileageUseGroupCode" 	  			column="mileage_use_group_code" />
 		</association>
+	</resultMap>
+	
+	<!-- payment resultMap -->
+	<resultMap type="Payment" id="paymentMao">
+		<id 	property="paymentCode" 	  					column="payment_code" />
+		<result property="goodsCode" 						column="goods_code" />
+		<result property="rentalCode" 	  					column="rental_code" />
+		<result property="userId" 	  						column="user_id" />
+		<result property="regionSggCode" 					column="region_sgg_code" />
+		<result property="userAddrDesc" 					column="user_addr_desc" />
+		<result property="paymentAccountOrCardNumber" 	  	column="payment_account_or_card_number" />
+		<result property="paymentAgency" 	  				column="payment_agency" />
+		<result property="paymentType" 	  					column="payment_type" />
+		<result property="expectedPaymentAmount" 	  		column="expected_payment_amount" />
+		<result property="goodsCommisionTotalPrice" 	  	column="goods_commision_total_price" />
+		<result property="mileageUsePrice" 	  				column="mileage_use_price" />
+		<result property="saveMileage" 	  					column="save_mileage" />
+		<result property="amountExcludingMileage" 	  		column="amount_excluding_mileage" />
+		<result property="settlementAmount" 				column="settlement_amount" />
+		<result property="paymentTime" 	  					column="payment_time" />
+		<result property="tradeStatusCode" 					column="trade_status_code" />
+		<result property="mileageSaveGroupCode" 			column="mileage_save_group_code" />
+		<result property="mileageUseGroupCode" 	  			column="mileage_use_group_code" />
 	</resultMap>
 	
 	<!-- 유저 정보 매퍼  -->
@@ -64,6 +87,112 @@
 		<result property="regionSidoCode" column="region_sido_code" />
 		<result property="regionSggName" column="region_sgg_name" />
 	</resultMap>
+	
+	<!-- payment 등록 -->
+	<insert id="addPayment" parameterType="Payment">
+		INSERT INTO tb_payment
+			(
+				payment_code,
+				goods_code,
+				rental_code,
+				user_id,
+				region_sgg_code,
+				user_addr_desc,
+				payment_account_or_card_number,
+				payment_agency,
+				payment_type,
+				expected_payment_amount,
+				goods_commision_total_price,
+				mileage_use_price,
+				save_mileage,
+				amount_excluding_mileage,
+				settlement_amount,
+				payment_time,
+				trade_status_code,
+				mileage_save_group_code,
+				mileage_use_group_code
+			)
+		VALUES
+			(
+				#{paymentCode},
+				#{goodsCode},
+				#{rentalCode},
+				#{userId},
+				#{regionSggCode},
+				#{userAddrDesc},
+				#{paymentAccountOrCardNumber},
+				#{paymentAgency},
+				#{paymentType},
+				#{expectedPaymentAmount},
+				#{goodsCommisionTotalPrice},
+				#{mileageUsePrice},
+				#{saveMileage},
+				#{amountExcludingMileage},
+				#{settlementAmount},
+				NOW(),
+			   'trade_status1',
+			   #{mileageSaveGroupCode},
+			   #{mileageUseGroupCode}	
+			)
+	</insert>
+	
+	<!-- 적립금 적립 율 -->
+	<select id="getUserSaveMileageRate" resultType="float">
+		SELECT
+			l.user_level_rate
+		FROM
+			tb_user AS u
+			INNER JOIN
+			tb_user_level AS l
+		ON
+			u.user_level_code = l.user_level_code
+		WHERE
+			u.user_id = #{userId};
+	</select>
+	
+	<!-- 수수료 조회 -->
+	<select id="getCommisionRate" resultType="float">
+		SELECT
+			comi.commision_rate
+		FROM
+			tb_commision_rate AS comi
+		WHERE
+			comi.apply_check = TRUE;
+	</select>
+	
+	<!-- 그룹코드 날짜 부분 -->
+	<select id="getGroupCodeDate" resultType="String">
+		SELECT
+			REPLACE(SUBSTRING(ren.rental_order_date, 1, 10), '-','')
+		FROM
+			tb_rental AS ren
+		WHERE
+			ren.rental_code = 'rental1';
+	</select>
+	
+	<!-- 렌탈 등록 -->
+	<insert id="addRental" parameterType="Rental">
+		INSERT INTO tb_rental
+			(
+			rental_code,
+			goods_code,
+			user_id,
+			rental_start_date,
+			rental_end_date,
+			select_delivery,
+			rental_order_date
+			)
+		VALUES 
+			(
+			#{rentalCode},
+			#{goodsCode},
+			#{userId},
+			#{rentalStartDate},
+			#{rentalEndDate},
+			#{selectDelivery},
+			NOW()
+			);
+	</insert>
 	
 	<!-- 시군구 불러오기 -->
 	<select id="getRegionSggBySidoCode" resultMap="regionSggResultMap">

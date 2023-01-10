@@ -1,33 +1,32 @@
 package ks45team03.rentravel.user.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
-import ks45team03.rentravel.admin.service.AdminCommisionRateService;
 import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Profit;
 import ks45team03.rentravel.dto.ProfitDay;
+import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
-import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.mapper.UserProfitMapper;
-import ks45team03.rentravel.user.service.InfoBoardService;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.ProfitService;
-import ks45team03.rentravel.user.service.UserBlockService;
+import ks45team03.rentravel.user.service.UserService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -38,38 +37,96 @@ public class MyPageController {
 	private final UserBlockMapper userBlockMapper;
 	private final UserProfitMapper userProfitMapper;
 	private final OrderService orderService;
+	private final UserService userService;
 	private final UserMapper userMapper;
 	private final ProfitService profitService;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
-	@GetMapping("/myInfo")
-	private String myInfo(Model model, HttpSession session) {
-		
-		
+	@GetMapping("/myPage")
+	public String myPage(Model model, HttpSession session) {
+	
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String redirectURI = "user/myPage/myPage";
 		
 		if(loginUser == null) {
-					
+		
 			redirectURI = "redirect:/login";	
-	
+			
 		}else {
+			
+			model.addAttribute("title", "내 정보");
+			
+		}
+		return redirectURI;
+		
+	}
+	
+	@PostMapping("/myInfo")
+	public String myInfo(User user) {
+								
+		userMapper.ModifyuserInfo(user);
+		
+		return "redirect:/myPage/myInfo";
+	}
+	
+	@GetMapping("/myInfo")
+	public String myInfo(Model model, HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
 		String loginNickName = loginUser.getLoginNickName();
 		String loginId = loginUser.getLoginId();
 		User userInfo = userMapper.userInfo(loginId);
 		
+		List<RegionSido> regionSidoCode = userMapper.getMyPageRegionSido(userInfo.getRegionSido().getRegionSidoCode());
+		
 		model.addAttribute("title", "내 정보");
 		model.addAttribute("loginNickName", loginNickName);
 		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("regionSidoCode", regionSidoCode);
 		
+		return "user/myPage/myInfo";
+	}
+	
+	@PostMapping("/checkPassword")
+	public String checkPassword(Model model 
+								,HttpSession session
+								,RedirectAttributes reAttr
+								,@RequestParam(value="userPw") String userPw) {
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String userId = loginInfo.getLoginId();
+		
+		Map<String, Object> checkResult = userService.checkPwByUserId(userId, userPw);
+		
+		boolean isChecked = (boolean) checkResult.get("result");
+		
+		String redirectURI = "redirect:/myPage/myInfo";
+		
+		if(!isChecked) {
+			redirectURI = "redirect:/myPage/checkPassword";
+			reAttr.addAttribute("msg", "입력하신 비밀번호가 일치하지 않습니다.");
+		}else {
+			redirectURI = "redirect:/myPage/myInfo";
 		}
+		
 		return redirectURI;
 	}
 	
+	@GetMapping("/checkPassword")
+	public String checkPassword(Model model
+								,@RequestParam(value="msg", required = false) String msg) {
+		
+		model.addAttribute("title", "비밀번호 확인");
+		if(msg != null) model.addAttribute("msg", msg);
+		
+		return "user/myPage/checkPassword";
+	}
+	
 	@GetMapping("/modifyUser")
-	private String modifyUser(Model model) {
+	public String modifyUser(Model model) {
 		model.addAttribute("title", "회원정보 수정");
 		return "user/myPage/modifyUser";
 	}
