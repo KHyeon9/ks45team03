@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+	<head>
+		<style type="text/css">
+			table{
+				width: 100%;
+			}
+			tr, td {
+				text-align:center;
+			}
+			#pg {
+				display: flex;
+				justify-content: center;
+			}
+			#searchAndAdd {
+				display: flex;
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+	<th:block layout:fragment="customContents">
+      <div id="rightcolumn" class="right_col" role="main">
+		<div class="col-md-12 col-sm-12">
+			<div class="x_panel">
+               <div class="x_title">
+                 <h2>FAQ</h2>
+                 <div class="clearfix"></div>
+               </div>
+               <div id="searchAndAdd">
+	               <form th:action="@{/admin/board/adminFAQ}" method="get" class="input-group col-md-4">
+					<select name="searchKey" class="form-control">
+						<option value="ca.faq_board_category_name">카테고리</option>
+						<option value="u.user_nickname">작성자</option>
+						<option value="faq.faq_board_reg_time">작성일</option>
+					</select>
+					<input class="form-control" type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
+					<button class="btn btn-dark" type="submit">검색</button>
+					</form>
+					<a class="btn btn-dark form-control col-md-1" th:href="@{/admin/board/adminAddFAQ}">작성</a>
+               </div>
+           	  <div class="x_content">
+                <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+			                <th class="column-title"></th>
+			                <th class="column-title">제목</th>
+			                <th class="column-title">작성자</th>
+			                <th class="column-title">작성일</th>
+			              </tr>
+	                     </thead>
+			       
+                        <tbody>
+			            <tr th:unless="${#lists.isEmpty(adminFAQList)}" th:each="faq : ${adminFAQList}">
+			                <td th:text="|[${faq.faqBoardCategoryName}]|"></td>
+			                <td style="overflow: hidden; text-overflow: ellipsis;"><a th:text="${faq.faqBoardTitle}" th:href="@{/admin/board/adminDetailFAQ(faqBoardCode=${faq.faqBoardCode})}"></a></td>
+			                <td th:text="${faq.userNickName}"></td>
+			                <td th:text="${faq.faqBoardRegTime}"></td>		
+			              </tr>
+			              <tr th:if="${#lists.isEmpty(adminFAQList)}">
+			              	<td colspan="4">등록된 작성글이 없습니다.</td>
+			              </tr>
+				         
+			        </tbody>
+                      </table>
+			       <div class="row">
+						<div class="col-sm-12"  id="pg">
+							<div class="text-left">
+								<ul class="pagination">
+									<li th:if="${pagination.curPage != 1}" class="page-item">
+										<a th:href="@{/admin/board/adminFAQ(curPage=${pagination.prevPage})}" aria-label="Prev" class="page-link"> <span aria-hidden="true">&#60;</span></a>
+									</li>
+									<li th:unless="${pagination.curPage != 1}" class="page-item">
+										<span aria-label="Prev" class="page-link"> <span aria-hidden="true">&#60;</span></span>
+									</li>
+									
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="page-item" th:if="${pageNum == pagination.curPage}">
+											<span th:text="${pageNum}" class="page-link"></span>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}" class="page-item">
+											<a th:href="@{/admin/board/adminFAQ(curPage=${pageNum})}" th:text="${pageNum}" class="page-link"></a>
+										</li>
+									</th:block>
+
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}" class="page-item">
+										<a th:href="@{/admin/board/adminFAQ(curPage=${pagination.nextPage})}" aria-label="Next" class="page-link"> <span aria-hidden="true">&#62;</span></a>
+									</li>
+									<li th:unless="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<span aria-label="Next" class="page-link"><span aria-hidden="true">&#62;</span></span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+			         
+                    </div>
+							                 
+                  </div>
+          </div>
+          </div>
+        </div>
+      <!-- /page content -->
+	</th:block>
+</html>
