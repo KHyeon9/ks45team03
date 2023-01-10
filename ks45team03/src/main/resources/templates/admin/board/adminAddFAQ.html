@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<!-- bootstrap-wysiwyg -->
+	<link th:href="@{/admin/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+	<!-- Select2 -->
+	<link th:href="@{/admin/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+	<!-- Switchery -->
+	<link th:href="@{/admin/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+	<!-- starrr -->
+	<link th:href="@{/admin/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+	<!-- bootstrap-daterangepicker -->
+	<link th:href="@{/admin/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+
+	<!-- Custom Theme Style -->
+	<link th:href="@{/admin/build/css/custom.min.css}" rel="stylesheet">
+
+<th:block layout:fragment="customContents">
+	<!-- page content -->
+	<div class="right_col" role="main">
+
+			<div class="row">
+				<div class="col-md-12 col-sm-12 ">
+					<div class="x_panel">
+						<form th:action="@{/admin/board/adminAddFAQ}" method="post">
+						<div class="x_title">
+							<h2>
+								FAQ
+							</h2>
+							<button id="submitBtn" class="btn btn-light" type="submit" style="float: right">등록</button>
+							<input id="userId" name="userId" th:value="${loginId}" hidden="hidden">
+							<div class="clearfix"></div>
+						</div>
+							<div class="form-group row ">
+								<div class="col-md-12 col-sm-13 ">
+									<select name="faqBoardCategoryCode" class="form-control col-md-7">
+										<th:block th:each="fc : ${FAQCategoryList}">
+											<option th:value="${fc.faqBoardCategoryCode}">[[${fc.faqBoardCategoryName}]]</option>
+										</th:block>
+									</select>
+									<select class="form-control col-md-5" disabled="disabled">
+										<option>말머리 선택</option>
+									</select>
+								</div>
+							</div>
+									<input type="text" id="faqBoardTitle" name="faqBoardTitle" class="form-control" placeholder="제목을 입력해 주세요.">
+						<div class="x_content">
+								<div id="alerts"></div>
+								<div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
+									<div class="btn-group">
+										<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
+										<ul class="dropdown-menu">
+										</ul>
+									</div>
+
+									<div class="btn-group">
+										<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+										<ul class="dropdown-menu">
+										<li><a data-edit="fontSize 1">
+												<p style="font-size: 15px">Small</p>
+										</a></li>
+										<li><a data-edit="fontSize 2">
+												<p style="font-size: 15px">Middle</p>
+										</a></li>
+										<li><a data-edit="fontSize 3">
+												<p style="font-size: 15px">Huge</p>
+										</a></li>
+									</ul>
+								</div>
+
+									<div class="btn-group">
+										<a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+										<a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+										<a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+										<a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+									</div>
+
+									<div class="btn-group">
+										<a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+										<a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+										<a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+										<a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+									</div>
+
+									<div class="btn-group">
+										<a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+										<a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+										<a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+										<a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+									</div>
+
+									<div class="btn-group">
+										<a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+										<div class="dropdown-menu input-append">
+											<input class="span2" placeholder="URL" type="text" data-edit="createLink" />
+											<button class="btn" type="button">Add</button>
+										</div>
+										<a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+									</div>
+
+									<div class="btn-group">
+										<a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+										<a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+									</div>
+								</div>
+
+								<div id="editor-one" class="editor-wrapper" style="height: 500px; overflow: auto"></div>
+								<textarea name="faqBoardContent" id="faqBoardContent" style="display:none;"></textarea>
+
+								<div class="ln_solid"></div>
+								<div class="btn-group">
+ 										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+									</div>
+							</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+</th:block>
+
+<th:block layout:fragment="customJs">
+	<script th:src="@{/admin/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+	<script th:src="@{/admin/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+	<script th:src="@{/admin/vendors/google-code-prettify/src/prettify.js}"></script>
+	<!-- jQuery Tags Input -->
+	<script th:src="@{/admin/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+	<!-- Switchery -->
+	<script th:src="@{/admin/vendors/switchery/dist/switchery.min.js}"></script>
+	<!-- Select2 -->
+	<script th:src="@{/admin/vendors/select2/dist/js/select2.full.min.js}"></script>
+	<!-- Parsley -->
+	<script th:src="@{/admin/vendors/parsleyjs/dist/parsley.min.js}"></script>
+	<!-- Autosize -->
+	<script th:src="@{/admin/vendors/autosize/dist/autosize.min.js}"></script>
+	<!-- jQuery autocomplete -->
+	<script th:src="@{/admin/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+	<!-- starrr -->
+	<script th:src="@{/admin/vendors/starrr/dist/starrr.js}"></script>
+	<!-- Custom Theme Scripts -->
+	<script th:src="@{/admin/build/js/custom.min.js}"></script>
+</th:block>
+<th:block layout:fragment="customScript">
+	<script>
+		$('#submitBtn').click(function(){
+			$('#faqBoardContent').val($('.editor-wrapper').text());
+		});
+	</script>
+</th:block>
+</html>
