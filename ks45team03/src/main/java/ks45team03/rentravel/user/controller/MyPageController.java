@@ -18,6 +18,8 @@ import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Profit;
 import ks45team03.rentravel.dto.ProfitDay;
+import ks45team03.rentravel.dto.ProfitMonth;
+import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
@@ -25,7 +27,7 @@ import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.mapper.UserProfitMapper;
 import ks45team03.rentravel.user.service.OrderService;
-import ks45team03.rentravel.user.service.ProfitService;
+import ks45team03.rentravel.user.service.UserProfitService;
 import ks45team03.rentravel.user.service.UserService;
 import lombok.AllArgsConstructor;
 
@@ -39,7 +41,7 @@ public class MyPageController {
 	private final OrderService orderService;
 	private final UserService userService;
 	private final UserMapper userMapper;
-	private final ProfitService profitService;
+	private final UserProfitService userProfitService;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
@@ -249,7 +251,7 @@ public class MyPageController {
 		int listCnt = userProfitMapper.dayProfitListCnt(loginUser.getLoginId());
 		
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<ProfitDay> getUserDayProfitList = profitService.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay, profitDayGroup);
+		List<ProfitDay> getUserDayProfitList = userProfitService.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay, profitDayGroup);
 		
 		System.out.println(searchYear+"년도");
 		System.out.println(searchDay+"<-일");
@@ -268,14 +270,24 @@ public class MyPageController {
 	
 	@GetMapping("/myProfitListMonth")
 	public String getUserProfitListMonth (Model model
-											,HttpSession session) {
+											,HttpSession session
+											,@RequestParam(defaultValue="1", required=false) int curPage
+											,@RequestParam(value="searchYear", required = false) String searchYear
+											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
+											,@RequestParam(value="profitMonthGroup", required = false, defaultValue = "") String profitMonthGroup) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		int listCnt =  userProfitMapper.MonthProfitListCnt(loginUser.getLoginId());
+			
+		Pagination pagination = new Pagination(listCnt, curPage);
+		List<ProfitMonth> getUserMonthProfitList = userProfitService.getUserMonthProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, profitMonthGroup);
 		
 		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 월별 수익목록 리스트");
 		model.addAttribute("loginNickName",loginNickName);
+		model.addAttribute("getUserMonthProfitList",getUserMonthProfitList);
+		model.addAttribute("pagination",pagination);
 		
 		return "user/myPage/myProfitListMonth";
 		
@@ -284,14 +296,23 @@ public class MyPageController {
 	
 	@GetMapping("/myProfitListYear")
 	public String getUserProfitListYear (Model model
-										,HttpSession session) {
+										,HttpSession session
+										,@RequestParam(defaultValue="1", required=false) int curPage	
+										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear
+										,@RequestParam(value="ownerProfitYear", required = false, defaultValue = "") String ownerProfitYear) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		int listCnt = userProfitMapper.YearProfitListCnt(loginUser.getLoginId());
+		
+		Pagination pagination = new Pagination(listCnt, curPage);
+		List<ProfitYear> getUserYearProfitList = userProfitService.getUserYearProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, ownerProfitYear);
 		
 		String loginNickName = loginUser.getLoginNickName();
 		
 		model.addAttribute("title","나의 연별 수익목록 리스트");
 		model.addAttribute("loginNickName",loginNickName);
+		model.addAttribute("getUserYearProfitList",getUserYearProfitList);
+		model.addAttribute("pagination",pagination);
 		
 		return "user/myPage/myProfitListYear";
 	}

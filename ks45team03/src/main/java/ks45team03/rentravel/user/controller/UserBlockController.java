@@ -46,7 +46,7 @@ public class UserBlockController {
 		
 		
 		
-		return "user/myPage/myBlockList";
+		return "redirect:/myPage/myBlockList";
 	}
 	
 	
@@ -70,7 +70,7 @@ public class UserBlockController {
 		
 		
 		
-		return "user/myPage/myBlockList";
+		return "redirect:/myPage/myBlockList";
 
 	}			
 	

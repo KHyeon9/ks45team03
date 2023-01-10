@@ -3,6 +3,14 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 	  
+	<head>
+		<style type="text/css">
+			th, td {
+				text-align: center !important;
+			}
+		</style>
+	</head>	  
+	
 	<th:block layout:fragment="customContents">
 	  <!-- LIGHT SECTION -->
       <section class="lightSection clearfix pageHeader">
@@ -48,30 +56,86 @@
               <div class="innerWrapper">
                 <div class="orderBox myAddress wishList">
                    <h2 th:text="${loginNickName} + '님 MONTH PROFIT LIST'"></h2>
-                  <div class="table-responsive">
+                   <form th:action="@{/myPage/myProfitListMonth}" method="get">     
+                   <input type="hidden" th:value="profitMonthGroup" readonly="readonly" name="profitMonthGroup">         
+                  	<div class="form-group row">
+						<div class="col-md-3">						
+							<input class="form-control" name="searchYear" type="text" placeholder="년">
+						</div>
+						<div class="col-md-3 selectOptions ">
+							<select name="searchMonth" class="form-control select-drop">
+								<option value="01">1월</option>
+								<option value="02">2월</option>
+								<option value="03">3월</option>
+								<option value="04">4월</option>
+								<option value="05">5월</option>
+								<option value="06">6월</option>
+								<option value="07">7월</option>
+								<option value="08">8월</option>
+								<option value="09">9월</option>
+								<option value="10">10월</option>
+								<option value="11">11월</option>
+								<option value="11">12월</option>								
+							</select>
+						</div>
+						
+						<button type="submit" class="btn btn-primary btn-lg">조회</button>
+					</div>
+					
+					</form>
+                  <div class="table-responsive" >
                     <table class="table">
                       <thead>
                         <tr>
-                          <th></th>
                           <th>ID</th>
                           <th>정산금획득년월</th>
                           <th>월별 정산금 합계</th>
-                          
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>                     
-                          <td></td>
-                          <td></td>
-                          <td></td>       
-                          <td></td>
-                         
+                        <tr th:unless="${#lists.isEmpty(getUserMonthProfitList)}" th:each="pm : ${getUserMonthProfitList}">                     
+                          <td th:text="${pm.userId}"></td>
+                          <td th:text="${pm.profitSaveYearMonth}"></td>
+                          <td th:text="${pm.profitMonthTotal}"></td>       
                         </tr>
-                       
+                       <tr th:if="${#lists.isEmpty(getUserMonthProfitList)}">
+                       		<td colspan="4">등록된 월별 수익이 없습니다.</td>
+                       </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
+                 <!-- 페이징 -->
+      			<div style="margin-top: 50px; display: flex; justify-content: center;" class="blogPage">
+		          <div class="col-sm-6">
+							<div class="text-left">
+								<ul class="pagination" style="justify-content: center;">
+									<li th:if="${pagination.curRange != 1}">
+										<a th:href="@{/myPage/myProfitListMonth}" aria-label="First"><span aria-hidden="true"><<</span></a>
+									</li>
+									<li th:if="${pagination.curPage != 1}">
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+									</li>
+									
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="active" th:if="${pageNum == pagination.curPage}">
+											<a th:text="${pageNum}"></a>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage}">
+											<a th:href="@{/myPage/myProfitListMonth(curPage=${pageNum})}" th:text="${pageNum}"></a>
+										</li>
+									</th:block>
+
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+									</li>
+									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+		        </div>
               </div>
             </div>
           </div>
