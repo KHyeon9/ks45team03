@@ -108,6 +108,9 @@
                           <td th:text="${py.ownerProfitYearTotal}"></td>
                                                                                 
                         </tr>
+                        <tr th:if="${#lists.isEmpty(getUserYearProfitList)}">
+                       		<td colspan="15">등록된 연별 수익이 없습니다.</td>
+                       </tr>
                        
                       </tbody>
                     </table>

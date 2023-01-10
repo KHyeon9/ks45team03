@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.AdminProfitMapper">
+
+	<resultMap type="Profit" id="profitResultMap">
+		<id property="profitCode" column="profit_code" />
+		<result property="userId" column="user_id"/>
+		<result property="paymentCode" column="payment_code"/>
+		<result property="profitAmountSave" column="profit_amount_save"/>
+		<result property="profitTotal" column="profit_total"/>
+		<result property="profitSaveTime" column="profit_save_time"/>
+		<result property="profitDayGroup" column="profit_day_group"/>	
+	</resultMap>
+	
+	<resultMap type="ProfitDay" id="profitDayResultMap">
+		<id property="profitDayCode" column="profit_day_code"/>
+	  	<result property="userId" column="user_id"/>
+	  	<result property="profitSaveYearMonth" column="profit_save_year_month"/>
+	  	<result property="profitDayTotal" column="profit_day_total"/>
+	  	<result property="profitDayGroup" column="profit_day_group"/>
+	  	<result property="profitMonthGroup" column="profit_month_group"/>
+	</resultMap>	
+	
+	<resultMap type="ProfitMonth" id="profitMonthResultMap">
+		<id property="profitMonthCode" column="profit_month_code"/>
+		<result property="userId" column="user_id"/>
+		<result property="profitSaveYearMonth" column="profit_save_year_month"/>
+		<result property="profitMonthGroup" column="profit_month_group"/>
+		<result property="profitMonthTotal" column="profit_month_total"/>
+	</resultMap>
+	
+	<resultMap type="ProfitYear" id="profitYearResultMap">
+		<id property="profitYearCode" column="profit_year_code"/>
+		<result property="userId" column="user_id"/>
+		<result property="ownerProfitYear" column="owner_profit_year"/>
+		<result property="ownerProfitJanuary" column="owner_profit_january"/>
+		<result property="ownerProfitFebruary" column="owner_profit_february"/>
+		<result property="ownerProfitMarch" column="owner_profit_march"/>
+		<result property="ownerProfitApril" column="owner_profit_april"/>
+		<result property="ownerProfitMay" column="owner_profit_may"/>
+		<result property="ownerProfitJune" column="owner_profit_june"/>
+		<result property="ownerProfitJuly" column="owner_profit_july"/>
+		<result property="ownerProfitAugust" column="owner_profit_august"/>
+		<result property="ownerProfitSeptember" column="owner_profit_september"/>
+		<result property="ownerProfitOctober" column="owner_profit_october"/>
+		<result property="ownerProfitNovember" column="owner_profit_november"/>
+		<result property="ownerProfitDecember" column="owner_profit_december"/>
+		<result property="ownerProfitYearTotal" column="owner_profit_year_total"/>
+		<result property="ownerProfitRegDate" column="owner_profit_reg_date"/>
+	
+	</resultMap>
+	
+	<select id="adminGetUserDayProfitList" resultMap="profitDayResultMap">
+	/* 회원 일별 수익 목록 조회 */
+		SELECT 
+			pd.profit_day_code
+			,pd.user_id
+			,pd.profit_save_year_month
+			,pd.profit_day_total
+			,pd.profit_day_group
+			,pd.profit_month_group
+		FROM 
+			tb_profit_day AS pd
+		<where>
+			<if test="searchYear != null and searchYear != ''">	
+				substring(${profitDayGroup},13,2) = substring(#{searchYear},3,2)				
+			</if>
+			<if test="searchYear != null and searchYear != ''">
+				and substring(${profitDayGroup},15,2) = #{searchMonth}
+			</if>			
+			<if test="searchYear != null and searchYear != '' and searchDay != null and searchDay != ''">
+				and substring(${profitDayGroup},17,2) = #{searchDay}
+			</if>
+			<if test="searchYear != null and searchYear != '' and searchDay != null and searchDay != ''">
+				and ${userId} LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where> 
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize}
+		</if>
+	
+	</select>
+	
+	<select id="adminGetUserProfitList" resultMap="profitResultMap">
+	/* 회원 수익 목록 조회 */
+		SELECT
+			p.profit_code
+			,p.user_id
+			,p.payment_code
+			,p.profit_amount_save
+			,p.profit_total
+			,p.profit_save_time	
+			,p.profit_day_group
+		FROM 
+			tb_profit AS p
+		<where>
+			<if test="searchId != null and searchId != ''">	
+				${userId} LIKE CONCAT('%', #{searchId}, '%')	
+				
+			</if>
+		</where>
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize}
+		</if>
+	</select>
+	
+	<select id="dayProfitListCnt" parameterType="String" resultType="int">
+	/* 회원 일별 수익 목록 행 갯수 */
+		SELECT
+			COUNT(1)
+		FROM
+			tb_profit_day AS pd;
+	</select>
+	
+	<select id="profitListCnt" parameterType="String" resultType="int">
+	/* 회원 수익 목록 행 갯수 */
+		SELECT
+			COUNT(1)
+		FROM
+			tb_profit AS p;
+	</select>
+	</mapper>

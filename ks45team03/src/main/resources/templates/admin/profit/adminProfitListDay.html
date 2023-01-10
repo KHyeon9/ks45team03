@@ -11,7 +11,7 @@
               <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>회원 수익 목록</h2>
+                    <h2>회원 일별 수익 목록</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -30,12 +30,29 @@
                   
                   <div class="x_content">            
 
-                    <p>회원의 수익을 조회할 수 있습니다.</p>
+                    <p>회원의 일별 수익을 조회할 수 있습니다.</p>
                     
                     <div class="table-responsive">
                     <div class="col-md-12 row">
-                    <form th:action="@{/admin/profit/adminProfitList}" method="get" class="col-md-9" style="float: left;">
-                     <input name="userId" type="hidden" th:value="userId" readonly="readonly" />
+                    <form th:action="@{/admin/profit/adminProfitListDay}" method="get" class="col-md-9" style="float: left;">  
+                    <input type="hidden" th:value="profitDayGroup" readonly="readonly" name="profitDayGroup">       
+                    <input type="text" name="searchYear" placeholder="년도"/>
+                   	<select name="searchMonth" class="select-drop" style="height: 25px;">
+						<option value="01">1월</option>
+						<option value="02">2월</option>
+						<option value="03">3월</option>
+						<option value="04">4월</option>
+						<option value="05">5월</option>
+						<option value="06">6월</option>
+						<option value="07">7월</option>
+						<option value="08">8월</option>
+						<option value="09">9월</option>
+						<option value="10">10월</option>
+						<option value="11">11월</option>
+						<option value="11">12월</option>								
+					</select>
+                    <input type="text" name="searchDay" placeholder="일"/> 
+                    <input name="userId" type="hidden" th:value="userId" readonly="readonly" />
 					<input type="text" name="searchId" placeholder="회원 아이디를 입력해주세요."/>
 					<button type="submit">조회</button>
 					</form>
@@ -48,30 +65,27 @@
 					<br>
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
-                          <tr class="headings">                         	
-			                <th class="column-title">수익 코드</th>
+                          <tr class="headings">                         				                
 			                <th class="column-title">ID</th>
-			                <th class="column-title">적립된 정산금</th>
-			                <th class="column-title">총 정산금</th>
+			                <th class="column-title">정산금획득년월</th>
+			                <th class="column-title">일별 정산금 합계</th>
 			                <th class="column-title">정산금 지급 날짜</th>
 	                          
 	                         </tr>
-	                         
 	                       </thead>
 			                
 			       
                         <tbody>
-			            <tr class=" " th:unless="${#lists.isEmpty(adminGetUserProfitList)}" th:each="pl : ${adminGetUserProfitList}">			            	
-			                <td class=" " th:text="${pl.profitCode}"></td>
-			                <td class=" " th:text="${pl.userId}"></td>
-			                <td class=" " th:text="${pl.profitAmountSave}"></td>
-			                <td class=" " th:text="${pl.profitTotal}"></td>			                
-			                <td class=" " th:text="${pl.profitSaveTime}"></td>			                
+			            <tr class=" " th:unless="${#lists.isEmpty(adminGetUserDayProfitList)}" th:each="pd : ${adminGetUserDayProfitList}">			            	
+			                <td class=" " th:text="${pd.userId}"></td>
+			                <td class=" " th:text="${pd.profitSaveYearMonth}"></td>
+			                <td class=" " th:text="${pd.profitDayTotal}"></td>			               		                
+			                <td class=" " th:text="|20${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}-${#strings.substring(pd.profitDayGroup,16,18)}|"></td>			                
 			               
 			                
 			              </tr>
-			              <tr class=" " th:if="${#lists.isEmpty(adminGetUserProfitList)}">
-			              	<td class=" " colspan="5">등록된 회원 수익이 없습니다.</td>
+			              <tr class=" " th:if="${#lists.isEmpty(adminGetUserDayProfitList)}">
+			              	<td class=" " colspan="4">등록된 회원 일별 수익이 없습니다.</td>
 			              </tr>
 			        </tbody>
                       </table>
