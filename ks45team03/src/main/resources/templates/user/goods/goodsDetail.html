@@ -96,7 +96,11 @@
                    		<h4 th:text="'카테고리: '+*{goodsCategoryName}"></h4>
                    		<h4 th:text="'등록일자: '+*{goodsRegDate}"></h4>
                    		<h4 th:text="'상품가치: '+*{goodsValuePrice}"></h4>
-
+                   		
+   	               	<form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
+	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
+	                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
+                    </form>
                    	
                    <form id="getRentalInfo" action="/order/payment" method="get">
                    	 <input th:value="${goodsDetail.goodsCode}" name="goodsCode" type="hidden" readonly="readonly"/>
@@ -152,10 +156,6 @@
 			    						name="goodsCode">삭제</button>
 			    			</form>
 	                  </div>
-   	               	<form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
-	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
-	                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
-                    </form>
          
                 </div>
               </div>
