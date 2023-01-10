@@ -24,8 +24,8 @@ public class GoodsService {
 			case "goodsName":
 				searchKey = "g.goods_name";
 				break;
-			case "userId":
-				searchKey = "g.user_id";
+			case "userNickname":
+				searchKey = "u.user_nickname";
 				break;
 			}
 		}
@@ -42,8 +42,8 @@ public class GoodsService {
 			case "goodsName":
 				searchKey = "g.goods_name";
 				break;
-			case "userId":
-				searchKey = "g.user_id";
+			case "userNickname":
+				searchKey = "u.user_nickname";
 				break;
 			}
 		}		
@@ -89,10 +89,10 @@ public class GoodsService {
 		if(searchKey != null) {
 			switch (searchKey) {
 			case "goodsName":
-				searchKey = "goods_name";
+				searchKey = "g.goods_name";
 				break;
-			case "userId":
-				searchKey = "user_id";
+			case "userNickname":
+				searchKey = "u.user_nickname";
 				break;
 			}
 		}		
@@ -109,9 +109,9 @@ public class GoodsService {
 		return goodsListByGoodsCategory;
 	}
 	
-	public List<Goods> getGoodsListByUserId(String userId){
+	public List<Goods> getGoodsListByUserId(String userId,String goodsCode){
 		
-		List<Goods> goodsListByUserId = goodsMapper.getGoodsListByUserId(userId);
+		List<Goods> goodsListByUserId = goodsMapper.getGoodsListByUserId(userId, goodsCode);
 		
 		return goodsListByUserId;
 	}

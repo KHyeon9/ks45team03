@@ -62,7 +62,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:each="mgl : ${myGoodsList}" th:if="${not #lists.isEmpty(goodsList)}">
+                        <tr th:each="mgl : ${myGoodsList}" th:if="${not #lists.isEmpty(myGoodsList)}">
                           <td>
                           	<form class="removeGoodsForm" th:action="@{/myPage/myRemoveGoods}" method="post">
 			    				<button type="submit"
@@ -83,7 +83,7 @@
                           </td>
    
                         </tr>
-           				<tr th:unless="${not #lists.isEmpty(goodsList)}">
+           				<tr th:unless="${not #lists.isEmpty(myGoodsList)}">
 							<td colspan="8" style="text-align:center;">등록한 상품이 없습니다.</td>
 						</tr>
                         

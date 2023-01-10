@@ -110,12 +110,7 @@
 		                        <option value="Y">택배</option>
 		                      </select>
 		                 	 </div>
-		                 	 <div class="quick-drop col-4 selectOptions mb-2">
-           	   	                <form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
-			                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
-			                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
-			                   </form>
-		                 	 </div>
+
 		                  </div>
 	                   </div>
 	
@@ -157,6 +152,10 @@
 			    						name="goodsCode">삭제</button>
 			    			</form>
 	                  </div>
+   	               	<form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
+	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
+	                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
+                    </form>
          
                 </div>
               </div>
@@ -367,10 +366,10 @@
             </div>
           </div>
 
-          <div class="page-header">
+          <div class="page-header" th:if="${not #lists.isEmpty(goodsListByUserId)}">
             <h4 th:text="|${goodsDetail.userNickname}님의 다른 상품|"></h4>
           </div>
-          <div class="row productsContent">
+          <div class="row productsContent" th:if="${not #lists.isEmpty(goodsListByUserId)}">
             
             <div class="col-md-3 col-12 " th:each="glByUid : ${goodsListByUserId}">
               <div class="productBox">

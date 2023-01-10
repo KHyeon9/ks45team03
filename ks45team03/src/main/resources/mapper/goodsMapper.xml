@@ -90,6 +90,7 @@
 			
 			
 		</where>
+		order by g.goods_reg_date desc
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize}
 		</if>
@@ -155,7 +156,8 @@
 				and goods_rental_availability = 'N'
 			</if>
 			
-		</where>		
+		</where>	
+			order by g.goods_reg_date desc	
 			<if test="startIndex != null and startIndex > -1">
 				LIMIT #{startIndex}, #{pageSize}
 			</if>
@@ -236,7 +238,7 @@
 			,#{goodsValuePrice}
 			,#{goodsDayPrice}
 			,#{goodsDetail}
-			,curdate()
+			,now()
 			,#{goodsCategoryCode}
 			,'commision3'
 			,'0.1'
@@ -287,19 +289,23 @@
     	SELECT
 			COUNT(1)
 		FROM
-			tb_goods
+			tb_goods as g
+		join
+			tb_user as u
+		on
+			u.user_id = g.user_id
 		<where>
 			goods_state = 'activate'
 			<if test="goodsCategoryCode != 'all'">
-				and	goods_category_code = #{goodsCategoryCode}
+				and	g.goods_category_code = #{goodsCategoryCode}
 			</if>
 			
 			<if test='goodsRentalAvailability == "Y"'>
-				and	goods_rental_availability = 'Y'
+				and	g.goods_rental_availability = 'Y'
 			</if>
 			
 			<if test='goodsRentalAvailability == "N"'>
-				and goods_rental_availability = 'N'
+				and g.goods_rental_availability = 'N'
 			</if>
 			
 			<if test="searchKey != null and searchKey != ''">
@@ -321,6 +327,8 @@
 			tb_goods
 		WHERE
 			user_id = #{userId}
+		and
+			goods_code = #{goodsCode}
 		ORDER BY
 			goods_reg_date desc
 		LIMIT 4;
@@ -370,6 +378,7 @@
 			g.user_id = #{loginId}
 		and
 			g.goods_state = 'activate'
+		order by g.goods_reg_date desc
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize}
 		</if>
