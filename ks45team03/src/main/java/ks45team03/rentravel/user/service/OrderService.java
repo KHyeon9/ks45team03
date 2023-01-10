@@ -6,17 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.sound.midi.Patch;
-
 import org.springframework.stereotype.Service;
 
 import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.Rental;
-import ks45team03.rentravel.mapper.AdminCommisionRateMapper;
-import ks45team03.rentravel.mapper.AdminOrderMapper;
 import ks45team03.rentravel.mapper.GoodsMapper;
 import ks45team03.rentravel.mapper.OrderMapper;
-import ks45team03.rentravel.user.controller.OrderController;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -44,8 +39,6 @@ public class OrderService {
 		Date endDate = format.parse(rental.getRentalEndDate());
 		long dayGap = (endDate.getTime() - startDate.getTime()) /  86400000;
 		
-		System.out.println(dayGap + "렌탈 날짜~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
 		float commisionRate = orderMapper.getCommisionRate();
 		float saveMileageRate = orderMapper.getUserSaveMileageRate(rental.getUserId());
 		int goodsDayPrice = goodsMapper.getGoodsDetailByGoodsCode(rental.getGoodsCode()).getGoodsDayPrice();
@@ -70,9 +63,6 @@ public class OrderService {
 		paymentInfo.setTradeStatusCode("trade_status1");
 		paymentInfo.setMileageUseGroupCode(milegeUseGroupCode);
 		paymentInfo.setMileageSaveGroupCode(milegeSaveGroupCode);
-		
-		log.info("제발 나와주세요 payment : {} ~~~~~~~~~~~~~~~~~~~", paymentInfo);
-		log.info("제발 나와주세요 rental  : {} ~~~~~~~~~~~~~~~~~~~", rental);
 		
 		
 		result = orderMapper.addRental(rental) + orderMapper.addPayment(paymentInfo);
