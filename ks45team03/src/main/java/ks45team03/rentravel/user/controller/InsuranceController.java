@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -54,7 +56,7 @@ public class InsuranceController {
 			model.addAttribute("cntInsuranceBill", cntInsuranceBill);
 			model.addAttribute("cntInsurancePayout", cntInsurancePayout);
 
-			
+			 
 			return "user/insurance/insuranceMain";
 			
 		} else {
@@ -66,31 +68,68 @@ public class InsuranceController {
 		
 	}
 	
-	@GetMapping("/insuranceaddBillPersonInfo")
-	public String insuranceaddBillPersonInfo(Model model) {
+	@GetMapping("/insuranceaddBillPersonInfo/{insuranceCode}")
+	public String insuranceaddBillPersonInfo(@PathVariable(value="insuranceCode") String insuranceCode, Model model) {
+		
+		model.addAttribute("title", "Insurance");
+		model.addAttribute("insuranceCode", insuranceCode);
 		
 		return "user/insurance/insuranceaddBillPersonInfo";
-
+			
 	}
 	
-	
-	@GetMapping("/insuranceBillDetail")
-	public String getInsuranceBillDetail(Model model) {
+	@GetMapping("/insuranceAddBill/{insuranceCode}")
+	public String addInsuranceBillDetail(@PathVariable(value="insuranceCode") String insuranceCode, Model model,
+														HttpServletResponse response, HttpSession session) throws IOException {
 		
-		List<InsuranceBillDetail> insuranceBillDetail = insuranceService.getInsuranceBillDetail();
+		if(session.getAttribute("S_USER_INFO") != null) {
+			model.addAttribute("title", "Insurance");
+			model.addAttribute("insuranceCode", insuranceCode);
+			
+			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
+			String loginId =  loginInfo.getLoginId();
+			
+			List<Insurance> insuranceList = insuranceMapper.getInsuranceInfoById(loginId);
+			model.addAttribute("insuranceList", insuranceList);
 
-		model.addAttribute("insuranceBillDetail", insuranceBillDetail);
+			
+		} else {
+			
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
 		
-		
-		return "user/insurance/insuranceBillDetail";
-	}
-	
-	
-	@GetMapping("/insuranceAddBill")
-	public String addInsuranceBillDetail(Model model) {
-				
 		return "user/insurance/insuranceAddBill";
 	}
+	
+	@GetMapping("/insuranceBillRecipt/{insuranceCode}")
+	public String getInsuranceBillRecipt(@PathVariable(value="insuranceCode") String insuranceCode, Model model){
+		
+			model.addAttribute("title", "Insurance");
+			model.addAttribute("insuranceCode", insuranceCode);
+			
+			List<InsuranceBillDetail> insuranceBillDetail = insuranceMapper.getInsuranceBillReciptInfoById(insuranceCode);
+			model.addAttribute("insuranceBillDetail", insuranceBillDetail);
+			
+			return "user/insurance/insuranceBillRecipt";
+		
+	}
+	
+	@GetMapping("/insuranceBillDetail/{insuranceBillDetailCode}")
+	public String getInsuranceBillDetail(@PathVariable(value="insuranceBillDetailCode") String insuranceBillDetailCode, Model model){
+		
+			model.addAttribute("title", "Insurance");
+			model.addAttribute("insuranceBillDetailCode", insuranceBillDetailCode);
+			
+			List<InsuranceBillDetail> insuranceBillDetail = insuranceMapper.getInsuranceBillDetailInfoById(insuranceBillDetailCode);
+			model.addAttribute("insuranceBillDetail", insuranceBillDetail);
+			
+			return "user/insurance/insuranceBillDetail";
+		
+	}
+	
+	
 	
 	
 	@GetMapping("/insuranceModifyBill")

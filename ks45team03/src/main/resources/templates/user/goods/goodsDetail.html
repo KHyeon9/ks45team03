@@ -105,7 +105,7 @@
 	                      <h5 class="mr-4" style="margin-bottom: 7px; margin-top: 7px;">택배여부</h5>
 		                  <div class="form-group row">
 		                    <div class="quick-drop col-4 selectOptions mb-2">
-		                      <select id="deliveryType" name="selectDelivery" class="form-control" style="margin-bottom:0px;">
+		                      <select id="deliveryType" name="selectDelivery" class="form-control" style="margin-bottom: 5px;">
 	                            <option value="N" selected>직거래</option>
 		                        <option value="Y">택배</option>
 		                      </select>
@@ -429,8 +429,10 @@
 			
 	
 		$('#submitBtn').click(function(){
+			
+			const userId =  document.getElementById("submitBtn").value;
 						
-			if(!confirm('해당 아이디를 차단하시겠습니까?')) {
+			if(!confirm(userId+'님을 차단하시겠습니까?')) {
 				return false;
 			}else{
 				$('#addBlockForm').submit();
