@@ -34,9 +34,9 @@
           <div class="row">
             <div class="col-12">
               <div class="btn-group" role="group" aria-label="..." style="float: right";>
-                <a href="account-dashboard.html" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
-                <a href="account-profile.html" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
-                <a href="account-address.html" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>연별 수익</a>
+                <a th:href="@{/myPage/myProfitListDay}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
+                <a th:href="@{/myPage/myProfitListMonth}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
+                <a th:href="@{/myPage/myProfitListYear}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>연별 수익</a>
               </div>
             </div>
           </div>
@@ -48,29 +48,61 @@
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
-                        <tr>
-                          <th></th>
-                          <th>ID</th>
-                          <th>적립된 정산금</th>
-                          <th>총 정산금</th>
-                          <th>정산금 지급 날짜</th>
+                        <tr>                          
+                          <th style="text-align: center;">ID</th>
+                          <th style="text-align: center;">적립된 정산금</th>
+                          <th style="text-align: center;">총 정산금</th>
+                          <th style="text-align: center;">정산금 지급 날짜</th>
                           
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>                     
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                        <tr th:unless="${#lists.isEmpty(getUserProfitList)}" th:each="pl : ${getUserProfitList}">                                               
+                          <td style="text-align: center;" th:text="${pl.userId}"></td>
+                          <td style="text-align: center;" th:text="${pl.profitAmountSave}"></td>
+                          <td style="text-align: center;" th:text="${pl.profitTotal}"></td>
+                          <td style="text-align: center;" th:text="${pl.profitSaveTime}"></td>
                          
                         </tr>
+                        <tr th:if="${#lists.isEmpty(getUserProfitList)}">
+			              	<td colspan="5">등록된 수익이 없습니다.</td>
+			            </tr>
                        
                       </tbody>
                     </table>
                   </div>
                 </div>
+                 <!-- 페이징 -->
+      			<div style="margin-top: 50px; display: flex; justify-content: center;" class="blogPage">
+		          <div class="col-sm-6">
+							<div class="text-left">
+								<ul class="pagination" style="justify-content: center;">
+									<li th:if="${pagination.curRange != 1}">
+										<a th:href="@{/myPage/myProfitList}" aria-label="First"><span aria-hidden="true"><<</span></a>
+									</li>
+									<li th:if="${pagination.curPage != 1}">
+										<a th:href="@{/myPage/myProfitList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+									</li>
+									
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="active" th:if="${pageNum == pagination.curPage}">
+											<a th:text="${pageNum}"></a>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage}">
+											<a th:href="@{/myPage/myProfitList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+										</li>
+									</th:block>
+
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<a th:href="@{/myPage/myProfitList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+									</li>
+									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+										<a th:href="@{/myPage/myProfitList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+		        </div>
               </div>
             </div>
           </div>

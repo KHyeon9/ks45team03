@@ -92,24 +92,29 @@
                   <h2 th:text="*{goodsName}"></h2>
                   <h3 th:text="'1일당 '+*{goodsDayPrice}+'원'"></h3>
                             
-                   <form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
-                   		<h4 th:text="'ID: '+*{userId}"></h4>
-                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
-                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">차단하기</button>
-                   </form>
+                   		<h4 th:text="'판매자 닉네임: '+*{userNickname}"></h4>
+                   		<h4 th:text="'카테고리: '+*{goodsCategoryName}"></h4>
+                   		<h4 th:text="'등록일자: '+*{goodsRegDate}"></h4>
+                   		<h4 th:text="'상품가치: '+*{goodsValuePrice}"></h4>
+
                    	
-                   <p th:text="*{goodsDetail}"></p>
                    <form id="getRentalInfo" action="/order/payment" method="get">
                    	 <input th:value="${goodsDetail.goodsCode}" name="goodsCode" type="hidden" readonly="readonly"/>
                      <div class="row">
                    	   <div class="col-12">
-	                      <h5 class="mr-4" style="margin-bottom: 20px;">택배여부</h5>
+	                      <h5 class="mr-4" style="margin-bottom: 7px; margin-top: 7px;">택배여부</h5>
 		                  <div class="form-group row">
 		                    <div class="quick-drop col-4 selectOptions mb-2">
-		                      <select id="deliveryType" name="selectDelivery" class="form-control select-drop">
+		                      <select id="deliveryType" name="selectDelivery" class="form-control" style="margin-bottom: 5px;">
 	                            <option value="N" selected>직거래</option>
 		                        <option value="Y">택배</option>
 		                      </select>
+		                 	 </div>
+		                 	 <div class="quick-drop col-4 selectOptions mb-2">
+           	   	                <form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
+			                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
+			                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
+			                   </form>
 		                 	 </div>
 		                  </div>
 	                   </div>
@@ -135,17 +140,24 @@
 	                    </div>
 	                  </div>
 	                  <div class="btn-area mb-0">
-	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="width: 130px; font-weight: bold;">결제하기<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+						<a th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
 	                  </div>
                    </form>
-                 
-
-                  <a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}" style="color:red">상품 수정 버튼</a>
-				
-                  <form id="addChatRoomForm" th:action="@{/addChatRoom}" method="post">
-                  	 <input type="hidden" name="userId" th:value="*{userId}">	
- 	                 <button type="submit" class="btn btn-default btn-primary custom-btn">채팅하기</button>
-                  </form>
+        	          <div class="btn-area mb-0" style="margin-top:10px; display:flex;" th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == goodsDetail.userId}">
+		    			<a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold; margin-right:3px;">수정</button></a>
+			    			<form id="removeGoodsForm" th:action="@{/goods/removeGoods}" method="post" style="width:0%">
+			    				<button type="submit"
+			    						class="btn btn-primary"
+			    						id="removeGoodsButton"
+			    						style="width: 100px;
+			    						text-align:center;
+			    						font-weight: bold;"
+			    						th:value="${goodsDetail.goodsCode}"
+			    						name="goodsCode">삭제</button>
+			    			</form>
+	                  </div>
+         
                 </div>
               </div>
             </div>
@@ -163,17 +175,11 @@
                     </ul>
                     <div class="tab-content">
                       <div id="OurDetails" class="tab-pane fade show active">
-                        <p>LContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
+                        <p th:text="${goodsDetail.goodsDetail}">LContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
                           Latin
                           liter ature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
                           Hampden-Sydney
                           College in Virginia.</p>
-                        <ul class="list-unstyled">
-                          <li>Black, Crew Neck</li>
-                          <li>75% Cotton, 25% Rayon</li>
-                          <li>Waterbased Ink</li>
-                          <li>Wash Cold, dry low</li>
-                        </ul>
                       </div>
 
                       <div id="OurSizing" class="tab-pane fade">
@@ -350,68 +356,7 @@
                       <div id="OurShipping" class="tab-pane fade">
                         <div class="SingleCartListWrapper SingleCartShipping">
                           <div class="cartListInner">
-                            <div class="table-responsive">
-                              <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th>Shipping method</th>
-                                    <th>Estimated Time</th>
-                                    <th>Fees</th>
-                                  </tr>
-                                </thead>
-
-                                <tbody>
-                                  <tr>
-                                    <td class="">
-                                      <div class="custom-control custom-radio single-custom-control">
-                                        <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" checked="">
-                                        <label class="custom-control-label" for="customRadio3"><span class="d-block" style="margin-top: 3px;">Pickup from
-                                            store</span></label>
-                                      </div>
-                                    </td>
-                                  
-                                    <td class="">—</td>
-                                    <td class="">$0</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">
-                                      <div class="custom-control custom-radio single-custom-control">
-                                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio2"><span class="d-block" style="margin-top: 3px;">Local
-                                            Shipping</span></label>
-                                      </div>
-                                    </td>
-                                  
-                                    <td class="">2-7 days</td>
-                                    <td class="">$4</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">
-                                      <div class="custom-control custom-radio single-custom-control">
-                                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio1"><span class="d-block" style="margin-top: 3px;">Courier</span></label>
-                                    </td>
-
-                                    <td class="">3-5 days</td>
-                                    <td class="">$5</td>
-                                  </tr>
-                      
-                                  <tr>
-                                    <td class="">
-                                      <div class="custom-control custom-radio single-custom-control">
-                                        <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio4"><span class="d-block" style="margin-top: 3px;">International Shipping</span></label>
-                                      </div>
-                                    </td>
-                                    
-                                    <td class="">7-15 days</td>
-                                    <td class="">$15</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          	약관 ㅇㅇ
                           </div>
                         </div>
                       </div>
@@ -423,82 +368,29 @@
           </div>
 
           <div class="page-header">
-            <h4>(판매자아이디)님의 다른 상품</h4>
+            <h4 th:text="|${goodsDetail.userNickname}님의 다른 상품|"></h4>
           </div>
           <div class="row productsContent">
             
-            <div class="col-md-3 col-12 ">
+            <div class="col-md-3 col-12 " th:each="glByUid : ${goodsListByUserId}">
               <div class="productBox">
                 <div class="productImage clearfix">
                   <img src="/user/assets/img/products/products-01.jpg" alt="products-img">
                   <div class="productMasking">
                     <ul class="list-inline btn-group" role="group">
                       <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
-                      <li><a href="cart-page.html" class="btn btn-default"><i class="fa fa-shopping-basket"></i></a></li>
-                      <li><a class="btn btn-default" data-toggle="modal" href=".quick-view" ><i class="fa fa-eye"></i></a></li>
+                      <li></li>
+                      <li><a class="btn btn-default" th:href="@{/goods/goodsDetail(userId=${glByUid.userId} ,goodsCode=${glByUid.goodsCode})}" ><i class="fa fa-eye"></i></a></li>
                     </ul>
                   </div>
                 </div>
                 <div class="productCaption clearfix">
-                 <h5>Nike Sportswear</h5>
-                 <h3>$199</h3>
+                 <h5><a th:href="@{/goods/goodsDetail(goodsCode=${glByUid.goodsCode}, userId=${glByUid.userId})}" th:text="${glByUid.goodsName}"></a></h5>
+                 <h3 th:text="${glByUid.goodsDayPrice}"></h3>
                 </div>
               </div>
             </div>
-            <div class="col-md-3 col-12 ">
-              <div class="productBox">
-                <div class="productImage clearfix">
-                  <img src="/user/assets/img/products/products-02.jpg" alt="products-img">
-                  <div class="productMasking">
-                    <ul class="list-inline btn-group" role="group">
-                      <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
-                      <li><a href="cart-page.html" class="btn btn-default"><i class="fa fa-shopping-basket"></i></a></li>
-                      <li><a class="btn btn-default" data-toggle="modal" href=".quick-view" ><i class="fa fa-eye"></i></a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="productCaption clearfix">
-                 <h5>Dip Dyed Sweater</h5>
-                 <h3>$249</h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 col-12 ">
-              <div class="productBox">
-                <div class="productImage clearfix">
-                  <img src="/user/assets/img/products/products-03.jpg" alt="products-img">
-                  <div class="productMasking">
-                    <ul class="list-inline btn-group" role="group">
-                      <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
-                      <li><a href="cart-page.html" class="btn btn-default"><i class="fa fa-shopping-basket"></i></a></li>
-                      <li><a class="btn btn-default" data-toggle="modal" href=".quick-view" ><i class="fa fa-eye"></i></a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="productCaption clearfix">
-                 <h5>Scarf Ring Corner</h5>
-                 <h3>$179</h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 col-12 ">
-              <div class="productBox">
-                <div class="productImage clearfix">
-                  <img src="/user/assets/img/products/products-04.jpg" alt="products-img">
-                  <div class="productMasking">
-                    <ul class="list-inline btn-group" role="group">
-                      <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
-                      <li><a href="cart-page.html" class="btn btn-default"><i class="fa fa-shopping-basket"></i></a></li>
-                      <li><a class="btn btn-default" data-toggle="modal" href=".quick-view" ><i class="fa fa-eye"></i></a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="productCaption clearfix">
-                 <h5>Sun Buddies</h5>
-                 <h3>$149</h3>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -537,13 +429,25 @@
 			
 	
 		$('#submitBtn').click(function(){
+			
+			const userId =  document.getElementById("submitBtn").value;
 						
-			if(!confirm('해당 아이디를 차단하시겠습니까?')) {
+			if(!confirm(userId+'님을 차단하시겠습니까?')) {
 				return false;
 			}else{
 				$('#addBlockForm').submit();
 			}
-		}) 
+		}); 
+			
+		$('#removeGoodsButton').click(function(){
+			
+			if(!confirm('상품을 삭제하시겠습니까?')) {
+				return false;
+			}else{
+				$('#removeGoodsForm').submit();
+				alert('상품이 삭제되었습니다.');
+			}
+		}); 
 		</script>
 	</th:block>
 </body>

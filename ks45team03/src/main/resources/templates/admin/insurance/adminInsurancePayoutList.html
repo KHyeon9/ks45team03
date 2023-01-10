@@ -4,35 +4,43 @@
 	  layout:decorate="~{admin/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
-		  <div class="right_col" role="main">
-		  	<h1>관리자보상금지급내역</h1>
-		  	<table class="table">
-			  <thead>
-			    <tr>
-			      <th scope="col">insurance_payout_code</th>
-			      <th scope="col">user_id</th>
-			      <th scope="col">insurance_bill_detail_code</th>
-			      <th scope="col">insurance_bill_code</th>
-			      <th scope="col">insurance_payout_price</th>
-			      <th scope="col">insurance_payout_date</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr th:if="${not #lists.isEmpty(adminInsurancePayoutList)}"
-			    	 th:each="l: ${adminInsurancePayoutList}">	
-			      <td th:text="${l.insurancePayoutCode}"></td>
-			      <td th:text="${l.userId}"></td>
-			      <td th:text="${l.insuranceBillDetailCode}"></td>
-			      <td th:text="${l.insuranceBillCode}"></td>
-			      <td th:text="${l.insurancePayoutPrice}"></td>
-			      <td th:text="${l.insurancePayoutDate}"></td>
-			    </tr>
-			    <tr th:unless="${not #lists.isEmpty(adminInsurancePayoutList)}">
-			    	<td colspan="9">등록된 상품이 없습니다.</td>
-			    </tr>
-			  </tbody>
-			</table>
-		</div>
+		<div class="right_col" role="main">
+		  	<h1>관리자보상금지급리스트</h1><br>
+		  	<div class="clearfix"></div>
+	              <div class="col-md-12 col-sm-12  ">
+	                    <div class="table-responsive">
+	                      <table class="table table-striped jambo_table bulk_action text-center">
+	                        <thead>
+	                          <tr class="headings">
+	                            <th>
+	                              <input type="checkbox" id="check-all" class="flat">
+	                            </th>
+	                            <th class="column-title">보험금지급코드</th>
+	                            <th class="column-title">보험가입자아이디</th>
+	                            <th class="column-title">보험상세코드</th>
+	                            <th class="column-title">보험금청구서코드</th>
+	                            <th class="column-title">보상금액수</th>
+	                            <th class="column-title">보상날짜</th>
+	                          </tr>
+	                        </thead>
+	                        <tbody>
+	                          <tr class="even pointer" th:if="${not #lists.isEmpty(adminInsurancePayoutList)}" th:each="l: ${adminInsurancePayoutList}">
+	                              <td class="a-center "><input type="checkbox" class="flat" name="table_records"></td>
+							      <td th:text="${l.insurancePayoutCode}"></td>
+							      <td th:text="${l.userId}"></td>
+							      <td th:text="${l.insuranceBillDetailCode}"></td>
+							      <td th:text="${l.insuranceBillCode}"></td>
+							      <td th:text="${l.insurancePayoutPrice}"></td>
+							      <td th:text="${l.insurancePayoutDate}"></td>
+					                          </tr>
+	                          <tr th:unless="${not #lists.isEmpty(adminInsurancePayoutList)}">
+				    			<td colspan="9">등록된 상품이 없습니다.</td>
+				    		</tr>
+	                        </tbody>
+	                      </table>
+	                    </div>
+	                  </div>
+	                </div>
 	  </th:block>
 	  
 </html>

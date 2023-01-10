@@ -3,39 +3,46 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{admin/layout/default}">
 	  
-	  <th:block layout:fragment="customContents">
+	  <th:block layout:fragment="customContents">	  
 		  <div class="right_col" role="main">
 		  	<h1>관리자보험리스트</h1><br>
-		  	<h3>현재 보험에 가입되어 있는 유저를 보여줍니다</h3><br>
-		  	<table class="table">
-			  <thead>
-			    <tr>
-					<th scope="col">보험코드</th>
-					<th scope="col">보험가입자아이디</th>
-					<th scope="col">상품코드</th>
-					<th scope="col">결제코드</th>
-					<th scope="col">주문코드</th>
-					<th scope="col">보험이용가능여부</th>
-					<th scope="col">보험등록시간</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr th:if="${not #lists.isEmpty(adminInsuranceList)}"
-			    	 th:each="l : ${adminInsuranceList}">	
-			      <td th:text="${l.insuranceCode}"></td>
-			      <td th:text="${l.userId}"></td>
-			      <td th:text="${l.goodsCode}"></td>
-			      <td th:text="${l.paymentCode}"></td>
-			      <td th:text="${l.rentalCode}"></td>
-			      <td th:text="${l.insuranceAvailable}"></td>
-			      <td th:text="${l.insuranceSignUpTime}"></td>
-			    </tr>
-			    <tr th:unless="${not #lists.isEmpty(adminInsuranceList)}">
-			    	<td colspan="9">등록된 상품이 없습니다.</td>
-			    </tr>
-			  </tbody>
-			</table>
-			</div>
+			  	<h3>현재 보험에 가입되어 있는 유저를 보여줍니다</h3><br>
+		  	<div class="clearfix"></div>
+	              <div class="col-md-12 col-sm-12  ">
+	                    <div class="table-responsive">
+	                      <table class="table table-striped jambo_table bulk_action text-center">
+	                        <thead>
+	                          <tr class="headings">
+	                            <th>
+	                              <input type="checkbox" id="check-all" class="flat">
+	                            </th>
+	                            <th class="column-title">보험코드 </th>
+	                            <th class="column-title">보험가입자아이디</th>
+	                            <th class="column-title">상품코드</th>
+	                            <th class="column-title">결제코드</th>
+	                            <th class="column-title">주문코드</th>
+	                            <th class="column-title">보험이용가능여부</th>
+	                            <th class="column-title">보험등록시간</th>
+	                          </tr>
+	                        </thead>
+	                        <tbody>
+	                          <tr class="even pointer" th:if="${not #lists.isEmpty(adminInsuranceList)}" th:each="l : ${adminInsuranceList}">	
+	                            <td class="a-center "><input type="checkbox" class="flat" name="table_records"></td>
+	                            <td th:text="${l.insuranceCode}"></td>
+							      <td th:text="${l.userId}"></td>
+							      <td th:text="${l.goodsCode}"></td>
+							      <td th:text="${l.paymentCode}"></td>
+							      <td th:text="${l.rentalCode}"></td>
+							      <td th:text="${l.insuranceAvailable}"></td>
+							      <td th:text="${l.insuranceSignUpTime}"></td>
+	                          </tr>
+	                          <tr th:unless="${not #lists.isEmpty(adminInsuranceList)}">
+				    			<td colspan="9">등록된 상품이 없습니다.</td>
+				    		</tr>
+	                        </tbody>
+	                      </table>
+	                    </div>
+	                  </div>
+	                </div>
 	  </th:block>
-	  
 </html>

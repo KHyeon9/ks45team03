@@ -43,7 +43,6 @@ public class ChatController {
     	List<ChatMessage> chatMessageList = chatService.getChatMessageList(chatRoomCode);
     	ChatRoom chatRoomInfo = chatMapper.getChatRoomCode(chatRoomCode);
     	
-    	chatService.modifyChatReadCheck(chatRoomCode, loginId);
     	
     	model.addAttribute("title","chat");
     	model.addAttribute("loginUser",loginUser);
@@ -90,7 +89,7 @@ public class ChatController {
 		return "user/chat/room";
 	}
 	
-	@PostMapping("/addChatRoom")
+	@GetMapping("/addChatRoom")
 	public String addChatRoom(@RequestParam(value="userId") String userId,ChatRoom chatRoom,HttpSession session) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");

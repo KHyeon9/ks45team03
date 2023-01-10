@@ -4,9 +4,15 @@ public class InsuranceBill {
 	
 	private String insuranceBillCode;
 	private String userId;
+	private String insuranceCode;
 	private String insuranceBillDetailCode;
 	private String insuranceBillStateCode;
 	private String insuranceBillModifyDate;
+	
+
+	InsuranceBillDetail insuranceBillDetail;
+	InsuranceBillState insuranceBillState;
+	Goods goods;
 	
 	public InsuranceBillDetail getInsuranceBillDetail() {
 		return insuranceBillDetail;
@@ -26,11 +32,6 @@ public class InsuranceBill {
 	public void setGoods(Goods goods) {
 		this.goods = goods;
 	}
-
-	InsuranceBillDetail insuranceBillDetail;
-	InsuranceBillState insuranceBillState;
-	Goods goods;
-	
 	public String getInsuranceBillCode() {
 		return insuranceBillCode;
 	}
@@ -42,6 +43,12 @@ public class InsuranceBill {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getInsuranceCode() {
+		return insuranceCode;
+	}
+	public void setInsuranceCode(String insuranceCode) {
+		this.insuranceCode = insuranceCode;
 	}
 	public String getInsuranceBillDetailCode() {
 		return insuranceBillDetailCode;

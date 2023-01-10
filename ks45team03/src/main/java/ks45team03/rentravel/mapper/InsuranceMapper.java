@@ -24,14 +24,17 @@ public interface InsuranceMapper {
 	// 보상금지급내역 카운트
 	public Integer countInsurancePayout(String loginId);
 	
+	//보상금 접수증
+	public List<InsuranceBillDetail> getInsuranceBillReciptInfoById(String insuranceCode);
+	
+	// 보상금청구서 상세화면
+	public List<InsuranceBillDetail> getInsuranceBillDetailInfoById(String insuranceBillDetailCode);
+	
 	// 나의 보상금청구서 조회
 	public List<InsuranceBill> getInsuranceBillInfoById(String loginId);
 	
-	// 보상금청구서 상세화면
-	public List<InsuranceBillDetail> getInsuranceBillDetail();
-	
 	// 보상금청구서 등록
-	public int addInsuranceBillDetail();
+	public int addInsuranceBillDetail(String insuranceCode);
 	
 	// 보상금청구서 수정
 	public int modifyInsuranceBillDetail();

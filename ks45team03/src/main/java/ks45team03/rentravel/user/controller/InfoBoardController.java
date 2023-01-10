@@ -1,5 +1,6 @@
 package ks45team03.rentravel.user.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.GoodsCategory;
 import ks45team03.rentravel.dto.InfoBoard;
@@ -27,6 +32,7 @@ import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.InfoBoardMapper;
 import ks45team03.rentravel.mapper.UserMapper;
+import ks45team03.rentravel.user.service.FileService;
 import ks45team03.rentravel.user.service.InfoBoardService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -100,9 +106,11 @@ public class InfoBoardController {
 		Pagination pagination = new Pagination(commentCnt, curPage);
 		infoBoardService.viewIncrease(infoBoardCode);
 		InfoBoard infoBoardDetail = infoBoardService.getInfoBoardDetail(infoBoardCode);
+		List<String> infoBoardImgList = infoBoardMapper.getInfoBoardImgPath(infoBoardCode);
 		List<InfoBoardComment> commentList = infoBoardMapper.getInfoBoardComment(infoBoardCode, pagination.getStartIndex(), pagination.getPageSize());
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
+		log.info("사진 경로 정보 : {} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", infoBoardImgList);
 		
 		if (loginInfo != null) {
 			User userCheck = userMapper.checkPwByUserId(loginInfo.getLoginId());
@@ -115,6 +123,7 @@ public class InfoBoardController {
 		model.addAttribute("commentCnt", commentCnt);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("loginInfo", loginInfo);
+		model.addAttribute("infoBoardImgList", infoBoardImgList);
 
 		return "user/board/infoBoardDetail";
 	}
@@ -138,22 +147,27 @@ public class InfoBoardController {
 	}
 
 	@PostMapping("/addInfoBoard")
-	public String addInfoBoard(InfoBoard infoBoard) {
+	public String addInfoBoard(@RequestPart(value = "uploadfile", required = false) MultipartFile[] uploadfile,
+							   HttpServletRequest request,
+							   InfoBoard infoBoard) {
+		String fileRealPath = "/home/springboot/teamproject/files/";
 		String infoBoardCode = commonNewCode.getCommonNewCode("tb_info_board", "info_board_code");
+		
 		infoBoard.setInfoBoardCode(infoBoardCode);
 
-		infoBoardService.addInfoBoard(infoBoard);
+		infoBoardService.addInfoBoard(infoBoard, uploadfile, fileRealPath);
 
 		return "redirect:/infoboard/infoBoardList";
 	}
 
 	@GetMapping("/addInfoBoard")
-	public String addInfoBoard(HttpSession session, Model model) {
+	public String addInfoBoard(HttpSession session, HttpServletResponse response, Model model) throws IOException {
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
 
 		if (loginInfo == null) {
-			System.out.println("로그인 부탁합니다.");
-			return "redirect:/infoboard/infoBoardList";
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
 		}
 
 		model.addAttribute("title", "정보게시판등록");

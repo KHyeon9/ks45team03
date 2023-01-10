@@ -28,18 +28,27 @@
                     <div class="clearfix"></div>
                   </div>
                   
-                  <div class="x_content">
+                  <div class="x_content">            
 
                     <p>회원의 수익을 조회할 수 있습니다.</p>
                     
-                    
                     <div class="table-responsive">
+                    <div class="col-md-12 row">
+                    <form th:action="@{/admin/profit/adminProfitList}" method="get" class="col-md-9" style="float: left;">
+                     <input name="userId" type="hidden" th:value="userId" readonly="readonly" />
+					<input type="text" name="searchId" placeholder="회원 아이디를 입력해주세요."/>
+					<button type="submit">조회</button>
+					</form>
+					<div class="btn-group col-md-3" role="group" aria-label="..." style="float: right;">
+		                <a th:href="@{/admin/profit/adminProfitListDay}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
+		                <a th:href="@{/admin/profit/adminProfitListMonth}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
+		                <a th:href="@{/admin/profit/adminProfitListYear}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>연별 수익</a>
+		              </div>
+		             </div>
+					<br>
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
-                          <tr class="headings">
-                          	<th>
-                              <input type="checkbox" id="check-all" class="flat">
-                            </th>
+                          <tr class="headings">                         	
 			                <th class="column-title">수익 코드</th>
 			                <th class="column-title">ID</th>
 			                <th class="column-title">적립된 정산금</th>
@@ -47,22 +56,21 @@
 			                <th class="column-title">정산금 지급 날짜</th>
 	                          
 	                         </tr>
+	                         
 	                       </thead>
 			                
 			       
                         <tbody>
-			            <tr class=" " th:unless="${#lists.isEmpty(adminGetCommisionRateList)}" th:each="cl : ${adminGetCommisionRateList}">
-			            	<td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-			                <td class=" " th:text="${cl.commisionRateCode}"></td>
-			                <td class=" " th:text="${cl.commisionRate}"></td>
-			                <td class=" " th:text="${cl.applyYear}"></td>
-			                <td class=" " th:text="${cl.applyCheck}"></td>			                
-			                <td class=" " width=100px;><a id="modifyBtn" class="btn btn-secondary" th:href="@{/admin/commisionRate/adminModifyCommisionRate(commisionRateCode=${cl.commisionRateCode})}">수정</a></td>
+			            <tr class=" " th:unless="${#lists.isEmpty(adminGetUserProfitList)}" th:each="pl : ${adminGetUserProfitList}">			            	
+			                <td class=" " th:text="${pl.profitCode}"></td>
+			                <td class=" " th:text="${pl.userId}"></td>
+			                <td class=" " th:text="${pl.profitAmountSave}"></td>
+			                <td class=" " th:text="${pl.profitTotal}"></td>			                
+			                <td class=" " th:text="${pl.profitSaveTime}"></td>			                
+			               
 			                
 			              </tr>
-			              <tr class=" " th:if="${#lists.isEmpty(adminGetCommisionRateList)}">
+			              <tr class=" " th:if="${#lists.isEmpty(adminGetUserProfitList)}">
 			              	<td class=" " colspan="5">등록된 회원 수익이 없습니다.</td>
 			              </tr>
 			        </tbody>

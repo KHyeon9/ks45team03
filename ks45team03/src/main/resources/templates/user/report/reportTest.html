@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+  	<th:block layout:fragment="customContents">
+	 <head>
+	 <style type="text/css">
+	  	.modal{
+		  	position: fixed;
+		 	top: 50%;
+		  	left: 50%;
+		  	transform: translate(-50%, -50%);
+	  		}
+		.modal-dialog {
+			  	width: 100%;
+			  	height: 100%;
+			  	margin: 0;
+			  	padding: 0;
+			  	vertical-align: middle;
+			  	
+  				text-align: left;
+			}
+	 </style>
+	 </head>
+
+  <body id="body" class="body-wrapper version1 up-scroll">
+
+    <div class="main-wrapper">
+
+      
+<!-- =============================================
+## Elements Banner 있어야 함 없으면 정렬 틀어짐
+=============================================== -->
+
+	
+
+<!-- Grid wrapper for ell elements -->
+
+<div class="grid-wrapper section">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-12 col-lg-12 element-content pt-5">
+				
+
+
+
+<!-- =============================================
+## modal
+=============================================== -->
+<div id="element_modal" class="element_single">
+	
+	<div class="display-single_element">
+		<h3 style="margin-bottom: 10px;">신고하기 modal</h3>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#goodsReportModal">
+			신고하기
+		</button>
+
+		<!-- Modal -->
+		<div class="modal fade quick-view-drone" id="goodsReportModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-fullsize" >
+				<div class="modal-content modal-fullsize" style="width:500px;">
+					<div class="modal-body" >
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+						<div class="media flex-wrap">
+							
+							<div class="media-body">
+								<h2>신고하기</h2>
+								<p>해당 상품 신고하기</p>
+								<h4>신고사유</h4><br/>
+								<div class="quick-drop selectOptions mb-4">
+									<ul>
+									<li><label><input type="radio" name="reportType" value="광고성 글" >광고성 글</label></li>
+	      							<li><label><input type="radio" name="reportType" value="무분별한 도배" >무분별한 도배</label></li>
+	      							<li><label><input type="radio" name="reportType" value="사기성 글" >사기성 글</label></li>
+	      							<li><label><input type="radio" name="reportType" value="음란성 글" >음란성 글</label></li>
+	      							<li><label><input type="radio" name="reportType" value="욕설 및 혐오 조장 글" >욕설 및 혐오 조장 글</label></li>
+	      							</ul>
+      							</div>
+								
+								<div class="btn-area" style="display: inline-block; margin: 0 5px;  float: right; text-align:right; ">
+									<a href="#" class="btn btn-primary btn-block">신고하기 <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Default ends-->
+
+</div>
+<style media="screen">
+
+</style>
+
+					</div> <!-- element-content ends -->
+				</div>
+			</div> <!-- element main container ends -->
+		</div> <!-- Grid wrapper ends -->
+
+		
+			<!-- COPY RIGHT -->
+			<div class="copyRight clearfix">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-7 col-12">
+							<p>&copy; 2017 Copyright Bigbag Store Bootstrap Template by <a target="_blank" href="http://www.iamabdus.com/">Abdus</a>.</p>
+						</div>
+						<div class="col-md-5 col-12">
+							<ul class="list-inline">
+								<li><img src="assets/img/home/footer/card1.png"></li>
+								<li><img src="assets/img/home/footer/card2.png"></li>
+								<li><img src="assets/img/home/footer/card3.png"></li>
+								<li><img src="assets/img/home/footer/card4.png"></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+
+		<script src="assets/plugins/jquery/jquery.min.js"></script>
+		<script src="assets/plugins/jquery/jquery-migrate-3.0.0.min.js"></script>
+		<script src="assets/plugins/jquery-ui/jquery-ui.js"></script>
+		<script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="assets/plugins/revolution/js/jquery.themepunch.tools.min.js"></script>
+		<script src="assets/plugins/revolution/js/jquery.themepunch.revolution.min.js"></script>
+		<script src="assets/plugins/slick/slick.js"></script>
+		<script src="assets/plugins/fancybox/jquery.fancybox.min.js"></script>
+		<script src="assets/plugins/iziToast/js/iziToast.js"></script>
+		<script src="assets/plugins/prismjs/prism.js"></script>
+		<script src="assets/plugins/selectbox/jquery.selectbox-0.1.3.min.js"></script>
+		<script src="assets/plugins/countdown/jquery.syotimer.js"></script>
+		<script src="assets/plugins/velocity/velocity.min.js"></script>
+		<script src="assets/plugins/rateyo/jquery.rateyo.min.js"></script>
+		<script src="assets/js/custom.js"></script>
+
+	</body>
+</html>

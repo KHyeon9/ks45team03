@@ -15,6 +15,7 @@ public class InfoBoard {
 	private int infoBoardLikeCnt;
 	private int infoBoardViewCnt;
 	private String infoBoardRegTime;
+	private String fileGroupCode;
 	
 	private User user;
 	

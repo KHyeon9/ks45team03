@@ -38,7 +38,6 @@ public class OrderService {
 		Date startDate = format.parse(rental.getRentalStartDate());
 		Date endDate = format.parse(rental.getRentalEndDate());
 		long dayGap = (endDate.getTime() - startDate.getTime()) /  86400000;
-		
 		float commisionRate = orderMapper.getCommisionRate();
 		float saveMileageRate = orderMapper.getUserSaveMileageRate(rental.getUserId());
 		int goodsDayPrice = goodsMapper.getGoodsDetailByGoodsCode(rental.getGoodsCode()).getGoodsDayPrice();

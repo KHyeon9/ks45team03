@@ -120,7 +120,7 @@
 		          <div class="panel-body">
 		            <ul class="list-unstyle sidebar-list">
 		              <li th:each="cate : ${goodsCategoryList}">
-		              	<a href="#">
+		              	<a th:href="@{/goods/goodsList?goodsCategoryCode=} + ${cate.goodsCategoryCode}">
 		              		<i class="fa fa-caret-right" aria-hidden="true"></i>
 		              		<span th:text="${cate.goodsCategoryName}"></span>
 		              	</a>
