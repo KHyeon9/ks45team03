@@ -130,7 +130,7 @@
 	                        <img src="/user/assets/img/products/products-03.jpg" alt="products-img">
 	                        <div class="productMasking">
 	                          <ul class="list-inline btn-group" role="group">
-	                            <li><a class="btn btn-default" th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode})}"><i class="fa fa-eye"></i></a></li>
+	                            <li><a class="btn btn-default" th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}"><i class="fa fa-eye"></i></a></li>
 	                            <li></li>
 	                            <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
 	                          </ul>
@@ -138,7 +138,7 @@
 	                      </div>
 	                    </div>
 	                    <div class="media-body">
-	                      <h4 class="media-heading"><a th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode})}" th:text="${gl.goodsName}"></a></h4>
+	                      <h4 class="media-heading"><a th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}" th:text="${gl.goodsName}"></a></h4>
 	                      <p th:text="|판매자 아이디: ${gl.userId}|"></p>
 	                      <h4 th:text="|렌탈 가능 여부: ${gl.goodsRentalAvailability}|"></h4>
 	                      <h4 th:text="|상품 가치: ${gl.goodsValuePrice}|"></h4>

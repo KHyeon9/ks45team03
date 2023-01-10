@@ -48,6 +48,15 @@
 				margin-top: 30px;
 				height: 52px;
 			}
+			#userEmailCheck {
+				position: absolute;
+				top: 100%;
+			}
+			#userEmailCheck2 {
+				position: absolute;
+				top: 100%;
+				left: 36%;
+			}
 		</style>
 			<link th:href="@{/user/assets/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 		    <link th:href="@{/user/assets/plugins/jquery-ui/jquery-ui.css}" rel="stylesheet">
@@ -107,9 +116,32 @@
                     </div>
                     <div class="form-group">
                       <label for="userEmail">이메일</label>
-                      <input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="이메일을 입력해주세요.">
+                    <div class="input-group col-md-13">
+                      <input id="userEmailId" name="userEmailId" type="text" class="form-control">
                       <span class="invalid-feedback" id="userEmailCheck"></span>
-                    </div>
+                      <p class="px-1" style="margin-top:17px; font-size: 14px">@</p>
+	                      <input type="text" class="form-control" id="userEmailAddr" name="userEmailAddr">
+	                      <span class="invalid-feedback" id="userEmailCheck2"></span>
+                      
+                         <select id="selectEmail" class="form-control">
+	                      		<option>직접입력</option>
+	                      		<option>naver.com</option>
+	                      		<option>daum.net</option>
+	                      		<option>hotmail.com</option>
+	                      		<option>nate.com</option>
+	                      		<option>yahoo.co.kr</option>
+	                      		<option>para.com</option>
+	                      		<option>empas.com</option>
+	                      		<option>dreamwiz.com</option>
+	                      		<option>freechal.com</option>
+	                      		<option>lycos.co.kr</option>
+	                      		<option>korea.com</option>
+	                      		<option>gmail.com</option>
+	                      		<option>hanmil.com</option>
+		                      </select>
+		                      </div>
+                      <input type="text" class="form-control" id="userEmail" name="userEmail" hidden>
+                    	</div>
                     <div class="form-group row">
                       <label for="userPhoneNumber" class="col-md-12">전화번호</label>
                       <div class="input-group selectOptions col-md-12">

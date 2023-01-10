@@ -11,7 +11,12 @@
 		<result property="userLevelName" column="user_level_Name" />
 		<result property="userLevelCode" column="user_level_code" />
 		<result property="userEmail" column="user_email" />
+		<result property="userEmailId" column="userEmailId" />
+		<result property="userEmailAddr" column="userEmailAddr" />
 		<result property="userPhoneNumber" column="user_phone_number" />
+		<result property="userFirstPhoneNumber" column="userFirstPhoneNumber" />
+		<result property="userMiddlePhoneNumber" column="userMiddlePhoneNumber" />
+		<result property="userLastPhoneNumber" column="userLastPhoneNumber" />
 		<result property="userImage" column="user_image" />
 		<result property="regionSggCode" column="region_sgg_code" />
 		<result property="userAddrDesc" column="user_addr_desc" />
@@ -22,6 +27,10 @@
 				<id property="regionSggCode" column="region_sgg_code" />
 				<result property="regionSidoCode" column="region_sido_code" />
 				<result property="regionSggName" column="region_sgg_name" />
+			</association>
+			<association property="regionSido" javaType="RegionSido">
+				<id property="regionSidoCode" column="region_sido_code" />
+				<result property="regionSidoName" column="region_sido_name" />
 			</association>
 	</resultMap>
 	
@@ -35,6 +44,20 @@
 		<result property="regionSidoCode" column="region_sido_code" />
 		<result property="regionSggName" column="region_sgg_name" />
 	</resultMap>
+	
+	<update id="ModifyuserInfo" parameterType="User">
+		UPDATE 
+			tb_user AS u
+		SET
+			 u.user_pw = #{userPw}
+			,u.user_name = #{userName}
+			,u.user_email = #{userEmail}
+			,u.user_phone_number = #{userPhoneNumber}
+			,u.region_sgg_code = #{regionSggCode}
+			,u.user_addr_desc = #{userAddrDesc}
+		WHERE 
+			u.user_id = #{userId};
+	</update>
 	
 	<select id="checkPwByUserId" parameterType="String" resultMap="userResultMap">
 		SELECT
@@ -58,15 +81,26 @@
 			,u.user_pw
 			,u.user_name
 			,u.user_nickname
-			,u.user_email
-			,u.user_phone_number
+			,SUBSTR(u.user_email,1,INSTR(u.user_email,'@')-1) AS userEmailId
+			,SUBSTR(u.user_email,INSTR(u.user_email,'@')+1) AS userEmailAddr
+			,SUBSTR(u.user_phone_number, 1, 3) AS userFirstPhoneNumber
+			,SUBSTR(u.user_phone_number, 4, 4) AS userMiddlePhoneNumber
+			,SUBSTR(u.user_phone_number,8, 4) AS userLastPhoneNumber
+			,u.user_addr_desc
+			,rs.region_sgg_code
 			,rs.region_sgg_name
+			,rsi.region_sido_code
+			,rsi.region_sido_name
 		FROM
 			tb_user AS u
 			INNER JOIN
 			tb_region_sgg AS rs
 			ON
 			u.region_sgg_code = rs.region_sgg_code
+			INNER JOIN
+			tb_region_sido AS rsi
+			ON
+			rs.region_sido_code = rsi.region_sido_code
 		WHERE
 			u.user_id = #{loginId};
 	</select>
@@ -81,6 +115,16 @@
   			#{userId}, #{userPw}, #{userName}, #{userNickName}, #{userEmail}, #{userPhoneNumber}, #{regionSggCode}, #{userAddrDesc}, NOW()
   		)
   	</insert>
+  	
+  	<select id="getMyPageRegionSido" parameterType="String" resultMap="regionSidoResultMap">
+  		SELECT
+  			 sido.region_sido_code
+  			,sido.region_sido_name
+  		FROM
+  			tb_region_sido AS sido
+  		WHERE
+  			sido.region_sido_code NOT IN (#{regionSidoCode});
+  	</select>
   	
   	<select id="getRegionSido" resultMap="regionSidoResultMap">
   		SELECT

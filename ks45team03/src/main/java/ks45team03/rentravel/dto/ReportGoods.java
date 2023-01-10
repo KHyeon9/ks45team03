@@ -10,6 +10,22 @@ public class ReportGoods {
 	private String reportedUserId;
 	private String reportGoodsContent;
 	private String reportGoodsDateTime;
+	
+	ReportState reportState;
+	ReportType reportType;
+	
+	public ReportState getReportState() {
+		return reportState;
+	}
+	public void setReportState(ReportState reportState) {
+		this.reportState = reportState;
+	}
+	public ReportType getReportType() {
+		return reportType;
+	}
+	public void setReportType(ReportType reportType) {
+		this.reportType = reportType;
+	}
 	public String getReportGoodsCode() {
 		return reportGoodsCode;
 	}
