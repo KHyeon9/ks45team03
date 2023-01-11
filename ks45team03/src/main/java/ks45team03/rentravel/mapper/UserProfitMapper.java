@@ -12,6 +12,9 @@ import ks45team03.rentravel.dto.ProfitYear;
 @Mapper
 public interface UserProfitMapper {
 	
+	/* 수익 일별 그룹코드 날짜 조회 */
+	public String getUserDayGroupCodeDate (String loginId);
+	
 	/* 회원 연별 수익 목록 조회 */
 	public List<ProfitYear> getUserYearProfitList (String loginId, int startIndex, int pageSize, String searchYear);
 	

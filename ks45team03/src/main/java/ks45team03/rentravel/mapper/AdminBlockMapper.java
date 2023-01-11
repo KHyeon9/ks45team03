@@ -16,7 +16,7 @@ public interface AdminBlockMapper {
 	public int getBlockListCnt();
 	
 	/* 회원 차단 목록 조회 */
-	public List<Block>adminGetUserBlockList (Map<String, Object> paramMap);
+	public List<Block>adminGetUserBlockList (int startIndex, int pageSize, String searchKey, String searchValue);
 	
 	
 }

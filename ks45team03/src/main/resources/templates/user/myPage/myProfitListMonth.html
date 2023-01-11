@@ -120,7 +120,7 @@
 										<li class="active" th:if="${pageNum == pagination.curPage}">
 											<a th:text="${pageNum}"></a>
 										</li>
-										<li th:unless="${pageNum == pagination.curPage}">
+										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
 											<a th:href="@{/myPage/myProfitListMonth(curPage=${pageNum})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>

@@ -56,16 +56,32 @@
 			        </tbody>
 			          <tfoot>
 				  		<tr>
-				  			<td colspan="5">
-				  				<a type="button" th:if="${currentPage > 10}" th:href="@{/admin/block/adminBlockList(currentPage=${prevPage})}" style="margin-right: 20px;">이전</a>
-				  				<span th:unless="${currentPage > 10}" style="margin-right: 20px; visibility: hidden">이전</span>
-				  				<th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
-				  					<a th:if="${currentPage != num}" th:href="@{/admin/block/adminBlockList(currentPage=${num})}" style="margin: 0; padding-left: 10px; padding-right: 10px" th:text="|${num}|">
-				  					</a>
-				  					<span th:if="${currentPage == num}" style="font-weight: 900; color: skyblue; margin-right: 10px; margin-left: 10px">[[${ num }]]</span>
-				  				</th:block>
-				  				<a th:if="${endPageNum < lastPage}" th:href="@{/admin/block/adminBlockList(currentPage=${nextPage})}" style="margin-left: 20px;">다음</a>
-				  				<span th:unless="${endPageNum < lastPage}" style="margin-left: 20px; visibility: hidden">다음</span>
+				  			<td colspan="15">
+				  				<div class="row" style="margin-top: 40px">
+						          <div class="col-sm-12">
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">																							
+													<li th:if="${pagination.curPage != 1}" class="paginate_button previous disabled">
+														<a th:href="@{/admin/block/adminBlockList(curPage=${pagination.prevPage})}" aria-label="Prev">Prev</a>
+													</li>
+													
+													<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+														<li class="active" th:if="${pageNum == pagination.curPage}">
+															<a th:text="${pageNum}"></a>
+														</li>
+														<li th:unless="${pageNum == pagination.curPage}">
+															<a th:href="@{/admin/block/adminBlockList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+														</li>
+													</th:block>
+				
+													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+														<a th:href="@{/admin/block/adminBlockList(curPage=${pagination.nextPage})}" aria-label="Next">Next</a>
+													</li>												
+													
+												</ul>
+											</div>
+										</div>		          
+						        </div>
 				  			</td>
 				  		</tr>
 			  		</tfoot>

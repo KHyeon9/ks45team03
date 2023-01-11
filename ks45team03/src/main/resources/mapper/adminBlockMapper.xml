@@ -23,7 +23,7 @@
 	</select>
 	
 	
-	<select id="adminGetUserBlockList"  parameterType="Map" resultMap="BlockResultMap">
+	<select id="adminGetUserBlockList" resultMap="BlockResultMap">
 	/* 회원 차단 목록 조회 */
 	SELECT
 		block_code
@@ -37,9 +37,12 @@
 			${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
 		</if>
 	</where>
+	
 	ORDER BY LENGTH(SUBSTRING(block_code,6)),SUBSTRING(block_code,6)
 		
-	LIMIT #{startRowNum}, #{rowPerPage}	
+	<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+	</if>	
 	
 	</select>
 </mapper>

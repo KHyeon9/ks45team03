@@ -115,6 +115,37 @@
                     </table>
                   </div>
                 </div>
+                 <!-- 페이징 -->
+      			<div style="margin-top: 50px; display: flex; justify-content: center;" class="blogPage">
+		          <div class="col-sm-6">
+							<div class="text-left">
+								<ul class="pagination" style="justify-content: center;">
+									<li th:if="${pagination.curRange != 1}">
+										<a th:href="@{/myPage/myProfitListYear}" aria-label="First"><span aria-hidden="true"><<</span></a>
+									</li>
+									<li th:if="${pagination.curPage != 1}">
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+									</li>
+									
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="active" th:if="${pageNum == pagination.curPage}">
+											<a th:text="${pageNum}"></a>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+											<a th:href="@{/myPage/myProfitListYear(curPage=${pageNum})}" th:text="${pageNum}"></a>
+										</li>
+									</th:block>
+
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+									</li>
+									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+		        </div>
               </div>
             </div>
           </div>

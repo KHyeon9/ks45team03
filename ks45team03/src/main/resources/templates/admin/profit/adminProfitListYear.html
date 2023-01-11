@@ -92,34 +92,27 @@
 			        </tbody>
 			        <tfoot>
 				  		<tr>
-				  			<td colspan="5">
+				  			<td colspan="15">
 				  				<div class="row" style="margin-top: 40px">
-						          <div class="col-sm-6">
-											<div class="text-left">
-												<ul class="pagination">
-													
-													<li th:if="${pagination.curRange != 1}" class="page-item">
-														<a th:href="@{/admin/profit/adminProfitListYear" aria-label="First"><<</a>
-													</li>
-													<li th:if="${pagination.curPage != 1}" class="page-item">
-														<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pagination.prevPage})}" aria-label="Prev" class="page-link">&#60;</a>
+						          <div class="col-sm-12">
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">																							
+													<li th:if="${pagination.curPage != 1}" class="paginate_button previous disabled">
+														<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pagination.prevPage})}" aria-label="Prev">Prev</a>
 													</li>
 													
 													<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
-														<li class="active page-item" th:if="${pageNum == pagination.curPage}">
-															<a th:text="${pageNum}" class="page-link"></a>
+														<li class="active" th:if="${pageNum == pagination.curPage}">
+															<a th:text="${pageNum}"></a>
 														</li>
-														<li th:unless="${pageNum == pagination.curPage}" class="page-item">
-															<a th:href="@{/admin/adminProfitListYear(curPage=${pageNum})}" th:text="${pageNum}" class="page-link"></a>
+														<li th:unless="${pageNum == pagination.curPage}">
+															<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pageNum})}" th:text="${pageNum}"></a>
 														</li>
 													</th:block>
 				
-													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}" class="page-item">
-														<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pagination.nextPage})}" aria-label="Next" class="page-link">&#62;</a>
-													</li>
-													<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}" class="page-item">
-														<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pagination.pageCnt})}" aria-label="Last" class="page-link">>></a>
-													</li>
+													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+														<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pagination.nextPage})}" aria-label="Next">Next</a>
+													</li>												
 													
 												</ul>
 											</div>
