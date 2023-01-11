@@ -24,7 +24,7 @@
 			<div class="row">
 				<div class="col-md-12 col-sm-12 ">
 					<div class="x_panel">
-						<form th:action="@{/admin/board/adminAddFAQ}" method="post">
+						<form class="faqAddForm" th:action="@{/admin/board/adminAddFAQ}" method="post">
 						<div class="x_title">
 							<h2>
 								FAQ
@@ -34,15 +34,16 @@
 							<div class="clearfix"></div>
 						</div>
 							<div class="form-group row ">
-								<div class="col-md-12 col-sm-13 ">
-									<select name="faqBoardCategoryCode" class="form-control col-md-7">
+								<div class="col-md-12">
+									<select name="faqBoardCategoryCode" class="form-control col-md-3">
 										<th:block th:each="fc : ${FAQCategoryList}">
 											<option th:value="${fc.faqBoardCategoryCode}">[[${fc.faqBoardCategoryName}]]</option>
 										</th:block>
 									</select>
-									<select class="form-control col-md-5" disabled="disabled">
-										<option>말머리 선택</option>
-									</select>
+									<div class="form-control col-md-2" style="text-align: center; margin-left: 10px">
+										<label>자주 묻는 질문  <input type="checkbox" name="faqCheckbox" id="faqCheckbox" /></label>
+										<input type="hidden" name="faqBoardFrequently" id="faqBoardFrequently"/>
+									</div>
 								</div>
 							</div>
 									<input type="text" id="faqBoardTitle" name="faqBoardTitle" class="form-control" placeholder="제목을 입력해 주세요.">
@@ -107,12 +108,9 @@
 								</div>
 
 								<div id="editor-one" class="editor-wrapper" style="height: 500px; overflow: auto"></div>
-								<textarea name="faqBoardContent" id="faqBoardContent" style="display:none;"></textarea>
+								<textarea name="faqBoardContent" id="faqBoardContent" style="display: none"></textarea>
 
 								<div class="ln_solid"></div>
-								<div class="btn-group">
- 										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
-									</div>
 							</div>
 							</form>
 						</div>
@@ -143,10 +141,40 @@
 	<script th:src="@{/admin/build/js/custom.min.js}"></script>
 </th:block>
 <th:block layout:fragment="customScript">
-	<script>
+	<script th:inline="javascript"> 
+	$(function(){
 		$('#submitBtn').click(function(){
-			$('#faqBoardContent').val($('.editor-wrapper').text());
-		});
+			
+		     const faqBoardTitle = $('#faqBoardTitle').val();
+             const faqBoardContent = $('.editor-wrapper').text();
+
+             if(typeof faqBoardTitle == 'undifined' 
+             		|| faqBoardTitle == null 
+             		|| faqBoardTitle == ''){
+                 alert('제목을 입력해 주세요.');
+                 $('#faqBoardTitle').focus();
+                 return false;
+             }
+
+             if(typeof faqBoardContent == 'undifined' 
+             		|| faqBoardContent == null 
+             		|| faqBoardContent == ''){
+                 alert('내용을 입력해 주세요.');
+                 $('.editor-wrapper').focus();
+                 return false;
+             }
+             
+         	if($('#faqCheckbox').is(":checked")){
+				$('#faqBoardFrequently').val('on');
+			}else{
+				$('#faqBoardFrequently').val('off');
+			}
+
+         	$('#faqBoardContent').val($('.editor-wrapper').text());
+            $('#faqAddForm').submit();
+		})
+	});
+             
 	</script>
 </th:block>
 </html>

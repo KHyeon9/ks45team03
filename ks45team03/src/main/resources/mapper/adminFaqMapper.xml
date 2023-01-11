@@ -12,6 +12,7 @@
 		<result property="faqBoardTitle" column="faq_board_title"/>
 		<result property="faqBoardContent" column="faq_board_content"/>
 		<result property="faqBoardRegTime" column="faq_board_reg_time"/>
+		<result property="faqBoardFrequently" column="faq_board_frequently"/>
 	</resultMap>
 	
 	<resultMap type="FAQCategory" id="FAQCategoryResultMap">
@@ -28,6 +29,7 @@
 			,faq.faq_board_title
 			,faq.faq_board_content
 			,faq.faq_board_reg_time
+			,faq.faq_board_frequently
 		FROM
 			tb_faq_board AS faq
 		INNER JOIN
@@ -43,6 +45,8 @@
 				${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
 			</if>
 		</where>
+		ORDER BY 
+			faq.faq_board_code DESC
 			<if test="startIndex != null and startIndex > -1">
 				LIMIT #{startIndex}, #{pageSize};
 			</if>
@@ -110,7 +114,7 @@
 	
 	<insert id="adminAddFAQ" parameterType="FAQ">
 		INSERT INTO tb_faq_board
-		values( sf_new_faq_code(), #{userId}, #{faqBoardCategoryCode}, #{faqBoardTitle}, #{faqBoardContent}, NOW())
+		values( sf_new_faq_code(), #{userId}, #{faqBoardCategoryCode}, #{faqBoardTitle}, #{faqBoardContent}, NOW(), #{faqBoardFrequently})
 	</insert>
 	
 	<select id="modifyFAQ" parameterType="String" resultMap="FAQResultMap">

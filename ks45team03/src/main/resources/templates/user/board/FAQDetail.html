@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/layout/default}">
+<th:block layout:fragment="customContents">
+
+	<section class="lightSection clearfix pageHeader">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="page-title">
+						<h2>FAQ DETAIL</h2>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-right">
+						<li><a th:href="@{/}">Home</a></li>
+						<li><a th:href="@{/board/FAQList}">FAQ</a></li>
+						<li><a class="active">FAQ Detail</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="grid-wrapper section">
+		<div class="container"  style="height: 51vh">
+			<div class="row">
+
+				<div class="col-12 col-lg-12 element-content pt-5">
+
+					<div id="heading" class="element_single">
+						<!-- heading style 1 -->
+						<div id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="card single-block">
+								<div class="card-header" role="tab" id="headingOne">
+									<h3 class="mb-0">[[${FAQDetail.faqBoardTitle}]]</h3>
+								</div>
+							</div>
+						</div>
+
+						<div class="display-single_element">
+							<div class="heading heading-v1 mb-3 bg-white bg-gray"></div>
+								<p th:text="${FAQDetail.faqBoardContent}" class="p-5" style="height: 30vh"></p>
+							<div class="heading heading-v1 mb-3 bg-white bg-gray"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</th:block>
+<!-- 사용자 지정 js 파일 -->
+<th:block layout:fragment="customJs"></th:block>
+<!-- 사용자 지정 js script -->
+<th:block layout:fragment="customScript">
+</th:block>
+</html>
