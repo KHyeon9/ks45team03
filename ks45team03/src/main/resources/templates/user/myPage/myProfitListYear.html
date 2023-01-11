@@ -58,10 +58,9 @@
                 <div class="col-md-13 row">
                    <h2 class="col-md-8" th:text="${loginNickName} + '님 YEAR PROFIT LIST'"></h2>
                    
-                   <form class="col-md-4" th:action="@{/myPage/myProfitListYear}" method="get">     
-                   	<input type="hidden" th:value="ownerProfitYear" readonly="readonly" name="ownerProfitYear">         
+                   <form class="col-md-4" th:action="@{/myPage/myProfitListYear}" method="get">                        
                   	<div class="form-group input-group">
-						<input class="form-control" name="searchYear" type="text" placeholder="년">
+						<input class="form-control" name="searchYear" type="text" placeholder="년도">
 						<button type="submit" class="form-control btn btn-primary col-md-3" style="margin-left: 10px">조회</button>
 					</div>
 					<br>

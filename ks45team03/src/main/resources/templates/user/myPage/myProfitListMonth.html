@@ -56,11 +56,10 @@
               <div class="innerWrapper">
                 <div class="orderBox myAddress wishList">
                    <h2 th:text="${loginNickName} + '님 MONTH PROFIT LIST'"></h2>
-                   <form th:action="@{/myPage/myProfitListMonth}" method="get">     
-                   <input type="hidden" th:value="profitMonthGroup" readonly="readonly" name="profitMonthGroup">         
+                   <form th:action="@{/myPage/myProfitListMonth}" method="get">                            
                   	<div class="form-group row">
 						<div class="col-md-3">						
-							<input class="form-control" name="searchYear" type="text" placeholder="년">
+							<input class="form-control" name="searchYear" type="text" placeholder="년도">
 						</div>
 						<div class="col-md-3 selectOptions ">
 							<select name="searchMonth" class="form-control select-drop">

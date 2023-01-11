@@ -27,7 +27,6 @@ import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.mapper.UserProfitMapper;
 import ks45team03.rentravel.user.service.OrderService;
-import ks45team03.rentravel.user.service.UserProfitService;
 import ks45team03.rentravel.user.service.UserService;
 import lombok.AllArgsConstructor;
 
@@ -41,7 +40,6 @@ public class MyPageController {
 	private final OrderService orderService;
 	private final UserService userService;
 	private final UserMapper userMapper;
-	private final UserProfitService userProfitService;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
@@ -242,16 +240,14 @@ public class MyPageController {
 										,@RequestParam(defaultValue="1", required=false) int curPage
 										,@RequestParam(value="searchYear", required = false) String searchYear
 										,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
-										,@RequestParam(value="searchDay", required = false, defaultValue = "") String searchDay
-										,@RequestParam(value="profitDayGroup", required = false, defaultValue = "") String profitDayGroup
-										
+										,@RequestParam(value="searchDay", required = false, defaultValue = "") String searchDay																
 										) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt = userProfitMapper.dayProfitListCnt(loginUser.getLoginId());
 		
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<ProfitDay> getUserDayProfitList = userProfitService.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay, profitDayGroup);
+		List<ProfitDay> getUserDayProfitList = userProfitMapper.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
 		
 		System.out.println(searchYear+"년도");
 		System.out.println(searchDay+"<-일");
@@ -280,7 +276,7 @@ public class MyPageController {
 		int listCnt =  userProfitMapper.MonthProfitListCnt(loginUser.getLoginId());
 			
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<ProfitMonth> getUserMonthProfitList = userProfitService.getUserMonthProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, profitMonthGroup);
+		List<ProfitMonth> getUserMonthProfitList = userProfitMapper.getUserMonthProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth);
 		
 		String loginNickName = loginUser.getLoginNickName();
 		
@@ -305,7 +301,7 @@ public class MyPageController {
 		int listCnt = userProfitMapper.YearProfitListCnt(loginUser.getLoginId());
 		
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<ProfitYear> getUserYearProfitList = userProfitService.getUserYearProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, ownerProfitYear);
+		List<ProfitYear> getUserYearProfitList = userProfitMapper.getUserYearProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear);
 		
 		String loginNickName = loginUser.getLoginNickName();
 		
