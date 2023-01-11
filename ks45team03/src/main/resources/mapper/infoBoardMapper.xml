@@ -11,6 +11,7 @@
 		<result property="fileGroupCode"	 	column="file_group_code" />
 		<result property="infoBoardLikeCnt" 	column="info_board_like_cnt" />
 		<result property="infoBoardViewCnt" 	column="info_board_view_cnt" />
+		<result property="fileGroupCode" 	column="file_group_code" />
 		<result property="infoBoardRegTime" 	column="info_board_reg_time" />
 		<association property="user" javaType="User">
 			<id 	property="userId" 	  		column="user_id" />
@@ -32,6 +33,39 @@
 		<id		property="goodsCategoryCode" 	column="goods_category_code" />
 		<result property="goodsCategoryName" 	column="goods_category_name" />
 	</resultMap>
+	
+	<!-- 정보 게시판 파일 데이터 삭제 -->
+    <delete id="removeFileData" parameterType="List">
+		DELETE FROM
+			tb_file AS f
+		<where>
+		   <foreach collection="list" item="fileCode" open="" close="" separator="OR">
+		   	   f.file_code = #{fileCode}
+		   </foreach>
+	    </where>
+	</delete>
+	
+	<!-- 정보 게시판 파일 그룹 데이터 삭제 -->
+	<delete id="removeFileGroupData" parameterType="String">
+		DELETE FROM
+			tb_file_group AS fg
+		WHERE
+			fg.file_group_code = #{fileGroupCode};
+	</delete>
+	
+	<!-- 삭제할 파일 코드들 조회  -->
+	<select id="getFileCodeByFeilGroupCode" parameterType="String" resultType="String">
+		SELECT
+			fg.file_code
+		FROM 
+			tb_info_board AS info
+			INNER JOIN
+			tb_file_group AS fg
+			ON
+			info.file_group_code = fg.file_group_code
+		WHERE
+			fg.file_group_code = #{fileGroupCode};
+	</select>
 	
 	<!-- 정보게시판 사진 경로 조회 -->
 	<select id="getInfoBoardImgPath" parameterType="String" resultType="String">
@@ -128,10 +162,26 @@
 		FROM
 			tb_info_board_comment AS comm
 		WHERE
-			comm.info_board_code = #{infoBoardCode}
+			comm.info_board_code = #{infoBoardCode};
 	</select>
 	
-	<!-- 정보 게시판 등록 -->
+	<!-- 정보 게시판과 관련된 모든 댓글 삭제 -->
+	<delete id="removeInfoBoardCommentAll" parameterType="String">
+		DELETE FROM
+			tb_info_board_comment  AS comm
+		WHERE
+			comm.info_board_code = #{infoBoardCode};
+	</delete>
+	
+	<!-- 정보 게시글 삭제 -->
+	<delete id="removeInfoBoard" parameterType="String">
+		DELETE FROM
+			tb_info_board  AS info
+		WHERE
+			info.info_board_code = #{infoBoardCode};
+	</delete>
+	
+	<!-- 정보 게시글 등록 -->
 	<insert id="addInfoBoard" parameterType="InfoBoard">
 		INSERT INTO tb_info_board
 			(
@@ -178,6 +228,7 @@
 			LIMIT #{startIndex}, #{pageSize};
 		</if>
 	</select>
+	
 	<!-- 정보 게시판 리스트 총 개수-->
 	<select id="getInfoBoardListCnt" resultType="int">
 		SELECT
@@ -186,6 +237,7 @@
 			tb_info_board;
 	</select>
 	
+	<!-- 정보 게시글 조회 -->
 	<select id="getInfoBoardDetail" parameterType="String" resultMap="infoBoardResultMap">
 		SELECT
 			u.user_nickname,
@@ -195,6 +247,7 @@
 			info.info_board_content,
 			info.info_board_like_cnt,
 			info.info_board_view_cnt,
+			info.file_group_code,
 			info.info_board_reg_time
 		FROM
 			tb_info_board AS info

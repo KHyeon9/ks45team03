@@ -99,7 +99,7 @@
 					            <div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate">
 								  <ul class="pagination">
 									 <li class="paginate_button previous disabled" id="datatable-checkbox_previous" th:if="${pagination.curPage != 1}">
-										<a th:href="@{/admin/order/adminOrderHistory(curPage=${pagination.curPage})}" aria-label="Prev">Prev</a>
+										<a th:href="@{/admin/order/adminOrderHistory(curPage=${pagination.prevPage})}" aria-label="Prev">Prev</a>
 									 </li>
 										
 									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
@@ -107,12 +107,12 @@
 											<a th:text="${pageNum}"></a>
 										</li>
 										<li th:unless="${pageNum == pagination.curPage}">
-											<a th:href="@{/admin/order/adminOrderHistory(curPage=${pagination.curPage})}" th:text="${pageNum}"></a>
+											<a th:href="@{/admin/order/adminOrderHistory(curPage=${pageNum})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
 			
 									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-										<a th:href="@{/admin/order/adminOrderHistory(curPage=${pagination.curPage})}" aria-label="Next">Next</a>
+										<a th:href="@{/admin/order/adminOrderHistory(curPage=${pagination.nextPage})}" aria-label="Next">Next</a>
 									</li>
 								  </ul>
 								</div>

@@ -145,13 +145,24 @@ public class InfoBoardController {
 		
 		return "user/board/modifyInfoBoard";
 	}
-
+	
+	@PostMapping("/removeInfoBoard")
+	public String removeInfoBoard(String infoboardCode) {
+		InfoBoard infoBoard = infoBoardMapper.getInfoBoardDetail(infoboardCode);
+		
+		infoBoardService.removeInfoBoard(infoBoard);
+		
+		return "redirect:/infoboard/infoBoardList";
+	}
+	
 	@PostMapping("/addInfoBoard")
 	public String addInfoBoard(@RequestPart(value = "uploadfile", required = false) MultipartFile[] uploadfile,
 							   HttpServletRequest request,
 							   InfoBoard infoBoard) {
 		String fileRealPath = "/home/springboot/teamproject/files/";
 		String infoBoardCode = commonNewCode.getCommonNewCode("tb_info_board", "info_board_code");
+		
+		infoBoard.setInfoBoardContent(infoBoard.getInfoBoardContent().replace("\r\n", "<br>"));
 		
 		infoBoard.setInfoBoardCode(infoBoardCode);
 
@@ -169,7 +180,7 @@ public class InfoBoardController {
 			
 			return "user/user/login";
 		}
-
+		
 		model.addAttribute("title", "정보게시판등록");
 		model.addAttribute("loginId", loginInfo.getLoginId());
 

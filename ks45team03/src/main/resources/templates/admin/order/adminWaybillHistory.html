@@ -64,7 +64,7 @@
 					            <div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate">
 								  <ul class="pagination">
 									 <li class="paginate_button previous disabled" id="datatable-checkbox_previous" th:if="${paginationOwner.curPage != 1}">
-										<a th:href="@{/admin/order/adminWaybillList(renterCurPage=${paginationRenter.curPage}, ownerCurPage=${paginationOwner.prevPage})}" aria-label="Prev">Prev</a>
+										<a th:href="@{/admin/order/adminWaybillHistory(renterCurPage=${paginationRenter.curPage}, ownerCurPage=${paginationOwner.prevPage})}" aria-label="Prev">Prev</a>
 									 </li>
 										
 									<th:block th:each="pageNum : ${#numbers.sequence(paginationOwner.startPage, paginationOwner.endPage)}">
@@ -72,12 +72,11 @@
 											<a th:text="${pageNum}"></a>
 										</li>
 										<li th:unless="${pageNum == paginationOwner.curPage}">
-											<a th:href="@{/admin/order/adminWaybillList(renterCurPage=${paginationRenter.curPage}, ownerCurPage=${pageNum})}" th:text="${pageNum}"></a>
+											<a th:href="@{/admin/order/adminWaybillHistory(renterCurPage=${paginationRenter.curPage}, ownerCurPage=${pageNum})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
-			
 									<li th:if="${paginationOwner.curPage != paginationOwner.pageCnt && paginationOwner.pageCnt > 0}">
-										<a th:href="@{/admin/order/adminWaybillList(renterCurPage=${paginationRenter.curPage}, ownerCurPage=${paginationOwner.nextPage})}" aria-label="Next">Next</a>
+										<a th:href="@{/admin/order/adminWaybillHistory(renterCurPage=${paginationRenter.curPage}, ownerCurPage=${paginationOwner.nextPage})}" aria-label="Next">Next</a>
 									</li>
 								  </ul>
 								</div>
@@ -150,7 +149,7 @@
 					            <div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate">
 								  <ul class="pagination">
 									 <li class="paginate_button previous disabled" id="datatable-checkbox_previous" th:if="${paginationRenter.curPage != 1}">
-										<a th:href="@{/admin/order/adminWaybillList(renterCurPage=${paginationRenter.prevPage}, ownerCurPage=${paginationOwner.curPage})}" aria-label="Prev">Prev</a>
+										<a th:href="@{/admin/order/adminWaybillHistory(renterCurPage=${paginationRenter.prevPage}, ownerCurPage=${paginationOwner.curPage})}" aria-label="Prev">Prev</a>
 									 </li>
 										
 									<th:block th:each="pageNum : ${#numbers.sequence(paginationRenter.startPage, paginationRenter.endPage)}">
@@ -158,12 +157,12 @@
 											<a th:text="${pageNum}"></a>
 										</li>
 										<li th:unless="${pageNum == paginationRenter.curPage}">
-											<a th:href="@{/admin/order/adminWaybillList(renterCurPage=${pageNum}, ownerCurPage=${paginationOwner.curPage})}" th:text="${pageNum}"></a>
+											<a th:href="@{/admin/order/adminWaybillHistory(renterCurPage=${pageNum}, ownerCurPage=${paginationOwner.curPage})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
 			
 									<li th:if="${paginationRenter.curPage != paginationRenter.pageCnt && paginationRenter.pageCnt > 0}">
-										<a th:href="@{/admin/order/adminWaybillList(renterCurPage=${paginationRenter.nextPage}, ownerCurPage=${paginationOwner.curPage})}" aria-label="Next">Next</a>
+										<a th:href="@{/admin/order/adminWaybillHistory(renterCurPage=${paginationRenter.nextPage}, ownerCurPage=${paginationOwner.curPage})}" aria-label="Next">Next</a>
 									</li>
 								  </ul>
 								</div>
