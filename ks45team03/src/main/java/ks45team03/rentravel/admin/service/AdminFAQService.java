@@ -1,4 +1,4 @@
-package ks45team03.rentravel.user.service;
+package ks45team03.rentravel.admin.service;
 
 import java.util.List;
 

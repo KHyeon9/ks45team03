@@ -34,6 +34,7 @@
 						<option value="ca.faq_board_category_name">카테고리</option>
 						<option value="u.user_nickname">작성자</option>
 						<option value="faq.faq_board_reg_time">작성일</option>
+						<option value="faq.faq_board_frequently">자주 묻는 질문</option>
 					</select>
 					<input class="form-control" type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
 					<button class="btn btn-dark" type="submit">검색</button>
@@ -49,6 +50,7 @@
 			                <th class="column-title">제목</th>
 			                <th class="column-title">작성자</th>
 			                <th class="column-title">작성일</th>
+			                <th class="column-title">자주묻는질문</th>
 			              </tr>
 	                     </thead>
 			       
@@ -58,9 +60,10 @@
 			                <td style="overflow: hidden; text-overflow: ellipsis;"><a th:text="${faq.faqBoardTitle}" th:href="@{/admin/board/adminDetailFAQ(faqBoardCode=${faq.faqBoardCode})}"></a></td>
 			                <td th:text="${faq.userNickName}"></td>
 			                <td th:text="${faq.faqBoardRegTime}"></td>		
+			                <td th:text="${faq.faqBoardFrequently}"></td>		
 			              </tr>
 			              <tr th:if="${#lists.isEmpty(adminFAQList)}">
-			              	<td colspan="4">등록된 작성글이 없습니다.</td>
+			              	<td colspan="5">등록된 작성글이 없습니다.</td>
 			              </tr>
 				         
 			        </tbody>
