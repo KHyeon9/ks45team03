@@ -2,7 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
-	  
+	<head>
+		<style type="text/css">
+			th, td {
+				text-align: center !important;
+			}
+		</style>
+	</head>	 
 	<th:block layout:fragment="customContents">
 	  <!-- LIGHT SECTION -->
       <section class="lightSection clearfix pageHeader">
@@ -49,19 +55,19 @@
                     <table class="table">
                       <thead>
                         <tr>                          
-                          <th style="text-align: center;">ID</th>
-                          <th style="text-align: center;">적립된 정산금</th>
-                          <th style="text-align: center;">총 정산금</th>
-                          <th style="text-align: center;">정산금 지급 날짜</th>
+                          <th>ID</th>
+                          <th>적립된 정산금</th>
+                          <th>총 정산금</th>
+                          <th>정산금 지급 날짜</th>
                           
                         </tr>
                       </thead>
                       <tbody>
                         <tr th:unless="${#lists.isEmpty(getUserProfitList)}" th:each="pl : ${getUserProfitList}">                                               
-                          <td style="text-align: center;" th:text="${pl.userId}"></td>
-                          <td style="text-align: center;" th:text="${pl.profitAmountSave}"></td>
-                          <td style="text-align: center;" th:text="${pl.profitTotal}"></td>
-                          <td style="text-align: center;" th:text="${pl.profitSaveTime}"></td>
+                          <td th:text="${pl.userId}"></td>
+                          <td th:text="${pl.profitAmountSave}"></td>
+                          <td th:text="${pl.profitTotal}"></td>
+                          <td th:text="${pl.profitSaveTime}"></td>
                          
                         </tr>
                         <tr th:if="${#lists.isEmpty(getUserProfitList)}">
@@ -88,7 +94,7 @@
 										<li class="active" th:if="${pageNum == pagination.curPage}">
 											<a th:text="${pageNum}"></a>
 										</li>
-										<li th:unless="${pageNum == pagination.curPage}">
+										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
 											<a th:href="@{/myPage/myProfitList(curPage=${pageNum})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
