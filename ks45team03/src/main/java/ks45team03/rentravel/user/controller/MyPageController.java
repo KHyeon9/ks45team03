@@ -24,6 +24,7 @@ import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.dto.Wish;
 import ks45team03.rentravel.mapper.OrderMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
@@ -32,6 +33,7 @@ import ks45team03.rentravel.user.service.InfoBoardService;
 import ks45team03.rentravel.mapper.UserProfitMapper;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.UserService;
+import ks45team03.rentravel.user.service.WishService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -45,6 +47,8 @@ public class MyPageController {
 	private final UserService userService;
 	private final UserMapper userMapper;
 	private final GoodsService goodsService;
+	private final WishService wishService;
+	
 
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
@@ -165,6 +169,30 @@ public class MyPageController {
 		model.addAttribute("title","마이페이지 화면");
 		
 		return "user/myPage/myGoodsList";
+	}
+	
+	@GetMapping("/myWishList")
+	public String myWishList(Model model
+			   				,HttpSession session
+			   				,@RequestParam(defaultValue="1", required=false) int curPage) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String loginId = loginUser.getLoginId();
+		
+		int wishListCount = wishService.getWishListCount(loginId);
+		
+		Pagination pagination = new Pagination(wishListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		
+		List<Wish> wishList = wishService.getWishList(loginId,startIndex,pageSize);
+		
+		model.addAttribute("pagination",pagination);
+		model.addAttribute("wishList",wishList);
+		model.addAttribute("title","마이페이지 화면");
+		
+		return "user/myPage/myWishList";
 	}
 	
 	@PostMapping("/myRemoveGoods")
