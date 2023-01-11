@@ -20,17 +20,16 @@ import ks45team03.rentravel.dto.Search;
 import ks45team03.rentravel.mapper.GoodsMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.user.service.GoodsService;
-
+import ks45team03.rentravel.user.service.WishService;
+import lombok.AllArgsConstructor;
 
 @Controller
 @RequestMapping("/goods")
+@AllArgsConstructor
 public class GoodsController {
 	
 	private final GoodsService goodsService;
-	
-	public GoodsController(GoodsService goodsService, UserBlockMapper userBlockMapper, GoodsMapper goodsMapper) {
-			this.goodsService = goodsService;
-}
+	private final WishService wishService;
 	
 	@GetMapping("/goodsList")
 	public String goodsList(Model model
@@ -82,7 +81,17 @@ public class GoodsController {
 	@GetMapping("/goodsDetail")
 	public String goodsDetail(Model model
 							 ,@RequestParam(value="goodsCode") String goodsCode
-							 ,@RequestParam(value="userId") String userId) {
+							 ,@RequestParam(value="userId") String userId
+							 ,HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String loginId =null;
+		
+		if(loginUser != null) {
+			loginId = loginUser.getLoginId();
+		}
+		
+		int checkWish = wishService.checkWish(goodsCode, loginId);
 		
 		List<GoodsImg> goodsImg = goodsService.getGoodsImg(goodsCode);
 		Goods goodsDetail = goodsService.getGoodsDetailByGoodsCode(goodsCode);
@@ -95,6 +104,7 @@ public class GoodsController {
 		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("goodsDetail",goodsDetail);
+		model.addAttribute("checkWish",checkWish);
 		model.addAttribute("goodsListByUserId",goodsListByUserId);
 		model.addAttribute("title","상품 상세 정보 화면");
 		

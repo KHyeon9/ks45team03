@@ -92,38 +92,32 @@
                   </div>
                 </div>
                 
-                
-                              <div class="blogPage" style="display: flex; justify-content:center;">
-				<ul class="pagination" style="margin:3px">
-					<li th:if="${pagination.curRange != 1}">
-						<a th:href="@{/myPage/myGoodsList}" aria-label="First"><span aria-hidden="true"></span></a>
-					</li>
-					<li th:if="${pagination.curPage != 1}">
-						<a th:href="@{/myPage/myGoodsList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
-					</li>
-					
-					<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
-						<li class="active" th:if="${pageNum == pagination.curPage}">
-							<a th:text="${pageNum}"></a>
+                <div class="blogPage" style="display: flex; justify-content:center;">
+					<ul class="pagination" style="margin:3px">
+						<li th:if="${pagination.curRange != 1}">
+							<a th:href="@{/myPage/myGoodsList}" aria-label="First"><span aria-hidden="true"></span></a>
 						</li>
-						<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
-							<a th:href="@{/myPage/myGoodsList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+						<li th:if="${pagination.curPage != 1}">
+							<a th:href="@{/myPage/myGoodsList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
 						</li>
-					</th:block>
-
-					<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-						<a th:href="@{/myPage/myGoodsList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
-					</li>
-					<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-						<a th:href="@{/myPage/myGoodsList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
-					</li>
-				</ul>
-              </div>
-                
-                
-                
-                
-                
+						
+						<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+							<li class="active" th:if="${pageNum == pagination.curPage}">
+								<a th:text="${pageNum}"></a>
+							</li>
+							<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+								<a th:href="@{/myPage/myGoodsList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+							</li>
+						</th:block>
+	
+						<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+							<a th:href="@{/myPage/myGoodsList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+						</li>
+						<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+							<a th:href="@{/myPage/myGoodsList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+						</li>
+					</ul>
+	              </div>
                 
               </div>
             </div>
