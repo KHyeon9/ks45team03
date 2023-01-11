@@ -8,6 +8,7 @@
 		<result property="userId" 	  			column="user_id" />
 		<result property="infoBoardTitle" 	  	column="info_board_title" />
 		<result property="infoBoardContent" 	column="info_board_content" />
+		<result property="fileGroupCode"	 	column="file_group_code" />
 		<result property="infoBoardLikeCnt" 	column="info_board_like_cnt" />
 		<result property="infoBoardViewCnt" 	column="info_board_view_cnt" />
 		<result property="infoBoardRegTime" 	column="info_board_reg_time" />
@@ -31,6 +32,24 @@
 		<id		property="goodsCategoryCode" 	column="goods_category_code" />
 		<result property="goodsCategoryName" 	column="goods_category_name" />
 	</resultMap>
+	
+	<!-- 정보게시판 사진 경로 조회 -->
+	<select id="getInfoBoardImgPath" parameterType="String" resultType="String">
+		SELECT
+			f.file_path
+		FROM
+			tb_info_board AS info	
+			INNER JOIN
+			tb_file_group AS fg
+			ON
+			info.file_group_code = fg.file_group_code
+			INNER JOIN
+			tb_file AS f
+			ON
+			f.file_code = fg.file_code
+		WHERE
+			info.info_board_code = #{infoBoardCode};
+	</select>
 	
 	<!-- 상품 카테고리 조회 -->
 	<select id="getGoodsCategory" resultMap="goodsCategoryMap">
@@ -120,6 +139,7 @@
 			user_id, 
 			info_board_title, 
 			info_board_content,
+			file_group_code,
 			info_board_like_cnt,
 			info_board_view_cnt,
 			info_board_reg_time
@@ -130,6 +150,7 @@
 			#{userId},
 			#{infoBoardTitle},
 			#{infoBoardContent},
+			#{fileGroupCode},
 			0,
 			0,
 			NOW()

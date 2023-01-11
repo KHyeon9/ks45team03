@@ -81,18 +81,21 @@ public class GoodsController {
 	
 	@GetMapping("/goodsDetail")
 	public String goodsDetail(Model model
-							 ,@RequestParam(value="goodsCode") String goodsCode) {
+							 ,@RequestParam(value="goodsCode") String goodsCode
+							 ,@RequestParam(value="userId") String userId) {
 		
 		List<GoodsImg> goodsImg = goodsService.getGoodsImg(goodsCode);
 		Goods goodsDetail = goodsService.getGoodsDetailByGoodsCode(goodsCode);
-		/*
-		 * @RequestParam(value="userId") String userId List<Goods> goodsListByUserId =
-		 * goodsService.getGoodsListByUserId(userId);
-		 */
+		
+		
+		
+		
+		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
+		 
 		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("goodsDetail",goodsDetail);
-		/* model.addAttribute("goodsListByUserId",goodsListByUserId); */
+		model.addAttribute("goodsListByUserId",goodsListByUserId);
 		model.addAttribute("title","상품 상세 정보 화면");
 		
 		return "user/goods/goodsDetail";
@@ -113,8 +116,10 @@ public class GoodsController {
 	public String modifyGoods(Goods goods) {
 		
 		goodsService.modifyGoods(goods);
+		String goodsCode = goods.getGoodsCode();
+		String userId = goods.getUserId();
 		
-		return "redirect:/goods/goodsList";
+		return "redirect:/goods/goodsDetail?userId="+userId+"&goodsCode="+goodsCode;
 	}
 	
 	@GetMapping("/addGoods")
@@ -127,6 +132,14 @@ public class GoodsController {
 	public String addGoods(Goods goods) {
 		
 		goodsService.addGoods(goods);
+		
+		return "redirect:/goods/goodsList";
+	}
+	
+	@PostMapping("/removeGoods")
+	public String removeGoods(@RequestParam(value="goodsCode") String goodsCode) {
+		
+		goodsService.removeGoods(goodsCode);
 		
 		return "redirect:/goods/goodsList";
 	}

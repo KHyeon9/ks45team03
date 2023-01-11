@@ -73,7 +73,7 @@
 	               </div>
 	               <div class="form-group col-md-7 col-12">
 	                 <label for="">상품 일당 가격</label>
-	                 <input type="text" class="form-control" th:value="${goods.goodsDayPrice}" readonly="readonly">
+	                 <input id="goodsPrice" type="text" class="form-control" th:value="${goods.goodsDayPrice}" readonly="readonly">
 	               </div>
 	               <div class="form-group col-md-6 col-12">
 	                 <div class="form-group row">
@@ -220,24 +220,24 @@
 	         </div>
 	         <div class="col-md-4">
 	           <div class="summery-box">
-	             <h4>Order Summery</h4>
-	             <p>Excepteur sint occaecat cupidat non proi dent sunt.officia.</p>
+	             <h4>결제 요약</h4>
+	             <p>현제 결제 요약입니다.</p>
 	             <ul class="list-unstyled">
 	               <li class="d-flex justify-content-between">
-	                 <span class="tag">Subtotal</span>
-	                 <span class="val">$237.00</span>
+	                 <span class="tag">상품 가격</span>
+	                 <span class="val" th:text="${goods.goodsDayPrice} + ' 원'">$237.00</span>
 	               </li>
 	               <li class="d-flex justify-content-between">
-	                 <span class="tag">Shipping & Handling</span>
-	                 <span class="val">$12.00 </span>
+	                 <span class="tag">렌탈 일수</span>
+	                 <span id="rentalDate" class="val" th:text="${dayGap} + ' 일'">$12.00 </span>
 	               </li>
 	               <li class="d-flex justify-content-between">
-	                 <span class="tag">Estimated Tax</span>
-	                 <span class="val">$0.00 </span>
+	                 <span class="tag">마일리지 사용액수</span>
+	                 <span id="mileageUseAmount" class="val">0 Point</span>
 	               </li>
 	               <li class="d-flex justify-content-between">
-	                 <span class="tag">Total</span>
-	                 <span class="val">USD  $249.00 </span>
+	                 <span class="tag">총가격</span>
+	                 <span id="rentalTotalPrice" class="val" th:text="${totalPrice} + ' 원'">USD  $249.00 </span>
 	               </li>
 	             </ul>
 	           </div>
@@ -256,6 +256,13 @@
 		<script type="text/javascript">
 			const $prev = document.querySelector('.prev');
 			const $goodsCode = document.querySelector('.goodsCode').value;
+			const $goodsPrice = document.getElementById('goodsPrice').value;
+			const $mileageUse = document.getElementById('mileageUse');
+			
+			const $rentalDate = document.getElementById('rentalDate');
+			const $mileageUseAmount = document.getElementById('mileageUseAmount');
+			const $rentalTotalPrice = document.getElementById('rentalTotalPrice');
+			
 			const $startDate = document.getElementById('rentalStartDate');
 			const $endDate = document.getElementById('rentalEndDate');
 			const today = new Date();
@@ -272,16 +279,47 @@
 			$startDate.setAttribute('max', endDate.toISOString().substring(0, 10));
 			$endDate.setAttribute('min', defailtDate.toISOString().substring(0, 10));
 			
+			function orderSummery(){
+				const $mileageUseValue = document.getElementById('mileageUse').value;
+				let date1 = new Date($startDate.value);
+				let date2 = new Date($endDate.value);
+				let difference = date2.getTime() - date1.getTime();
+				
+				let	days = Math.abs(difference / (1000 * 60 * 60 * 24)); 
+				
+				$rentalDate.innerText = days + ' 일';
+				$mileageUseAmount.innerText = $mileageUseValue + ' Point';
+				$rentalTotalPrice.innerText = $goodsPrice * days - $mileageUseValue + ' 원';
+			}
+			
 			$startDate.addEventListener('change', function(){
 				$endDate.setAttribute('min', $startDate.value);
-				changeDate = new Date($startDate.value);
-				changeDate.setDate(changeDate.getDate() + 1)
+				
+				let date1 = new Date($startDate.value);
+				let date2 = new Date($endDate.value);
+				console.log(date2 < date1);
+				if(date2 < date1){
+					let changeDate = new Date($startDate.value);
+					changeDate.setDate(changeDate.getDate() + 1)	
+				}
 				$endDate.value = changeDate.toISOString().substring(0, 10)
+				
+				orderSummery();
 			}) 
+			
+			$endDate.addEventListener('change', function(){
+				orderSummery();
+			})
+			
+			$mileageUse.addEventListener('change', function(){
+				orderSummery();
+			})
 			
 			$prev.addEventListener('click', function(){
 				location.href="/goods/goodsDetail?goodsCode=" + $goodsCode;
 			})
+			
+			
 		</script>
 	</th:block>	
 </html>

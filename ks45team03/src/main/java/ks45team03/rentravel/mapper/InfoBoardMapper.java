@@ -12,6 +12,9 @@ import ks45team03.rentravel.dto.InfoBoardComment;
 @Mapper
 public interface InfoBoardMapper {
 	
+	// 정보 게시판 사진 조회
+	public List<String> getInfoBoardImgPath(String infoBoardCode);
+	
 	// 상품 카테고리 조회
 	public List<GoodsCategory> getGoodsCategory();
 	

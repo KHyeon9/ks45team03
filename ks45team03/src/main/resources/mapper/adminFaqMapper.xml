@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.AdminFAQMapper">
+	<resultMap type="FAQ" id="FAQResultMap">
+		<id property="faqBoardCode" column="faq_board_code"/>
+		<result property="userId" column="user_id"/>
+		<result property="userNickName" column="user_nickname"/>
+		<result property="faqBoardCategoryCode" column="faq_board_category_code"/>
+		<result property="faqBoardCategoryName" column="faq_board_category_name"/>
+		<result property="faqBoardTitle" column="faq_board_title"/>
+		<result property="faqBoardContent" column="faq_board_content"/>
+		<result property="faqBoardRegTime" column="faq_board_reg_time"/>
+	</resultMap>
+	
+	<resultMap type="FAQCategory" id="FAQCategoryResultMap">
+		<id property="faqBoardCategoryCode" column="faq_board_category_code"/>
+		<result property="faqBoardCategoryName" column="faq_board_category_name"/>
+	</resultMap>
+	
+	<select id="adminFAQList" resultMap="FAQResultMap">
+		SELECT
+			 faq.faq_board_code
+			,u.user_nickname
+			,faq.faq_board_category_code
+			,ca.faq_board_category_name
+			,faq.faq_board_title
+			,faq.faq_board_content
+			,faq.faq_board_reg_time
+		FROM
+			tb_faq_board AS faq
+		INNER JOIN
+			tb_user AS u
+		ON
+			faq.user_id = u.user_id
+		INNER JOIN
+			tb_faq_category AS ca
+		ON
+			faq.faq_board_category_code = ca.faq_board_category_code
+		<where>
+			<if test="searchKey != null and searchKey != ''">		
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+			</if>
+		</where>
+			<if test="startIndex != null and startIndex > -1">
+				LIMIT #{startIndex}, #{pageSize};
+			</if>
+	</select>
+	
+	<select id="faqListCnt" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_faq_board AS faq
+		INNER JOIN
+			tb_user AS u
+		ON
+			faq.user_id = u.user_id
+		INNER JOIN
+			tb_faq_category AS ca
+		ON
+			faq.faq_board_category_code = ca.faq_board_category_code
+		<where>
+			<if test="searchKey != null and searchKey != ''">		
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%');
+			</if>	
+		</where>
+	</select>
+	
+	<select id="adminDetailFAQ" resultMap="FAQResultMap">
+		SELECT
+			 faq.faq_board_code
+			,u.user_nickname
+			,faq.faq_board_category_code
+			,ca.faq_board_category_name
+			,faq.faq_board_title
+			,faq.faq_board_content
+			,faq.faq_board_reg_time
+		FROM
+			tb_faq_board AS faq
+		INNER JOIN
+			tb_user AS u
+		ON
+			faq.user_id = u.user_id
+		INNER JOIN
+			tb_faq_category AS ca
+		ON
+			faq.faq_board_category_code = ca.faq_board_category_code
+		WHERE
+			faq.faq_board_code = #{faqBoardCode};
+	</select>
+	
+	<delete id="adminRemoveFAQ" parameterType="String">
+		DELETE 
+		FROM 
+			tb_faq_board
+		WHERE 
+			faq_board_code = #{faqBoardCode};
+			
+	</delete>
+	
+	<select id="FAQCategoryList" resultMap="FAQCategoryResultMap">
+		SELECT 
+			 fc.faq_board_category_code
+			,fc.faq_board_category_name
+		FROM
+			tb_faq_category AS fc;
+	</select>
+	
+	<insert id="adminAddFAQ" parameterType="FAQ">
+		INSERT INTO tb_faq_board
+		values( sf_new_faq_code(), #{userId}, #{faqBoardCategoryCode}, #{faqBoardTitle}, #{faqBoardContent}, NOW())
+	</insert>
+	
+	<select id="modifyFAQ" parameterType="String" resultMap="FAQResultMap">
+		SELECT
+			 faq.faq_board_code
+			,faq.faq_board_category_code
+			,ca.faq_board_category_name
+			,faq.faq_board_title
+			,faq.faq_board_content
+		FROM
+			tb_faq_board AS faq
+		INNER JOIN
+			tb_faq_category AS ca
+		ON
+			faq.faq_board_category_code = ca.faq_board_category_code
+		WHERE
+			faq.faq_board_code = #{faqBoardCode};
+	</select>
+	
+	<update id="adminModifyFAQ" parameterType="FAQ">
+	UPDATE 
+		tb_faq_board
+	<trim prefix="SET" prefixOverrides=",">
+  	  <if test="faqBoardTitle != null and faqBoardTitle != ''">
+	  		 faq_board_title = #{faqBoardTitle}
+  	  </if>
+  	  <if test="faqBoardContent != null and faqBoardContent != ''">
+			,faq_board_content = #{faqBoardContent}
+  	  </if>
+  	   <if test="faqBoardCategoryCode != null and faqBoardCategoryCode != ''">
+			,faq_board_category_code = #{faqBoardCategoryCode}
+  	  </if>
+  	  </trim>
+		WHERE
+			faq_board_code = #{faqBoardCode};
+  	  </update>
+</mapper>

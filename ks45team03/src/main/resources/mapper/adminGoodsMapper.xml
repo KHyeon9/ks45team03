@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="ks45team03.rentravel.mapper.AdminGoodsMapper" >
+
+	<resultMap type="Goods" id="AdminGoodsResultMap">
+		<id property="goodsCode" 			column="goods_code"/>
+		<result property="goodsName" 		column="goods_name"/>
+		<result property="userId" 	column="user_id"/>
+		<result property="goodsRentalAvailability" 	column="goods_rental_availability"/>
+		<result property="goodsValuePrice" 	column="goods_value_price"/>
+		<result property="goodsPurchaseDate" 	column="goods_purchase_date"/>
+		<result property="goodsDayPrice" 	column="goods_day_price"/>
+		<result property="commisionRateCode" 	column="commision_rate_code"/>
+		<result property="commisionRate" 	column="commision_rate"/>
+		<result property="goodsCommisionDayPrice" 	column="goods_commision_day_price"/>
+		<result property="goodsDetail" 	column="goods_detail"/>
+		<result property="goodsRegDate" 	column="goods_reg_date"/>
+		<result property="regionSggCode" 	column="region_sgg_code"/>
+		<result property="goodsState" 	column="goods_state"/>
+		
+		<result property="goodsCategoryCode" 		column="goods_category_code"/>
+		<result property="goodsCategoryName" 	column="goods_category_name"/>
+		<result property="userRegion" 	column="user_region"/>
+		
+		<result property="userNickname" 	column="user_nickname"/>
+		
+	</resultMap>
+
+
+	<select id="getAdminGoodsList" resultMap="AdminGoodsResultMap">
+
+		SELECT
+			g.goods_code
+			,g.goods_name
+			,gc.goods_category_name
+			,g.user_id
+			,u.user_nickname
+			,g.goods_rental_availability
+			,g.goods_value_price
+			,g.goods_purchase_date
+			,g.goods_day_price
+			,g.goods_reg_date
+			,CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
+			,g.goods_state
+		FROM
+			tb_goods AS g
+			JOIN
+				tb_user AS u
+			ON
+				u.user_id = g.user_id
+			JOIN
+				tb_goods_category AS gc
+			ON
+				gc.goods_category_code = g.goods_category_code
+			JOIN
+				tb_region_sgg AS rsgg
+			ON
+				rsgg.region_sgg_code = g.region_sgg_code
+			JOIN
+				tb_region_sido AS rsido
+			ON
+				rsgg.region_sido_code = rsido.region_sido_code
+		ORDER BY 
+			g.goods_reg_date DESC;
+
+	</select>
+
+    <update id="adminRemoveGoods" parameterType="String">
+    
+    	UPDATE
+			tb_goods AS g
+		SET
+			g.goods_state = 'disabled'
+		WHERE
+			goods_code = #{goodsCode};
+    
+    </update>
+
+
+</mapper>

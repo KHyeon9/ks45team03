@@ -10,6 +10,9 @@
 		<result property="renterId" 		column="renter_id"/>
 		<result property="ownerId" 		column="owner_id"/>
 		<result property="chatRoomAddTime" 		column="chatroom_add_time"/>
+		
+		<result property="renterNickname" 		column="renter_nickname"/>
+		<result property="ownerNickname" 		column="owner_nickname"/>
 	</resultMap>
 	
 	<resultMap type="ChatMessage" id="chatMessageResultMap">
@@ -28,13 +31,23 @@
 			,cr.renter_id
 			,cr.owner_id
 			,cr.chatroom_add_time
+			,renterN.user_nickname AS renter_nickname
+			,ownerN.user_nickname as owner_nickname
 		FROM
 			tb_chat_room AS cr
+			join
+			tb_user AS renterN
+			on
+			cr.renter_id = renterN.user_id
+			join
+			tb_user AS ownerN
+			on
+			ownerN.user_id = cr.owner_id
 		WHERE
 			cr.renter_id = #{loginId}
 		OR
 			cr.owner_id = #{loginId}
-		order by cr.chatroom_add_time desc
+		order by cr.chatroom_add_time DEsc
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize};
 		</if>
@@ -46,8 +59,18 @@
 			chat_room_code
 			,renter_id
 			,owner_id
+			,renterN.user_nickname AS renter_nickname
+			,ownerN.user_nickname as owner_nickname
 		FROM
-			tb_chat_room
+			tb_chat_room AS cr
+			join
+			tb_user AS renterN
+			on
+			cr.renter_id = renterN.user_id
+			join
+			tb_user AS ownerN
+			on
+			ownerN.user_id = cr.owner_id
 		WHERE
 			chat_room_code = #{chatRoomCode}
 		LIMIT 1;
