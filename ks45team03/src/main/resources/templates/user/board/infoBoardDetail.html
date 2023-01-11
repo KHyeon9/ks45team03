@@ -101,7 +101,7 @@
 		                <h3 th:text="${infoBoardDetail.infoBoardTitle}"></h3>
 		                <!-- 캐러셀 시작 -->
 		                <!-- data-ride="carousel" -->
-						<div id="carouselExampleControls" class="carousel slide" >
+						<div th:unless ="${#lists.isEmpty(infoBoardImgList)}" id="carouselExampleControls" class="carousel slide" >
 						  <div class="carousel-inner">
 						  	<th:block th:each="img, index : ${infoBoardImgList}">						  	
 							    <div class="carousel-item" th:classappend="${index.index == 0}? 'active'">
@@ -119,7 +119,7 @@
 						  </a>
 						</div>
 						<!-- 캐러셀 종료 -->
-		                <p th:text="${infoBoardDetail.infoBoardContent}"></p>
+		                <p th:utext="${infoBoardDetail.infoBoardContent}"></p>
 		              </div>
 		            </div>
 		          </div>
@@ -137,7 +137,7 @@
 		            <th:block th:if="${commentCnt != 0}" th:unless="${#lists.isEmpty(commentList)}" th:each="comm : ${commentList}">
 		            	<div class="media flex-wrap commentInfo">
 			              <a class="media-left" href="#">
-			                <img class="media-object" th:src="/user/assets/img/blog/avatar.jpg" alt="Image">
+			                <img class="media-object" th:src="@{/user/assets/img/blog/avatar.jpg}" alt="Image">
 			              </a>
 			              <div class="media-body">
 			                <h4 class="media-heading" th:text="${comm.userNickName}"></h4>
@@ -236,13 +236,14 @@
 					action:'/infoboard/removeInfoBoard',
 					method:'POST'
 				});
-				deleteForm.append('<input />', {
+				deleteForm.append($('<input />', {
 					value: $(this).data('infoboardCode'),
 					name: 'infoboardCode',
 					type: 'hidden'
-				})
+				}));
+				deleteForm.appendTo('body');
 				
-				$('body').appendTo(deleteForm);
+				//$('body').appendTo(deleteForm);
 				
 				deleteForm.submit();
 			})

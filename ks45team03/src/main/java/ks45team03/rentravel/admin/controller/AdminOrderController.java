@@ -80,6 +80,8 @@ public class AdminOrderController {
 		int ownerWaybillCnt = adminOrderMapper.getOwnerWaybillCnt();
 		int renterWaybillCnt = adminOrderMapper.getRenterWaybillCnt();
 		
+		log.info("{} {} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" , ownerCurPage, renterCurPage);
+		
 		Pagination paginationOwner = new Pagination(ownerWaybillCnt, ownerCurPage);
 		Pagination paginationRenter = new Pagination(renterWaybillCnt, renterCurPage);
 		

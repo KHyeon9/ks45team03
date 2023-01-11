@@ -35,7 +35,6 @@ public class OrderService {
 	// 결제
 	public int addOrder(Rental rental) throws ParseException {
 		
-		int result = 0;
 		
 		Payment paymentInfo = rental.getPayment();
 		
@@ -53,6 +52,8 @@ public class OrderService {
 		int saveMileage = (int) (amountExcludingMileage * saveMileageRate);
 		int settlementAmount = expectedPaymentAmount - commisionTotalPrice;
 		
+		int result = orderMapper.addRental(rental);
+		
 		String groupCodeDate =  orderMapper.getGroupCodeDate(rental.getRentalCode());
 		String milegeUseGroupCode = rental.getUserId() + "_결제완료_적립금_사용_" + groupCodeDate;
 		String milegeSaveGroupCode = rental.getUserId() + "_결제완료_적립금_적립_" + groupCodeDate;
@@ -69,10 +70,20 @@ public class OrderService {
 		paymentInfo.setMileageSaveGroupCode(milegeSaveGroupCode);
 		
 		
-		result = orderMapper.addRental(rental) + orderMapper.addPayment(paymentInfo);
+		result += orderMapper.addPayment(paymentInfo);
 		
 		return result;
 	}
+	
+	// 회원의 자신 렌트 물품 정보 조회
+	public Rental getRentalGoodsInfo(String rentalCode) {
+		return orderMapper.getRentalGoodsInfo(rentalCode);
+	};
+	
+	// 회원의 자신 렌트 내역 조회
+	public List<Rental> getUserRentList(String userId){
+		return orderMapper.getUserRentalList(userId);
+	};
 	
 	// 회원의 자신 주문 내역 조회
 	public List<Rental> getUserOrderList(String userId){

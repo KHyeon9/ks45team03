@@ -24,6 +24,7 @@ import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.mapper.OrderMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.user.service.GoodsService;
@@ -187,8 +188,38 @@ public class MyPageController {
 		model.addAttribute("title","마이페이지 화면");
 		return "user/myPage/myWishList";
 	}
+	
+	@GetMapping("/modifyMyRent")
+	public String modifyMyRent(@RequestParam( value = "rentalCode", required=false) String rentalCode,
+							   Model model) {
+		Rental rentalInfo = orderService.getRentalGoodsInfo(rentalCode)
+;
+		model.addAttribute("rentalInfo", rentalInfo);
+		
+		return "user/myPage/modifyMyRent";
+	}
+	
+	@GetMapping("/myRentList")
+	public String myRentList(HttpSession session,
+								 Model model) {
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String redirectURI = "user/myPage/myRentList";
+		
+		if (loginInfo == null) {
+			redirectURI = "redirect:/";
+		
+		} else {
+			List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId());
+			model.addAttribute("title","마이페이지 렌트 내역");
+			model.addAttribute("rentList", rentList);
+		}
+		
+		return redirectURI;
+	}
+	
+	
 	@GetMapping("/myOrderList")
-	public String myOrderHistory(HttpSession session,
+	public String myOrderList(HttpSession session,
 								 Model model) {
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String redirectURI = "user/myPage/myOrderList";
