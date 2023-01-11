@@ -12,14 +12,17 @@ import ks45team03.rentravel.dto.ProfitYear;
 @Mapper
 public interface UserProfitMapper {
 	
+	/* 수익 일별 그룹코드 날짜 조회 */
+	public String getUserDayGroupCodeDate (String loginId);
+	
 	/* 회원 연별 수익 목록 조회 */
-	public List<ProfitYear> getUserYearProfitList (String loginId, int startIndex, int pageSize, String searchYear, String ownerProfitYear);
+	public List<ProfitYear> getUserYearProfitList (String loginId, int startIndex, int pageSize, String searchYear);
 	
 	/* 회원 월별 수익 목록 조회 */
-	public List<ProfitMonth> getUserMonthProfitList (String loginId, int startIndex, int pageSize, String searchYear,String searchMonth,String profitMonthGroup);
+	public List<ProfitMonth> getUserMonthProfitList (String loginId, int startIndex, int pageSize, String searchYear,String searchMonth);
 	
 	/* 회원 일별 수익 목록 조회 */
-	public List<ProfitDay> getUserDayProfitList(String loginId, int startIndex, int pageSize, String searchYear,String searchMonth,String searchDay, String profitDayGroup);
+	public List<ProfitDay> getUserDayProfitList(String loginId, int startIndex, int pageSize, String searchYear,String searchMonth,String searchDay);
 
 	/* 회원 수익 목록 조회 */
 	public List<Profit> getUserProfitList (String loginId, int startIndex, int pageSize);

@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks45team03.rentravel.admin.service.AdminFAQService;
 import ks45team03.rentravel.dto.FAQ;
 import ks45team03.rentravel.dto.FAQCategory;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.mapper.AdminFAQMapper;
-import ks45team03.rentravel.user.service.AdminFAQService;
 import lombok.AllArgsConstructor;
 
 @Controller

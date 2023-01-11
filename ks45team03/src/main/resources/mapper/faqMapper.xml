@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.FAQMapper">
+	<resultMap type="FAQ" id="FAQResultMap">
+		<id property="faqBoardCode" column="faq_board_code"/>
+		<result property="userId" column="user_id"/>
+		<result property="faqBoardCategoryCode" column="faq_board_category_code"/>
+		<result property="faqBoardCategoryName" column="faq_board_category_name"/>
+		<result property="faqBoardTitle" column="faq_board_title"/>
+		<result property="faqBoardContent" column="faq_board_content"/>
+		<result property="faqBoardRegTime" column="faq_board_reg_time"/>
+		<result property="faqBoardFrequently" column="faq_board_frequently"/>
+	</resultMap>
+	
+	<resultMap type="FAQCategory" id="FAQCategoryResultMap">
+		<id property="faqBoardCategoryCode" column="faq_board_category_code"/>
+		<result property="faqBoardCategoryName" column="faq_board_category_name"/>
+	</resultMap>
+	
+	<select id="FAQList" resultMap="FAQResultMap">
+		SELECT
+			 faq.faq_board_code
+			,faq.faq_board_category_code
+			,faq.faq_board_title
+			,faq.faq_board_content
+			,faq.faq_board_frequently
+		FROM
+			tb_faq_board AS faq;
+
+	</select>
+	
+	<select id="FAQDetail" parameterType="String" resultMap="FAQResultMap">
+		SELECT
+			 faq.faq_board_code
+			,faq.faq_board_title
+			,faq.faq_board_content
+		FROM
+			tb_faq_board AS faq
+		WHERE
+			faq_board_code = #{faqBoardCode};
+	</select>
+</mapper>

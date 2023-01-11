@@ -58,10 +58,9 @@
                 <div class="col-md-13 row">
                    <h2 class="col-md-8" th:text="${loginNickName} + '님 YEAR PROFIT LIST'"></h2>
                    
-                   <form class="col-md-4" th:action="@{/myPage/myProfitListYear}" method="get">     
-                   	<input type="hidden" th:value="ownerProfitYear" readonly="readonly" name="ownerProfitYear">         
+                   <form class="col-md-4" th:action="@{/myPage/myProfitListYear}" method="get">                        
                   	<div class="form-group input-group">
-						<input class="form-control" name="searchYear" type="text" placeholder="년">
+						<input class="form-control" name="searchYear" type="text" placeholder="년도">
 						<button type="submit" class="form-control btn btn-primary col-md-3" style="margin-left: 10px">조회</button>
 					</div>
 					<br>
@@ -116,6 +115,37 @@
                     </table>
                   </div>
                 </div>
+                 <!-- 페이징 -->
+      			<div style="margin-top: 50px; display: flex; justify-content: center;" class="blogPage">
+		          <div class="col-sm-6">
+							<div class="text-left">
+								<ul class="pagination" style="justify-content: center;">
+									<li th:if="${pagination.curRange != 1}">
+										<a th:href="@{/myPage/myProfitListYear}" aria-label="First"><span aria-hidden="true"><<</span></a>
+									</li>
+									<li th:if="${pagination.curPage != 1}">
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+									</li>
+									
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="active" th:if="${pageNum == pagination.curPage}">
+											<a th:text="${pageNum}"></a>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+											<a th:href="@{/myPage/myProfitListYear(curPage=${pageNum})}" th:text="${pageNum}"></a>
+										</li>
+									</th:block>
+
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+									</li>
+									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+		        </div>
               </div>
             </div>
           </div>

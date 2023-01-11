@@ -12,16 +12,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminCommisionRateService;
 import ks45team03.rentravel.dto.CommisionRate;
+import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.RentalCancel;
+import ks45team03.rentravel.mapper.AdminCommisionRateMapper;
 
 @Controller
 @RequestMapping("/admin/commisionRate")
 public class AdminCommisionRateController {
 	
 	private final AdminCommisionRateService adminCommisionRateService;
+	private final AdminCommisionRateMapper adminCommisionRateMapper;
 	
-	public AdminCommisionRateController (AdminCommisionRateService adminCommisionRateService) {
+	public AdminCommisionRateController (AdminCommisionRateService adminCommisionRateService, AdminCommisionRateMapper adminCommisionRateMapper) {
 		this.adminCommisionRateService = adminCommisionRateService;		
+		this.adminCommisionRateMapper = adminCommisionRateMapper;
 	}
 	
 	
@@ -71,27 +75,18 @@ public class AdminCommisionRateController {
 	
 	// 플랫폼 수수료율 목록
 	@GetMapping("/adminCommisionRateList")
-	public String adminGetCommisionRateList (@RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage
+	public String adminGetCommisionRateList (@RequestParam(defaultValue="1", required=false) int curPage
 											,Model model) {
 		
-		Map<String, Object> paramMap = adminCommisionRateService.adminGetCommisionRateList(currentPage);
+		int listCnt = adminCommisionRateMapper.getCommisionRateListCnt();
+		Pagination pagination = new Pagination(listCnt, curPage);
 		
-		List<CommisionRate> adminGetCommisionRateList =  (List<CommisionRate>) paramMap.get("adminGetCommisionRateList");
-		
-		int lastPage = (int) paramMap.get("lastPage");
-		int startPageNum = (int) paramMap.get("startPageNum");
-		int endPageNum = (int) paramMap.get("endPageNum");
-		int nextPage = (int) paramMap.get("nextPage");
-		int prevPage = (int) paramMap.get("prevPage");
+		List <CommisionRate> adminGetCommisionRateList = adminCommisionRateMapper.adminGetCommisionRateList(pagination.getStartIndex(), pagination.getPageSize());					
 		
 		model.addAttribute("title","플랫폼 수수료율 목록");
-		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("pagination",pagination);
 		model.addAttribute("adminGetCommisionRateList", adminGetCommisionRateList);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		model.addAttribute("nextPage", nextPage);
-		model.addAttribute("prevPage", prevPage);
+		
 		
 		return "admin/commisionRate/adminCommisionRateList";
 	}

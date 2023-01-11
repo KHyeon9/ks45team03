@@ -11,44 +11,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminBlockService;
 import ks45team03.rentravel.dto.Block;
+import ks45team03.rentravel.dto.Pagination;
+import ks45team03.rentravel.mapper.AdminBlockMapper;
 
 @Controller
 @RequestMapping("/admin/block")
 public class AdminBlockController {
 	
 	private final AdminBlockService adminBlockService;
+	private final AdminBlockMapper adminBlockMapper;
 	
-	public AdminBlockController (AdminBlockService adminBlockService) {
+	public AdminBlockController (AdminBlockService adminBlockService, AdminBlockMapper adminBlockMapper) {
 		this.adminBlockService = adminBlockService;
+		this.adminBlockMapper = adminBlockMapper;
 	}
 
 	@GetMapping("/adminBlockList")
-	public String adminGetUserBlockList(@RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage
+	public String adminGetUserBlockList(@RequestParam(defaultValue="1", required=false) int curPage
 										,@RequestParam(value="searchKey", required = false) String searchKey
 										,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue
 										,Model model) {
 		
-		Map<String, Object> paramMap = adminBlockService.adminGetUserBlockList(currentPage, searchKey, searchValue);
 		
-		List<Block> adminGetUserBlockList = (List<Block>) paramMap.get("adminGetUserBlockList");
+		int listCnt = adminBlockMapper.getBlockListCnt();
+		Pagination pagination = new Pagination(listCnt, curPage);
 		
-		System.out.println("adminGetUserBlockList");
-		
-		
-		int lastPage = (int) paramMap.get("lastPage");
-		int startPageNum = (int) paramMap.get("startPageNum");
-		int endPageNum = (int) paramMap.get("endPageNum");
-		int nextPage = (int) paramMap.get("nextPage");
-		int prevPage = (int) paramMap.get("prevPage");
+		List<Block> adminGetUserBlockList = adminBlockService.adminGetUserBlockList(pagination.getStartIndex(), pagination.getPageSize(), searchKey, searchValue);
+				
 		
 		model.addAttribute("title","관리자 회원 아이디 차단 목록");
-		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("pagination",pagination);
 		model.addAttribute("adminGetUserBlockList", adminGetUserBlockList);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		model.addAttribute("nextPage", nextPage);
-		model.addAttribute("prevPage", prevPage);
+	
 		
 		
 		

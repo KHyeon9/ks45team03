@@ -34,8 +34,7 @@
                     
                     <div class="table-responsive">
                     <div class="col-md-12 row">
-                    <form th:action="@{/admin/profit/adminProfitListDay}" method="get" class="col-md-9" style="float: left;">  
-                    <input type="hidden" th:value="profitDayGroup" readonly="readonly" name="profitDayGroup">       
+                    <form th:action="@{/admin/profit/adminProfitListDay}" method="get" class="col-md-9" style="float: left;">                           
                     <input type="text" name="searchYear" placeholder="년도"/>
                    	<select name="searchMonth" class="select-drop" style="height: 25px;">
 						<option value="01">1월</option>
@@ -51,8 +50,7 @@
 						<option value="11">11월</option>
 						<option value="11">12월</option>								
 					</select>
-                    <input type="text" name="searchDay" placeholder="일"/> 
-                    <input name="userId" type="hidden" th:value="userId" readonly="readonly" />
+                    <input type="text" name="searchDay" placeholder="일"/>                 
 					<input type="text" name="searchId" placeholder="회원 아이디를 입력해주세요."/>
 					<button type="submit">조회</button>
 					</form>
@@ -80,7 +78,7 @@
 			                <td class=" " th:text="${pd.userId}"></td>
 			                <td class=" " th:text="${pd.profitSaveYearMonth}"></td>
 			                <td class=" " th:text="${pd.profitDayTotal}"></td>			               		                
-			                <td class=" " th:text="|20${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}-${#strings.substring(pd.profitDayGroup,16,18)}|"></td>			                
+			                <td class=" " th:text="|20${#strings.substring(pd.profitDayGroup,10,12)}-${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}|"></td>			                
 			               
 			                
 			              </tr>
@@ -88,6 +86,37 @@
 			              	<td class=" " colspan="4">등록된 회원 일별 수익이 없습니다.</td>
 			              </tr>
 			        </tbody>
+			         <tfoot>
+				  		<tr>
+				  			<td colspan="15">
+				  				<div class="row" style="margin-top: 40px">
+						          <div class="col-sm-12">
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">																							
+													<li th:if="${pagination.curPage != 1}" class="paginate_button previous disabled">
+														<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pagination.prevPage})}" aria-label="Prev">Prev</a>
+													</li>
+													
+													<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+														<li class="active" th:if="${pageNum == pagination.curPage}">
+															<a th:text="${pageNum}"></a>
+														</li>
+														<li th:unless="${pageNum == pagination.curPage}">
+															<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pageNum})}" th:text="${pageNum}"></a>
+														</li>
+													</th:block>
+				
+													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+														<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pagination.nextPage})}" aria-label="Next">Next</a>
+													</li>												
+													
+												</ul>
+											</div>
+										</div>		          
+						        </div>
+				  			</td>
+				  		</tr>
+			  		</tfoot>
                       </table>
                     </div>
 							

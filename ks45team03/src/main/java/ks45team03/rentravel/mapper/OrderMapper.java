@@ -20,7 +20,7 @@ public interface OrderMapper {
 	public float getCommisionRate();
 	
 	// 그룹 코드 날짜 부분
-	public String getGroupCodeDate(String date);
+	public String getGroupCodeDate(String rentalCode);
 	
 	// payment 등록
 	public int addPayment(Payment payment);
@@ -33,6 +33,12 @@ public interface OrderMapper {
 	
 	// 로그인 아이디로 유저 주소 정보 조회
 	public User loginUserInfo(String userId); 
+	
+	// 회원의 렌트 물품 정보 조회
+	public Rental getRentalGoodsInfo(String rentalCode);
+	
+	// 회원은 렌트 내역을 조회
+	public List<Rental> getUserRentalList(String userId);
 	
 	// 회원의 자신 주문 내역 조회
 	public List<Rental> getUserOrderList(String userId);

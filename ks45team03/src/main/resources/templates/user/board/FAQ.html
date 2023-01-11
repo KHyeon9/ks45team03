@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/layout/default}">
+<th:block layout:fragment="customContents">
+
+	  <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="page-title">
+                <h2>FAQ</h2>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-right">
+                <li>
+                  <a href="index.html">Home</a>
+                </li>
+                <li class="active">FAQ</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+	<div class="grid-wrapper section">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-12 col-lg-12 element-content pt-5">
+				
+
+
+
+
+<div id="element_collapse" class="element_single">
+	<!-- Accordion example -->
+	<div id="accordionTwo" role="tablist" aria-multiselectable="true">
+		<div class="card card-accordion">
+		    <div class="card-header" role="tab" id="headingTwo">
+		      	<h3 class="mb-0">
+					<a class="collapsed">자주 묻는 질문</a>
+				</h3>
+			</div>
+			<div id="collapse0" class="collapse show" role="tabpanel"
+				aria-labelledby="heading1" data-parent="#accordionTwo">
+				<div class="card-block form-control" th:if="${faq.faqBoardFrequently == 'on'}" th:each="faq : ${FAQList}">
+					<a th:href="@{/board/FAQDetail(faqBoardCode=${faq.faqBoardCode})}" style="color: black">[[${faq.faqBoardTitle}]]</a>
+				</div>
+			</div>
+		</div>
+
+						<div class="display-single_element">
+							<div class="row">
+								<div class="col-md-6">
+									<div id="accordion7" role="tablist" aria-multiselectable="true">
+										<div class="card card-accordion">
+											<div class="card-header" role="tab" id="heading1">
+												<h6 class="mb-0">
+													<a class="collapsed" data-toggle="collapse"
+														data-target="#collapse1" href="#collapse1"
+														aria-expanded="false" aria-controls="collapse2">계정 및 인증</a>
+												</h6>
+											</div>
+											<div id="collapse1" class="collapse" role="tabpanel"
+												aria-labelledby="heading1" data-parent="#accordion7">
+												<div class="card-block form-control" th:if="${faq.faqBoardCategoryCode == 'faq_category_1'}" th:each="faq : ${FAQList}">
+													<a th:href="@{/board/FAQDetail(faqBoardCode=${faq.faqBoardCode})}" style="color: black">[[${faq.faqBoardTitle}]]</a>
+												</div>
+											</div>
+										</div>
+										<div class="card card-accordion">
+											<div class="card-header" role="tab" id="heading2">
+												<h6 class="mb-0">
+													<a class="collapsed" data-toggle="collapse"
+														data-target="#collapse2" href="#collapse2"
+														aria-expanded="false" aria-controls="collapse2">빌리기</a>
+												</h6>
+											</div>
+											<div id="collapse2" class="collapse" role="tabpanel"
+												aria-labelledby="heading2" data-parent="#accordion7">
+												<div class="card-block form-control" th:unless="${#lists.isEmpty(FAQList)}" th:if="${faq.faqBoardCategoryCode == 'faq_category_2'}" th:each="faq : ${FAQList}">
+													<a th:href="@{/board/FAQDetail(faqBoardCode=${faq.faqBoardCode})}" style="color: black">[[${faq.faqBoardTitle}]]</a>
+												</div>
+											</div>
+										</div>
+										<div class="card card-accordion">
+											<div class="card-header" role="tab" id="heading3">
+												<h6 class="mb-0">
+													<a class="collapsed" data-toggle="collapse"
+														data-target="#collapse3" href="#collapse3"
+														aria-expanded="false" aria-controls="collapse3">빌려주기</a>
+												</h6>
+											</div>
+											<div id="collapse3" class="collapse" role="tabpanel"
+												aria-labelledby="heading3" data-parent="#accordion7">
+												<div class="card-block form-control" th:unless="${#lists.isEmpty(FAQList)}" th:if="${faq.faqBoardCategoryCode == 'faq_category_3'}" th:each="faq : ${FAQList}">
+													<a th:href="@{/board/FAQDetail(faqBoardCode=${faq.faqBoardCode})}" style="color: black">[[${faq.faqBoardTitle}]]</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="col-md-6">
+									<div id="accordion3" role="tablist" aria-multiselectable="true">
+										<div class="card card-accordion">
+											<div class="card-header header-inverse" role="tab"
+												id="heading8">
+												<h6 class="mb-0">
+													<a class="collapsed" data-toggle="collapse"
+														data-target="#collapse8" href="#collapse8"
+														aria-expanded="false" aria-controls="collapse2">연장/취소/환불</a>
+												</h6>
+											</div>
+											<div id="collapse8" class="collapse" role="tabpanel"
+												aria-labelledby="heading8" data-parent="#accordion3">
+												<div class="card-block form-control" th:unless="${#lists.isEmpty(FAQList)}" th:if="${faq.faqBoardCategoryCode == 'faq_category_4'}" th:each="faq : ${FAQList}">
+													<a th:href="@{/board/FAQDetail(faqBoardCode=${faq.faqBoardCode})}" style="color: black">[[${faq.faqBoardTitle}]]</a>
+												</div>
+											</div>
+										</div>
+										<div class="card card-accordion">
+											<div class="card-header header-inverse" role="tab"
+												id="heading9">
+												<h6 class="mb-0">
+													<a class="collapsed" data-toggle="collapse"
+														data-target="#collapse9" href="#collapse9"
+														aria-expanded="false" aria-controls="collapse9">문제처리</a>
+												</h6>
+											</div>
+											<div id="collapse9" class="collapse" role="tabpanel"
+												aria-labelledby="heading9" data-parent="#accordion3">
+												<div class="card-block form-control" th:unless="${#lists.isEmpty(FAQList)}" th:if="${faq.faqBoardCategoryCode == 'faq_category_5'}" th:each="faq : ${FAQList}">
+													<a th:href="@{/board/FAQDetail(faqBoardCode=${faq.faqBoardCode})}" style="color: black">[[${faq.faqBoardTitle}]]</a>
+												</div>
+										</div>
+										<div class="card card-accordion">
+											<div class="card-header header-inverse" role="tab"
+												id="heading10">
+												<h6 class="mb-0">
+													<a class="collapsed" data-toggle="collapse"
+														data-target="#collapse10" href="#collapse10"
+														aria-expanded="false" aria-controls="collapse10">보험 청구</a>
+												</h6>
+											</div>
+											<div id="collapse10" class="collapse" role="tabpanel"
+												aria-labelledby="heading10" data-parent="#accordion3">
+												<div class="card-block form-control" th:unless="${#lists.isEmpty(FAQList)}" th:if="${faq.faqBoardCategoryCode == 'faq_category_6'}" th:each="faq : ${FAQList}">
+													<a th:href="@{/board/FAQDetail(faqBoardCode=${faq.faqBoardCode})}" style="color: black">[[${faq.faqBoardTitle}]]</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</th:block>
+<!-- 사용자 지정 js 파일 -->
+<th:block layout:fragment="customJs"></th:block>
+<!-- 사용자 지정 js script -->
+<th:block layout:fragment="customScript">
+</th:block>
+</html>

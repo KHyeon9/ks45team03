@@ -17,4 +17,5 @@ public class FAQ {
 	private String faqBoardTitle;
 	private String faqBoardContent;
 	private String faqBoardRegTime;
+	private String faqBoardFrequently;
 }
