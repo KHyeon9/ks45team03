@@ -1,10 +1,147 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
 
-</body>
+	<th:block layout:fragment="customContents">
+		    <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>회원 연별 수익 목록</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  
+                  <div class="x_content">            
+
+                    <p>회원의 연별 수익을 조회할 수 있습니다.</p>
+                    
+                    <div class="table-responsive">
+                    <div class="col-md-12 row">
+                    <form th:action="@{/admin/profit/adminProfitListYear}" method="get" class="col-md-9" style="float: left;">  
+	                    <input type="text" name="searchYear" placeholder="년도"/>                               
+						<input type="text" name="searchId" placeholder="회원 아이디를 입력해주세요."/>
+					<button type="submit">조회</button>
+					</form>
+					<div class="btn-group col-md-3" role="group" aria-label="..." style="float: right;">
+		                <a th:href="@{/admin/profit/adminProfitListDay}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
+		                <a th:href="@{/admin/profit/adminProfitListMonth}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
+		                <a th:href="@{/admin/profit/adminProfitListYear}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>연별 수익</a>
+		              </div>
+		             </div>
+					<br>
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">                         				                
+			                <th class="column-title">ID</th>
+			                <th class="column-title">연도</th>
+			                <th class="column-title">1월</th>              
+			                <th class="column-title">2월</th>              
+			                <th class="column-title">3월</th>              
+			                <th class="column-title">4월</th>              
+			                <th class="column-title">5월</th>              
+			                <th class="column-title">6월</th>              
+			                <th class="column-title">7월</th>              
+			                <th class="column-title">8월</th>              
+			                <th class="column-title">9월</th>              
+			                <th class="column-title">10월</th>              
+			                <th class="column-title">11월</th>              
+			                <th class="column-title">12월</th>          
+			                <th class="column-title">연별총수익</th>                 
+	                        </tr>
+	                       </thead>
+			                
+			       
+                        <tbody>
+			            <tr class=" " th:unless="${#lists.isEmpty(adminGetUserYearProfitList)}" th:each="py : ${adminGetUserYearProfitList}">			            	
+			                <td class=" " th:text="${py.userId}"></td>
+			                <td class=" " th:text="${py.ownerProfitYear}"></td>
+			                <td class=" " th:text="${py.ownerProfitJanuary}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitFebruary}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitMarch}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitApril}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitMay}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitJune}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitJuly}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitAugust}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitSeptember}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitOctober}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitNovember}"></td>	               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitDecember}"></td>               		                			               		                			               			                
+			                <td class=" " th:text="${py.ownerProfitYearTotal}"></td>               		                			               		                			               			                		                 		                			               		                			               			                
+			              </tr>
+			              <tr class=" " th:if="${#lists.isEmpty(adminGetUserYearProfitList)}">
+			              	<td class=" " colspan="15">등록된 회원 연별 수익이 없습니다.</td>
+			              </tr>
+			        </tbody>
+			        <tfoot>
+				  		<tr>
+				  			<td colspan="5">
+				  				<div class="row" style="margin-top: 40px">
+						          <div class="col-sm-6">
+											<div class="text-left">
+												<ul class="pagination">
+													
+													<li th:if="${pagination.curRange != 1}" class="page-item">
+														<a th:href="@{/admin/profit/adminProfitListYear" aria-label="First"><<</a>
+													</li>
+													<li th:if="${pagination.curPage != 1}" class="page-item">
+														<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pagination.prevPage})}" aria-label="Prev" class="page-link">&#60;</a>
+													</li>
+													
+													<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+														<li class="active page-item" th:if="${pageNum == pagination.curPage}">
+															<a th:text="${pageNum}" class="page-link"></a>
+														</li>
+														<li th:unless="${pageNum == pagination.curPage}" class="page-item">
+															<a th:href="@{/admin/adminProfitListYear(curPage=${pageNum})}" th:text="${pageNum}" class="page-link"></a>
+														</li>
+													</th:block>
+				
+													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}" class="page-item">
+														<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pagination.nextPage})}" aria-label="Next" class="page-link">&#62;</a>
+													</li>
+													<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}" class="page-item">
+														<a th:href="@{/admin/profit/adminProfitListYear(curPage=${pagination.pageCnt})}" aria-label="Last" class="page-link">>></a>
+													</li>
+													
+												</ul>
+											</div>
+										</div>		          
+						        </div>
+				  			</td>
+				  		</tr>
+			  		</tfoot>
+                      </table>
+                    </div>
+							
+						
+                  </div>
+                  
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+	</th:block>
 </html>
+							
+	
