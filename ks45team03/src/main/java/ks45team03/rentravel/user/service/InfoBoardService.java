@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import groovyjarjarantlr4.v4.misc.EscapeSequenceParsing.Result;
 import groovyjarjarantlr4.v4.runtime.atn.SemanticContext.AND;
 import ks45team03.rentravel.dto.FileDto;
 import ks45team03.rentravel.dto.InfoBoard;
@@ -63,7 +64,22 @@ public class InfoBoardService{
 		
 		return infoList;
 	};
-
+	
+	// 게시글 삭제
+	public int removeInfoBoard(InfoBoard infoBoard) {
+		int result = 0;
+		
+		List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
+		
+		
+		result += infoBoardMapper.removeFileGroupData(infoBoard.getFileGroupCode());
+		result += infoBoardMapper.removeFileData(fileCodeList);
+		result += infoBoardMapper.removeInfoBoardCommentAll(infoBoard.getInfoBoardCode());
+		result += infoBoardMapper.removeInfoBoard(infoBoard.getInfoBoardCode());
+		
+		return result;
+	}
+	
 	// 게시글 수정
 	public int modifyInfoBoard(InfoBoard infoBoard) {
 		return infoBoardMapper.modifyInfoBoard(infoBoard);
@@ -74,14 +90,15 @@ public class InfoBoardService{
 		List<FileDto> fileList =  fileService.fileUpload(uploadfile, fileRealPath);
 		String fileGroupCode = commonNewCode.getCommonNewCode("tb_file_group", "file_group_code");
 		
+		
 		if (fileList != null) {
 			for(FileDto fileInfo : fileList) {
 				String fileCode =  fileInfo.getFileCode();
 				fileService.addFileGroup(fileGroupCode, fileCode);
 			}
+			infoBoard.setFileGroupCode(fileGroupCode);
 		}
 		
-		infoBoard.setFileGroupCode(fileGroupCode);
 		infoBoardMapper.addInfoBoard(infoBoard);
 				
 		return 0;
