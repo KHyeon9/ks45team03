@@ -22,11 +22,12 @@ public class InsuranceService {
 		
 	/**
 	 * 보상금청구서 수정
-	 * @return int
+	 * @param insuranceBillDetail
+	 * @return int(update 쿼리 실행 결과)
 	 */
-	public int modifyInsuranceBillDetail() {
+	public int modifyInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail) {
 		
-		return insuranceMapper.modifyInsuranceBillDetail();
+		return insuranceMapper.modifyInsuranceBillDetail(insuranceBillDetail);
 	}
 	
 	/**

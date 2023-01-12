@@ -21,37 +21,14 @@ public class AdminInsuranceService {
 	}
 	
 	/**
-	 * 보험 조회
-	 * @return List<Insurance>
+	 * 보험 수정(보험이용가능 여부 갱신)
+	 * @return int
 	 */
-	public List<Insurance> adminGetInsuranceList() {
+	public int adminModifyInsurance() {
 		
-		List<Insurance> adminInsuranceList = adminInsuranceMapper.adminGetInsuranceList();
-		
-		return adminInsuranceList;
+		return adminInsuranceMapper.adminModifyInsurance();
 	}
 	
-	
-	/**
-	 * 보상금청구서 조회
-	 * @return List<InsuranceBill>
-	 */
-	public List<InsuranceBill> adminGetInsuranceBillList() {
-		List<InsuranceBill> adminInsuranceBillList = adminInsuranceMapper.adminGetInsuranceBillList();
-		
-		return adminInsuranceBillList;
-		
-	}
-	
-	/**
-	 * 보상금청구서 상세화면
-	 * @return List<InsuranceBillDetail>
-	 */
-	public  List<InsuranceBillDetail> adminGetInsuranceBillDetail() {
-		List<InsuranceBillDetail> adminInsuranceBillDetail = adminInsuranceMapper.adminGetInsuranceBillDetail();
-		
-		return adminInsuranceBillDetail;
-	}
 	
 	/**
 	 * 보상금청구서 등록
@@ -89,20 +66,5 @@ public class AdminInsuranceService {
 		return adminInsuranceMapper.adminModifyInsuranceBillState();
 	}
 	
-	/**
-	 * 보상금지급내역
-	 * @return List<InsurancePayout>
-	 */
-	public List<InsurancePayout> adminGetInsurancePayoutList() {
-		
-		List<InsurancePayout> adminInsurancePayout = adminInsuranceMapper.adminGetInsurancePayoutList();
-		
-		return adminInsurancePayout;
-	}
-	
-	public int adminAddInsurancePayoutList() {
-		
-		return adminInsuranceMapper.adminAddInsurancePayoutList();
-	}
 	
 }

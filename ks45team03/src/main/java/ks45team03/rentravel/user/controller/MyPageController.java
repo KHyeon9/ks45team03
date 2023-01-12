@@ -213,6 +213,8 @@ public class MyPageController {
 		return "user/myPage/myReviewList";
 	}
 	
+<<<<<<< HEAD
+=======
 	
 	@PostMapping("/modifyMyRent")
 	public String modifyMyRent(HttpSession session
@@ -235,6 +237,7 @@ public class MyPageController {
 		
 		return "redirect:/myPage/myRentList";
 	}
+>>>>>>> refs/heads/develop
 	
 	@GetMapping("/modifyMyRent")
 	public String modifyMyRent(@RequestParam( value = "rentalCode", required=false) String rentalCode,
