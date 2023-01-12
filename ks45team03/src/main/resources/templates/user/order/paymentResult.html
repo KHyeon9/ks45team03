@@ -56,10 +56,10 @@
                         <thead>
                           <tr>
                             <th></th>
-                            <th>Product Name</th>
+                            <th>상품명</th>
                             <th></th>
-                            <th>Quantity</th>
-                            <th>Sub Total</th>
+                            <th>총 대여일</th>
+                            <th>총 가격</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -67,12 +67,11 @@
                             <td class="">
                               <span class="cartImage"><img src="/user/assets/img/products/cart-image1.jpg" alt="image"></span>
                             </td>
-                            <td class="">Italian Winter Hat</td>
+                            <td th:text="${rentalInfo.goodsName}" class="">Italian Winter Hat</td>
                             <td class=""></td>
-                            <td class="count-input">
-                              <input class="quantity" type="text" value="1" disabled>
+                            <td th:text="${dayGap} + ' 일'" class="count-input">
                             </td>
-                            <td class="">$ 99.00</td>
+                            <td th:text="${rentalInfo.payment.settlementAmount} + ' 원'" class="">$ 99.00</td>
                           </tr>
                         </tbody>
                       </table>
@@ -82,25 +81,24 @@
 
                 <div class="row shipping-info">
                   <div class="col-md-4">
-                    <h5>Shipping Address</h5>
-                    <address>
-                      <span>spanSn Dalim</span><br>
-                      <span>Shamoli, Dhaka 120, Bangladesh</span><br>
-                      <span>415-555-2671</span><br>
+                    <h5>결제 주소</h5>
+                    <address th:object="${rentalInfo}">
+                      <span th:text="*{sidoName} + ' ' + *{sigunguName}"></span><br>
+                      <span th:text="*{payment.userAddrDesc}"></span><br>
                     </address>
                   </div>
                   <div class="col-md-4">
-                    <h5>Shipping Method</h5>
-                    <p>
-                      <span>Standard Ground (USPS) - $7.50</span><br>
-                      <span>Delivered in 8-12 business days.</span>
+                    <h5>결제 정보</h5>
+                    <p th:object="${rentalInfo.payment}">
+                      <span th:text="*{paymentAgency} + ' ' + *{paymentType}">Credit Card: </span><br>
+                      <span th:text="'**** **** **** ' + *{#strings.substring(paymentAccountOrCardNumber,12, 16)}">*** **** **** 2641</span>
                     </p>
                   </div>
                   <div class="col-md-4">
-                    <h5>Payment Method</h5>
+                    <h5>결제 날짜</h5>
                     <p>
-                      Credit Card: <br>
-                      <span>*** **** **** 2641</span>
+                      <span th:text="'렌탈 시작일 : ' + ${rentalInfo.rentalStartDate}"></span><br>
+                      <span th:text="'렌탈 종료일 : ' + ${rentalInfo.rentalEndDate}"></span>
                     </p>
                   </div>
                 </div>

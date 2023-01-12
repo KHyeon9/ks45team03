@@ -35,6 +35,7 @@ public class OrderService {
 	// 결제
 	public int addOrder(Rental rental) throws ParseException {
 		
+		int result =  0;
 		
 		Payment paymentInfo = rental.getPayment();
 		
@@ -52,7 +53,7 @@ public class OrderService {
 		int saveMileage = (int) (amountExcludingMileage * saveMileageRate);
 		int settlementAmount = expectedPaymentAmount - commisionTotalPrice;
 		
-		int result = orderMapper.addRental(rental);
+		result += orderMapper.addRental(rental);
 		
 		String groupCodeDate =  orderMapper.getGroupCodeDate(rental.getRentalCode());
 		String milegeUseGroupCode = rental.getUserId() + "_결제완료_적립금_사용_" + groupCodeDate;
