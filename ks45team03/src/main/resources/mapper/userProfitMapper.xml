@@ -52,22 +52,140 @@
 	</resultMap>
 	
 	<resultMap type="Payment" id="PaymentResultMap">
-		<id property="paymentTime" column="payment_time"/>
-		<result property="userId" column="user_id"/>		
+		<id property="paymentTime" column="payment_time"/>	
+		<result property="userId" column="user_id"/>
+		<result property="paymentCode" column="payment_code"/>	
+		<result property="paymentTime" column="payment_time"/>				
 	</resultMap>
 	
-	<select id="getUserDayGroupCodeDate" parameterType="String" resultMap="PaymentResultMap">
-	/* 수익 일별 그룹코드 날짜 조회 */
+	<!-- 회원 일별수익 추가 관련 -->
+	
+	<update id="updateUserDayProfit">
+	/* 회원 일별 수익 업데이트 */
+	UPDATE tb_profit_day AS pd
+	SET 
+		pd.profit_day_total = ${userDayProfitTotal}
+	WHERE 
+		pd.profit_day_group = #{dayGroupCode};
+	</update>
+	
+	
+	<insert id="addFirstUserDayProfit">
+	/* 회원 일별 수익 처음 추가 */
+	INSERT INTO tb_profit_day
+	VALUE
+		(#{profitDayCode}, #{loginId}, #{profitSaveYearMonth}, ${settlementAmount}, #{dayGroupCode}, #{MonthGroupCode});	
+	</insert>
+	
+	
+	<select id="dayGroupCodeCount" parameterType="String" resultType="int">
+	/* 해당 일별수익 그룹코드가 몇개인지 확인 */
+	SELECT 
+		COUNT(1)
+	FROM 
+		tb_profit_day AS pd
+	WHERE 
+		pd.profit_day_group = #{dayGroupCode};		
+	</select>
+	
+	
+	<select id="getUserDayProfitTotal" resultType="int">
+	/* 일별 정산금 합계 */
+	SELECT 
+		MAX(pd.profit_day_total) + ${settlementAmount}
+	FROM 
+		tb_profit_day AS pd
+	WHERE 
+		pd.profit_day_group = #{dayGroupCode};
+	</select>
+	
+	
+	
+	
+	<!-- 회원 수익 추가 관련 -->
+	
+	<insert id="addtUserProfit">
+	/* 회원 수익 추가 */
+	INSERT INTO tb_profit
+	VALUE
+		(#{profitCode}, #{loginId}, #{paymentCode}, ${settlementAmount}, ${settlementAmount}, #{profitSaveTime},#{dayGroupCode});	
+	</insert>
+	
+	
+	<insert id="addFirstUserProfit">
+	/* 회원 수익 처음 추가 */
+	INSERT INTO tb_profit
+	VALUE
+		(#{profitCode}, #{loginId}, #{paymentCode}, ${settlementAmount}, ${totalProfit}, #{profitSaveTime},#{dayGroupCode});	
+	</insert>
+	
+	
+	<select id="getProfitUserCount" resultType="int">
+	/* 해당 회원의 수익이 수익목록에 존재하는지 확인 */
+	SELECT
+		COUNT(1)
+	FROM 
+		tb_profit AS p
+	WHERE 
+		p.user_id = #{loginId};
+	</select>
+	
+	
+	<select id="getUserProfitTotal" resultType="int">
+	/* 회원별 수익 총 정산금 조회 */
+	SELECT 
+		MAX(p.profit_total) + ${settlementAmount}
+	FROM 
+		tb_profit AS p
+	WHERE 
+		p.user_id = #{loginId};		
+	</select>
+	
+	
+	<select id="getUserPaymentInfo" parameterType="String" resultMap="PaymentResultMap">
+	/* 결제정보 목록 조회 */
+	SELECT
+		pay.payment_code		
+		,pay.payment_time 
+	FROM 
+		tb_payment AS pay
+	WHERE 
+		pay.payment_code = #{paymentCode};
+	</select>
+	
+	
+	
+	
+	
+	<!-- 회원 수익그룹코드 날짜 조회 -->
+	
+	<select id="getUserMonthGroupCodeDate" parameterType="String" resultType="String">
+	/* 월별 수익그룹코드 날짜 조회 */
 		SELECT 
-			REPLACE(SUBSTRING(pay.payment_time, 3, 8), '-','')
+			REPLACE(SUBSTRING(pay.payment_time, 3, 5),'-','')
 		FROM 
 			tb_payment AS pay
 		WHERE 
-			pay.user_id = #{loginId}
-		ORDER BY pay.payment_time DESC
-		LIMIT 1;	
+			pay.payment_code = #{paymentCode};	
 	</select>
 	
+	
+	
+	<select id="getUserDayGroupCodeDate" parameterType="String" resultType="String">
+	/* 일별 수익그룹코드 날짜 조회 */
+		SELECT 
+			REPLACE(SUBSTRING(pay.payment_time, 3, 8),'-','')
+		FROM 
+			tb_payment AS pay
+		WHERE 
+			pay.payment_code = #{paymentCode};	
+	</select>
+	
+	
+	
+	
+	
+	<!-- 화원 수익 목록 조회 -->
 	
 	<select id="getUserYearProfitList" resultMap="profitYearResultMap">
 	/* 회원 연별 수익 목록 조회 */
