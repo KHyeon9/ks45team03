@@ -213,13 +213,6 @@ public class MyPageController {
 		return "user/myPage/myReviewList";
 	}
 	
-<<<<<<< HEAD
-=======
-	@GetMapping("/myWishList")
-	public String myWishList(Model model) {
-		model.addAttribute("title","마이페이지 화면");
-		return "user/myPage/myWishList";
-	}
 	
 	@PostMapping("/modifyMyRent")
 	public String modifyMyRent(HttpSession session
@@ -243,8 +236,6 @@ public class MyPageController {
 		return "redirect:/myPage/myRentList";
 	}
 	
-	
->>>>>>> refs/heads/develop
 	@GetMapping("/modifyMyRent")
 	public String modifyMyRent(@RequestParam( value = "rentalCode", required=false) String rentalCode,
 							   Model model) {

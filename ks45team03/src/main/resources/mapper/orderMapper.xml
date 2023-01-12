@@ -300,10 +300,6 @@
 			pay.trade_status_code = tra.trade_status_code
 		WHERE
 			g.user_id = #{userId}
-<<<<<<< HEAD
-=======
-		
->>>>>>> refs/heads/develop
 		ORDER BY
 			CAST(SUBSTRING(ren.rental_code,7) AS UNSIGNED)
 	</select>
