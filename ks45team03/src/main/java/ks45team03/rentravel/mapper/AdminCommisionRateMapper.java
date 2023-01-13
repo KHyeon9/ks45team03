@@ -25,7 +25,7 @@ public interface AdminCommisionRateMapper {
 	public int getCommisionRateListCnt();
 	
 	/* 플랫폼 수수료율 목록 조회 */
-	public List<CommisionRate> adminGetCommisionRateList(Map<String, Object> paramMap);
+	public List<CommisionRate> adminGetCommisionRateList(int startIndex, int pageSize);
 	
 	
 }

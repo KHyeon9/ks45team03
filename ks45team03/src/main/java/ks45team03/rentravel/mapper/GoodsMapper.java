@@ -10,9 +10,9 @@ import ks45team03.rentravel.dto.GoodsImg;
 @Mapper
 public interface GoodsMapper {
 	
-	public List<Goods> getGoodsListNotLogin(int startIndex, int pageSize);
+	public List<Goods> getGoodsListNotLogin(int startIndex, int pageSize, String goodsCategoryCode,String searchKey, String searchValue, String goodsRentalAvailability);
 	
-	public List<Goods> getGoodsList(String loginId, int startIndex, int pageSize);
+	public List<Goods> getGoodsList(String loginId, int startIndex, int pageSize, String goodsCategoryCode,String searchKey, String searchValue, String goodsRentalAvailability);
 	
 	public List<GoodsImg> getGoodsImg(String goodsCode);
 	
@@ -24,7 +24,15 @@ public interface GoodsMapper {
 	
 	public List<Goods> getGoodsCategoryAndCount();
 	
-	public int getGoodsListCount();
+	public int getGoodsListCount(String goodsCategoryCode, String searchKey, String searchValue, String goodsRentalAvailability);
 	
 	public List<Goods> getGoodsListByGoodsCategory(String goodsCategoryCode);
+	
+	public List<Goods> getGoodsListByUserId(String userId, String goodsCode);
+	
+	public int removeGoods(String goodsCode);
+	
+	public List<Goods> getMyGoodsList(String loginId,int startIndex, int pageSize);
+	
+	public int getMyGoodsListCount(String loginId);
 }

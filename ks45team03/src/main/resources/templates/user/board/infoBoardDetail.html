@@ -3,6 +3,17 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 	  
+	  <head>
+	  	<style type="text/css">
+	  		.carousel-control-prev-icon{
+	  			filter: invert(40%) sepia(84%) saturate(381%) hue-rotate(178deg) brightness(95%) contrast(91%);
+	  		}
+	  		.carousel-control-next-icon{
+	  			filter: invert(40%) sepia(84%) saturate(381%) hue-rotate(178deg) brightness(95%) contrast(91%);
+	  		}
+	  	
+	  	</style>
+	  </head>
 	  <th:block layout:fragment="customContents">
 		<!-- LIGHT SECTION -->
 		<section class="lightSection clearfix pageHeader">
@@ -88,8 +99,27 @@
 		              </div>
 		              <div class="col-md-9 order-md-1">
 		                <h3 th:text="${infoBoardDetail.infoBoardTitle}"></h3>
-		                <img src="/user/assets/img/blog/blog-01.jpg" alt="blog-image">
-		                <p th:text="${infoBoardDetail.infoBoardContent}"></p>
+		                <!-- 캐러셀 시작 -->
+		                <!-- data-ride="carousel" -->
+						<div th:unless ="${#lists.isEmpty(infoBoardImgList)}" id="carouselExampleControls" class="carousel slide" >
+						  <div class="carousel-inner">
+						  	<th:block th:each="img, index : ${infoBoardImgList}">						  	
+							    <div class="carousel-item" th:classappend="${index.index == 0}? 'active'">
+							      <img th:src="@{|/files/${img}|}" class="d-block w-100" alt="blog-image">
+							    </div>
+						  	</th:block>
+						  </div>
+						  <a class="carousel-control-prev" href="#carouselExampleControls" role="button"  data-slide="prev">
+						    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						    <span class="sr-only">Previous</span>
+						  </a>
+						  <a class="carousel-control-next" href="#carouselExampleControls" role="button"  data-slide="next">
+						    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						    <span class="sr-only">Next</span>
+						  </a>
+						</div>
+						<!-- 캐러셀 종료 -->
+		                <p th:utext="${infoBoardDetail.infoBoardContent}"></p>
 		              </div>
 		            </div>
 		          </div>
@@ -107,7 +137,7 @@
 		            <th:block th:if="${commentCnt != 0}" th:unless="${#lists.isEmpty(commentList)}" th:each="comm : ${commentList}">
 		            	<div class="media flex-wrap commentInfo">
 			              <a class="media-left" href="#">
-			                <img class="media-object" src="/user/assets/img/blog/avatar.jpg" alt="Image">
+			                <img class="media-object" th:src="@{/user/assets/img/blog/avatar.jpg}" alt="Image">
 			              </a>
 			              <div class="media-body">
 			                <h4 class="media-heading" th:text="${comm.userNickName}"></h4>
@@ -195,6 +225,7 @@
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
+			/* console.log('>>>>>>>>',$('.carousel-control-prev-icon').css('background-image',`url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%230d59ab' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e")`)); */
 			$('.modifyInfoBoard').click(function(){
 				location.href='/infoboard/modifyInfoBoard?infoBoardCode=' + $(this).attr('data-infoboard-code');
 			})
@@ -205,13 +236,14 @@
 					action:'/infoboard/removeInfoBoard',
 					method:'POST'
 				});
-				deleteForm.append('<input />', {
+				deleteForm.append($('<input />', {
 					value: $(this).data('infoboardCode'),
 					name: 'infoboardCode',
 					type: 'hidden'
-				})
+				}));
+				deleteForm.appendTo('body');
 				
-				$('body').appendTo(deleteForm);
+				//$('body').appendTo(deleteForm);
 				
 				deleteForm.submit();
 			})

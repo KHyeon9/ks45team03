@@ -1,8 +1,9 @@
 package ks45team03.rentravel.admin.controller;
 
 import java.util.List;
-import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks45team03.rentravel.admin.service.AdminOrderService;
-import ks45team03.rentravel.dto.InfoBoard;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.Return;
+import ks45team03.rentravel.dto.TradeStatus;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
 import ks45team03.rentravel.mapper.AdminOrderMapper;
@@ -26,6 +27,7 @@ public class AdminOrderController {
 	
 	private final AdminOrderService adminOrderService;
 	private final AdminOrderMapper adminOrderMapper;
+	private static final Logger log = LoggerFactory.getLogger(AdminOrderController.class);
 	
 	public AdminOrderController(AdminOrderService adminOrderService, AdminOrderMapper adminOrderMapper) {
 		this.adminOrderService = adminOrderService;
@@ -77,6 +79,8 @@ public class AdminOrderController {
 								   Model model) {
 		int ownerWaybillCnt = adminOrderMapper.getOwnerWaybillCnt();
 		int renterWaybillCnt = adminOrderMapper.getRenterWaybillCnt();
+		
+		log.info("{} {} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" , ownerCurPage, renterCurPage);
 		
 		Pagination paginationOwner = new Pagination(ownerWaybillCnt, ownerCurPage);
 		Pagination paginationRenter = new Pagination(renterWaybillCnt, renterCurPage);
@@ -154,12 +158,29 @@ public class AdminOrderController {
 		return "admin/order/adminRentalcancelHistory";
 	}
 	
+	// 주문 취소 내역 수정 post
+	@PostMapping("/adminRentalcancelModify")
+	public String adminRentalcancelModify(RentalCancel rentalCancel,
+										  Model model) {
+		adminOrderService.modifyRentalCancel(rentalCancel);
+		
+		return "redirect:/admin/order/adminRentalcancelHistory";
+	}
+	
+	// 주문 취소 내역 수정 get
 	@GetMapping("/adminRentalcancelModify")
-	public String adminRentalcancelModify(Model model) {
+	public String adminRentalcancelModify(@RequestParam(value = "rentalCancelCode", required = false) String rentalCancelCode,
+										  Model model) {
+		RentalCancel rentalCancelInfo = adminOrderService.getRentalCancel(rentalCancelCode);		
+		
 		model.addAttribute("title","관리자 주문 취소 수정");
+		model.addAttribute("rentalCancelInfo", rentalCancelInfo);
+		
+		
 		return "admin/order/adminRentalcancelModify";
 	}
 	
+	// 반납 내역 리스트 조회
 	@GetMapping("/adminReturnHistory")
 	public String adminReturnHistory(@RequestParam(value="curPage", defaultValue="1", required=false) int curPage,
 								      Model model) {
@@ -168,17 +189,33 @@ public class AdminOrderController {
 		Pagination pagination = new Pagination(listCnt, curPage);
 		List<Return> returnHistory = adminOrderMapper.getReturnHistory(pagination.getStartIndex(), pagination.getPageSize());
 		
-		model.addAttribute("title","관리자 환불 리스트");
+		model.addAttribute("title","관리자 반납 리스트");
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("returnHistory", returnHistory);;
 		
 		return "admin/order/adminReturnHistory";
 	}
 	
+	// 주문 반납 정보 수정 get
 	@GetMapping("/adminReturnModify")
-	public String adminReturnModify(Model model) {
-		model.addAttribute("title","관리자 환불 수정");
+	public String adminReturnModify(@RequestParam(value="returnCode", required=false) String returnCode,
+									Model model) {
+		List<TradeStatus> tradeStatusList = adminOrderMapper.getTradeStateList();
+		Return returnInfo = adminOrderService.getReturn(returnCode);
 		
-		return "admin/order/adminReturnModify";
+		model.addAttribute("title","관리자 반납 수정");
+		model.addAttribute("tradeStatusList", tradeStatusList);
+		model.addAttribute("returnInfo", returnInfo);
+		
+		return "/admin/order/adminReturnModify";
+	}
+	
+	// 주문 반납 정보 수정 get
+	@PostMapping("/adminReturnModify")
+	public String adminReturnModify(Return returnInfo) {
+		
+		adminOrderService.modifyReturn(returnInfo);
+		
+		return "redirect:/admin/order/adminReturnHistory";
 	}
 }

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="ks45team03.rentravel.mapper.WishMapper">
+
+	<resultMap type="Wish" id="wishResultMap">
+
+			<id property="wishCode" 			column="wish_code"/>
+			<result property="userId" 		column="user_id"/>
+			<result property="goodsCode" 		column="goods_code"/>
+			<result property="wishExpirationPeriodStart" 		column="wish_expiration_period_start"/>
+			<result property="wishExpirationPeriodEnd" 		column="wish_expiration_period_end"/>
+			
+		<association property="goods" javaType="Goods" >
+		
+			<id property="goodsCode" 			column="goods_code"/>
+			<result property="goodsName" 		column="goods_name"/>
+			<result property="userId" 	column="user_id"/>
+			<result property="goodsRentalAvailability" 	column="goods_rental_availability"/>
+			<result property="goodsValuePrice" 	column="goods_value_price"/>
+			<result property="goodsPurchaseDate" 	column="goods_purchase_date"/>
+			<result property="goodsDayPrice" 	column="goods_day_price"/>
+			<result property="commisionRateCode" 	column="commision_rate_code"/>
+			<result property="commisionRate" 	column="commision_rate"/>
+			<result property="goodsCommisionDayPrice" 	column="goods_commision_day_price"/>
+			<result property="goodsDetail" 	column="goods_detail"/>
+			<result property="goodsRegDate" 	column="goods_reg_date"/>
+			<result property="regionSggCode" 	column="region_sgg_code"/>
+			<result property="goodsState" 	column="goods_state"/>
+			
+			<result property="goodsCategoryCode" 		column="goods_category_code"/>
+			<result property="goodsCategoryName" 	column="goods_category_name"/>
+			<result property="countByCategory" 	column="count_by_category"/>
+			<result property="userRegion" 	column="user_region"/>
+			
+			<result property="userNickname" 	column="user_nickname"/>
+			
+		</association>
+		
+	</resultMap>
+<!-- 	
+	<resultMap type="AlarmWish" id="alarmWishResultMap">
+			<id property="alarmWishCode" 			column="alarm_wish_code"/>
+			<result property="userId" 		column="user_id"/>
+			<result property="goodsCode" 		column="goods_code"/>
+	</resultMap>
+ -->
+	<select id="getWishList" resultMap="wishResultMap">
+	
+		SELECT
+			w.wish_code
+			,w.goods_code
+			,g.goods_name
+			,gc.goods_category_name
+			,g.goods_rental_availability
+			,g.goods_day_price
+			,CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
+		FROM
+			tb_wish AS w
+		JOIN
+			tb_goods AS g
+		ON
+			w.goods_code = g.goods_code
+		JOIN
+			tb_goods_category AS gc
+		ON 
+			gc.goods_category_code = g.goods_category_code
+		JOIN
+			tb_region_sgg AS rsgg
+		ON
+			rsgg.region_sgg_code = g.region_sgg_code
+		JOIN
+			tb_region_sido AS rsido
+		ON
+			rsido.region_sido_code = rsgg.region_sido_code
+		WHERE
+			g.goods_state ='activate'
+			and
+			w.user_id = #{loginId}
+		ORDER BY
+			w.wish_expiration_period_start desc
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
+	
+	</select>
+
+	<select id="getWishListCount" resultType="int">
+	
+		select
+			count(1)
+		from 
+			tb_wish as w
+		join
+			tb_goods as g
+		on
+			g.goods_code = w.goods_code
+		where
+			g.goods_state ='activate'
+			and
+			w.user_id = #{loginId};
+	
+	</select>
+	
+	<insert id="addWish" parameterType="String">
+	
+		INSERT INTO tb_wish
+			(wish_code, user_id, goods_code, wish_expiration_period_start, wish_expiration_period_end)
+		VALUES
+			(#{wishCode},#{loginId},#{goodsCode},NOW(),DATE_ADD(NOW(), INTERVAL 6 MONTH));	
+	
+	</insert>
+	
+	<select id="checkWish" resultType="int">
+	
+		SELECT
+			COUNT(1)
+		FROM
+			tb_wish
+		WHERE
+			USER_id = #{loginId}
+			and
+			goods_code = #{goodsCode};
+		
+	</select>
+	
+	<delete id="removeAlarmWish">
+		delete
+		FROM
+			tb_alarm_wish 
+		where
+			user_id = #{loginId}
+			and
+			goods_code = #{goodsCode};
+	</delete>
+	
+	<delete id="removeWish">
+		delete
+		FROM
+			tb_wish 
+		where
+			user_id = #{loginId}
+			and
+			goods_code = #{goodsCode};
+	</delete>
+</mapper>

@@ -96,7 +96,7 @@
 	                <a th:href="@{/}">Home</a>
 	              </li>
 	              <li>
-	                <a th:href="@{/}">Room</a>
+	                <a th:href="@{/room}">ChatRoom List</a>
 	              </li>
 	              <li class="active">Chat</li>
 	            </ol>
@@ -110,10 +110,10 @@
 				<div class="col-sm-12">
 					<div class="innerWrapper">
 						<div class="orderBox myAddress wishList">
-							<h2 th:if="${loginUser.loginId.equals(chatRoomInfo.ownerId)}"
-								th:text="|Chatting with ${chatRoomInfo.renterId}|"></h2>
-							<h2 th:if="${loginUser.loginId.equals(chatRoomInfo.renterId)}"
-								th:text="|Chatting with ${chatRoomInfo.ownerId}|"></h2>
+							<h2 th:if="${loginUser.loginNickName.equals(chatRoomInfo.ownerNickname)}"
+								th:text="|Chatting with ${chatRoomInfo.renterNickname}|"></h2>
+							<h2 th:if="${loginUser.loginNickName.equals(chatRoomInfo.renterNickname)}"
+								th:text="|Chatting with ${chatRoomInfo.ownerNickname}|"></h2>
 
 							<input type="hidden" id="sessionId" value=""> <input
 								th:object="${chatRoomInfo}" type="hidden" id="chatRoomCode"

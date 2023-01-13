@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	<head>
+		<style type="text/css">
+			th, td {
+				text-align: center !important;
+			}
+		</style>
+	</head>	  
+	
+	<th:block layout:fragment="customContents">
+	  <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>MY MONTH PROFIT LIST</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                <li>
+                  <a th:href="@{/myPage/myInfo}">myInfo</a>
+                </li>
+                <li>
+                  <a th:href="@{/myPage/myProfitList}">MY PROFIT LIST</a>
+                </li>
+                <li class="active">MY MONTH PROFIT LIST</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+	  <!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix userProfile">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="btn-group" role="group" aria-label="..." style="float: right";>
+                <a th:href="@{/myPage/myProfitListDay}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
+                <a th:href="@{/myPage/myProfitListMonth}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
+                <a th:href="@{/myPage/myProfitListYear}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>연별 수익</a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="innerWrapper">
+                <div class="orderBox myAddress wishList">
+                   <h2 th:text="${loginNickName} + '님 MONTH PROFIT LIST'"></h2>
+                   <form th:action="@{/myPage/myProfitListMonth}" method="get">                            
+                  	<div class="form-group row">
+						<div class="col-md-3">						
+							<input class="form-control" name="searchYear" type="text" placeholder="년도">
+						</div>
+						<div class="col-md-3 selectOptions ">
+							<select name="searchMonth" class="form-control select-drop">
+								<option value="01">1월</option>
+								<option value="02">2월</option>
+								<option value="03">3월</option>
+								<option value="04">4월</option>
+								<option value="05">5월</option>
+								<option value="06">6월</option>
+								<option value="07">7월</option>
+								<option value="08">8월</option>
+								<option value="09">9월</option>
+								<option value="10">10월</option>
+								<option value="11">11월</option>
+								<option value="11">12월</option>								
+							</select>
+						</div>
+						
+						<button type="submit" class="btn btn-primary btn-lg">조회</button>
+					</div>
+					
+					</form>
+                  <div class="table-responsive" >
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>정산금획득년월</th>
+                          <th>월별 정산금 합계</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:unless="${#lists.isEmpty(getUserMonthProfitList)}" th:each="pm : ${getUserMonthProfitList}">                     
+                          <td th:text="${pm.userId}"></td>
+                          <td th:text="${pm.profitSaveYearMonth}"></td>
+                          <td th:text="${pm.profitMonthTotal}"></td>       
+                        </tr>
+                       <tr th:if="${#lists.isEmpty(getUserMonthProfitList)}">
+                       		<td colspan="4">등록된 월별 수익이 없습니다.</td>
+                       </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                 <!-- 페이징 -->
+      			<div style="margin-top: 50px; display: flex; justify-content: center;" class="blogPage">
+		          <div class="col-sm-6">
+							<div class="text-left">
+								<ul class="pagination" style="justify-content: center;">
+									<li th:if="${pagination.curRange != 1}">
+										<a th:href="@{/myPage/myProfitListMonth}" aria-label="First"><span aria-hidden="true"><<</span></a>
+									</li>
+									<li th:if="${pagination.curPage != 1}">
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+									</li>
+									
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+										<li class="active" th:if="${pageNum == pagination.curPage}">
+											<a th:text="${pageNum}"></a>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+											<a th:href="@{/myPage/myProfitListMonth(curPage=${pageNum})}" th:text="${pageNum}"></a>
+										</li>
+									</th:block>
+
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+									</li>
+									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+		        </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+	</th:block>
+</html>

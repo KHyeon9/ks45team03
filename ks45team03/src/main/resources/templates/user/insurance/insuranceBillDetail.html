@@ -2,81 +2,117 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
-	  
+
 	  <th:block layout:fragment="customContents">
+	  	<style>
+	  	.table-bordered {
+			margin-bottom: 4rem;
+		}
+	  	
+		.table-bordered th {
+			background-color: #f0f0f0;
+		}
+		.text-end {
+ 			 text-align: right !important;
+
+		}
+		
+		
+		@media screen and (max-width: 800px) {				
+			.iconInsuranceProcess {
+				display: none;
+			}
+			
+		}
+		    		
+	</style>
 	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
 	 	<!-- MAIN CONTENT SECTION -->
-	      <section class="mainContent clearfix blogPage">
+	      <section class="mainContent clearfix blogPage"   th:if="${not #lists.isEmpty(insuranceBillDetail)}" th:each="l: ${insuranceBillDetail}">
 	        <div class="container">
-	        	<div class="row float-right">
-	        		<button class="btn btn-primary-outlined btn-sm" style="margin: 5px;">수정</a></button>
-	        		<button class="btn btn-primary-outlined btn-sm"  style="margin: 5px;">삭제</button>
+	        	<div class="col-md-12 row" style="margin:0; padding:0;">
+		        	<h1>보험금청구접수증</h1>
+		        	<div style="margin-left:auto;">
+	        			<a th:href="@{/insurance/insuranceModifyBill(insuranceBillDetailCode=${l.insuranceBillDetailCode})}" class="btn btn-primary-outlined btn-md" style="margin-right: 5px;">수정</a>
+	        			<a th:href="@{/insurance/insuranceRemoveBill}" class="btn btn-primary-outlined btn-md" style="margin-right:0">삭제</a>
+	        		</div>
 	        	</div>
-		        	<h1 style="font-style: italic;">보험금 청구 접수증</h1>
-	        	<hr class="my-4"><br/>
-	        	
-	      			<div class="form-group row">
-						<label for="example-text-input" class="col-md-2 col-form-label">보험코드</label>
-						<label for="example-text-input" class="col-md-2 col-form-label">상품코드</label>
-						<label for="example-text-input" class="col-md-2 col-form-label">상품명</label>
-						<label for="example-text-input" class="col-md-2 col-form-label">상품정보</label>
-                    </div>
-	      			
-	      			<br/><h4>1. 인적사항</h4><br/>
-						<div class="form-group row">
-							<label for="example-text-input" class="col-md-2 col-form-label">성명</label>
-							<div class="col-md-10">
-								<p>홍길동</p>
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">이메일</label>
-							<div class="col-md-10">
-								<p>id001@email.com</p>
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">연락처</label>
-							<div class="col-md-10">
-								<p>000-0000-0000</p>
-							</div>
-						</div>
-					
-						<br/><h4>2. 사고사항</h4><br/>
-						<div class="form-group row">
-							<label for="example-text-input" class="col-md-2 col-form-label">사고유형</label>
-							<div class="col-md-10">
-								<p>분실</p>
-							</div>
-							<label for="example-datetime-local-input" class="col-md-2 col-form-label">사고일시</label>
-							<div class="col-md-10">
-								<p>2023-01-06</p>
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">사고내용</label>
-							<div class="col-md-10">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-							</div>
-						</div>
-						
-						<br/><h4>3. 계좌정보</h4><br/>
-						<div class="form-group row">
-							<label for="example-text-input" class="col-md-2 col-form-label">은행</label>
-							<div class="col-md-10">
-								<p>국민</p>
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">계좌번호</label>
-							<div class="col-md-10">
-								<p>756402-01-156402</p>
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">예금주</label>
-							<div class="col-md-10">
-								<p>홍길동</p>
-							</div>
-						</div>
-						<br/><br/><br/><br/><br/><br/><br/><br/>
-						<h4 class="text-center">2023-01-06</h4>
-						<h4 class="text-right">피보험자:			홍길동</h4>
-					
-							
-							
-				</div>
 
+			    <div class="col-md-12"
+			    		style="border: 1px solid #dee2e6; padding: 5rem; margin-top: 2rem;">
+			    	<h4>01. 인적사항</h4><br/>
+				    <table class="table table-bordered">
+			            <tr class="text-center" >
+			                <th class="col-md-3">성명</th>
+			             <th:block th:object="${l.user}">
+			                <td class="col-md-3" th:text="*{userName}"></td>
+						 </th:block>
+			                <th class="col-md-3">이메일</th>
+						 <th:block th:object="${l.user}">
+			                <td class="col-md-3" th:text="*{userEmail}"></td>
+						 </th:block>
+			            </tr>
+			            <tr class="text-center">
+			            	<th>연락처</th>
+			                <th:block th:object="${l.user}">
+			                	<td class="col-md-3" th:text="*{userPhoneNumber}"></td>
+						 	</th:block>
+			                <th>주소</th>
+			                <th:block th:object="${l.user}">
+			                	<td class="col-md-3" th:text="*{userAddrDesc}"></td>
+						 	</th:block>
+			            </tr>
+			          </table>
+			          <h4>02. 사고사항</h4><br/>
+			          <table class="table table-bordered">
+			            <tr class="text-center">
+			                <th class="col-md-3">사고유형</th>
+			                <td class="col-md-3" th:text="${l.accidentType}"></td>
+			                <th class="col-md-3">사고일시</th>
+			                <td class="col-md-3" th:text="${l.accidentDate}"></td>
+			            </tr>
+			            <tr class="text-center">
+			            	<th class="col-md-3">사고내용</th>
+			                <td colspan="3" th:text="${l.accidentContent}"></td>
+			            </tr>
+			           </table>
+			           <h4>03. 계좌정보</h4><br/>
+			           <table class="table table-bordered">
+			            <tr class="text-center">
+			                <th class="col-md-2">은행명</th>
+			                <td class="col-md-2" th:text="${l.bankName}"></td>
+			                <th class="col-md-2">예금주</th>
+			                <td class="col-md-2" th:text="${l.accountHolder}"></td>
+			                <th class="col-md-2">계좌번호</th>
+			                <td class="col-md-2" th:text="${l.accountNumber}"></td>
+			            </tr>
+				      </table>
+				      <h4>04. 보험정보</h4><br/>
+				      <table class="table table-bordered">
+			            <tr class="text-center">
+			                <th class="col-md-3">보험코드</th>
+			                <td class="col-md-3"  th:text="${l.insuranceCode}"></td>
+			                <th class="col-md-3">청구서코드</th>
+			                <td class="col-md-3"  th:text="${l.insuranceBillDetailCode}"></td>
+			            </tr>
+			            <tr class="text-center">
+			            	<th class="col-md-3">상품코드</th>
+			                <td class="col-md-3" th:text="${l.goodsCode}"></td>
+			                <th class="col-md-3">상품명</th>
+			                <th:block th:object="${l.goods}">
+			                	<td class="col-md-3" th:text="*{goodsName}"></td>
+			                </th:block> 	
+			            </tr>
+			          </table>
+			          <h4>05. 개인정보이용동의</h4><br/>
+			          <div class="form-check ">
+						<input id="checkbox-5" class="checkbox-custom form-check-input" name="checkbox-5" type="checkbox" checked disabled>
+						<label for="checkbox-5" class="checkbox-custom-label form-check-label disable-checked">동의</label>
+					</div>
+					<h4 class="text-center" th:text="${l.requestDate}"></h4><br/>
+					<h4 class="text-end">작성자: 홍길동</h4><br/>
+					</div>
+				</div>
 	      </section>
 	  </th:block>
 	  <th:block layout:fragment="customScript">

@@ -21,11 +21,16 @@ public class Goods {
 	private int goodsCommisionDayPrice;
 	private String goodsDetail;
 	private String goodsRegDate;
+	private String goodsState;
 	
 	
 	private String countByCategory;
 	
 	private String goodsCategoryName;
+	
+	private String userRegion;
+	
+	private String userNickname;
 
 	
 }

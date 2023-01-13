@@ -16,32 +16,32 @@ import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
+import ks45team03.rentravel.dto.Search;
 import ks45team03.rentravel.mapper.GoodsMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.user.service.GoodsService;
-
+import ks45team03.rentravel.user.service.WishService;
+import lombok.AllArgsConstructor;
 
 @Controller
 @RequestMapping("/goods")
+@AllArgsConstructor
 public class GoodsController {
 	
-	private static final Logger log = LoggerFactory.getLogger(GoodsController.class);
-
 	private final GoodsService goodsService;
-	private final GoodsMapper goodsMapper;
-	
-	public GoodsController(GoodsService goodsService, UserBlockMapper userBlockMapper, GoodsMapper goodsMapper) {
-			this.goodsService = goodsService;
-			this.goodsMapper = goodsMapper;
-}
+	private final WishService wishService;
 	
 	@GetMapping("/goodsList")
 	public String goodsList(Model model
 							,HttpSession session
-							,@RequestParam(defaultValue="1", required=false) int curPage) {
+							,@RequestParam(defaultValue="1", required=false) int curPage
+							,@RequestParam(defaultValue="all", required = false) String goodsCategoryCode
+							,@RequestParam(value="searchKey", required = false, defaultValue = "") String searchKey
+							,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue
+							,@RequestParam(value="goodsRentalAvailability", required = false, defaultValue = "") String goodsRentalAvailability) {
 		
-		int goodsListCount = goodsService.getGoodsListCount();
-		Pagination pagination = new Pagination(goodsListCount, curPage);
+		int goodsListCount = goodsService.getGoodsListCount(goodsCategoryCode, searchKey, searchValue,goodsRentalAvailability);
+		Pagination pagination = new Pagination(goodsListCount, curPage,goodsCategoryCode);
 		
 		int startIndex = pagination.getStartIndex();
 		int pageSize = pagination.getPageSize();
@@ -49,19 +49,25 @@ public class GoodsController {
 		List<Goods> goodsCategoryAndCount = goodsService.getGoodsCategoryAndCount();
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
+		Search searchResult = new Search();
+		searchResult.setSearchKey(searchKey);
+		searchResult.setSearchValue(searchValue);
+		
 		if(loginUser == null) {
 			
-			List<Goods> goodsList = goodsMapper.getGoodsListNotLogin(startIndex, pageSize);
+			List<Goods> goodsList = goodsService.getGoodsListNotLogin(startIndex, pageSize,goodsCategoryCode,searchKey,searchValue,goodsRentalAvailability);
 			model.addAttribute("goodsList", goodsList);
 			model.addAttribute("pagination", pagination);
+			model.addAttribute("searchResult", searchResult);
 			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
 			model.addAttribute("title", "상품 리스트 화면");
 			
 		}else {
 			
-			List<Goods> goodsList = goodsService.getGoodsList(loginUser.getLoginId(), startIndex, pageSize);
+			List<Goods> goodsList = goodsService.getGoodsList(loginUser.getLoginId(), startIndex,pageSize, goodsCategoryCode,searchKey,searchValue, goodsRentalAvailability);
 			model.addAttribute("goodsList", goodsList);
 			model.addAttribute("pagination", pagination);
+			model.addAttribute("searchResult", searchResult);
 			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
 			model.addAttribute("title", "상품 리스트 화면");
 		
@@ -74,13 +80,32 @@ public class GoodsController {
 	
 	@GetMapping("/goodsDetail")
 	public String goodsDetail(Model model
-							 ,@RequestParam(value="goodsCode") String goodsCode) {
+							 ,@RequestParam(value="goodsCode") String goodsCode
+							 ,@RequestParam(value="userId") String userId
+							 ,HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String loginId =null;
+		
+		if(loginUser != null) {
+			loginId = loginUser.getLoginId();
+		}
+		
+		int checkWish = wishService.checkWish(goodsCode, loginId);
 		
 		List<GoodsImg> goodsImg = goodsService.getGoodsImg(goodsCode);
 		Goods goodsDetail = goodsService.getGoodsDetailByGoodsCode(goodsCode);
 		
+		
+		
+		
+		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
+		 
+		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("goodsDetail",goodsDetail);
+		model.addAttribute("checkWish",checkWish);
+		model.addAttribute("goodsListByUserId",goodsListByUserId);
 		model.addAttribute("title","상품 상세 정보 화면");
 		
 		return "user/goods/goodsDetail";
@@ -101,8 +126,10 @@ public class GoodsController {
 	public String modifyGoods(Goods goods) {
 		
 		goodsService.modifyGoods(goods);
+		String goodsCode = goods.getGoodsCode();
+		String userId = goods.getUserId();
 		
-		return "redirect:/goods/goodsList";
+		return "redirect:/goods/goodsDetail?userId="+userId+"&goodsCode="+goodsCode;
 	}
 	
 	@GetMapping("/addGoods")
@@ -115,6 +142,14 @@ public class GoodsController {
 	public String addGoods(Goods goods) {
 		
 		goodsService.addGoods(goods);
+		
+		return "redirect:/goods/goodsList";
+	}
+	
+	@PostMapping("/removeGoods")
+	public String removeGoods(@RequestParam(value="goodsCode") String goodsCode) {
+		
+		goodsService.removeGoods(goodsCode);
 		
 		return "redirect:/goods/goodsList";
 	}

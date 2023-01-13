@@ -30,7 +30,7 @@ public class AdminInsuranceController {
 	@GetMapping("/adminInsuranceList")
 	public String adminGetInsuranceList(Model model) {
 		
-		List<Insurance> adminInsuranceList = adminInsuranceService.adminGetInsuranceList();
+		List<Insurance> adminInsuranceList = adminInsuranceMapper.adminGetInsuranceList();
 		
 		model.addAttribute("title", "보험가입정보");
 		model.addAttribute("adminInsuranceList", adminInsuranceList);
@@ -42,7 +42,7 @@ public class AdminInsuranceController {
 	@GetMapping("/adminInsuranceBillList")
 	public String adminGetInsuranceBillList(Model model) {
 		
-		List<InsuranceBill> adminInsuranceBillList = adminInsuranceService.adminGetInsuranceBillList();
+		List<InsuranceBill> adminInsuranceBillList = adminInsuranceMapper.adminGetInsuranceBillList();
 		
 		model.addAttribute("title", "보험청구서");
 		model.addAttribute("adminInsuranceBillList", adminInsuranceBillList);
@@ -53,7 +53,7 @@ public class AdminInsuranceController {
 	@GetMapping("/adminInsuranceBillDetail")
 	public String adminGetInsuranceBillDetail(Model model) {
 		
-		List<InsuranceBillDetail> adminInsuranceBillDetail = adminInsuranceService.adminGetInsuranceBillDetail();
+		List<InsuranceBillDetail> adminInsuranceBillDetail = adminInsuranceMapper.adminGetInsuranceBillDetail();
 		
 		model.addAttribute("title", "보상금청구서상세화면");
 		model.addAttribute("adminInsuranceBillDetail", adminInsuranceBillDetail);
@@ -86,7 +86,7 @@ public class AdminInsuranceController {
 	@GetMapping("/adminInsurancePayoutList")
 	public String adminGetInsurancePayoutList(Model model) {
 		
-		List<InsurancePayout> adminInsurancePayoutList = adminInsuranceService.adminGetInsurancePayoutList();
+		List<InsurancePayout> adminInsurancePayoutList = adminInsuranceMapper.adminGetInsurancePayoutList();
 		
 		model.addAttribute("title", "보상금지급내역");
 		model.addAttribute("adminInsurancePayoutList", adminInsurancePayoutList);

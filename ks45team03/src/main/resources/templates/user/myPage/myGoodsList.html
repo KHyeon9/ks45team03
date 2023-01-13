@@ -10,7 +10,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="page-title">
-                <h2>MY ITEM</h2>
+                <h2>MY ITEMS</h2>
               </div>
             </div>
             <div class="col-md-6">
@@ -21,7 +21,7 @@
                 <li>
                   <a th:href="@{/myPage/myInfo}">myInfo</a>
                 </li>
-                <li class="active">MY ITEM</li>
+                <li class="active">MY ITEMS</li>
               </ol>
             </div>
           </div>
@@ -29,180 +29,118 @@
       </section>
 	
 	  <!-- MAIN CONTENT SECTION -->
-      <section class="mainContent clearfix productsContent">
+      <section class="mainContent clearfix userProfile">
         <div class="container">
           <div class="row">
-            <div class="col-lg-3 col-md-4 sideBar">
-              <div class="panel panel-default">
-                <div class="panel-heading">Product categories</div>
-                <div class="panel-body">
-                  <div class="collapse navbar-collapse navbar-ex1-collapse navbar-side-collapse">
-                    <ul class="nav navbar-nav side-nav" id="accordion2" role="tablist" aria-multiselectable="true">
-                      <li>
-                        <div class="" role="tab" id="heading1">
-                          <a href="javascript:;" data-toggle="collapse" aria-expanded="true" data-target="#women"
-                            aria-controls="women">Women <i class="fa fa-plus"></i></a>
-                        </div>
-                    
-                        <ul id="women" class="collapse collapseItem show" role="tabpanel" aria-labelledby="heading1"
-                          data-parent="#accordion2">
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Accessories <span>(6)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bag <span>(6)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cloths <span>(25)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bed &amp; Bath <span>(2)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Swimming costume <span>(5)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Sport Tops &amp; Shoes <span>(3)</span></a>
-                          </li>
-                        </ul>
-                      </li>
-                    
-                      <li>
-                        <div class="" role="tab" id="heading2">
-                          <a href="javascript:;" data-toggle="collapse" aria-expanded="false" data-target="#men" aria-controls="men">Men <i
-                              class="fa fa-plus"></i></a>
-                        </div>
-                    
-                        <ul id="men" class="collapse collapseItem" role="tabpanel" aria-labelledby="heading2" data-parent="#accordion2">
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Accessories <span>(6)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bag <span>(6)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cloths <span>(25)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bed &amp; Bath <span>(2)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Swimming costume <span>(5)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Sport Tops &amp; Shoes <span>(3)</span></a>
-                          </li>
-                        </ul>
-                      </li>
-                    
-                      <li>
-                        <div class="" role="tab" id="heading3">
-                          <a href="javascript:;" data-toggle="collapse" aria-expanded="false" data-target="#kids" aria-controls="kids">Kids
-                            <i class="fa fa-plus"></i></a>
-                        </div>
-                    
-                        <ul id="kids" class="collapse collapseItem" role="tabpanel" aria-labelledby="heading3" data-parent="#accordion2">
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Accessories <span>(6)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bag <span>(6)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cloths <span>(25)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bed &amp; Bath <span>(2)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Swimming costume <span>(5)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Sport Tops &amp; Shoes <span>(3)</span></a>
-                          </li>
-                        </ul>
-                      </li>
-                    
-                      <li>
-                        <div class="" role="tab" id="heading4">
-                          <a href="javascript:;" data-toggle="collapse" aria-expanded="false" data-target="#accessories"
-                            aria-controls="accessories">Accessories <i class="fa fa-plus"></i></a>
-                        </div>
-                    
-                        <ul id="accessories" class="collapse collapseItem" role="tabpanel" aria-labelledby="heading4"
-                          data-parent="#accordion2">
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Accessories <span>(6)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bag <span>(6)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Cloths <span>(25)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Bed &amp; Bath <span>(2)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Swimming costume <span>(5)</span></a></li>
-                          <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Sport Tops &amp; Shoes <span>(3)</span></a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="panel panel-default priceRange">
-                <div class="panel-heading">Filter by Price</div>
-                <div class="panel-body clearfix">
-                  <div class="price-slider-inner">
-                    <span class="amount-wrapper">
-                      Price:
-                      <input type="text" id="price-amount-1" readonly>
-                      <strong>-</strong>
-                      <input type="text" id="price-amount-2" readonly>
-                    </span>
-                    <div id="price-range"></div>
-                  </div>
-                  <input class="btn-default" type="submit" value="Filter">
-                  <!-- <span class="priceLabel">Price: <strong>$12 - $30</strong></span> -->
-                </div>
-              </div>
-              <div class="panel panel-default filterNormal">
-                <div class="panel-heading">filter by Color</div>
-                <div class="panel-body">
-                  <ul class="list-unstyled">
-                    <li><a href="#">Black<span>(15)</span></a></li>
-                    <li><a href="#">White<span>(10)</span></a></li>
-                    <li><a href="#">Red<span>(7)</span></a></li>
-                    <li><a href="#">Blue<span>(12)</span></a></li>
-                    <li><a href="#">Orange<span>(12)</span></a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="panel panel-default filterNormal">
-                <div class="panel-heading">filter by Size</div>
-                <div class="panel-body">
-                  <ul class="list-unstyled clearfix">
-                    <li><a href="#">Small<span>(15)</span></a></li>
-                    <li><a href="#">Medium<span>(10)</span></a></li>
-                    <li><a href="#">Large<span>(7)</span></a></li>
-                    <li><a href="#">Extra Large<span>(12)</span></a></li>
-                  </ul>
-                </div>
+            <div class="col-12">
+              <div class="btn-group" role="group" aria-label="...">
+                <a href="account-dashboard.html" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>Account Dashboard</a>
+                <a href="account-profile.html" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+                <a href="account-address.html" class="btn btn-default"><i class="fa fa-map-marker" aria-hidden="true"></i>My Address</a>
+                <a href="account-all-orders.html" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>All Orders</a>
+                <a href="account-wishlist.html" class="btn btn-default active"><i class="fa fa-gift" aria-hidden="true"></i>Wishlist</a>
               </div>
             </div>
-            <div class="col-lg-9 col-md-8">
-              <div class="row filterArea">
-                <div class="col-6">
-                  <select name="guiest_id1" id="guiest_id1" class="select-drop">
-                    <option value="0">Default sorting</option>
-                    <option value="1">Sort by popularity</option>
-                    <option value="2">Sort by rating</option>
-                    <option value="3">Sort by newness</option>
-                    <option value="3">Sort by price</option>
-                  </select>
-                </div>
-                <div class="col-6">
-                  <div class="btn-group float-right" role="group">
-                    
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="innerWrapper">
+                <div class="orderBox myAddress wishList">
+                  <h2>My Items</h2>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>삭제</th>
+                          <th style="text-align:center">상품명</th>
+                          <th style="text-align:center">카테고리</th>
+                          <th style="text-align:center">렌탈가능여부</th>
+                          <th style="text-align:center">가격</th>
+                          <th style="text-align:center">판매지역</th>
+                          <th style="text-align:center">등록일자</th>
+                          <th style="text-align:center">상품수정</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="mgl : ${myGoodsList}" th:if="${not #lists.isEmpty(myGoodsList)}">
+                          <td>
+                          	<form class="removeGoodsForm" th:action="@{/myPage/myRemoveGoods}" method="post">
+			    				<button type="submit"
+			    						class="bi bi-x-lg"
+			    						th:value="${mgl.goodsCode}"
+			    						name="goodsCode">
+			    				</button>
+			    			</form>
+                          </td>
+                          <td style="text-align:center" th:text="${mgl.goodsName}"></td>
+                          <td style="text-align:center" th:text="${mgl.goodsCategoryName}"></td>
+                          <td style="text-align:center" th:text="${mgl.goodsRentalAvailability}"></td>
+                          <td style="text-align:center" th:text="${mgl.goodsDayPrice}"></td>
+                          <td style="text-align:center" th:text="${mgl.userRegion}"></td>
+                          <td style="text-align:center" th:text="${mgl.goodsRegDate}"></td>
+                          <td style="text-align:center">
+                            <a th:href="@{/goods/modifyGoods(goodsCode=${mgl.goodsCode})}" class="btn btn-sm btn-secondary-outlined">수정</a>
+                          </td>
+   
+                        </tr>
+           				<tr th:unless="${not #lists.isEmpty(myGoodsList)}">
+							<td colspan="8" style="text-align:center;">등록한 상품이 없습니다.</td>
+						</tr>
+                        
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-              </div>
-              <div class="row productListSingle">
-        
                 
-                
-                
-                <div class="col-sm-12">
-                  <div class="media flex-wrap productBox">
-                    <div class="media-left">
-                      <div class="productImage clearfix">
-                        <img th:src="@{/user/assets/img/products/products-07.jpg}" alt="products-img">
-                        <div class="productMasking">
-                          <ul class="list-inline btn-group" role="group">
-                            <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
-                            <li><a class="btn btn-default" data-toggle="modal" href=".quick-view" ><i class="fa fa-eye"></i></a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="media-body">
-                      <h4 class="media-heading"><a href="single-product.html">Sun Buddies</a></h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                      <h3>$249</h3>
-                      <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".login-modal"><i class="fa fa-heart" aria-hidden="true"></i></button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                
+                <div class="blogPage" style="display: flex; justify-content:center;">
+					<ul class="pagination" style="margin:3px">
+						<li th:if="${pagination.curRange != 1}">
+							<a th:href="@{/myPage/myGoodsList}" aria-label="First"><span aria-hidden="true"></span></a>
+						</li>
+						<li th:if="${pagination.curPage != 1}">
+							<a th:href="@{/myPage/myGoodsList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+						</li>
+						
+						<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+							<li class="active" th:if="${pageNum == pagination.curPage}">
+								<a th:text="${pageNum}"></a>
+							</li>
+							<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+								<a th:href="@{/myPage/myGoodsList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+							</li>
+						</th:block>
+	
+						<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+							<a th:href="@{/myPage/myGoodsList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+						</li>
+						<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+							<a th:href="@{/myPage/myGoodsList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+						</li>
+					</ul>
+	              </div>
                 
               </div>
             </div>
           </div>
         </div>
       </section>
+      
+      
 	</th:block>
+	
+      <th:block layout:fragment="customScript">
+	      <script type="text/javascript">
+	
+			$('.bi-x-lg').click(function(){
+				
+				if(!confirm('상품을 삭제하시겠습니까?')) {
+					return false;
+				}else{
+					$('.removeGoodsForm').submit();
+					alert('상품이 삭제되었습니다.');
+				}
+			}); 
+		  </script>
+      </th:block>
+      
 </html>
