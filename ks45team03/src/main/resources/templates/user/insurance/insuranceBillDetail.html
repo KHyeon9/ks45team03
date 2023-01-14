@@ -28,17 +28,17 @@
 	</style>
 	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
 	 	<!-- MAIN CONTENT SECTION -->
-	      <section class="mainContent clearfix blogPage">
+	      <section class="mainContent clearfix blogPage"   th:if="${not #lists.isEmpty(insuranceBillDetail)}" th:each="l: ${insuranceBillDetail}">
 	        <div class="container">
 	        	<div class="col-md-12 row" style="margin:0; padding:0;">
 		        	<h1>보험금청구접수증</h1>
 		        	<div style="margin-left:auto;">
-	        			<a th:href="@{insurance/insuranceModifyBill}" class="btn btn-primary-outlined btn-md" style="margin-right: 5px;">수정</a>
-	        			<a th:href="@{insurance/insuranceRemoveBill}" class="btn btn-primary-outlined btn-md" style="margin-right:0">삭제</a>
+	        			<a th:href="@{/insurance/insuranceModifyBill(insuranceBillDetailCode=${l.insuranceBillDetailCode})}" class="btn btn-primary-outlined btn-md" style="margin-right: 5px;">수정</a>
+	        			<a th:href="@{/insurance/insuranceRemoveBill}" class="btn btn-primary-outlined btn-md" style="margin-right:0">삭제</a>
 	        		</div>
 	        	</div>
 
-			    <div class="col-md-12"  th:if="${not #lists.isEmpty(insuranceBillDetail)}" th:each="l: ${insuranceBillDetail}"
+			    <div class="col-md-12"
 			    		style="border: 1px solid #dee2e6; padding: 5rem; margin-top: 2rem;">
 			    	<h4>01. 인적사항</h4><br/>
 				    <table class="table table-bordered">

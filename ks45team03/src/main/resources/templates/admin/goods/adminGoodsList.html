@@ -52,7 +52,7 @@
 
 
                           <tbody>
-                            <tr th:each="agl : ${adminGoodsList}">
+                            <tr th:each="agl : ${adminGoodsList}" th:if="${not #lists.isEmpty(adminGoodsList)}">
                               <td th:text="${agl.goodsCode}"></td>
                               <td th:text="${agl.goodsName}"></td>
                               <td th:text="${agl.goodsCategoryName}"></td>
@@ -75,6 +75,9 @@
 										name="goodsCode">삭제</button>
                               	</form>
                               </td>
+                            </tr>
+                            <tr th:unless="${not #lists.isEmpty(adminGoodsList)}">
+                            	<td colspan="12" style="text-align:center;">등록된 상품이 없습니다.</td>
                             </tr>
                           </tbody>
                         </table>

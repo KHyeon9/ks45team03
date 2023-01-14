@@ -57,11 +57,10 @@
                 <div class="orderBox myAddress wishList">
                    <h2 th:text="${loginNickName} + '님 DAY PROFIT LIST'"></h2>
                   
-                   <form th:action="@{/myPage/myProfitListDay}" method="get">     
-                   <input type="hidden" th:value="profitDayGroup" readonly="readonly" name="profitDayGroup">         
+                   <form th:action="@{/myPage/myProfitListDay}" method="get">                            
                   	<div class="form-group row">
 						<div class="col-md-3">						
-							<input class="form-control" name="searchYear" type="text" placeholder="년">
+							<input class="form-control" name="searchYear" type="text" placeholder="년도">
 						</div>					
 						<div class="col-md-3 selectOptions ">
 							<select name="searchMonth" class="form-control select-drop">
@@ -100,7 +99,7 @@
                         <tr th:unless="${#lists.isEmpty(getUserDayProfitList)}" th:each="pd : ${getUserDayProfitList}">                                             
                           <td th:text="${pd.userId}"></td>
                           <td th:text="${pd.profitDayTotal}"></td>                           
-                          <td th:text="|20${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}-${#strings.substring(pd.profitDayGroup,16,18)}|"></td>                        
+                          <td th:text="|20${#strings.substring(pd.profitDayGroup,10,12)}-${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}|"></td>                        
                         </tr>
                         <tr th:if="${#lists.isEmpty(getUserDayProfitList)}">
 			              	<td colspan="3">등록된 일별 수익이 없습니다.</td>
@@ -126,7 +125,7 @@
 										<li class="active" th:if="${pageNum == pagination.curPage}">
 											<a th:text="${pageNum}"></a>
 										</li>
-										<li th:unless="${pageNum == pagination.curPage}">
+										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
 											<a th:href="@{/myPage/myProfitListDay(curPage=${pageNum})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>

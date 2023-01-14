@@ -27,42 +27,8 @@ public class AdminBlockService {
 	
 	
 	/* 회원 차단 목록 조회 */
-	public Map<String, Object> adminGetUserBlockList (int currentPage, String searchKey, String searchValue){
-		
-		// 보여질 행의 개수
-		int rowPerPage = 10;
-		
-		// 보여질 행의 시작점
-		int startRowNum = (currentPage - 1)*rowPerPage;
-		
-		// 마지막페이지 
-		// 테이블의 전체 행의 갯수
-		double rowCnt = adminBlockMapper.getBlockListCnt();
-		// 마지막페이지
-		int lastPage = (int) Math.ceil(rowCnt/rowPerPage);
-		
-		// 보여질 페이지 번호 구현
-		// 보여질 페이지 번호 초기화
-		int endPageNum = (int) Math.ceil(currentPage * 0.1) * 10;
-		int startPageNum =  Math.max(endPageNum - 10 + 1, 1);
-		
-		// 이전버튼 : [11] ... [20]  -->  [1] ... [10]
-		int prevPage = (int) Math.floor(currentPage * 0.1) * 10;
-		if(currentPage % 10 == 0) {
-			prevPage = (int) Math.floor(currentPage * 0.1) * 10 - 10;
-		}
-		// 다음버튼 : [1] ... [10]  --> [11] ... [20]
-		int nextPage = (int) Math.ceil(currentPage * 0.1) * 10 + 1;
-		
-		if(endPageNum > lastPage) {
-			endPageNum = lastPage;
-		}
-		
-		
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("startRowNum", startRowNum);
-		paramMap.put("rowPerPage", rowPerPage);
-		
+	public List<Block> adminGetUserBlockList (int startIndex, int pageSize, String searchKey, String searchValue){
+						
 		if(searchKey != null) {
 			switch (searchKey) {
 			case "blockCode":
@@ -80,22 +46,10 @@ public class AdminBlockService {
 			}
 		}
 		
-		paramMap.put("searchKey", searchKey);
-		paramMap.put("searchValue", searchValue);
 		
-	
+		List<Block> adminGetUserBlockList = adminBlockMapper.adminGetUserBlockList(startIndex, pageSize, searchKey, searchValue);
 		
-		List<Block> adminGetUserBlockList = adminBlockMapper.adminGetUserBlockList(paramMap);
-		
-		paramMap.clear();
-		paramMap.put("adminGetUserBlockList", adminGetUserBlockList);
-		paramMap.put("lastPage", lastPage);
-		paramMap.put("startPageNum", startPageNum);
-		paramMap.put("endPageNum", endPageNum);
-		paramMap.put("nextPage", nextPage);
-		paramMap.put("prevPage", prevPage);
-		return paramMap;
-
+		return adminGetUserBlockList;
 		
 	}
 }

@@ -96,7 +96,11 @@
                    		<h4 th:text="'카테고리: '+*{goodsCategoryName}"></h4>
                    		<h4 th:text="'등록일자: '+*{goodsRegDate}"></h4>
                    		<h4 th:text="'상품가치: '+*{goodsValuePrice}"></h4>
-
+                   		
+   	               	<form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
+	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
+	                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
+                    </form>
                    	
                    <form id="getRentalInfo" action="/order/payment" method="get">
                    	 <input th:value="${goodsDetail.goodsCode}" name="goodsCode" type="hidden" readonly="readonly"/>
@@ -134,11 +138,25 @@
 			               </div>
 	                    </div>
 	                  </div>
-	                  <div class="btn-area mb-0">
-	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
-						<a th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
-	                  </div>
+	                  <div class="btn-area mb-0" style="display:flex;">
+	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
                    </form>
+						<a th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
+					  	
+					  	<form id="addWishForm" th:action="@{/wish/addWish}" method="post" th:if="${checkWish == 0}" style="width:0%">
+					  		<input type="hidden" th:value="${goodsDetail.goodsCode}" name="goodsCode">
+					  		<input type="hidden" th:value="${goodsDetail.userId}" name="userId">
+							<button id="addWishButton" type="button" class="btn btn-primary btn-icon" style="width: 75px;"><i class="fa fa-heart"></i></button>
+					  	</form>
+					  	
+					  	<form id="removeWishForm" th:action="@{/wish/removeWish}" method="post" th:if="${checkWish > 0}" style="width:0%">
+					  		<input type="hidden" th:value="${goodsDetail.goodsCode}" name="goodsCode">
+					  		<input type="hidden" th:value="${goodsDetail.userId}" name="userId">
+					  		<input type="hidden" value="goodsDetail" name="prevPage">
+							<button id="removeWishButton" type="button" class="btn btn-primary btn-icon" style="width: 75px;"><i class="fa fa-heart" style="color:red;"></i></button>
+					  	</form>
+
+	                  </div>
         	          <div class="btn-area mb-0" style="margin-top:10px; display:flex;" th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == goodsDetail.userId}">
 		    			<a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold; margin-right:3px;">수정</button></a>
 			    			<form id="removeGoodsForm" th:action="@{/goods/removeGoods}" method="post" style="width:0%">
@@ -152,11 +170,7 @@
 			    						name="goodsCode">삭제</button>
 			    			</form>
 	                  </div>
-   	               	<form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
-	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
-	                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
-                    </form>
-         
+         			  
                 </div>
               </div>
             </div>
@@ -377,8 +391,6 @@
                   <img src="/user/assets/img/products/products-01.jpg" alt="products-img">
                   <div class="productMasking">
                     <ul class="list-inline btn-group" role="group">
-                      <li><a data-toggle="modal" href=".login-modal" class="btn btn-default"><i class="fa fa-heart-o"></i></a></li>
-                      <li></li>
                       <li><a class="btn btn-default" th:href="@{/goods/goodsDetail(userId=${glByUid.userId} ,goodsCode=${glByUid.goodsCode})}" ><i class="fa fa-eye"></i></a></li>
                     </ul>
                   </div>
@@ -399,7 +411,7 @@
 	
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript">
-		<script type="text/javascript">
+		<script th:inline="javascript">
 			const $startDate = document.getElementById('rentalStartDate');
 			const $endDate = document.getElementById('rentalEndDate');
 			const today = new Date();
@@ -446,7 +458,39 @@
 				$('#removeGoodsForm').submit();
 				alert('상품이 삭제되었습니다.');
 			}
-		}); 
+		});
+		
+		$('#addWishButton').click(function(){
+			
+			if([[${session.S_USER_INFO}]] != null){
+				
+				if(!confirm('관심상품으로 등록하시겠습니까?')) {
+					return false;
+				}else{
+					$('#addWishForm').submit();
+				}
+				
+			}else{
+				
+				if(!confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
+					return false;
+				}else{
+					location.href = '/login';
+				}
+			}
+			
+		});
+		
+		$('#removeWishButton').click(function(){
+			
+			if(!confirm('이미 관심상품으로 등록되어있습니다. 삭제하시겠습니까?')) {
+				return false;
+			}else{
+				$('#removeWishForm').submit();
+			}
+		});
+		
+		
 		</script>
 	</th:block>
 </body>

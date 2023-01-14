@@ -1,10 +1,130 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
 
-</body>
+	<th:block layout:fragment="customContents">
+		    <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>회원 월별 수익 목록</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  
+                  <div class="x_content">            
+
+                    <p>회원의 월별 수익을 조회할 수 있습니다.</p>
+                    
+                    <div class="table-responsive">
+                    <div class="col-md-12 row">
+                    <form th:action="@{/admin/profit/adminProfitListMonth}" method="get" class="col-md-9" style="float: left;">       
+                    <input type="text" name="searchYear" placeholder="년도"/>
+                   	<select name="searchMonth" class="select-drop" style="height: 25px;">
+						<option value="01">1월</option>
+						<option value="02">2월</option>
+						<option value="03">3월</option>
+						<option value="04">4월</option>
+						<option value="05">5월</option>
+						<option value="06">6월</option>
+						<option value="07">7월</option>
+						<option value="08">8월</option>
+						<option value="09">9월</option>
+						<option value="10">10월</option>
+						<option value="11">11월</option>
+						<option value="11">12월</option>								
+					</select>                                  
+					<input type="text" name="searchId" placeholder="회원 아이디를 입력해주세요."/>
+					<button type="submit">조회</button>
+					</form>
+					<div class="btn-group col-md-3" role="group" aria-label="..." style="float: right;">
+		                <a th:href="@{/admin/profit/adminProfitListDay}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
+		                <a th:href="@{/admin/profit/adminProfitListMonth}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
+		                <a th:href="@{/admin/profit/adminProfitListYear}" class="btn"><i class="bi bi-calendar-check" aria-hidden="true"></i>연별 수익</a>
+		              </div>
+		             </div>
+					<br>
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">                         				                
+			                <th class="column-title">ID</th>
+			                <th class="column-title">정산금획득년월</th>
+			                <th class="column-title">월별 정산금 합계</th>			                
+	                                                   </tr>
+	                       </thead>
+			                
+			       
+                        <tbody>
+			            <tr class=" " th:unless="${#lists.isEmpty(adminGetUserMonthProfitList)}" th:each="pm : ${adminGetUserMonthProfitList}">			            	
+			                <td class=" " th:text="${pm.userId}"></td>
+			                <td class=" " th:text="${pm.profitSaveYearMonth}"></td>
+			                <td class=" " th:text="${pm.profitMonthTotal}"></td>			               		                			               		                			               			                
+			              </tr>
+			              <tr class=" " th:if="${#lists.isEmpty(adminGetUserMonthProfitList)}">
+			              	<td class=" " colspan="3">등록된 회원 월별 수익이 없습니다.</td>
+			              </tr>
+			        </tbody>
+			        <tfoot>
+				  		<tr>
+				  			<td colspan="15">
+				  				<div class="row" style="margin-top: 40px">
+						          <div class="col-sm-12">
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">																							
+													<li th:if="${pagination.curPage != 1}" class="paginate_button previous disabled">
+														<a th:href="@{/admin/profit/adminProfitListMonth(curPage=${pagination.prevPage})}" aria-label="Prev">Prev</a>
+													</li>
+													
+													<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+														<li class="active" th:if="${pageNum == pagination.curPage}">
+															<a th:text="${pageNum}"></a>
+														</li>
+														<li th:unless="${pageNum == pagination.curPage}">
+															<a th:href="@{/admin/profit/adminProfitListMonth(curPage=${pageNum})}" th:text="${pageNum}"></a>
+														</li>
+													</th:block>
+				
+													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+														<a th:href="@{/admin/profit/adminProfitListMonth(curPage=${pagination.nextPage})}" aria-label="Next">Next</a>
+													</li>												
+													
+												</ul>
+											</div>
+										</div>		          
+						        </div>
+				  			</td>
+				  		</tr>
+			  		</tfoot>
+                      </table>
+                    </div>
+							
+						
+                  </div>
+                  
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+	</th:block>
 </html>
+							
+	

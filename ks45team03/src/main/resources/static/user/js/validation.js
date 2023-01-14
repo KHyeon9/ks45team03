@@ -107,6 +107,7 @@ $(function(){
 			}
 		});
 	});
+	
 				
 	$('#userPw').blur(function() {
 		
@@ -129,6 +130,7 @@ $(function(){
 		$(this).addClass('is-valid');
 	});
 	
+
 	$('#userPwConfirm').blur(function() {
 		
 		if(validateValue($(this).val())) {
@@ -559,7 +561,7 @@ $(function(){
 			return false;	
 		}
 		
-		userPhoneNumber = $('firstPhoneNumber').val() + userPhoneNumber;
+		$('#userPhoneNumber').val($('#firstPhoneNumber').val() + userPhoneNumber);
 		$('#userEmail').val(userEmailId + '@' + userEmailAddr);
 		$('#addForm').submit();
 		
