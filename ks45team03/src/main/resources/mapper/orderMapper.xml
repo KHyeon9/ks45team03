@@ -115,6 +115,7 @@
 		VALUES
 			(
 				#{paymentCode},
+				
 				#{goodsCode},
 				#{rentalCode},
 				#{userId},

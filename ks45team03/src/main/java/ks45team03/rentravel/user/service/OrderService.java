@@ -39,6 +39,7 @@ public class OrderService {
 		
 		Payment paymentInfo = rental.getPayment();
 		
+		// 계산에 필요한 값
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = format.parse(rental.getRentalStartDate());
 		Date endDate = format.parse(rental.getRentalEndDate());
@@ -47,6 +48,7 @@ public class OrderService {
 		float saveMileageRate = orderMapper.getUserSaveMileageRate(rental.getUserId());
 		int goodsDayPrice = goodsMapper.getGoodsDetailByGoodsCode(rental.getGoodsCode()).getGoodsDayPrice();
 		
+		// 계산 부분
 		int expectedPaymentAmount = (int) (goodsDayPrice * dayGap); 
 		int commisionTotalPrice = (int) (expectedPaymentAmount * commisionRate);
 		int amountExcludingMileage = expectedPaymentAmount - paymentInfo.getMileageUsePrice();
@@ -69,7 +71,6 @@ public class OrderService {
 		paymentInfo.setTradeStatusCode("trade_status1");
 		paymentInfo.setMileageUseGroupCode(milegeUseGroupCode);
 		paymentInfo.setMileageSaveGroupCode(milegeSaveGroupCode);
-		
 		
 		result += orderMapper.addPayment(paymentInfo);
 		
