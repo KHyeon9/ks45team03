@@ -297,10 +297,15 @@
 				
 				let date1 = new Date($startDate.value);
 				let date2 = new Date($endDate.value);
-				console.log(date2 < date1);
+				
+				
 				if(date2 < date1){
-					let changeDate = new Date($startDate.value);
-					changeDate.setDate(changeDate.getDate() + 1)	
+					const changeMinDate = new Date($startDate.value);
+					changeMinDate.setDate(changeMinDate.getDate() + 1);
+					$endDate.setAttribute('min', changeMinDate.toISOString().substring(0, 10));
+					changeDate = new Date($startDate.value);
+					changeDate.setDate(changeDate.getDate() + 1)
+					$endDate.value = changeDate.toISOString().substring(0, 10)
 				}
 				$endDate.value = changeDate.toISOString().substring(0, 10)
 				

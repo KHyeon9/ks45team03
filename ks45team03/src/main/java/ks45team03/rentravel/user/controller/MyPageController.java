@@ -17,7 +17,6 @@ import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
-import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.Profit;
 import ks45team03.rentravel.dto.ProfitDay;
 import ks45team03.rentravel.dto.ProfitMonth;
@@ -25,8 +24,6 @@ import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
-import ks45team03.rentravel.dto.Wish;
-import ks45team03.rentravel.mapper.OrderMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.user.service.GoodsService;
@@ -35,7 +32,6 @@ import ks45team03.rentravel.mapper.UserProfitMapper;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.ProfitService;
 import ks45team03.rentravel.user.service.UserService;
-import ks45team03.rentravel.user.service.WishService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -50,10 +46,7 @@ public class MyPageController {
 	private final UserMapper userMapper;
 	private final GoodsService goodsService;
 	private final ProfitService profitService;
-	private final WishService wishService;
 	
-
-
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
 	@GetMapping("/myPage")
@@ -175,30 +168,6 @@ public class MyPageController {
 		return "user/myPage/myGoodsList";
 	}
 	
-	@GetMapping("/myWishList")
-	public String myWishList(Model model
-			   				,HttpSession session
-			   				,@RequestParam(defaultValue="1", required=false) int curPage) {
-		
-		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String loginId = loginUser.getLoginId();
-		
-		int wishListCount = wishService.getWishListCount(loginId);
-		
-		Pagination pagination = new Pagination(wishListCount, curPage);
-		
-		int startIndex = pagination.getStartIndex();
-		int pageSize = pagination.getPageSize();
-		
-		List<Wish> wishList = wishService.getWishList(loginId,startIndex,pageSize);
-		
-		model.addAttribute("pagination",pagination);
-		model.addAttribute("wishList",wishList);
-		model.addAttribute("title","마이페이지 화면");
-		
-		return "user/myPage/myWishList";
-	}
-	
 	@PostMapping("/myRemoveGoods")
 	public String myRemoveGoods(@RequestParam(value="goodsCode") String goodsCode) {
 		
@@ -213,65 +182,13 @@ public class MyPageController {
 		return "user/myPage/myReviewList";
 	}
 	
-	
-	@PostMapping("/modifyMyRent")
-	public String modifyMyRent(HttpSession session
-								,@RequestParam(value = "paymentCode" ) String paymentCode								
-								,@RequestParam(value = "settlementAmount") int settlementAmount) {
-		
-		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");			
-		
-		String dayGroupCode = profitService.getUserDayGroupCode(paymentCode, loginUser.getLoginId());	
-		String MonthGroupCode = profitService.getUserMonthGroupCode(paymentCode, loginUser.getLoginId());
-		String profitSaveYearMonth = profitService.getProfitSaveYearMonth(MonthGroupCode);
-		
-		System.out.println(profitSaveYearMonth+"획득년월");
-		System.out.println(MonthGroupCode+"<-월별수익코드");
-		
-		
-		profitService.addUserProfit(paymentCode, loginUser.getLoginId(), settlementAmount, dayGroupCode);
-		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, MonthGroupCode);
-			
-		
-		return "redirect:/myPage/myRentList";
+	@GetMapping("/myWishList")
+	public String myWishList(Model model) {
+		model.addAttribute("title","마이페이지 화면");
+		return "user/myPage/myWishList";
 	}
-	
-	@GetMapping("/modifyMyRent")
-	public String modifyMyRent(@RequestParam( value = "rentalCode", required=false) String rentalCode,
-							   Model model) {
-		Rental rentalInfo = orderService.getRentalGoodsInfo(rentalCode)
-;
-		model.addAttribute("rentalInfo", rentalInfo);
-		
-		return "user/myPage/modifyMyRent";
-	}
-	
-	
-	
-	@GetMapping("/myRentList")
-	public String myRentList(HttpSession session
-							,Model model) {
-		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String redirectURI = "user/myPage/myRentList";
-		
-		if (loginInfo == null) {
-			redirectURI = "redirect:/";
-		
-		} else {
-			
-			
-			
-			List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId());
-			model.addAttribute("title","마이페이지 렌트 내역");
-			model.addAttribute("rentList", rentList);
-		}
-		
-		return redirectURI;
-	}
-	
-	
 	@GetMapping("/myOrderList")
-	public String myOrderList(HttpSession session,
+	public String myOrderHistory(HttpSession session,
 								 Model model) {
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String redirectURI = "user/myPage/myOrderList";
@@ -356,8 +273,7 @@ public class MyPageController {
 										,@RequestParam(defaultValue="1", required=false) int curPage
 										,@RequestParam(value="searchYear", required = false) String searchYear
 										,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
-										,@RequestParam(value="searchDay", required = false, defaultValue = "") String searchDay																
-										) {
+										,@RequestParam(value="searchDay", required = false, defaultValue = "") String searchDay) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt = userProfitMapper.dayProfitListCnt(loginUser.getLoginId());
@@ -385,8 +301,7 @@ public class MyPageController {
 											,HttpSession session
 											,@RequestParam(defaultValue="1", required=false) int curPage
 											,@RequestParam(value="searchYear", required = false) String searchYear
-											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
-											,@RequestParam(value="profitMonthGroup", required = false, defaultValue = "") String profitMonthGroup) {
+											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt =  userProfitMapper.MonthProfitListCnt(loginUser.getLoginId());
@@ -410,8 +325,7 @@ public class MyPageController {
 	public String getUserProfitListYear (Model model
 										,HttpSession session
 										,@RequestParam(defaultValue="1", required=false) int curPage	
-										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear
-										,@RequestParam(value="ownerProfitYear", required = false, defaultValue = "") String ownerProfitYear) {
+										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt = userProfitMapper.YearProfitListCnt(loginUser.getLoginId());
