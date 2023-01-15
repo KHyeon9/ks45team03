@@ -392,7 +392,7 @@ public class MyPageController {
 											,@RequestParam(defaultValue="1", required=false) int curPage
 											,@RequestParam(value="searchYear", required = false) String searchYear
 											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
-											,@RequestParam(value="profitMonthGroup", required = false, defaultValue = "") String profitMonthGroup) {
+											) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt =  userProfitMapper.MonthProfitListCnt(loginUser.getLoginId());
@@ -417,7 +417,7 @@ public class MyPageController {
 										,HttpSession session
 										,@RequestParam(defaultValue="1", required=false) int curPage	
 										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear
-										,@RequestParam(value="ownerProfitYear", required = false, defaultValue = "") String ownerProfitYear) {
+										) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt = userProfitMapper.YearProfitListCnt(loginUser.getLoginId());
