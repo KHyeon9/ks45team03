@@ -307,13 +307,59 @@
 			u.user_id = #{loginId};
 	</select>
 	
+	<!-- 렌터의 주문 물건 정보 -->
+	<select id="getOrderGoodsInfo" parameterType="String" resultMap="orderMap">
+		SELECT
+			ren.rental_code,
+			g.user_id,
+			g.goods_name,
+			pay.payment_code,
+			sgg.region_sgg_name,
+			sido.region_sido_name,
+			pay.user_addr_desc,
+			ren.rental_start_date,
+			ren.rental_end_date,
+			pay.expected_payment_amount,
+			pay.goods_commision_total_price,
+			pay.settlement_amount,
+			pay.payment_agency,
+			pay.payment_type,
+			pay.payment_account_or_card_number,
+			tra.order_state_standard_name,
+			ren.rental_order_date,
+			g.goods_rental_availability
+		FROM
+			tb_rental AS ren
+			INNER JOIN
+			tb_payment AS pay
+			ON
+			ren.rental_code = pay.rental_code
+			INNER JOIN
+			tb_goods AS g
+			ON
+			ren.goods_code = g.goods_code
+			INNER JOIN
+			tb_trade_status AS tra
+			ON
+			pay.trade_status_code = tra.trade_status_code
+			INNER JOIN
+			tb_region_sgg AS sgg
+			ON
+			sgg.region_sgg_code = pay.region_sgg_code
+			INNER JOIN
+			tb_region_sido AS sido
+			ON
+			sido.region_sido_code = sgg.region_sido_code
+		WHERE
+			ren.rental_code = #{rentalCode};
+	</select>
+	
 	<!-- 렌탈 오너의 빌려준 물건 정보 -->
 	<select id="getRentalGoodsInfo" parameterType="String" resultMap="orderMap">
 		SELECT
 			ren.rental_code,
 			ren.user_id,
 			g.goods_name,
-			g.user_id,
 			pay.payment_code,
 			sgg.region_sgg_name,
 			sido.region_sido_name,
