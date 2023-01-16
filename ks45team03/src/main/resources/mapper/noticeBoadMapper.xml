@@ -6,41 +6,49 @@
 	<resultMap type="NoticeBoard" id="noticeBoardResultMap">
 		<id property="noticeBoardCode" column="notice_board_code" />
 		<result property="userId" column="user_id" />
+		<result property="userNickName" column="user_nickname" />
 		<result property="noticeBoardTitle" column="notice_board_title" />
 		<result property="noticeBoardContent" column="notice_board_content" />
 		<result property="noticeBoardFile" column="notice_board_file" />
-		<result property="noticeBoardLikeCnt" column="notice_board_like_cnt" />
-		<result property="noticeBoardViewCnt" column="notice_board_view_cnt" />
 		<result property="noticeBoardRegTime" column="notice_board_reg_time" />
 	</resultMap>
 	
 	<select id="detailNoticeBoard" resultMap="noticeBoardResultMap">
 		SELECT
-			 nb.user_id
+			nb.notice_board_code
+			,u.user_nickname
 			,nb.notice_board_title
 			,nb.notice_board_content
 			,nb.notice_board_file
-			,nb.notice_board_like_cnt
-			,nb.notice_board_view_cnt
 			,nb.notice_board_reg_time
 		FROM
 			tb_notice_board AS nb
+			INNER JOIN
+			tb_user AS u
+			ON
+			nb.user_id = u.user_id
 		WHERE
 			nb.notice_board_code = #{noticeBoardCode};
 	</select>
 	
 	<select id="noticeBoardList" resultMap="noticeBoardResultMap">
 		SELECT
-			 nb.notice_board_code
-			,nb.user_id
+			 @rownum:=@rownum+1 AS num
+			,nb.notice_board_code
+			,u.user_nickname
 			,nb.notice_board_title
 			,nb.notice_board_content
 			,nb.notice_board_file
-			,nb.notice_board_like_cnt
-			,nb.notice_board_view_cnt
 			,nb.notice_board_reg_time
 		FROM
 			tb_notice_board AS nb
+			INNER JOIN
+			tb_user AS u
+			ON
+			nb.user_id = u.user_id
+			, (SELECT @rownum:=0) AS TMP
+		ORDER BY 
+			num DESC
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize};
 		</if>

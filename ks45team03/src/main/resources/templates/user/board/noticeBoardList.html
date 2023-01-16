@@ -2,6 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{user/layout/default}">
+	<head>
+		<style type="text/css">
+			table{
+				width: 100%;
+			}
+			th, tr, td {
+				text-align:center !important;
+			}
+			#pg {
+				display: flex;
+				justify-content: center;
+			}
+			#searchAndAdd {
+				display: flex;
+				justify-content: space-between;
+			}
+			a{
+				color: black;
+			}
+			a:hover {
+				color: rgb(71, 186, 193);
+			}
+		</style>
+	</head>
 <th:block layout:fragment="customContents">
 	<!-- LIGHT SECTION -->
 	<section class="lightSection clearfix pageHeader">
@@ -21,87 +45,79 @@
 			</div>
 		</div>
 	</section>
-	<section class="mainContent clearfix blogPage">
+	<section class="mainContent clearfix cartListWrapper">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-9 col-sm-12 order-lg-12">
-					<!-- 게시판 시작 -->
-					<div class="row">
-						<!-- 게시판 행 시작 -->
-						<div class="col-sm-12" th:unless="${#lists.isEmpty(noticeBoardList)}" th:each="nb : ${noticeBoardList}">
-							<div class="thumbnail">
-								<div class="caption">
-									<div class="row">
-										<div class="col-md-3 order-md-12">
-											<h5>Board Info</h5>
-											<ul class="list-unstyled">
-												<li>
-													<a href="#"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nb.userId}"></span></a>
+				<div class="col-12">
+					<div class="cartListInner">
+						<form action="#">
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>번호</th>
+											<th>제목</th>
+											<th>작성자</th>
+											<th>작성일</th>
+										</tr>
+									</thead>
+									<tbody>
+										 <tr th:if="${not #lists.isEmpty(noticeBoardList)}" th:each="nb : ${noticeBoardList}">
+								  			<td style="width: 5%" th:text="${nb.num}"></td>
+								  			<td style="overflow: hidden; text-overflow: ellipsis; width:55%"><a th:text="${nb.noticeBoardTitle}" th:href="@{/board/detailNoticeBoard(noticeBoardCode=${nb.noticeBoardCode})}"></a></td>
+								  			<td style="width: 20%" th:text="${nb.userNickName}"></td>
+								  			<td style="width: 20%" th:text="${nb.noticeBoardRegTime}"></td>
+			                             <tr th:unless="${not #lists.isEmpty(noticeBoardList)}">
+				  							<td colspan="4">작성된 글이 없습니다.</td>
+				  						</tr>									
+				  					</tbody>
+								</table>
+								<div class="row" style="margin-top: 30px">
+									<div class="col-sm-12" id="pg">
+										<div class="text-center" >
+											<ul class="pagination">
+												<li th:if="${pagination.curPage != 1}" class="page-item">
+													<a
+													th:href="@{/board/noticeBoard(curPage=${pagination.prevPage})}"
+													aria-label="Prev" class="page-link"> <span
+														aria-hidden="true">&#60;</span></a>
 												</li>
-												<li>
-													<i class="bi bi-hand-thumbs-up-fill"></i><span th:text="${nb.noticeBoardLikeCnt} + ' likes'"></span>
-												</li>
-												<li>
-													<i class="bi bi-eye-fill"></i><span th:text="${nb.noticeBoardViewCnt} + ' views'"></span>
-												</li>
-											</ul>
-										</div>
-										<div class="col-md-9 order-md-1">
-											<h3>
-												<a href="blog-single-left-sidebar.html" th:href="@{/board/detailNoticeBoard(noticeBoardCode=${nb.noticeBoardCode})}" th:text="${nb.noticeBoardTitle}"></a>
-											</h3>
-											<ul class="list-unstyled">
-												<li><i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${nb.noticeBoardRegTime}"></span></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-12" th:if="${#lists.isEmpty(noticeBoardList)}" th:each="nb : ${noticeBoardList}">
-							<div class="thumbnail">
-								<div class="caption">
-									<div class="row">
-										<div class="col-md-9 order-md-1">
-											<h3>
-												<a href="blog-single-left-sidebar.html">게시글이 존재하지 않습니다.</a>
-											</h3>
-											<p>게시글을 입력해주세요.</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="text-left">
-								<ul class="pagination">
-									<!-- <li th:if="${pagination.curRange != 1}">
-										<a th:href="@{/board/noticeBoard}" aria-label="First"><span aria-hidden="true"><<</span></a>
-									</li> -->
-									<li th:if="${pagination.curPage != 1}">
-										<a th:href="@{/board/noticeBoard(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
-									</li>
-									
-									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
-										<li class="active" th:if="${pageNum == pagination.curPage}">
-											<a th:text="${pageNum}"></a>
-										</li>
-										<li th:unless="${pageNum == pagination.curPage}">
-											<a th:href="@{/board/noticeBoard(curPage=${pageNum})}" th:text="${pageNum}"></a>
-										</li>
-									</th:block>
+												<li th:unless="${pagination.curPage != 1}"
+													class="page-item disabled"><span aria-label="Prev"
+													class="page-link" tabindex="-1" aria-disabled="true">
+														<span aria-hidden="true">&#60;</span>
+												</span></li>
 
-									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-										<a th:href="@{/board/noticeBoard(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
-									</li>
-									<!-- <li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-										<a th:href="@{/board/noticeBoard(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
-									</li> -->
-								</ul>
+												<th:block
+													th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+													<li class="page-item active" aria-current="page"
+														th:if="${pageNum == pagination.curPage}"><span
+														th:text="${pageNum}" class="page-link"></span></li>
+													<li
+														th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}"
+														class="page-item"><a
+														th:href="@{/board/noticeBoard(curPage=${pageNum})}"
+														th:text="${pageNum}" class="page-link"></a></li>
+												</th:block>
+
+												<li
+													th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}"
+													class="page-item"><a
+													th:href="@{/board/noticeBoard(curPage=${pagination.nextPage})}"
+													aria-label="Next" class="page-link"> <span
+														aria-hidden="true">&#62;</span></a></li>
+												<li
+													th:unless="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}"
+													class="page-item disabled"><span aria-label="Next"
+													class="page-link" tabindex="-1" aria-disabled="true"><span
+														aria-hidden="true">&#62;</span></span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
