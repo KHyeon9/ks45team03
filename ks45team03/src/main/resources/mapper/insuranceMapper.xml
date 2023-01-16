@@ -152,7 +152,7 @@
 	</select>
 	
 	<select id="getInsuranceBillDetailInfoById" parameterType="String" resultMap="insuranceBillDetailResultMap">
-		/* 보상금 접수증 조회 */
+		/* 보상금 청구서 조회(보험청구서코드) */
 		SELECT
 			ibd.user_id,
 			u.user_name,
@@ -186,7 +186,7 @@
 	</select>
 	
 	<select id="getInsuranceBillReciptInfoById" parameterType="String" resultMap="insuranceBillDetailResultMap">
-		/* 보상금 접수증 조회 */
+		/* 보상금 접수증 조회(보험코드) */
 		SELECT
 			ibd.user_id,
 			u.user_name,
@@ -219,7 +219,35 @@
 			
 	</select>
 	
+	<update id="modifyInsuranceBillDetail"  parameterType ="InsuranceBillDetail">
+		/* 보상금접수증 수정 */
+		UPDATE tb_insurance_bill_detail
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="accidentDate != null and accidentDate !=''">
+				,accident_date = #{accidentDate}
+			</if>
+			<if test="accidentType != null and accidentType !=''">
+				,accident_type = #{accidentType}
+			</if>
+			<if test="insuranceEvidence != null and insuranceEvidence !=''">
+				,insurance_evidence = #{insuranceEvidence}
+			</if>
+			<if test="bankName != null and bankName !=''">
+				,bank_name = #{bankName}
+			</if>
+			<if test="accountHolder != null and accountHolder !=''">
+				,account_holder = #{accountHolder}
+			</if>
+			<if test="accountNumber != null and accountNumber !=''">
+				,account_number = #{accountNumber}
+			</if>
+		</trim>
+		WHERE
+			insurance_code = #{insuranceCode}
+	</update>
+	
 	<select id="getInsuranceBillInfoById" parameterType="String" resultMap="insuranceBillResultMap">
+		/* 보상금 접수증 조회 */
 		SELECT
 			ib.insurance_bill_code,
 			ib.insurance_bill_detail_code,

@@ -6,17 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.sound.midi.Patch;
-
 import org.springframework.stereotype.Service;
 
 import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.Rental;
-import ks45team03.rentravel.mapper.AdminCommisionRateMapper;
-import ks45team03.rentravel.mapper.AdminOrderMapper;
 import ks45team03.rentravel.mapper.GoodsMapper;
 import ks45team03.rentravel.mapper.OrderMapper;
-import ks45team03.rentravel.user.controller.OrderController;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -35,6 +30,7 @@ public class OrderService {
 	// 결제
 	public int addOrder(Rental rental) throws ParseException {
 		
+		int result =  0;
 		
 		Payment paymentInfo = rental.getPayment();
 		
@@ -52,7 +48,7 @@ public class OrderService {
 		int saveMileage = (int) (amountExcludingMileage * saveMileageRate);
 		int settlementAmount = expectedPaymentAmount - commisionTotalPrice;
 		
-		int result = orderMapper.addRental(rental);
+		result += orderMapper.addRental(rental);
 		
 		String groupCodeDate =  orderMapper.getGroupCodeDate(rental.getRentalCode());
 		String milegeUseGroupCode = rental.getUserId() + "_결제완료_적립금_사용_" + groupCodeDate;

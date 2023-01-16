@@ -37,7 +37,7 @@ public interface InsuranceMapper {
 	public int addInsuranceBillDetail(String insuranceCode);
 	
 	// 보상금청구서 수정
-	public int modifyInsuranceBillDetail();
+	public int modifyInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail);
 	
 	// 보상금청구서 삭제
 	public void removeInsuranceBillDetail();

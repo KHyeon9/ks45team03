@@ -43,13 +43,31 @@ public class OrderController {
 	private CommonNewCode commonNewCode;
 	
 	@GetMapping("/paymentResult")
-	public String paymentResult(Model model) {
+	public String paymentResult(@RequestParam(value = "rentalCode") String rentalCode,
+								Model model) throws ParseException {
+		
+		Rental rentalInfo = orderService.getRentalGoodsInfo(rentalCode);
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date startDate = format.parse(rentalInfo.getRentalStartDate());
+		Date endDate = format.parse(rentalInfo.getRentalEndDate());
+		long dayGap = (endDate.getTime() - startDate.getTime()) /  86400000;
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+		String rentalStartDate = simpleDateFormat.format(startDate);
+		String rentalEndDate = simpleDateFormat.format(endDate);
+		
+		rentalInfo.setRentalStartDate(rentalStartDate);
+		rentalInfo.setRentalEndDate(rentalEndDate);
+		
+		log.info("{} {} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", rentalInfo.getRentalStartDate(), rentalInfo.getRentalEndDate());
+		
 		model.addAttribute("title","결제완료");
+		model.addAttribute("rentalInfo", rentalInfo);
+		model.addAttribute("dayGap", dayGap);
 		
 		return "user/order/paymentResult";
 	}
-	
-	
 	
 	@PostMapping("/payment")
 	public String payment(Rental rental, HttpSession session) throws ParseException{

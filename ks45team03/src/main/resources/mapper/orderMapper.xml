@@ -230,11 +230,17 @@
 			ren.rental_code,
 			g.goods_name,
 			pay.payment_code,
+			sgg.region_sgg_name,
+			sido.region_sido_name,
+			pay.user_addr_desc,
 			ren.rental_start_date,
 			ren.rental_end_date,
 			pay.expected_payment_amount,
 			pay.goods_commision_total_price,
 			pay.settlement_amount,
+			pay.payment_agency,
+			pay.payment_type,
+			pay.payment_account_or_card_number,
 			tra.order_state_standard_name,
 			ren.rental_order_date,
 			g.goods_rental_availability
@@ -252,6 +258,14 @@
 			tb_trade_status AS tra
 			ON
 			pay.trade_status_code = tra.trade_status_code
+			INNER JOIN
+			tb_region_sgg AS sgg
+			ON
+			sgg.region_sgg_code = pay.region_sgg_code
+			INNER JOIN
+			tb_region_sido AS sido
+			ON
+			sido.region_sido_code = sgg.region_sido_code
 		WHERE
 			ren.rental_code = #{rentalCode};
 	</select>
@@ -286,7 +300,6 @@
 			pay.trade_status_code = tra.trade_status_code
 		WHERE
 			g.user_id = #{userId}
-		
 		ORDER BY
 			CAST(SUBSTRING(ren.rental_code,7) AS UNSIGNED)
 	</select>

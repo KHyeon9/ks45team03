@@ -129,17 +129,33 @@ public class InsuranceController {
 		
 	}
 	
-	
+	@PostMapping("/insuranceModifyBill")
+	public String modifyInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail) {
+		
+		System.out.println("보험접수증수정");
+		
+		System.out.println(insuranceBillDetail.getAccidentType());
+		
+		insuranceService.modifyInsuranceBillDetail(insuranceBillDetail);
+		
+		return "redirect:/user/insurance/insuranceBillDetail";
+	}
 	
 	
 	@GetMapping("/insuranceModifyBill")
-	public String modifyInsuranceBillDetail(Model model) {
+	public String modifyInsuranceBillDetail(@RequestParam(value="insuranceBillDetailCode", required = false) String insuranceBillDetailCode, Model model) {
 		
+		List<InsuranceBillDetail> insuranceBillDetail = insuranceMapper.getInsuranceBillDetailInfoById(insuranceBillDetailCode);
+		
+		model.addAttribute("title", "Insurance");
+		model.addAttribute("insuranceBillDetail", insuranceBillDetail);
 		
 		return "user/insurance/insuranceModifyBill";
 	}
 	
-	@GetMapping("/insuranceRemoveBill")
+	
+	
+	@PostMapping("/insuranceRemoveBill")
 	public String removeInsuranceBillDetail(Model model) {
 		
 		return "user/insurance/insuranceRemoveBill";
