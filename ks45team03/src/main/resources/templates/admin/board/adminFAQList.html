@@ -29,7 +29,7 @@
                  <div class="clearfix"></div>
                </div>
                <div id="searchAndAdd">
-	               <form th:action="@{/admin/board/adminFAQ}" method="get" class="input-group col-md-4">
+	               <form id="searchForm" th:action="@{/admin/board/adminFAQ}" method="get" class="input-group col-md-4">
 					<select name="searchKey" class="form-control">
 						<option value="ca.faq_board_category_name">카테고리</option>
 						<option value="u.user_nickname">작성자</option>
@@ -37,7 +37,7 @@
 						<option value="faq.faq_board_frequently">자주 묻는 질문</option>
 					</select>
 					<input class="form-control" type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
-					<button class="btn btn-dark" type="submit">검색</button>
+					<button id="searchFormBtn" class="btn btn-dark" type="submit">검색</button>
 					</form>
 					<a class="btn btn-dark form-control col-md-1" th:href="@{/admin/board/adminAddFAQ}">작성</a>
                </div>
@@ -46,21 +46,21 @@
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
-			                <th class="column-title"></th>
+			                <th class="column-title">구분</th>
 			                <th class="column-title">제목</th>
 			                <th class="column-title">작성자</th>
 			                <th class="column-title">작성일</th>
-			                <th class="column-title">자주묻는질문</th>
+			                <th class="column-title">옵션</th>
 			              </tr>
 	                     </thead>
 			       
                         <tbody>
 			            <tr th:unless="${#lists.isEmpty(adminFAQList)}" th:each="faq : ${adminFAQList}">
-			                <td th:text="|[${faq.faqBoardCategoryName}]|"></td>
-			                <td style="overflow: hidden; text-overflow: ellipsis;"><a th:text="${faq.faqBoardTitle}" th:href="@{/admin/board/adminDetailFAQ(faqBoardCode=${faq.faqBoardCode})}"></a></td>
-			                <td th:text="${faq.userNickName}"></td>
-			                <td th:text="${faq.faqBoardRegTime}"></td>		
-			                <td th:text="${faq.faqBoardFrequently}"></td>		
+			                <td style="width: 10%" th:text="|[${faq.faqBoardCategoryName}]|"></td>
+			                <td style="overflow: hidden; text-overflow: ellipsis; width: 65%"><a th:text="${faq.faqBoardTitle}" th:href="@{/admin/board/adminDetailFAQ(faqBoardCode=${faq.faqBoardCode})}"></a></td>
+			                <td style="width: 10%" th:text="${faq.userNickName}"></td>
+			                <td style="width: 10%" th:text="${faq.faqBoardRegTime}"></td>		
+			                <td style="width: 5%" th:text="${faq.faqBoardFrequently}"></td>		
 			              </tr>
 			              <tr th:if="${#lists.isEmpty(adminFAQList)}">
 			              	<td colspan="5">등록된 작성글이 없습니다.</td>
@@ -73,26 +73,26 @@
 							<div class="text-left">
 								<ul class="pagination">
 									<li th:if="${pagination.curPage != 1}" class="page-item">
-										<a th:href="@{/admin/board/adminFAQ(curPage=${pagination.prevPage})}" aria-label="Prev" class="page-link"> <span aria-hidden="true">&#60;</span></a>
+										<a th:href="@{/admin/board/adminFAQ(searchKey=${search.searchKey}, searchValue=${search.searchValue}, curPage=${pagination.prevPage})}" aria-label="Prev" class="page-link"> <span aria-hidden="true">&#60;</span></a>
 									</li>
-									<li th:unless="${pagination.curPage != 1}" class="page-item">
-										<span aria-label="Prev" class="page-link"> <span aria-hidden="true">&#60;</span></span>
+									<li th:unless="${pagination.curPage != 1}" class="page-item disabled">
+										<span aria-label="Prev" class="page-link" tabindex="-1" aria-disabled="true"> <span aria-hidden="true">&#60;</span></span>
 									</li>
 									
 									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
-										<li class="page-item" th:if="${pageNum == pagination.curPage}">
+											<li class="page-item active" aria-current="page" th:if="${pageNum == pagination.curPage}">
 											<span th:text="${pageNum}" class="page-link"></span>
 										</li>
 										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}" class="page-item">
-											<a th:href="@{/admin/board/adminFAQ(curPage=${pageNum})}" th:text="${pageNum}" class="page-link"></a>
+											<a th:href="@{/admin/board/adminFAQ(searchKey=${search.searchKey}, searchValue=${search.searchValue}, curPage=${pageNum})}" th:text="${pageNum}" class="page-link"></a>
 										</li>
 									</th:block>
 
 									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}" class="page-item">
-										<a th:href="@{/admin/board/adminFAQ(curPage=${pagination.nextPage})}" aria-label="Next" class="page-link"> <span aria-hidden="true">&#62;</span></a>
+										<a th:href="@{/admin/board/adminFAQ(searchKey=${search.searchKey}, searchValue=${search.searchValue}, curPage=${pagination.nextPage})}" aria-label="Next" class="page-link"> <span aria-hidden="true">&#62;</span></a>
 									</li>
-									<li th:unless="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-										<span aria-label="Next" class="page-link"><span aria-hidden="true">&#62;</span></span>
+									<li th:unless="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}" class="page-item disabled">
+										<span aria-label="Next" class="page-link" tabindex="-1" aria-disabled="true"><span aria-hidden="true">&#62;</span></span>
 									</li>
 								</ul>
 							</div>
@@ -107,4 +107,17 @@
         </div>
       <!-- /page content -->
 	</th:block>
+	
+ 	 <th:block layout:fragment="customScript">
+       	<script th:inline="javascript">
+			$('#searchFormBtn').click(function(e){
+				$('#searchForm').find("input[name='']").val('1');
+				e.preventDefault();
+				
+				$('#searchForm').submit();
+				
+			});
+	    </script>
+    </th:block> 
+	
 </html>
