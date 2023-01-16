@@ -66,7 +66,7 @@
 		                          <td th:if="${rent.orderStateName == '취소 후 환불완료'}"><span class="badge badge-danger">취소</span></td>
 		                      </th:block>
 		                      <td th:text="${rent.rentalOrderDate}"></td>
-	                          <td><a th:href="@{/myPage/modifyMyRent(rentalCode=${rent.rentalCode})}" class="btn btn-sm btn-secondary-outlined">View</a></td>
+	                          <td><a th:href="@{/myPage/addMyRentWaybill(rentalCode=${rent.rentalCode})}" class="btn btn-sm btn-secondary-outlined">View</a></td>
 	                        </tr>
 	                      </tbody>
 	                    </table>

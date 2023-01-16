@@ -13,7 +13,7 @@ public class Rental {
 	private String sigunguName;
 	private String orderStateName;
 	
-	private Payment payment;
+	private Payment payment; // dto
 	
 	public String getRentalCode() {
 		return rentalCode;
