@@ -2,8 +2,6 @@ package ks45team03.rentravel.user.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +14,10 @@ import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
+import ks45team03.rentravel.dto.Review;
 import ks45team03.rentravel.dto.Search;
-import ks45team03.rentravel.mapper.GoodsMapper;
-import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.user.service.GoodsService;
+import ks45team03.rentravel.user.service.ReviewService;
 import ks45team03.rentravel.user.service.WishService;
 import lombok.AllArgsConstructor;
 
@@ -30,6 +28,7 @@ public class GoodsController {
 	
 	private final GoodsService goodsService;
 	private final WishService wishService;
+	private final ReviewService reviewService;
 	
 	@GetMapping("/goodsList")
 	public String goodsList(Model model
@@ -98,12 +97,15 @@ public class GoodsController {
 		
 		
 		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
+		
+		List<Review> reviewList = reviewService.getReviewList(goodsCode);
 		 
 		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("goodsDetail",goodsDetail);
 		model.addAttribute("checkWish",checkWish);
 		model.addAttribute("goodsListByUserId",goodsListByUserId);
+		model.addAttribute("reviewList",reviewList);
 		model.addAttribute("title","상품 상세 정보 화면");
 		
 		return "user/goods/goodsDetail";
