@@ -49,9 +49,7 @@ public class GoodsController {
 		List<Goods> goodsCategoryAndCount = goodsService.getGoodsCategoryAndCount();
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
-		Search searchResult = new Search();
-		searchResult.setSearchKey(searchKey);
-		searchResult.setSearchValue(searchValue);
+		Search searchResult = new Search(searchKey, searchValue);
 		
 		if(loginUser == null) {
 			
