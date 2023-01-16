@@ -71,6 +71,7 @@ public class OrderController {
 	
 	@PostMapping("/payment")
 	public String payment(Rental rental, HttpSession session) throws ParseException{
+		
 		String rentalCode = commonNewCode.getCommonNewCode("tb_rental", "rental_code");
 		String paymentCode = commonNewCode.getCommonNewCode("tb_payment","payment_code");
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
