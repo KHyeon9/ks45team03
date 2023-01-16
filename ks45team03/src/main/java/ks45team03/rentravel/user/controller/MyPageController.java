@@ -1,5 +1,6 @@
 package ks45team03.rentravel.user.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
@@ -48,6 +51,7 @@ public class MyPageController {
 	private final ProfitService profitService;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
+	
 	
 	@GetMapping("/myPage")
 	public String myPage(Model model, HttpSession session) {
@@ -187,6 +191,55 @@ public class MyPageController {
 		model.addAttribute("title","마이페이지 화면");
 		return "user/myPage/myWishList";
 	}
+	
+	@PostMapping("/addMyRentWaybill")
+	public String modifyMyRent(HttpSession session
+								,@RequestParam(value = "paymentCode" ) String paymentCode								
+								,@RequestParam(value = "settlementAmount") int settlementAmount) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");			
+		
+		String dayGroupCode = profitService.getUserDayGroupCode(paymentCode, loginUser.getLoginId());	
+		String MonthGroupCode = profitService.getUserMonthGroupCode(paymentCode, loginUser.getLoginId());
+		String profitSaveYearMonth = profitService.getProfitSaveYearMonth(MonthGroupCode);
+		
+		System.out.println(profitSaveYearMonth+"획득년월");
+		System.out.println(MonthGroupCode+"<-월별수익코드");
+		
+		
+		profitService.addUserProfit(paymentCode, loginUser.getLoginId(), settlementAmount, dayGroupCode);
+		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, MonthGroupCode);
+			
+		
+		return "redirect:/myPage/myRentList";
+	}
+	
+	@GetMapping("/addMyRentWaybill")
+	public String modifyMyRent(@RequestParam( value = "rentalCode", required=false) String rentalCode,
+							   Model model) {
+		Rental rentalInfo = orderService.getRentalGoodsInfo(rentalCode)
+;
+		model.addAttribute("rentalInfo", rentalInfo);
+		
+		return "user/myPage/modifyMyRent";
+	}
+	
+	@GetMapping("/myRentList")
+	public String myRentList(HttpServletResponse response, HttpSession session, Model model) throws IOException {
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		if (loginInfo == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "redirect:/";
+		}
+		List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId());
+;
+		model.addAttribute("rentList", rentList);
+		
+		return "user/myPage/myRentList";
+	}
+	
+	
 	@GetMapping("/myOrderList")
 	public String myOrderHistory(HttpSession session,
 								 Model model) {
