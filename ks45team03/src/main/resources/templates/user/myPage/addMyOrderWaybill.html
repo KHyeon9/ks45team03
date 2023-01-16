@@ -45,7 +45,7 @@
 	                      <form class="form-horizontal" id="modyfyMyRentForm" action="/myPage/addMyOrderWaybill" method="post">
 	                      	<input th:value="${orderInfo.payment.paymentCode}" type="hidden" name="paymentCode" readonly="readonly">	                      	
 	                      	<input th:value="${orderInfo.rentalCode}" type="hidden" name="rentalCode" readonly="readonly">
-	                      	<input th:value="${orderInfo.goods.userId}" type="hidden" name="ownerId" readonly="readonly">
+	                      	<input th:value="${orderInfo.userId}" name="ownerId" type="hidden" readonly="readonly">
 	                        <div class="form-group row">
 	                          <label for="" class="col-md-3 control-label">상품명</label>
 	                          <div class="col-md-7">
@@ -95,7 +95,7 @@
 				                     </select>
 			                      </div>
 		                          <div class="col-md-5">
-	                            	 <input type="number" name="waybillNumber" class="form-control" id=""  minlength="10" maxlength="13">
+	                            	 <input type="number" name="waybillNumber" class="form-control" minlength="10" maxlength="13">
 	                              </div>
 		                        </div>
 	                        </th:block>

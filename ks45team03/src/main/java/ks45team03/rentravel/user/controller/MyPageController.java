@@ -288,6 +288,8 @@ public class MyPageController {
 		waybillRenter.setPaymentCode(paymentCode);
 		waybillRenter.setRenterId(loginInfo.getLoginId());
 		
+		log.info("waybillRenter {} ~~~~~~~~~~~~~~~~", waybillRenter);
+		
 		orderService.addWaybillRenter(waybillRenter, paymentCode);
 		
 		
@@ -298,7 +300,7 @@ public class MyPageController {
 	@GetMapping("/addMyOrderWaybill")
 	public String addMyOrderWaybill(@RequestParam( value = "rentalCode", required=false) String rentalCode,
 							   Model model) {
-		Rental orderInfo = orderService.getRentalGoodsInfo(rentalCode);
+		Rental orderInfo = orderMapper.getOrderGoodsInfo(rentalCode);
 		model.addAttribute("orderInfo", orderInfo);
 		
 		return "user/myPage/addMyOrderWaybill";

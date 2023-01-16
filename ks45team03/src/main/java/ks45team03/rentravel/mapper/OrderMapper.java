@@ -50,6 +50,9 @@ public interface OrderMapper {
 	// 로그인 아이디로 유저 주소 정보 조회
 	public User loginUserInfo(String userId); 
 	
+	// 회원 주문 물품 정보 조회
+	public Rental getOrderGoodsInfo(String rentalCode);
+	
 	// 회원의 렌트 물품 정보 조회
 	public Rental getRentalGoodsInfo(String rentalCode);
 	
