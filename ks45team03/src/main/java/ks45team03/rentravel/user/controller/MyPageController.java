@@ -221,7 +221,7 @@ public class MyPageController {
 ;
 		model.addAttribute("rentalInfo", rentalInfo);
 		
-		return "user/myPage/modifyMyRent";
+		return "user/myPage/addMyRentWaybill";
 	}
 	
 	@GetMapping("/myRentList")
@@ -230,7 +230,7 @@ public class MyPageController {
 		if (loginInfo == null) {
 			CommonController.alertPlzLogin(response);
 			
-			return "redirect:/";
+			return "user/user/login";
 		}
 		List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId());
 ;
