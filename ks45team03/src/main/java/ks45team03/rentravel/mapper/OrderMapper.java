@@ -8,10 +8,26 @@ import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.dto.WaybillOwner;
+import ks45team03.rentravel.dto.WaybillRenter;
 
 @Mapper
 public interface OrderMapper {
 	
+	// 렌터 주문 횟수
+	public int getUserOrderCnt(String userId);
+	
+	// 렌터 운송장 번호 추가
+	public int addWaybillRenter(WaybillRenter waybillRenter);
+	
+	// 오너 렌트 횟수
+	public int getUserRentCnt(String userId);
+	
+	// 오너 운송장 번호 추가
+	public int addWaybillOwner(WaybillOwner waybillOwner);
+	
+	// 상품 결제 상태 업데이트
+	public int modifyPaymentState(String paymentCode, String tradeStateCode);
 	
 	// 마일리지 적립율 조회
 	public float getUserSaveMileageRate(String userId);
@@ -33,6 +49,9 @@ public interface OrderMapper {
 	
 	// 로그인 아이디로 유저 주소 정보 조회
 	public User loginUserInfo(String userId); 
+	
+	// 회원 주문 물품 정보 조회
+	public Rental getOrderGoodsInfo(String rentalCode);
 	
 	// 회원의 렌트 물품 정보 조회
 	public Rental getRentalGoodsInfo(String rentalCode);

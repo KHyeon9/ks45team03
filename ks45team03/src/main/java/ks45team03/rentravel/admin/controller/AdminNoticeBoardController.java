@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.NoticeBoard;
+import ks45team03.rentravel.dto.Pagination;
+import ks45team03.rentravel.dto.Search;
 import ks45team03.rentravel.mapper.AdminNoticeBoardMapper;
 
 @Controller
@@ -23,12 +25,22 @@ public class AdminNoticeBoardController {
 	private AdminNoticeBoardMapper adminNoticeBoardMapper;
 	
 	@GetMapping("/adminNoticeBoard")
-	public String noticeBoard(Model model) {
+	public String noticeBoard(@RequestParam(defaultValue="1", required=false) int curPage
+							 ,@RequestParam(value="searchKey", required = false, defaultValue = "") String searchKey
+							 ,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue
+							 ,Model model) {
 		
-		List<NoticeBoard> adminNoticeBoardList = adminNoticeBoardMapper.adminNoticeBoardList();
+		
+		int listCnt = adminNoticeBoardMapper.noticeBoardListCnt(searchKey, searchValue);
+		Pagination pagination = new Pagination(listCnt, curPage);
+		Search search = new Search(searchKey, searchValue);
+		
+		List<NoticeBoard> adminNoticeBoardList = adminNoticeBoardMapper.adminNoticeBoardList(pagination.getStartIndex(), pagination.getPageSize(), searchKey, searchValue);
 		
 		model.addAttribute("title", "공지사항");
 		model.addAttribute("adminNoticeBoardList", adminNoticeBoardList);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("search", search);
 		
 		return "admin/board/adminNoticeBoardList";
 	}
