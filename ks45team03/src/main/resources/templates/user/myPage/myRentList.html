@@ -78,11 +78,6 @@
 	                          <td>
 	                          	<a th:if="${rent.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" th:href="@{/myPage/addMyRentWaybill(rentalCode=${rent.rentalCode})}" class="btn btn-sm btn-secondary-outlined">배송입력</a>
 	                          	<button th:if="${rent.orderStateName == '배송중(렌터)'}" data-toggle="modal"  th:data-payment-code ="${rent.payment.paymentCode}" data-target=".checkDelivery" class="btn btn-sm btn-secondary-outlined checkDeliveryBtn">배송확인</button>
-	                          	
-	                          	<!-- <form th:if="${rent.orderStateName == '배송중(렌터)'}" id="returnForm" action="/myPage/returnCheck" method="POST" role="form">
-	                          		<input th:value="${rent.payment.paymentCode}" name="paymentCode" type="hidden">
-	                          		<button  type="submit" id="returnCheck" class="btn btn-sm btn-secondary-outlined">반납확인</button>
-	                          	</form> -->
 	                          </td>
 	                        </tr>
 	                      </tbody>

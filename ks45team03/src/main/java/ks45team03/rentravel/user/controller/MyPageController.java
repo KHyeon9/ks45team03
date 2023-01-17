@@ -28,6 +28,7 @@ import ks45team03.rentravel.dto.ProfitMonth;
 import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
+import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
@@ -195,6 +196,21 @@ public class MyPageController {
 	public String myWishList(Model model) {
 		model.addAttribute("title","마이페이지 화면");
 		return "user/myPage/myWishList";
+	}
+	
+	// 주문 취소
+	@PostMapping("/rentalCancel")
+	public String rentalCancel(String paymentCode, HttpSession session) {
+		
+		log.info("payment code : {}", paymentCode);
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String loginId = loginInfo.getLoginId();
+		
+		orderService.rentalCancel(paymentCode, loginId);
+		
+		return "redirect:/myPage/myOrderList";
 	}
 	
 	// 렌트 물품  배송 정보 가져오기

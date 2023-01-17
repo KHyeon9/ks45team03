@@ -77,7 +77,11 @@
 	                          <td>
 		                          <a th:if="${order.orderStateName == '사용중(배송완료)'}" th:href="@{/myPage/addMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">배송입력</a>
 		                          <button th:if="${order.orderStateName == '배송중(오너)'}" data-toggle="modal"  th:data-payment-code ="${order.payment.paymentCode}" data-target=".checkDelivery" class="btn btn-sm btn-secondary-outlined checkDeliveryBtn">배송확인</button>
-		                          <a th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" th:href="@{/myPage/returnMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">환불</a>
+		                          <!-- <a th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" th:href="@{/myPage/returnMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">환불</a> -->
+		                          <form th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" id="cancelForm" action="/myPage/rentalCancel" method="POST" role="form">
+	                          		<input th:value="${order.payment.paymentCode}" name="paymentCode" type="hidden">
+	                          		<button  type="submit" id="rentalCancelBtn" class="btn btn-sm btn-secondary-outlined">환불</button>
+	                          	</form>
 	                          </td>
 	                        </tr>
 	                      </tbody>
