@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Block;
@@ -50,28 +52,20 @@ public class UserBlockController {
 	}
 	
 	
-	
+	@ResponseBody
 	@PostMapping("/addUserBlock")
-	public String addUserBlock(@RequestParam(value = "userId", required = false) String userId
-								,HttpSession session
-								,Model model) {
+	public int addUserBlock(@RequestBody String userId
+								,HttpSession session ) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
 		System.out.println(userId+"<-userId");
 				
-		userBlockService.addUserBlock(userId, loginUser.getLoginId());
+		userBlockService.addUserBlock(userId, loginUser.getLoginId());		
+		int userBlockedIdCnt = userBlockMapper.userBlockListCnt(userId, loginUser.getLoginId());
 		
-		String loginNickName = loginUser.getLoginNickName();	
+		return userBlockedIdCnt;
 		
-		model.addAttribute("title","나의 차단 리스트");
-		model.addAttribute("loginNickName",loginNickName);
-
-		
-		
-		
-		return "redirect:/myPage/myBlockList";
-
 	}			
 	
 }

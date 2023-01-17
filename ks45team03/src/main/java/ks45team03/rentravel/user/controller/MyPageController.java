@@ -212,11 +212,11 @@ public class MyPageController {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");			
 		
 		String dayGroupCode = profitService.getUserDayGroupCode(paymentCode, loginUser.getLoginId());	
-		String MonthGroupCode = profitService.getUserMonthGroupCode(paymentCode, loginUser.getLoginId());
-		String profitSaveYearMonth = profitService.getProfitSaveYearMonth(MonthGroupCode);
-		
+		String monthGroupCode = profitService.getUserMonthGroupCode(paymentCode, loginUser.getLoginId());
+		String profitSaveYearMonth = profitService.getProfitSaveYearMonth(monthGroupCode);
+	
 		System.out.println(profitSaveYearMonth+"획득년월");
-		System.out.println(MonthGroupCode+"<-월별수익코드");
+		System.out.println(monthGroupCode+"<-월별수익코드");
 		
 		waybillOwner.setPaymentCode(paymentCode);
 		waybillOwner.setOwnerId(loginUser.getLoginId());
@@ -227,8 +227,9 @@ public class MyPageController {
 		
 		
 		profitService.addUserProfit(paymentCode, loginUser.getLoginId(), settlementAmount, dayGroupCode);
-		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, MonthGroupCode);
-			
+		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, monthGroupCode);
+		profitService.addUserMonthProfit(monthGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth);	
+		profitService.addUserYearProfit(profitSaveYearMonth, paymentCode, loginUser.getLoginId());
 		
 		return "redirect:/myPage/myRentList";
 	}
@@ -407,7 +408,7 @@ public class MyPageController {
 		int listCnt = userProfitMapper.dayProfitListCnt(loginUser.getLoginId());
 		
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<ProfitDay> getUserDayProfitList = userProfitMapper.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
+		List<ProfitDay> getUserDayProfitList = profitService.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
 		
 		System.out.println(searchYear+"년도");
 		System.out.println(searchDay+"<-일");
@@ -429,7 +430,9 @@ public class MyPageController {
 											,HttpSession session
 											,@RequestParam(defaultValue="1", required=false) int curPage
 											,@RequestParam(value="searchYear", required = false) String searchYear
-											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth) {
+											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
+											) {
+
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt =  userProfitMapper.MonthProfitListCnt(loginUser.getLoginId());
@@ -453,7 +456,8 @@ public class MyPageController {
 	public String getUserProfitListYear (Model model
 										,HttpSession session
 										,@RequestParam(defaultValue="1", required=false) int curPage	
-										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear) {
+										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear
+										) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt = userProfitMapper.YearProfitListCnt(loginUser.getLoginId());

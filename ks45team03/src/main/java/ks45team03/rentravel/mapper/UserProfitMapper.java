@@ -13,11 +13,54 @@ import ks45team03.rentravel.dto.ProfitYear;
 @Mapper
 public interface UserProfitMapper {
 	
-	/* 회원 일별 수익 추가 */
+	// -----회원 연별 수익 추가 관련
+	
+	/* 회원 연별 수익 업데이트 */
+	public void updateUserYearProfit(String loginId, String profitYear, int ownerProfitJanuary, int ownerProfitFebruary, int ownerProfitMarch, int ownerProfitApril
+									,int ownerProfitMay, int ownerProfitJune, int ownerProfitJuly, int ownerProfitAugust, int ownerProfitSeptember, int ownerProfitOctober, int ownerProfitNovember
+									,int ownerProfitDecember);
+	
+	/* 회원 연별 수익 처음 추가 */
+	public void addFirstUserYearProfit (String profitYearCode, String loginId, String profitYear, int ownerProfitJanuary, int ownerProfitFebruary, int ownerProfitMarch, int ownerProfitApril
+										,int ownerProfitMay, int ownerProfitJune, int ownerProfitJuly, int ownerProfitAugust, int ownerProfitSeptember, int ownerProfitOctober, int ownerProfitNovember
+										,int ownerProfitDecember);
+	
+	/* 아이디별 월별 수익 확인 */
+	public int getUserMonthProfit (String profitMonth, String loginId);
+	
+	/* getUserProfitYearCount */
+	public int getUserProfitYearCount(String profitYear, String loginId);
+	
+	/* 일별 수익그룹코드 년도 조회 */
+	public String getUserDayGroupCodeYear (String paymentCode);
+	
+	
+	
+	
+	// -----회원 월별 수익 추가 관련
+	
+	/* 회원 월별 수익 업데이트 */
+	public void updateUserMonthProfit(int userMonthProfitTotal, String monthGroupCode);
+	
+	/* 회원 월별 수익 처음 추가 */
+	public void addFirstUserMonthProfit (String profitMonthCode, String loginId, String profitSaveYearMonth, String monthGroupCode, int settlementAmount);
+	
+	/* 해당 월별수익 그룹코드가 몇개인지 확인 */
+	public int monthGroupCodeCount (String monthGroupCode);	
+	
+	/* 회원 월별 수익 총 금액 조회 */
+	public int getUserMonthProfitTotal (int settlementAmount, String monthGroupCode);
+	
+	
+	
+	
+	// -----회원 일별 수익 추가 관련
+	
+	/* 회원 일별 수익 업데이트 */
 	public void updateUserDayProfit(int userDayProfitTotal, String dayGroupCode);
 	
 	/* 회원 일별 수익 처음 추가 */
-	public void addFirstUserDayProfit (String profitDayCode, String loginId, String profitSaveYearMonth, int settlementAmount, String dayGroupCode, String MonthGroupCode);
+	public void addFirstUserDayProfit (String profitDayCode, String loginId, String profitSaveYearMonth, int settlementAmount, String dayGroupCode, String monthGroupCode);
 	
 	/* 해당 일별수익 그룹코드가 몇개인지 확인 */
 	public int dayGroupCodeCount (String dayGroupCode);
