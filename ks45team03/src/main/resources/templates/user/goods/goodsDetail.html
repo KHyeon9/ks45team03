@@ -126,10 +126,10 @@
                    		<h4 th:text="'등록일자: '+*{goodsRegDate}"></h4>
                    		<h4 th:text="'상품가치: '+*{goodsValuePrice}"></h4>
                    		
-   	               	<form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
-	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
-	                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
-                    </form>
+   	               
+	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId && userBlockedIdCnt == 0}"
+	                   		type="button" class="btn btn-secondary blockBtn" th:data-block-id = "*{userId}">사용자 차단하기</button>
+                   
                    	
                    <form id="getRentalInfo" action="/order/payment" method="get">
                    	 <input th:value="${goodsDetail.goodsCode}" name="goodsCode" type="hidden" readonly="readonly"/>
@@ -395,16 +395,7 @@
 			
 			
 	
-		$('#submitBtn').click(function(){
-			
-			const userId =  document.getElementById("submitBtn").value;
-						
-			if(!confirm(userId+'님을 차단하시겠습니까?')) {
-				return false;
-			}else{
-				$('#addBlockForm').submit();
-			}
-		}); 
+		
 			
 		$('#removeGoodsButton').click(function(){
 			
@@ -445,6 +436,37 @@
 				$('#removeWishForm').submit();
 			}
 		});
+		
+		
+		$(document).on('click','.blockBtn',function(){
+			const blockedId = $(this).attr('data-block-id');
+			
+			if(!confirm(blockedId+'님을 차단하시겠습니까?')) {
+				return false;
+			}else{
+			
+			$.ajax({
+   				type:'POST',
+   				url:'/user/block/addUserBlock',
+   				contentType: "application/json; charset=UTF-8",
+   				data: blockedId,
+	   			success: function(data) {   	          		
+	   	          	alert(blockedId + '님이 차단되었습니다.')
+	   	         if(data > 0){
+		 				$('.blockBtn').hide();
+		 			}
+
+	   			},
+	   			error: function(e) {
+	   				alert("ERROR : " + e);
+	   				console.log(blockedId);
+	   			}	
+			});
+			
+			}
+			  
+		})
+		
 		
 		
 		</script>

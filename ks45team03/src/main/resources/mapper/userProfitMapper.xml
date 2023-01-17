@@ -58,6 +58,131 @@
 		<result property="paymentTime" column="payment_time"/>				
 	</resultMap>
 	
+	
+	<!-- 회원 연별수익 추가 관련 -->
+	<update id="updateUserYearProfit">
+	 /* 회원 연별 수익 업데이트 */
+		UPDATE tb_profit_year AS py
+		SET			
+			py.owner_profit_january = ${ownerProfitJanuary}
+			,py.owner_profit_february = ${ownerProfitFebruary}
+			,py.owner_profit_march = ${ownerProfitMarch}
+			,py.owner_profit_april = ${ownerProfitApril}
+			,py.owner_profit_may = ${ownerProfitMay}
+			,py.owner_profit_june = ${ownerProfitJune}
+			,py.owner_profit_july = ${ownerProfitJuly}
+			,py.owner_profit_august = ${ownerProfitAugust}
+			,py.owner_profit_september = ${ownerProfitSeptember}
+			,py.owner_profit_october = ${ownerProfitOctober}
+			,py.owner_profit_november = ${ownerProfitNovember}
+			,py.owner_profit_december = ${ownerProfitDecember}
+			,py.owner_profit_year_total = py.owner_profit_january + py.owner_profit_february + py.owner_profit_march + py.owner_profit_april + py.owner_profit_may
+										+ py.owner_profit_june + py.owner_profit_july + py.owner_profit_august + py.owner_profit_september + py.owner_profit_october
+										+ py.owner_profit_november + py.owner_profit_december
+			,py.owner_profit_reg_date = NOW()
+			
+		WHERE 
+			py.user_id = #{loginId}
+			and
+			py.owner_profit_year = ${profitYear}
+	  </update>
+	
+	
+	<insert id="addFirstUserYearProfit">
+	/* 회원 연별 수익 처음 추가 */
+	INSERT INTO tb_profit_year
+	VALUE
+		(#{profitYearCode}, #{loginId}, #{profitYear}, ${ownerProfitJanuary}, ${ownerProfitFebruary}, ${ownerProfitMarch}, ${ownerProfitApril}, ${ownerProfitMay}, ${ownerProfitJune}
+		, ${ownerProfitJuly}, ${ownerProfitAugust}, ${ownerProfitSeptember}, ${ownerProfitOctober}, ${ownerProfitNovember}, ${ownerProfitDecember}
+		,${ownerProfitJanuary} + ${ownerProfitFebruary} + ${ownerProfitMarch} + ${ownerProfitApril} + ${ownerProfitMay} + ${ownerProfitJune}
+		+ ${ownerProfitJuly} + ${ownerProfitAugust} + ${ownerProfitSeptember} + ${ownerProfitOctober} + ${ownerProfitNovember} + ${ownerProfitDecember}, NOW());
+	</insert>
+	
+	
+	
+	<select id="getUserMonthProfit" parameterType="String" resultType="int">
+	/* 회원별 월별 수익 확인 */
+	SELECT
+		pm.profit_month_total
+	FROM 
+		tb_profit_month AS pm
+	WHERE 
+		SUBSTRING(pm.profit_save_year_month,4,2) = #{profitMonth}
+		AND 
+		pm.user_id = #{loginId};		
+	</select>
+	
+	
+	<select id="getUserProfitYearCount" resultType="int">
+	/* 회원별 수익 연도 목록 행 갯수 */
+	SELECT 
+		count(py.owner_profit_year)
+	FROM 
+		tb_profit_year AS py	
+	WHERE 
+		py.owner_profit_year = #{profitYear}
+		AND 
+		py.user_id = #{loginId};
+	</select>
+	
+	
+	<select id="getUserDayGroupCodeYear" parameterType="String" resultType="String">
+	/* 일별 수익그룹코드 년도 조회 */
+		SELECT 
+			SUBSTRING(pay.payment_time, 1, 4)
+		FROM 
+			tb_payment AS pay
+		WHERE 
+			pay.payment_code = #{paymentCode};	
+	</select>
+	
+	
+	
+	
+	<!-- 회원 월별수익 추가 관련 -->
+	
+	<update id="updateUserMonthProfit">
+	/* 회원 월별 수익 업데이트 */
+	UPDATE tb_profit_month AS pm
+	SET 
+		pm.profit_month_total = ${userMonthProfitTotal}
+	WHERE 
+		pm.profit_month_group = #{monthGroupCode};
+	</update>
+	
+	
+	<select id="getUserMonthProfitTotal" resultType="int">
+	/* 월별 정산금 합계 */
+	SELECT 
+		MAX(pm.profit_month_total) + ${settlementAmount}
+	FROM 
+		tb_profit_month AS pm
+	WHERE 
+		pm.profit_month_group = #{monthGroupCode};
+	</select>
+	
+	
+	<insert id="addFirstUserMonthProfit">
+	/* 회원 월별 수익 처음 추가 */
+	INSERT INTO tb_profit_month
+	VALUE
+		(#{profitMonthCode}, #{loginId}, #{profitSaveYearMonth}, #{monthGroupCode}, ${settlementAmount});	
+	</insert>
+	
+	
+	<select id="monthGroupCodeCount" parameterType="String" resultType="int">
+	/* 해당 월별수익 그룹코드가 몇개인지 확인 */
+	SELECT 
+		COUNT(1)
+	FROM 
+		tb_profit_month AS pm
+	WHERE 
+		pm.profit_month_group = #{monthGroupCode};		
+
+	</select>
+	
+	
+	
 	<!-- 회원 일별수익 추가 관련 -->
 	
 	<update id="updateUserDayProfit">
@@ -74,7 +199,7 @@
 	/* 회원 일별 수익 처음 추가 */
 	INSERT INTO tb_profit_day
 	VALUE
-		(#{profitDayCode}, #{loginId}, #{profitSaveYearMonth}, ${settlementAmount}, #{dayGroupCode}, #{MonthGroupCode});	
+		(#{profitDayCode}, #{loginId}, #{profitSaveYearMonth}, ${settlementAmount}, #{dayGroupCode}, #{monthGroupCode});	
 	</insert>
 	
 	
@@ -215,6 +340,7 @@
 			and py.owner_profit_year = #{searchYear}				
 		</if>
 	</where>
+	ORDER BY py.owner_profit_year DESC
 	<if test="startIndex != null and startIndex > -1">
 		LIMIT #{startIndex}, #{pageSize}
 	</if>	
@@ -242,6 +368,7 @@
 				and substring(pm.profit_month_group,13,2) = #{searchMonth}
 			</if>					
 		</where>
+		ORDER BY SUBSTRING(pm.profit_month_group,11,4) DESC
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize}
 		</if>		
@@ -271,6 +398,7 @@
 				and substring(pd.profit_day_group,15,2) = #{searchDay}
 			</if>
 		</where> 
+		ORDER BY SUBSTRING(pd.profit_day_group,11,6) DESC
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize}
 		</if>
@@ -294,6 +422,7 @@
 			tb_profit AS p
 		WHERE 
 			p.user_id = #{loginId}
+		ORDER BY p.profit_save_time DESC
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize};
 		</if>

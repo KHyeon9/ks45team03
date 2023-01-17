@@ -9,7 +9,8 @@ import ks45team03.rentravel.dto.Block;
 @Mapper
 public interface UserBlockMapper {
 	
-	
+	/* 특정 회원 차단 목록 행 갯수 */
+	public int userBlockListCnt(String userId, String loginId);
 	
 	/* 차단한 회원 id 조회 */
 	public List<Block> getUserBlockId (String loginId);
