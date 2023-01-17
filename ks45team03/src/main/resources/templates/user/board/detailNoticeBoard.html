@@ -35,63 +35,23 @@
 		          <div class="caption">
 		            <div class="row">
 		              <div class="col-md-3 order-md-12">
-		                <h5>Infomation</h5>
-		                <ul class="list-unstyled">
-		                  <li>
-		                    <i class="fa fa-user" aria-hidden="true"></i><span th:text="${detailNoticeBoard.userId}"></span>
-		                  </li>
-		                  <li>
-		                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${detailNoticeBoard.noticeBoardRegTime}"></span>
-	                      </li>
-	                      <li>
-	                      	<i class="bi bi-hand-thumbs-up-fill"></i><span th:text="${detailNoticeBoard.noticeBoardLikeCnt}"></span>
-	                      </li>
-	                      <li>
-	                      	<i class="bi bi-eye-fill"></i><span th:text="${detailNoticeBoard.noticeBoardViewCnt}"></span>
-	                      	</li>
-		                </ul>
-		                
-		                <h5>Share</h5>
-		                <ul class="list-inline">
-		                  <li>
-		                    <a href="#">
-		                      <i class="fa fa-facebook" aria-hidden="true"></i>
-		                    </a>
-		                  </li>
-		                  <li>
-		                    <a href="#">
-		                      <i class="fa fa-twitter" aria-hidden="true"></i>
-		                    </a>
-		                  </li>
-		                  <li>
-		                    <a href="#">
-		                      <i class="fa fa-dribbble" aria-hidden="true"></i>
-		                    </a>
-		                  </li>
-		                  <li>
-		                    <a href="#">
-		                      <i class="fa fa-tumblr" aria-hidden="true"></i>
-		                    </a>
-		                  </li>
-		                </ul>
-		                <ul class="list-unstyled">
-		                </ul>
 		              </div>
-		              <div class="col-md-9 order-md-1">
+		              <div class="col-md-12 order-md-1">
 		                <h3 th:text="${detailNoticeBoard.noticeBoardTitle}"></h3>
-		                <img src="/user/assets/img/blog/blog-01.jpg" alt="blog-image">
-		                <p th:text="${detailNoticeBoard.noticeBoardContent}"></p>
+		                 <ul>
+			                  <li>
+			                    <i class="fa fa-user" aria-hidden="true"></i><span th:text="${detailNoticeBoard.userNickName}"></span>
+			                  </li>
+			                  <li>
+			                    <i class="fa fa-calendar" aria-hidden="true"></i><span th:text="${detailNoticeBoard.noticeBoardRegTime}"></span>
+		                      </li>
+		                </ul>
+		                <div class="heading heading-v1 mb-3 bg-white bg-gray"></div>
+		               		<p th:text="${detailNoticeBoard.noticeBoardContent}" class="p-5" style="height: 30vh"></p>
+		                <div class="heading heading-v1 mb-3 bg-white bg-gray"></div>
 		              </div>
 		            </div>
 		          </div>
-		          <ul class="pager">
-		            <li class="previous">
-		              <a href="#">previous</a>
-		            </li>
-		            <li class="next float-right">
-		              <a href="#">next</a>
-		            </li>
-		          </ul>
 		        </div>
 		      </div>
 		    </div>

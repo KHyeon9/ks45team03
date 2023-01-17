@@ -6,6 +6,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    
+    <style>
+		.rating-view fieldset{
+		    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+		    direction: rtl; /* 이모지 순서 반전 */
+		    border: 0; /* 필드셋 테두리 제거 */
+		}
+		.rating-view fieldset legend{
+		    text-align: left;
+		}
+		.rating-view input[type=radio]{
+		    display: none; /* 라디오박스 감춤 */
+		}
+		.rating-view label{
+		    font-size: 1.7em; /* 이모지 크기 */
+		    color: transparent; /* 기존 이모지 컬러 제거 */
+		    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+		}
+		.rating-view label:hover{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 호버 */
+		}
+		.rating-view label:hover ~ label{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 호버 뒤에오는 이모지들 */
+		}
+		.rating-view input[type=radio]:checked ~ label{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 클릭 체크 */
+		}
+	</style>
+    
 </head>
 
 <body>
@@ -188,11 +217,7 @@
                     </ul>
                     <div class="tab-content">
                       <div id="OurDetails" class="tab-pane fade show active">
-                        <p th:text="${goodsDetail.goodsDetail}">LContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
-                          Latin
-                          liter ature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
-                          Hampden-Sydney
-                          College in Virginia.</p>
+                        <p th:text="${goodsDetail.goodsDetail}"></p>
                       </div>
 
                       <div id="OurSizing" class="tab-pane fade">
@@ -276,94 +301,23 @@
                       </div>
 
                       <div id="Reviews" class="tab-pane fade">
-                        <div class="media mb-5">
+                        <div class="media mb-5" th:each="rl : ${reviewList}">
                           <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
                           <div class="media-body">
-                            <h4 class="mt-0 mb-2">Lorem ipsum dolor</h4>
+                            <h4 class="mt-0 mb-2" th:text="${rl.user.userNickName}">닉네임</h4>
 
                             <ul class="text-warning d-flex mb-1">
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class=""><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
+                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true" th:each="num : ${#numbers.sequence(1,rl.goodsEvaluation)}"></i></li>
                             </ul>
 
-                            <p class="mt-0 mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolorum quasi magni mollitia suscipit blanditiis nihil id autem? Voluptates, minima expedita doloremque amet consequuntur quam aliquid repellat architecto accusamus fuga.</p>
-                            <h6 class="mt-0"><em>Rodney Artichoke</em></h6>
+                            <p class="mt-0 mb-3" th:text="${rl.reviewContent}"></p>
                           </div>
                         </div>
-
-                        <div class="media mb-5">
-                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small-02.jpg" alt="Generic placeholder image">
-                          <div class="media-body">
-                            <h4 class="mt-0 mb-2">Feugiat primis</h4>
-
-                            <ul class="text-warning d-flex mb-1">
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class=""><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                            </ul>
-
-                            <p class="mt-0 mb-3">Feugiat primis reprehenderit proident cumque nec diam eligendi, qui iure, torquent quod sequi, taciti! Tempus leo
-                            architecto accusantium cillum, taciti nascetur? Iusto facilisi dolores adipisci eros fuga, laoreet culpa molestie, arcu
-                            lectus felis sunt accusantium alias mollitia eius anim eget. voluptatibus facilisi.</p>
-                            <h6 class="mt-0"><em>Samanta Doe</em></h6>
-                          </div>
-                        </div>
-
-                        <div class="media mb-0">
-                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small-03.jpg" alt="Generic placeholder image">
-                          <div class="media-body">
-                            <h4 class="mt-0 mb-2">Auctor vitae egestas</h4>
-
-                            <ul class="text-warning d-flex mb-1">
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class=""><i class="fa fa-star" aria-hidden="true"></i></li>
-                            </ul>
-
-                            <p class="mt-0 mb-2">Auctor vitae egestas et. Accumsan quis nunc. Duis leo justo. Condimentum at purus eu. Amana sed dolor sem. Etiam massa
-                            libero. massa libero, auctor vitae egestas et, accumsan quis nunc. Dous leou justi, condimentam at purus eus actor.
-                            Auctor vitae egestas et duis Condimentum at purus eu. Aemean sed dolor sem. Etiam massa libero.</p>
-                            <h6 class="mt-0"><em>Amanda Smith</em></h6>
-                          </div>
-                        </div>
-
-                        <div class="mt-5 mb-2 border p-4 p-md-5">
-                          <form>
-                            <div class="media flex-column flex-md-row mb-0">
-                              <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="/user/assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
-                              
-                              <div class="media-body mt-4 mt-md-0">
-                                <h6 class="text-center text-md-left text-capitalize mt-0"><em>Rodney samp</em></h6>
-                                <h6 class="text-center text-md-left ReviewsPost mt-0">Posting publicly</h6>
-                            
-                                <div class="rating-view mb-4">
-                                  <span class="add-rating-large pl-0 m-auto m-md-0"></span>
-                                </div>
-
-                                <div class="row">
-                                  <div class="form-group col-md-12">
-                                    <input type="text" class="form-control" id="exampleInputPhone" placeholder="Subject" required="">
-                                  </div>
-
-                                  <div class="form-group col-md-12">
-                                    <textarea class="form-control" id="exampleTextarea" rows="5" placeholder="Review"></textarea>
-                                  </div>
-                                </div>
-
-                                <div class="text-center text-md-left">
-                                  <button type="submit" class="btn btn-default btn-primary custom-btn">Submit Review</button>
-                                </div>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
+						
+						<th:block th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == goodsDetail.userId}">
+							<div th:replace="~{user/fragments/goodsDetailAddReviewFragment :: goodsDetailAddReviewFragment}"></div>
+						</th:block>
+						
                       </div>
 
                       <div id="OurShipping" class="tab-pane fade">

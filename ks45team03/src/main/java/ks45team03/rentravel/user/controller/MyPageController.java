@@ -27,10 +27,12 @@ import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.dto.WaybillOwner;
+import ks45team03.rentravel.dto.WaybillRenter;
+import ks45team03.rentravel.mapper.OrderMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.user.service.GoodsService;
-import ks45team03.rentravel.user.service.InfoBoardService;
 import ks45team03.rentravel.mapper.UserProfitMapper;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.ProfitService;
@@ -45,6 +47,7 @@ public class MyPageController {
 	private final UserBlockMapper userBlockMapper;
 	private final UserProfitMapper userProfitMapper;
 	private final OrderService orderService;
+	private final OrderMapper orderMapper;
 	private final UserService userService;
 	private final UserMapper userMapper;
 	private final GoodsService goodsService;
@@ -192,8 +195,17 @@ public class MyPageController {
 		return "user/myPage/myWishList";
 	}
 	
+	@PostMapping("/returnCheck")
+	public String returnCheck(@RequestParam(value = "paymentCode" ) String paymentCode) {
+		
+		orderService.modifyPaymentState(paymentCode, "trade_status6");
+		
+		return "redirect:/myPage/myRentList";
+	}
+	
 	@PostMapping("/addMyRentWaybill")
 	public String modifyMyRent(HttpSession session
+								, WaybillOwner waybillOwner
 								,@RequestParam(value = "paymentCode" ) String paymentCode								
 								,@RequestParam(value = "settlementAmount") int settlementAmount) {
 		
@@ -206,6 +218,13 @@ public class MyPageController {
 		System.out.println(profitSaveYearMonth+"획득년월");
 		System.out.println(monthGroupCode+"<-월별수익코드");
 		
+		waybillOwner.setPaymentCode(paymentCode);
+		waybillOwner.setOwnerId(loginUser.getLoginId());
+		
+		orderService.addWaybillOwner(waybillOwner, paymentCode);
+		
+		log.info("waybillOwner : {} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", waybillOwner);
+		
 		
 		profitService.addUserProfit(paymentCode, loginUser.getLoginId(), settlementAmount, dayGroupCode);
 		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, monthGroupCode);
@@ -215,45 +234,101 @@ public class MyPageController {
 		return "redirect:/myPage/myRentList";
 	}
 	
+	// 오너의 운송장 번호 입력
 	@GetMapping("/addMyRentWaybill")
 	public String modifyMyRent(@RequestParam( value = "rentalCode", required=false) String rentalCode,
 							   Model model) {
-		Rental rentalInfo = orderService.getRentalGoodsInfo(rentalCode)
-;
+		Rental rentalInfo = orderService.getRentalGoodsInfo(rentalCode);
 		model.addAttribute("rentalInfo", rentalInfo);
 		
 		return "user/myPage/addMyRentWaybill";
 	}
 	
+	// 상품 렌트 목록
 	@GetMapping("/myRentList")
-	public String myRentList(HttpServletResponse response, HttpSession session, Model model) throws IOException {
+	public String myRentList(HttpServletResponse response, 
+							 HttpSession session, 
+							 Model model,
+							 @RequestParam(defaultValue="1", required=false) int curPage) throws IOException {
+		
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
 		if (loginInfo == null) {
 			CommonController.alertPlzLogin(response);
 			
-			return "user/user/login";
+			return "redirect:/";
 		}
+		
+		int userRentCnt = orderMapper.getUserRentCnt(loginInfo.getLoginId());
+		
+		Pagination pagination = new Pagination(userRentCnt, curPage);
+		
 		List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId());
-;
+		model.addAttribute("title","마이페이지 렌트 내역");
 		model.addAttribute("rentList", rentList);
+		model.addAttribute("pagination", pagination);
 		
 		return "user/myPage/myRentList";
 	}
 	
+	// 렌터의 상품 수령
+	@PostMapping("/receiptCheck")
+	public String receiptCheck(String paymentCode) {
+		
+		orderService.modifyPaymentState(paymentCode, "trade_status4");
+		
+		return "redirect:/myPage/myOrderList";
+	}
 	
+	// 렌터의 운송장 번호 입력 post
+	@PostMapping("/addMyOrderWaybill")
+	public String addMyOrderWaybill(WaybillRenter waybillRenter,
+									String paymentCode,
+									HttpSession session) {
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		waybillRenter.setPaymentCode(paymentCode);
+		waybillRenter.setRenterId(loginInfo.getLoginId());
+		
+		log.info("waybillRenter {} ~~~~~~~~~~~~~~~~", waybillRenter);
+		
+		orderService.addWaybillRenter(waybillRenter, paymentCode);
+		
+		
+		return "redirect:/myPage/myOrderList";
+	}
+	
+	// 렌터의 운송장 번호 입력 get
+	@GetMapping("/addMyOrderWaybill")
+	public String addMyOrderWaybill(@RequestParam( value = "rentalCode", required=false) String rentalCode,
+							   Model model) {
+		Rental orderInfo = orderMapper.getOrderGoodsInfo(rentalCode);
+		model.addAttribute("orderInfo", orderInfo);
+		
+		return "user/myPage/addMyOrderWaybill";
+	}
+	
+	// 상품 주문 목록
 	@GetMapping("/myOrderList")
-	public String myOrderHistory(HttpSession session,
-								 Model model) {
+	public String myOrderHistory(HttpServletResponse response,
+								 HttpSession session,
+								 Model model,
+								 @RequestParam(defaultValue="1", required=false) int curPage) throws IOException {
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String redirectURI = "user/myPage/myOrderList";
 		
 		if (loginInfo == null) {
+			CommonController.alertPlzLogin(response);
 			redirectURI = "redirect:/";
 		
 		} else {
+			int userOrderCnt = orderMapper.getUserOrderCnt(loginInfo.getLoginId());
+			
+			Pagination pagination = new Pagination(userOrderCnt, curPage);
+			
 			List<Rental> orderList = orderService.getUserOrderList(loginInfo.getLoginId());
 			model.addAttribute("title","마이페이지 주문 내역");
 			model.addAttribute("orderList", orderList);
+			model.addAttribute("pagination", pagination);
 		}
 		
 		

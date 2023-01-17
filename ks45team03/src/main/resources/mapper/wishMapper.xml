@@ -13,7 +13,7 @@
 			<result property="wishExpirationPeriodStart" 		column="wish_expiration_period_start"/>
 			<result property="wishExpirationPeriodEnd" 		column="wish_expiration_period_end"/>
 			
-		<association property="goods" javaType="Goods" >
+		<association property="goods" javaType="Goods">
 		
 			<id property="goodsCode" 			column="goods_code"/>
 			<result property="goodsName" 		column="goods_name"/>

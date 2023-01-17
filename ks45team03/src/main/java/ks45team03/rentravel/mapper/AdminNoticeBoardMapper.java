@@ -8,9 +8,11 @@ import ks45team03.rentravel.dto.NoticeBoard;
 
 @Mapper
 public interface AdminNoticeBoardMapper {
+	
+	public int noticeBoardListCnt(String searchKey, String searchValue);
 
 	// 공지사항 리스트
-	public List<NoticeBoard> adminNoticeBoardList();
+	public List<NoticeBoard> adminNoticeBoardList(int startIndex, int pageSize, String searchKey, String searchValue);
 	
 	// 공지사항 상세보기
 	public NoticeBoard adminDetailNoticeBoard(String noticeBoardCode);
