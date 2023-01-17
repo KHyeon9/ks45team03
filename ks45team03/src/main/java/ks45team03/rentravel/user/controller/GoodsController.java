@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.dto.LoginInfo;
@@ -30,6 +31,7 @@ public class GoodsController {
 	
 	private final GoodsService goodsService;
 	private final WishService wishService;
+	private final UserBlockMapper userBlockMapper;
 	
 	@GetMapping("/goodsList")
 	public String goodsList(Model model
@@ -100,12 +102,15 @@ public class GoodsController {
 		
 		
 		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
+		int userBlockedIdCnt = userBlockMapper.userBlockListCnt(userId, loginUser.getLoginId());
+		
 		 
 		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("goodsDetail",goodsDetail);
 		model.addAttribute("checkWish",checkWish);
 		model.addAttribute("goodsListByUserId",goodsListByUserId);
+		model.addAttribute("userBlockedIdCnt",userBlockedIdCnt);
 		model.addAttribute("title","상품 상세 정보 화면");
 		
 		return "user/goods/goodsDetail";

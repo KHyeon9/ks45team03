@@ -200,16 +200,17 @@ public class MyPageController {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");			
 		
 		String dayGroupCode = profitService.getUserDayGroupCode(paymentCode, loginUser.getLoginId());	
-		String MonthGroupCode = profitService.getUserMonthGroupCode(paymentCode, loginUser.getLoginId());
-		String profitSaveYearMonth = profitService.getProfitSaveYearMonth(MonthGroupCode);
-		
+		String monthGroupCode = profitService.getUserMonthGroupCode(paymentCode, loginUser.getLoginId());
+		String profitSaveYearMonth = profitService.getProfitSaveYearMonth(monthGroupCode);
+	
 		System.out.println(profitSaveYearMonth+"획득년월");
-		System.out.println(MonthGroupCode+"<-월별수익코드");
+		System.out.println(monthGroupCode+"<-월별수익코드");
 		
 		
 		profitService.addUserProfit(paymentCode, loginUser.getLoginId(), settlementAmount, dayGroupCode);
-		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, MonthGroupCode);
-			
+		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, monthGroupCode);
+		profitService.addUserMonthProfit(monthGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth);	
+		profitService.addUserYearProfit(profitSaveYearMonth, paymentCode, loginUser.getLoginId());
 		
 		return "redirect:/myPage/myRentList";
 	}
@@ -332,7 +333,7 @@ public class MyPageController {
 		int listCnt = userProfitMapper.dayProfitListCnt(loginUser.getLoginId());
 		
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<ProfitDay> getUserDayProfitList = userProfitMapper.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
+		List<ProfitDay> getUserDayProfitList = profitService.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
 		
 		System.out.println(searchYear+"년도");
 		System.out.println(searchDay+"<-일");
