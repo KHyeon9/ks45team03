@@ -526,26 +526,6 @@
 			}
 		});
 		
-		$('#addWishButton').click(function(){
-			
-			if([[${session.S_USER_INFO}]] != null){
-				
-			    const $modifyCancelBtn = $('<button />',{
-					class:'btn btn-secondary btn-sm modifyCancelBtn',
-					type:'button',
-					text:'취소',
-					click: function(){
-						location.reload();
-					}
-				});
-			    
-			    changeSection.append("<div class='rating-view mb-4'> <fieldset><input type='radio' name='goodsEvaluation' value='5' id='rate1'><label for='rate1'>⭐</label><input type='radio' name='goodsEvaluation' value='4' id='rate2'><label for='rate2'>⭐</label><input type='radio' name='goodsEvaluation' value='3' id='rate3'><label for='rate3'>⭐</label><input type='radio' name='goodsEvaluation' value='2' id='rate4'><label for='rate4'>⭐</label><input type='radio' name='goodsEvaluation' value='1' id='rate5'><label for='rate5'>⭐</label></fieldset></div> ")
-				changeSection.append($textArea);
-				changeSection.append($modifyActionBtn);
-				changeSection.append(' /');
-				changeSection.append($modifyCancelBtn);
-				//console.log(reviewContent);
-			})
 		
 			$(document).on('click','.deleteBtn',function(){
 				const infoBoardCommentCode = $(this).attr('data-comment-code');
