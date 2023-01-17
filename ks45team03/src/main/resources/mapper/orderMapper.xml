@@ -307,6 +307,34 @@
 			u.user_id = #{loginId};
 	</select>
 	
+	<!-- 렌터의 반납 배송 정보 조회 -->
+	<select id="getOrderDeliveryInfo" parameterType="String" resultMap="waybillOwnerMap">
+		SELECT
+			wayo.courier_name,
+			wayo.waybill_number,
+			wayo.payment_code
+		FROM
+			tb_waybill_owner AS wayo
+		WHERE
+			wayo.renter_id = #{userId}
+			AND
+			payment_code = #{paymentCode};
+	</select>
+	
+	<!-- 오너의 반납 배송 정보 조회 -->
+	<select id="getRentDeliveryInfo" parameterType="String" resultMap="waybillRenterMap">
+		SELECT
+			wayr.courier_name,
+			wayr.waybill_number,
+			wayr.payment_code
+		FROM
+			tb_waybill_renter AS wayr
+		WHERE
+			wayr.owner_id = #{userId}
+			AND
+			payment_code = #{paymentCode};
+	</select>
+	
 	<!-- 렌터의 주문 물건 정보 -->
 	<select id="getOrderGoodsInfo" parameterType="String" resultMap="orderMap">
 		SELECT
@@ -446,7 +474,11 @@
 		WHERE
 			g.user_id = #{userId}
 		ORDER BY
-			CAST(SUBSTRING(ren.rental_code,7) AS UNSIGNED)
+			CAST(SUBSTRING(ren.rental_code,7) AS UNSIGNED) DESC
+			
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
 	</select>
 	
 	<!-- 자기자신의 주문 횟수 -->
@@ -489,5 +521,8 @@
 			ren.user_id = #{userId}
 		ORDER BY
 			CAST(SUBSTRING(ren.rental_code,7) AS UNSIGNED) DESC
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
 	</select>	
 </mapper>

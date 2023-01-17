@@ -110,12 +110,12 @@ public class OrderService {
 	};
 	
 	// 회원의 자신 렌트 내역 조회
-	public List<Rental> getUserRentList(String userId){
-		return orderMapper.getUserRentalList(userId);
+	public List<Rental> getUserRentList(String userId, int startIndex, int pageSize){
+		return orderMapper.getUserRentalList(userId, startIndex, pageSize);
 	};
 	
 	// 회원의 자신 주문 내역 조회
-	public List<Rental> getUserOrderList(String userId){
-		return orderMapper.getUserOrderList(userId);
+	public List<Rental> getUserOrderList(String userId, int startIndex, int pageSize){
+		return orderMapper.getUserOrderList(userId, startIndex, pageSize);
 	};
 }
