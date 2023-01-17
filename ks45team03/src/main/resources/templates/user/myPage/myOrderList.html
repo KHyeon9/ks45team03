@@ -66,8 +66,9 @@
 	                          </th:block>
 	                          <th:block>
 		                          <td th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}"><span class="badge badge-warning">결제완료</span></td>
+		                          <td th:if="${order.orderStateName == '결제 취소'}"><span class="badge badge-warning">결제취소</span></td>
 		                          <td th:if="${order.orderStateName == '배송중(오너)'}"><span class="badge badge-info">배송중</span></td>
-		                          <td th:if="${order.orderStateName == '배송중(렌터)'}"><span class="badge badge-info">배송중</span></td>
+		                          <td th:if="${order.orderStateName == '배송중(렌터)'}"><span class="badge badge-info">반납중</span></td>
 		                          <td th:if="${order.orderStateName == '사용중(배송완료)'}"><span class="badge badge-primary">사용중</span></td>
 		                          <td th:if="${order.orderStateName == '반납완료'}"><span class="badge badge-success">반납완료</span></td>
 		                          <td th:if="${order.orderStateName == '취소 후 환불완료'}"><span class="badge badge-danger">취소</span></td>
@@ -75,10 +76,8 @@
 		                      <td th:text="${order.rentalOrderDate}"></td>
 	                          <td>
 		                          <a th:if="${order.orderStateName == '사용중(배송완료)'}" th:href="@{/myPage/addMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">배송입력</a>
-		                          <form th:if="${order.orderStateName == '배송중(오너)'}" id="receiptForm" action="/myPage/receiptCheck" method="POST" role="form">
-	                          		<input th:value="${order.payment.paymentCode}" name="paymentCode" type="hidden">
-	                          		<button  type="submit" id="receiptCheck" class="btn btn-sm btn-secondary-outlined">반납확인</button>
-	                          	  </form>
+		                          <button th:if="${order.orderStateName == '배송중(오너)'}" data-toggle="modal"  th:data-payment-code ="${order.payment.paymentCode}" data-target=".checkDelivery" class="btn btn-sm btn-secondary-outlined checkDeliveryBtn">배송확인</button>
+		                          <a th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" th:href="@{/myPage/returnMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">환불</a>
 	                          </td>
 	                        </tr>
 	                      </tbody>
@@ -91,10 +90,10 @@
 							<div class="text-left">
 								<ul class="pagination" style="justify-content: center;">
 									<li th:if="${pagination.curRange != 1}">
-										<a th:href="@{/myPage/myProfitList}" aria-label="First"><span aria-hidden="true"><<</span></a>
+										<a th:href="@{/myPage/myOrderList}" aria-label="First"><span aria-hidden="true"><<</span></a>
 									</li>
 									<li th:if="${pagination.curPage != 1}">
-										<a th:href="@{/myPage/myProfitList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+										<a th:href="@{/myPage/myOrderList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
 									</li>
 									
 									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
@@ -102,7 +101,7 @@
 											<a th:text="${pageNum}"></a>
 										</li>
 										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
-											<a th:href="@{/myPage/myProfitList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+											<a th:href="@{/myPage/myOrderList(curPage=${pageNum})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
 
@@ -110,7 +109,7 @@
 										<a th:href="@{/myPage/myProfitList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
 									</li>
 									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-										<a th:href="@{/myPage/myProfitList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+										<a th:href="@{/myPage/myOrderList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
 									</li>
 								</ul>
 							</div>
@@ -122,5 +121,62 @@
 	          </div>
 	        </div>
 	      </section>
+	      <!-- 운송장번호 확인 모달 -->
+		  <div class="modal fade checkDelivery" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+				  <div class="modal-content">
+					  <div class="modal-header justify-content-center">
+						 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						 <h3 class="modal-title">배송 정보 확인</h3>
+					  </div>
+					  <div class="modal-body">
+						  <form class="receiptForm" action="/myPage/receiptCheck" method="POST" role="form">
+							 <div class="form-group">
+								<label for="">운송 회사</label>
+								<input value="운송 회사가 없습니다." type="text" class="form-control courierName" readonly="readonly">
+							 </div>
+							 <div class="form-group">
+								<label for="">운송장 번호</label>
+								<input value="운송장 번호가 없습니다." type="text" class="form-control waybillNumber" readonly="readonly">
+							 </div>
+							 <div class="receiptDiv">
+							 	
+							 </div>
+						  </form>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
 	  </th:block>
+	  <!-- 사용자 지정 js script -->
+	  <th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			$('.checkDeliveryBtn').click(function(){
+				const paymentCode = $(this).attr('data-payment-code');
+				
+				$.ajax({
+					type: 'POST',
+					url: '/myPage/getOrderDeliveryInfo',
+					contentType: "application/json; charset=UTF-8",
+					data: paymentCode,
+					success: function(data) {
+						console.log("성공");
+						console.log(JSON.stringify(data));
+						if(data.courierName != null && data.waybillNumber != null){
+							$('.courierName').val(data.courierName);
+							$('.waybillNumber').val(data.waybillNumber);	
+							const returnBtn = $('<button type="submit" class="btn btn-primary btn-block">반납확인</button>');
+							const paymentCodeInput = $('<input value="' + data.paymentCode + '" type="hidden" name="paymentCode" />');
+							$('.receiptDiv').append(returnBtn);
+							$('.receiptDiv').append(paymentCodeInput);
+							
+						}
+					},
+		   			error: function(e) {
+		   				alert("ERROR : " + e);
+		   			}	
+				})
+			})
+		</script>
+	 </th:block>
 </html>
