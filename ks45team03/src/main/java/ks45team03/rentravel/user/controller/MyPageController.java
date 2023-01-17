@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -195,6 +197,20 @@ public class MyPageController {
 		return "user/myPage/myWishList";
 	}
 	
+	// 렌트 물품  배송 정보 가져오기
+	@ResponseBody
+	@PostMapping("/getRentDeliveryInfo")
+	public WaybillRenter getRentDeliveryInfo(@RequestBody String paymentCode, HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String userId = loginUser.getLoginId();
+		
+		return orderMapper.getRentDeliveryInfo(userId, paymentCode);
+		
+	}
+	
+	// 반납 처리
 	@PostMapping("/returnCheck")
 	public String returnCheck(@RequestParam(value = "paymentCode" ) String paymentCode) {
 		
@@ -203,6 +219,7 @@ public class MyPageController {
 		return "redirect:/myPage/myRentList";
 	}
 	
+	// 렌트 운송장번포 추가 post
 	@PostMapping("/addMyRentWaybill")
 	public String modifyMyRent(HttpSession session
 								, WaybillOwner waybillOwner
@@ -212,11 +229,11 @@ public class MyPageController {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");			
 		
 		String dayGroupCode = profitService.getUserDayGroupCode(paymentCode, loginUser.getLoginId());	
-		String MonthGroupCode = profitService.getUserMonthGroupCode(paymentCode, loginUser.getLoginId());
-		String profitSaveYearMonth = profitService.getProfitSaveYearMonth(MonthGroupCode);
-		
+		String monthGroupCode = profitService.getUserMonthGroupCode(paymentCode, loginUser.getLoginId());
+		String profitSaveYearMonth = profitService.getProfitSaveYearMonth(monthGroupCode);
+	
 		System.out.println(profitSaveYearMonth+"획득년월");
-		System.out.println(MonthGroupCode+"<-월별수익코드");
+		System.out.println(monthGroupCode+"<-월별수익코드");
 		
 		waybillOwner.setPaymentCode(paymentCode);
 		waybillOwner.setOwnerId(loginUser.getLoginId());
@@ -227,8 +244,9 @@ public class MyPageController {
 		
 		
 		profitService.addUserProfit(paymentCode, loginUser.getLoginId(), settlementAmount, dayGroupCode);
-		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, MonthGroupCode);
-			
+		profitService.addUserDayProfit(dayGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth, monthGroupCode);
+		profitService.addUserMonthProfit(monthGroupCode, loginUser.getLoginId(), settlementAmount, profitSaveYearMonth);	
+		profitService.addUserYearProfit(profitSaveYearMonth, paymentCode, loginUser.getLoginId());
 		
 		return "redirect:/myPage/myRentList";
 	}
@@ -261,12 +279,25 @@ public class MyPageController {
 		
 		Pagination pagination = new Pagination(userRentCnt, curPage);
 		
-		List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId());
+		List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId(), pagination.getStartIndex(), pagination.getPageSize());
 		model.addAttribute("title","마이페이지 렌트 내역");
 		model.addAttribute("rentList", rentList);
 		model.addAttribute("pagination", pagination);
 		
 		return "user/myPage/myRentList";
+	}
+	
+	// 주문 물품 정보 가져오기
+	@ResponseBody
+	@PostMapping("/getOrderDeliveryInfo")
+	public WaybillOwner getOrderDeliveryInfo(@RequestBody String paymentCode, HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String userId = loginUser.getLoginId();
+		
+		return orderMapper.getOrderDeliveryInfo(userId, paymentCode);
+		
 	}
 	
 	// 렌터의 상품 수령
@@ -324,7 +355,7 @@ public class MyPageController {
 			
 			Pagination pagination = new Pagination(userOrderCnt, curPage);
 			
-			List<Rental> orderList = orderService.getUserOrderList(loginInfo.getLoginId());
+			List<Rental> orderList = orderService.getUserOrderList(loginInfo.getLoginId(), pagination.getStartIndex(), pagination.getPageSize());
 			model.addAttribute("title","마이페이지 주문 내역");
 			model.addAttribute("orderList", orderList);
 			model.addAttribute("pagination", pagination);
@@ -407,7 +438,7 @@ public class MyPageController {
 		int listCnt = userProfitMapper.dayProfitListCnt(loginUser.getLoginId());
 		
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<ProfitDay> getUserDayProfitList = userProfitMapper.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
+		List<ProfitDay> getUserDayProfitList = profitService.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
 		
 		System.out.println(searchYear+"년도");
 		System.out.println(searchDay+"<-일");
@@ -429,7 +460,9 @@ public class MyPageController {
 											,HttpSession session
 											,@RequestParam(defaultValue="1", required=false) int curPage
 											,@RequestParam(value="searchYear", required = false) String searchYear
-											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth) {
+											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
+											) {
+
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt =  userProfitMapper.MonthProfitListCnt(loginUser.getLoginId());
@@ -453,7 +486,8 @@ public class MyPageController {
 	public String getUserProfitListYear (Model model
 										,HttpSession session
 										,@RequestParam(defaultValue="1", required=false) int curPage	
-										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear) {
+										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear
+										) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		int listCnt = userProfitMapper.YearProfitListCnt(loginUser.getLoginId());
