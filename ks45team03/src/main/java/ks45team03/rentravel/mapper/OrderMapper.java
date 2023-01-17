@@ -14,6 +14,9 @@ import ks45team03.rentravel.dto.WaybillRenter;
 @Mapper
 public interface OrderMapper {
 	
+	// 주문 취소 정보 조회
+	public Rental getCancelInfo(String paymentCode);
+	
 	// 렌터의의 주문 물품 배송 정보 조회
 	public WaybillOwner getOrderDeliveryInfo(String userId, String paymentCode);
 	

@@ -111,6 +111,28 @@
 		<result property="regionSggName" column="region_sgg_name" />
 	</resultMap>
 	
+	<select id="getCancelInfo" parameterType="String" resultMap="orderMap">
+		SELECT
+			r.rental_code,
+			p.payment_code,
+			g.user_id,
+			p.payment_type,
+			p.settlement_amount,
+			p.mileage_use_price,
+			p.save_mileage
+		FROM
+			tb_rental AS r
+			INNER JOIN
+			tb_payment AS p
+			ON 
+			r.rental_code = p.rental_code
+			INNER JOIN
+			tb_goods AS g
+			ON 
+			g.goods_code = r.goods_code
+		WHERE
+			p.payment_code = #{paymentCode};
+	</select>
 	
 	<!-- 렌터 운송장 번호 등록 -->
 	<insert id="addWaybillRenter" parameterType="WaybillRenter">
