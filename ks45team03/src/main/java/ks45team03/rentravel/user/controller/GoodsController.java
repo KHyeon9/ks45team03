@@ -101,7 +101,6 @@ public class GoodsController {
 		
 		
 		
-		
 		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
 
 		int userBlockedIdCnt = userBlockMapper.userBlockListCnt(userId, loginUser.getLoginId());
@@ -109,8 +108,6 @@ public class GoodsController {
 
 		
 		List<Review> reviewList = reviewService.getReviewList(goodsCode);
-
-		 
 		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("goodsDetail",goodsDetail);
