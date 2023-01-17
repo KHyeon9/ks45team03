@@ -37,8 +37,6 @@
     
 </head>
 
-<body>
-
     <th:block layout:fragment="customContents">
     
       <!-- LIGHT SECTION -->
@@ -211,112 +209,73 @@
                 <div class="media-body">
                   <div class="tabArea">
                     <ul class="nav nav-tabs bar-tabs">
-                      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#OurDetails">상품 상세 정보</a></li>
-                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Reviews">상품평</a></li>
+                      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Reviews">상품평</a></li>
+                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#OurDetails">상품 상세 정보</a></li>
                       <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#OurShipping">여기에 이용약관,보험약관 넣으면 좋을 듯</a></li>
                     </ul>
                     <div class="tab-content">
-                      <div id="OurDetails" class="tab-pane fade show active">
+                      <div id="OurDetails" class="tab-pane fade">
                         <p th:text="${goodsDetail.goodsDetail}"></p>
                       </div>
 
-                      <div id="OurSizing" class="tab-pane fade">
-                        <div class="SingleCartListWrapper SingleCartSizing">
-                          <div class="cartListInner">
-                            <div class="table-responsive">
-                              <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th>Inches</th>
-                                    <th>US size</th>
-                                    <th>EN size</th>
-                                  </tr>
-                                </thead>
-
-                                <tbody>
-                                  <tr>
-                                    <td class="">9.65</td>
-                                    <td class="">6.5</td>
-                                    <td class="">39</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">9.84</td>
-                                    <td class="">7</td>
-                                    <td class="">40</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.04</td>
-                                    <td class="">8</td>
-                                    <td class="">41</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.24</td>
-                                    <td class="">8.5</td>
-                                    <td class="">42</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.43</td>
-                                    <td class="">9.5</td>
-                                    <td class="">43</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.63</td>
-                                    <td class="">10.0</td>
-                                    <td class="">44</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.83</td>
-                                    <td class="">11.0</td>
-                                    <td class="">45</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">11.02</td>
-                                    <td class="">12.0</td>
-                                    <td class="">46</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">11.2</td>
-                                    <td class="">12.5</td>
-                                    <td class="">47</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">11.42</td>
-                                    <td class="">13</td>
-                                    <td class="">48</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div id="Reviews" class="tab-pane fade">
-                        <div class="media mb-5" th:each="rl : ${reviewList}">
-                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
-                          <div class="media-body">
-                            <h4 class="mt-0 mb-2" th:text="${rl.user.userNickName}">닉네임</h4>
-
-                            <ul class="text-warning d-flex mb-1">
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true" th:each="num : ${#numbers.sequence(1,rl.goodsEvaluation)}"></i></li>
-                            </ul>
-
-                            <p class="mt-0 mb-3" th:text="${rl.reviewContent}"></p>
-                          </div>
-                        </div>
+                      <div id="Reviews" class="tab-pane fade show active">
+						<div  class="media mb-5 reviewListDiv" th:each="rl : ${reviewList}">
+						  <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
+						  <div class="media-body">
+						    <div class="change-section">
+							    <h4 class="mt-0 mb-2" th:text="${rl.user.userNickName}">닉네임</h4>
+							
+							    <ul class="text-warning d-flex mb-1">
+							      <li class="mr-1"><i class="fa fa-star" aria-hidden="true" th:each="num : ${#numbers.sequence(1,rl.goodsEvaluation)}"></i></li>
+							    </ul>
+							
+							    <p class="mt-0 mb-3" th:text="${rl.reviewContent}"></p>
+							    <th:block th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == rl.userId}">
+									<button type="button" class="btn btn-secondary btn-sm modifyReviewBtn" th:data-review-code="${rl.reviewCode}" th:data-review-cotent = "${rl.reviewContent}">수정</button>
+									<button type="button" class="btn btn-secondary btn-sm removeReviewBtn" th:data-review-code="${rl.reviewCode}">삭제</button>	
+							    </th:block>
+						    </div>
+						  </div>
+						</div>
 						
-						<th:block th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == goodsDetail.userId}">
-							<div th:replace="~{user/fragments/goodsDetailAddReviewFragment :: goodsDetailAddReviewFragment}"></div>
-						</th:block>
+						<div class="mt-5 mb-2 border p-4 p-md-5" th:if="${session.S_USER_INFO != null && checkReview.checkReviewCount < 0}">
+						  <form id="addReviewForm"  method="post" role="form">
+						    <div class="media flex-column flex-md-row mb-0">
+						      <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="/user/assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
+						      
+						      <div class="media-body mt-4 mt-md-0">
+						        <h6 class="text-center text-md-left text-capitalize mt-0" th:text="${session.S_USER_INFO.loginNickName}"><em></em></h6>
+						    
+						        <div class="rating-view mb-4">
+						            <fieldset>
+								        <input type="radio" name="goodsEvaluation" value="5" id="rate1"><label for="rate1">⭐</label>
+								        <input type="radio" name="goodsEvaluation" value="4" id="rate2"><label for="rate2">⭐</label>
+								        <input type="radio" name="goodsEvaluation" value="3" id="rate3"><label for="rate3">⭐</label>
+								        <input type="radio" name="goodsEvaluation" value="2" id="rate4"><label for="rate4">⭐</label>
+								        <input type="radio" name="goodsEvaluation" value="1" id="rate5"><label for="rate5">⭐</label>
+								    </fieldset>
+						        </div>
+						
+						        <div class="row">
+						
+						          <div class="form-group col-md-12">
+						            <textarea class="form-control" id="exampleTextarea" name="reviewContent" rows="5" placeholder="Review"></textarea>
+						          </div>
+						          
+						          <input id="goodsCodeInput" type="hidden" name="goodsCode" th:value="${goodsDetail.goodsCode}">
+						          <input id="userIdInput" type="hidden" name="userId" th:value="${session.S_USER_INFO.loginId}">
+						          
+						        </div>
+						
+						        <div class="text-center text-md-left">
+						          <button id="addReviewBtn" type="button" class="btn btn-default btn-primary custom-btn">Submit Review</button>
+						        </div>
+						      </div>
+						    </div>
+						  </form>
+						</div>
+						
+						
 						
                       </div>
 
@@ -395,59 +354,204 @@
 			
 			
 	
-		$('#submitBtn').click(function(){
+			$('#submitBtn').click(function(){
+				
+				const userId =  document.getElementById("submitBtn").value;
+							
+				if(!confirm(userId+'님을 차단하시겠습니까?')) {
+					return false;
+				}else{
+					$('#addBlockForm').submit();
+				}
+			}); 
+				
+			$('#removeGoodsButton').click(function(){
+				
+				if(!confirm('상품을 삭제하시겠습니까?')) {
+					return false;
+				}else{
+					$('#removeGoodsForm').submit();
+					alert('상품이 삭제되었습니다.');
+				}
+			});
 			
-			const userId =  document.getElementById("submitBtn").value;
+			$('#addWishButton').click(function(){
+				
+				if([[${session.S_USER_INFO}]] != null){
+					
+					if(!confirm('관심상품으로 등록하시겠습니까?')) {
+						return false;
+					}else{
+						$('#addWishForm').submit();
+					}
+					
+				}else{
+					
+					if(!confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
+						return false;
+					}else{
+						location.href = '/login';
+					}
+				}
+				
+			});
+			
+			$('#removeWishButton').click(function(){
+				
+				if(!confirm('이미 관심상품으로 등록되어있습니다. 삭제하시겠습니까?')) {
+					return false;
+				}else{
+					$('#removeWishForm').submit();
+				}
+			});
+			
+			$('#addReviewBtn').click(function(){
+				
+				const userId = $('#userIdInput').val();
+				const goodsCode = $('#goodsCodeInput').val();
+				const reviewContent = $('#exampleTextarea').val();
+				
+				const goodsEvaluation = $("input[name='goodsEvaluation']:checked").val();
+				
+				const reviewObj = {
+									'userId':userId,
+									'goodsCode':goodsCode,
+									'reviewContent':reviewContent,
+									'goodsEvaluation':goodsEvaluation
+								  };
+				
+				$.ajax({
+					type:'POST',
+					url:'/review/addReview',
+					contentType: "application/json; charset=UTF-8;",
+					data: JSON.stringify(reviewObj),
+		   			success: function(data) {
+		   				location.reload();
+	   	          		console.log("성공");
+		   			},
+		   			error: function(e) {
+		   				alert("ERROR : " + e);
+		   			}
+		   			
+		   			
+				});
+				
+			});
+				
+				
+			$(document).on('click','.removeReviewBtn',function(){
+				const reviewCode = $(this).attr('data-review-code');
+				
+				$.ajax({
+	   				type:'POST',
+	   				url:'/review/removeReview',
+	   				contentType: "application/json; charset=UTF-8",
+	   				data: reviewCode,
+		   			success: function(data) {
+		   					location.reload();
+		   	          		console.log("성공");
+		   			},
+		   			error: function(e) {
+		   				alert("ERROR : " + e);
+		   			}	
+				});// 상품평 삭제 비동기 끝
+			});	
+			
+			
+			
+			
+			
+			
+			$(document).on('click', '.modifyReviewBtn', function(){
+				
+				const reviewContent = $(this).attr("data-review-cotent");
+				const reviewCode = $(this).attr("data-review-code");
+				
+				//console.log($(this).parents('div.commentInfo').find('div.change-section'));
+				
+				const changeSection = $(this).parents('div.reviewListDiv').find('div.change-section');
+				changeSection.empty();
+				
+				
+				
+				
+				
+				
+				const $textArea = $('<textarea />', {
+					class:'form-control modifyReview',
+					rows:'3',
+					name:'modifyReview',
+					style:'margin-bottom:2px;',
+					text:reviewContent
+				});
+				
+				const $modifyActionBtn = $('<button />',{
+					class:'btn btn-secondary btn-sm modifyActionBtn',
+					type:'button',
+					text:'수정',
+					click: function(){
+						const reviewContentValue = $(this).parent().find('textarea.modifyReview').val();
+						const goodsEvaluationValue = $(this).parent().find(" input[name='goodsEvaluation']:checked ").val();
+						//console.log(infoBoardCommentContentValue);
+						const reviewObj = {
+								'reviewCode':reviewCode,
+			   					'reviewContent':reviewContentValue,
+			   					'goodsEvaluation':goodsEvaluationValue
+   							};
 						
-			if(!confirm(userId+'님을 차단하시겠습니까?')) {
-				return false;
-			}else{
-				$('#addBlockForm').submit();
-			}
-		}); 
-			
-		$('#removeGoodsButton').click(function(){
-			
-			if(!confirm('상품을 삭제하시겠습니까?')) {
-				return false;
-			}else{
-				$('#removeGoodsForm').submit();
-				alert('상품이 삭제되었습니다.');
-			}
-		});
-		
-		$('#addWishButton').click(function(){
-			
-			if([[${session.S_USER_INFO}]] != null){
+						$.ajax({
+			   				type:'POST',
+			   				url:'/review/modifyReview',
+			   				contentType: "application/json; charset=UTF-8",
+			   				data: JSON.stringify(reviewObj),
+				   			success: function(data) {
+				   					location.reload();
+				   	          		console.log("성공");
+				   			},
+				   			error: function(e) {
+				   				alert("ERROR : " + e);
+				   			}	
+						});// 댓글 비동기 끝
+					}
+				});
 				
-				if(!confirm('관심상품으로 등록하시겠습니까?')) {
-					return false;
-				}else{
-					$('#addWishForm').submit();
-				}
-				
-			}else{
-				
-				if(!confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
-					return false;
-				}else{
-					location.href = '/login';
-				}
-			}
-			
-		});
+			    const $modifyCancelBtn = $('<button />',{
+					class:'btn btn-secondary btn-sm modifyCancelBtn',
+					type:'button',
+					text:'취소',
+					click: function(){
+						location.reload();
+					}
+				});
+			    
+			    changeSection.append("<div class='rating-view mb-4'> <fieldset><input type='radio' name='goodsEvaluation' value='5' id='rate1'><label for='rate1'>⭐</label><input type='radio' name='goodsEvaluation' value='4' id='rate2'><label for='rate2'>⭐</label><input type='radio' name='goodsEvaluation' value='3' id='rate3'><label for='rate3'>⭐</label><input type='radio' name='goodsEvaluation' value='2' id='rate4'><label for='rate4'>⭐</label><input type='radio' name='goodsEvaluation' value='1' id='rate5'><label for='rate5'>⭐</label></fieldset></div> ")
+				changeSection.append($textArea);
+				changeSection.append($modifyActionBtn);
+				changeSection.append(' /');
+				changeSection.append($modifyCancelBtn);
+				//console.log(reviewContent);
+			})
 		
-		$('#removeWishButton').click(function(){
+			$(document).on('click','.deleteBtn',function(){
+				const infoBoardCommentCode = $(this).attr('data-comment-code');
+				
+				$.ajax({
+	   				type:'POST',
+	   				url:'/infoboard/infoBoardDetail/removeComment',
+	   				contentType: "application/json; charset=UTF-8",
+	   				data: infoBoardCommentCode,
+		   			success: function(data) {
+		   					location.reload();
+		   	          		console.log("성공");
+		   			},
+		   			error: function(e) {
+		   				alert("ERROR : " + e);
+		   			}	
+				});// 댓글 비동기 끝
+			})
+					
 			
-			if(!confirm('이미 관심상품으로 등록되어있습니다. 삭제하시겠습니까?')) {
-				return false;
-			}else{
-				$('#removeWishForm').submit();
-			}
-		});
-		
 		
 		</script>
 	</th:block>
-</body>
 </html>

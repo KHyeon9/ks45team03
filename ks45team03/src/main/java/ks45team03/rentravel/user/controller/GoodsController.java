@@ -95,11 +95,9 @@ public class GoodsController {
 		
 		
 		
-		
 		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
 		
 		List<Review> reviewList = reviewService.getReviewList(goodsCode);
-		 
 		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("goodsDetail",goodsDetail);
