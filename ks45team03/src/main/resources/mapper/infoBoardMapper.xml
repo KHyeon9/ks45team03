@@ -111,6 +111,7 @@
 		SET
 			info.info_board_title = #{infoBoardTitle},
 			info.info_board_content = #{infoBoardContent},
+			info.file_group_code = #{fileGroupCode},
 			info.info_board_reg_time = NOW()
 		WHERE
 			info.info_board_code = #{infoBoardCode};
