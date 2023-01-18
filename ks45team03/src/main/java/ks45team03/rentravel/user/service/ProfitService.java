@@ -224,18 +224,5 @@ public class ProfitService {
 	}
 	
 	
-	/* 수익 일별 목록 검색시 일 의 길이가 1일때*/
-	public List<ProfitDay> getUserDayProfitList(String loginId, int startIndex, int pageSize, String searchYear,String searchMonth,String searchDay) {
-			
-		if(searchDay.length() == 1) {
-			
-			searchDay = "0" + searchDay;
-		}
-		
-		List<ProfitDay> getUserYearProfitList = userProfitMapper.getUserDayProfitList(loginId, startIndex, pageSize, searchYear, searchMonth, searchDay);
-		
-		return getUserYearProfitList;
-	}
-	
 	
 }

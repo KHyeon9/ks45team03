@@ -24,14 +24,14 @@ public interface AdminProfitMapper {
 	public List<Profit> adminGetUserProfitList (int startIndex, int pageSize, String searchId);
 	
 	/* 회원 연별 수익 목록 행 갯수 */
-	public int yearProfitListCnt();
+	public int yearProfitListCnt(String searchYear, String searchId);
 	
 	/* 회원 월별 수익 목록 행 갯수 */
-	public int monthProfitListCnt();
+	public int monthProfitListCnt(String searchYear, String searchMonth, String searchId);
 	
 	/* 회원 일별 수익 목록 행 갯수 */
-	public int dayProfitListCnt ();
+	public int dayProfitListCnt (String searchYear, String searchMonth, String searchDay, String searchId);
 	
 	/* 회원 수익 목록 행 갯수 */
-	public int profitListCnt ();
+	public int profitListCnt (String searchId);
 }
