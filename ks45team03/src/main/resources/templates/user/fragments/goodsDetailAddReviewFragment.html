@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div th:fragment="goodsDetailAddReviewFragment" class="mt-5 mb-2 border p-4 p-md-5">
-  <form th:action="@{/review/addReview}" method="post">
+  <form id="addReviewForm" th:action="@{/review/addReview}" method="post">
     <div class="media flex-column flex-md-row mb-0">
       <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="/user/assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
       
@@ -25,13 +25,13 @@
             <textarea class="form-control" id="exampleTextarea" name="reviewContent" rows="5" placeholder="Review"></textarea>
           </div>
           
-          <input type="hidden" name="goodsCode" th:value="${goodsDetail.goodsCode}">
-          <input type="hidden" name="userId" th:value="${session.S_USER_INFO.loginId}">
+          <input id="goodsCodeInput" type="hidden" name="goodsCode" th:value="${goodsDetail.goodsCode}">
+          <input id="userIdInput" type="hidden" name="userId" th:value="${session.S_USER_INFO.loginId}">
           
         </div>
 
         <div class="text-center text-md-left">
-          <button type="submit" class="btn btn-default btn-primary custom-btn">Submit Review</button>
+          <button id="addReviewBtn" type="submit" class="btn btn-default btn-primary custom-btn">Submit Review</button>
         </div>
       </div>
     </div>

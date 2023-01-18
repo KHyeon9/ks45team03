@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.Rental;
+import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
 import ks45team03.rentravel.mapper.CommonNewCode;
@@ -34,6 +35,25 @@ public class OrderService {
 	
 	public int modifyPaymentState(String paymentCode, String tradeStateCode) {
 		return orderMapper.modifyPaymentState(paymentCode, tradeStateCode);
+	};
+	
+	// 주문 취소 프로세스
+	public int rentalCancel(String paymentCode, String loginId) {
+		int result = 0;
+		
+		RentalCancel rentalCancel = new RentalCancel();
+		Rental cancelInfo = orderMapper.getCancelInfo(paymentCode);
+		
+		Date nowDate = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		String nowDateStr = simpleDateFormat.format(nowDate);
+		
+		String cancelGroupCode = nowDateStr + "_환불_완료_적립금_" + loginId;
+		
+		System.out.println("nowDate Value~~~~~~~~~~~~~~~~" + nowDateStr);
+		 
+		
+		return result;
 	};
 	
 	// 렌터의 운송장 번호 추가
