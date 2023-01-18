@@ -157,12 +157,12 @@
 					<nav aria-label="Page navigation example">
 						<ul class="pagination pagination-lg" style="margin:3px">
 							<li class="page-item" th:if="${pagination.curRange != 1}">
-								<a class="page-link" th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode})}"
+								<a class="page-link" th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode}, searchKey=${search.searchKey}, searchValue=${search.searchValue})}"
 								aria-label="First"><span aria-hidden="true"></span></a>
 							</li>
 							<li class="page-item" th:if="${pagination.curPage != 1}">
 								<a class="page-link"
-								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.prevPage})}"
+								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.prevPage}, searchKey=${search.searchKey}, searchValue=${search.searchValue})}"
 								aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
 							</li>
 
@@ -173,7 +173,7 @@
 								<li class="page-item"
 									th:unless="${pageNum == pagination.curPage}"><a
 									class="page-link"
-									th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pageNum})}"
+									th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pageNum}, searchKey=${search.searchKey}, searchValue=${search.searchValue})}"
 									th:text="${pageNum}"></a>
 								</li>
 							</th:block>
@@ -181,13 +181,13 @@
 							<li class="page-item"
 								th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
 								<a class="page-link"
-								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.nextPage})}"
+								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.nextPage}, searchKey=${search.searchKey}, searchValue=${search.searchValue})}"
 								aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
 							</li>
 							<li class="page-item"
 								th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
 								<a class="page-link"
-								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.pageCnt})}"
+								th:href="@{/goods/goodsList(goodsCategoryCode=${pagination.goodsCategoryCode},curPage=${pagination.pageCnt}, searchKey=${search.searchKey}, searchValue=${search.searchValue})}"
 								aria-label="Last"> <span aria-hidden="true">>></span></a>
 							</li>
 						</ul>
