@@ -363,6 +363,24 @@ public class MyPageController {
 		return "user/myPage/addMyOrderWaybill";
 	}
 	
+	// 반납 직거래 완료
+	@PostMapping("/directTransactionReturn")
+	public String directTransactionReturn(String paymentCode) {
+		
+		orderService.directTransactionReturn(paymentCode);
+		
+		return "redirect:/myPage/myRentList";
+	}
+
+	// 주문 직거래 완료
+	@PostMapping("/directTransactionOrder")
+	public String directTransactionOrder(String paymentCode) {
+		
+		orderService.directTransactionOrder(paymentCode);
+		
+		return "redirect:/myPage/myOrderList";
+	}
+	
 	// 상품 주문 목록
 	@GetMapping("/myOrderList")
 	public String myOrderHistory(HttpServletResponse response,

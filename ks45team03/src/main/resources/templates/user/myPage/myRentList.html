@@ -78,8 +78,12 @@
 		                      </th:block>
 		                      <td th:text="${rent.rentalOrderDate}"></td>
 	                          <td>
-	                          	<a th:if="${rent.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" th:href="@{/myPage/addMyRentWaybill(rentalCode=${rent.rentalCode})}" class="btn btn-sm btn-secondary-outlined">배송입력</a>
+	                          	<a th:if="${rent.orderStateName == '배송전 결제완료(취소 및 환불가능)'} and ${rent.selectDelivery == 'Y'}" th:href="@{/myPage/addMyRentWaybill(rentalCode=${rent.rentalCode})}" class="btn btn-sm btn-secondary-outlined">배송입력</a>
 	                          	<button th:if="${rent.orderStateName == '배송중(렌터)'}" data-toggle="modal"  th:data-payment-code ="${rent.payment.paymentCode}" data-target=".checkDelivery" class="btn btn-sm btn-secondary-outlined checkDeliveryBtn">배송확인</button>
+	                          	<form th:if="${rent.orderStateName == '사용중(배송완료)'} and ${rent.selectDelivery == 'N'}" method="POST" action="/myPage/directTransactionReturn">
+	                          		<input th:value="${rent.payment.paymentCode}" name="paymentCode" type="hidden">
+		                          	<button type="submit" class="btn btn-sm btn-secondary-outlined">반납완료</button>
+	                          	</form>
 	                          	<form th:if="${rent.orderStateName == '결제 취소'}" id="cancelForm" action="/myPage/rentalCancelCheck" method="POST" role="form">
 	                          		<input th:value="${rent.payment.paymentCode}" name="paymentCode" type="hidden">
 	                          		<button  type="submit" id="rentalCancelBtn" class="btn btn-sm btn-secondary-outlined">환불확인</button>
