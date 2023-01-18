@@ -17,5 +17,4 @@ public interface ReviewMapper {
 	
 	public int removeReview(String reviewCode);
 	
-	public int checkReview(String goodsCode, String loginId);
 }

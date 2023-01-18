@@ -75,17 +75,5 @@
 
 	</delete>
 	
-	<select id="checkReview" resultType="int">
-	
-		SELECT
-			COUNT(1) as check_review
-		FROM
-			tb_review
-		WHERE
-			user_id = #{loginId}
-			and
-			goods_code = #{goodsCode};
-		
-	</select>
 	
 </mapper> 

@@ -36,8 +36,4 @@ public class ReviewService {
 		return reviewMapper.removeReview(reviewCode);
 	}
 	
-	public int checkReview(String goodsCode, String loginId) {
-		
-		return reviewMapper.checkReview(goodsCode, loginId);
-	};
 }
