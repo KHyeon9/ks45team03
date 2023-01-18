@@ -353,6 +353,7 @@
 			}) 
 			
 			
+
 	
 			$('#submitBtn').click(function(){
 				
@@ -514,6 +515,7 @@
 						});// 댓글 비동기 끝
 					}
 				});
+
 		
 			
 		$('#removeGoodsButton').click(function(){
@@ -527,23 +529,7 @@
 		});
 		
 		
-			$(document).on('click','.deleteBtn',function(){
-				const infoBoardCommentCode = $(this).attr('data-comment-code');
-				
-				$.ajax({
-	   				type:'POST',
-	   				url:'/infoboard/infoBoardDetail/removeComment',
-	   				contentType: "application/json; charset=UTF-8",
-	   				data: infoBoardCommentCode,
-		   			success: function(data) {
-		   					location.reload();
-		   	          		console.log("성공");
-		   			},
-		   			error: function(e) {
-		   				alert("ERROR : " + e);
-		   			}	
-				});// 댓글 비동기 끝
-			})
+
 					
 			
 		
