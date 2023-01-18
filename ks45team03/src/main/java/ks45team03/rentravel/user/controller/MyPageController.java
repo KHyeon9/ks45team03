@@ -199,6 +199,15 @@ public class MyPageController {
 		return "user/myPage/myWishList";
 	}
 	
+	// 주문 취소 확인
+	@PostMapping("/rentalCancelCheck")
+	public String rentalCancelCheck(String paymentCode) {
+		
+		orderService.cancelCheckOwner(paymentCode);
+		
+		return "redirect:/myPage/myRentList";
+	}
+	
 	// 주문 취소
 	@PostMapping("/rentalCancel")
 	public String rentalCancel(String paymentCode, HttpSession session) {

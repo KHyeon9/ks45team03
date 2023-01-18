@@ -37,21 +37,41 @@ public class OrderService {
 		return orderMapper.modifyPaymentState(paymentCode, tradeStateCode);
 	};
 	
-	// 주문 취소 프로세스
+	// 오너 주문 취소 확인
+	public int cancelCheckOwner(String paymentCode) {
+		int result = 0;
+		result += orderMapper.modifyPaymentState(paymentCode, "trade_status8");
+		result += orderMapper.cancelCheckOwner(paymentCode);
+		
+		return result;
+	};
+	
+	// 주문 취소 추가 프로세스
 	public int rentalCancel(String paymentCode, String loginId) {
 		int result = 0;
 		
 		RentalCancel rentalCancel = new RentalCancel();
 		Rental cancelInfo = orderMapper.getCancelInfo(paymentCode);
+		String cancelCode = commonNewCode.getCommonNewCode("tb_rental_cancel", "rental_cancel_code");
+		String rentalCode = cancelInfo.getRentalCode();
+		String rentalRefundWay = cancelInfo.getPayment().getPaymentType();
+		int rentalRefundMoney = cancelInfo.getPayment().getSettlementAmount();
+		int useMilege = cancelInfo.getPayment().getMileageUsePrice();
+		int saveMilege = cancelInfo.getPayment().getSaveMileage();
 		
-		Date nowDate = new Date();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-		String nowDateStr = simpleDateFormat.format(nowDate);
+		rentalCancel.setRentalCancelCode(cancelCode);
+		rentalCancel.setCancelUserId(loginId);
+		rentalCancel.setRentalCode(rentalCode);
+		rentalCancel.setPaymentCode(paymentCode);
+		rentalCancel.setRefundWay(rentalRefundWay);
+		rentalCancel.setRefundMoney(rentalRefundMoney);
+		rentalCancel.setMileageUsePrice(useMilege);
+		rentalCancel.setSaveMileage(saveMilege);
 		
-		String cancelGroupCode = nowDateStr + "_환불_완료_적립금_" + loginId;
 		
-		System.out.println("nowDate Value~~~~~~~~~~~~~~~~" + nowDateStr);
-		 
+		result += orderMapper.addRentalCancel(rentalCancel);
+		orderMapper.modifyPaymentState(paymentCode, "trade_status7");
+		
 		
 		return result;
 	};

@@ -166,17 +166,17 @@
 	                    </div>
 	                  </div>
 	                  <div class="btn-area mb-0" style="display:flex;">
-	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+	                    <button th:if="${equalIdFlag}" type="submit" class="btn btn-primary btn-default payBtn" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
                    </form>
-						<a th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
+						<a th:if="${equalIdFlag}" th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
 					  	
-					  	<form id="addWishForm" th:action="@{/wish/addWish}" method="post" th:if="${checkWish == 0}" style="width:0%">
+					  	<form  id="addWishForm" th:action="@{/wish/addWish}" method="post" th:if="${checkWish == 0} and ${equalIdFlag}" style="width:0%">
 					  		<input type="hidden" th:value="${goodsDetail.goodsCode}" name="goodsCode">
 					  		<input type="hidden" th:value="${goodsDetail.userId}" name="userId">
 							<button id="addWishButton" type="button" class="btn btn-primary btn-icon" style="width: 75px;"><i class="fa fa-heart"></i></button>
 					  	</form>
 					  	
-					  	<form id="removeWishForm" th:action="@{/wish/removeWish}" method="post" th:if="${checkWish > 0}" style="width:0%">
+					  	<form id="removeWishForm" th:action="@{/wish/removeWish}" method="post" th:if="${checkWish > 0} and ${equalIdFlag}" style="width:0%">
 					  		<input type="hidden" th:value="${goodsDetail.goodsCode}" name="goodsCode">
 					  		<input type="hidden" th:value="${goodsDetail.userId}" name="userId">
 					  		<input type="hidden" value="goodsDetail" name="prevPage">
@@ -219,7 +219,7 @@
                       </div>
 
                       <div id="Reviews" class="tab-pane fade show active">
-						<div  class="media mb-5 reviewListDiv" th:each="rl : ${reviewList}">
+						<div  class="media mb-5 reviewListDiv" th:each="rl : ${reviewList}" th:if="${not #lists.isEmpty(reviewList)}">
 						  <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
 						  <div class="media-body">
 						    <div class="change-section">
@@ -237,8 +237,11 @@
 						    </div>
 						  </div>
 						</div>
+						<div class="media mb-5 reviewListDiv" th:unless="${not #lists.isEmpty(reviewList)}">
+							등록된 상품평이 없습니다.
+						</div>
 						
-						<div class="mt-5 mb-2 border p-4 p-md-5" th:if="${session.S_USER_INFO != null}">
+						<div class="mt-5 mb-2 border p-4 p-md-5" th:if="${session.S_USER_INFO != null} and ${checkReviewCount < 1} and ${checkTradeStatus > 0}">
 						  <form id="addReviewForm"  method="post" role="form">
 						    <div class="media flex-column flex-md-row mb-0">
 						      <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="/user/assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
@@ -259,7 +262,7 @@
 						        <div class="row">
 						
 						          <div class="form-group col-md-12">
-						            <textarea class="form-control" id="exampleTextarea" name="reviewContent" rows="5" placeholder="Review"></textarea>
+						            <textarea class="form-control" id="exampleTextarea" name="reviewContent" rows="5" placeholder="상품평을 입력해주세요."></textarea>
 						          </div>
 						          
 						          <input id="goodsCodeInput" type="hidden" name="goodsCode" th:value="${goodsDetail.goodsCode}">
@@ -268,12 +271,43 @@
 						        </div>
 						
 						        <div class="text-center text-md-left">
-						          <button id="addReviewBtn" type="button" class="btn btn-default btn-primary custom-btn">Submit Review</button>
+						          <button id="addReviewBtn" type="button" class="btn btn-default btn-primary custom-btn">상품평 등록</button>
 						        </div>
 						      </div>
 						    </div>
 						  </form>
 						</div>
+						
+						
+						<th:block th:object="${goodsDetail}">
+			              <div class="blogPage" style="display: flex; justify-content:center;">
+							<ul class="pagination" style="margin:3px">
+								<li th:if="${pagination.curRange != 1}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="First"><span aria-hidden="true"></span></a>
+								</li>
+								<li th:if="${pagination.curPage != 1}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+								</li>
+								
+								<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+									<li class="active" th:if="${pageNum == pagination.curPage}" style="padding:0px;">
+										<a th:text="${pageNum}"></a>
+									</li>
+									<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+										<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" th:text="${pageNum}"></a>
+									</li>
+								</th:block>
+			
+								<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+								</li>
+								<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+								</li>
+							</ul>
+			              </div>						
+						</th:block>
+						
 						
 						
 						
@@ -429,7 +463,10 @@
 			            console.log("성공");
 			        },
 			        error: function (e) {
-			            alert("ERROR : " + e);
+			            if(goodsEvaluation == null || goodsEvaluation == ''){
+			            	alert("별점을 선택해주세요");
+			            	$('#exampleTextarea').focus();
+			            }
 			        }
 	
 	
@@ -501,14 +538,17 @@
 			                    console.log("성공");
 			                },
 			                error: function (e) {
-			                    alert("ERROR : " + e);
+					            if(goodsEvaluationValue == null){
+					            	alert("별점을 선택해주세요");
+					            	$('.modifyReview').focus();
+					            }
 			                }
 			            });// 댓글 비동기 끝
 			        }
 			    });
 			    
 			    const $modifyCancelBtn = $('<button />',{
-					class:'btn btn-link modifyCancelBtn',
+					class:'btn btn-secondary btn-sm modifyCancelBtn',
 					type:'button',
 					text:'취소',
 					click: function(){
