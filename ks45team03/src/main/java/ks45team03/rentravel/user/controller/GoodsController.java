@@ -73,6 +73,7 @@ public class GoodsController {
 			
 			List<Goods> goodsList = goodsService.getGoodsList(loginUser.getLoginId(), startIndex,pageSize, goodsCategoryCode,searchKey,searchValue, goodsRentalAvailability);
 			model.addAttribute("goodsList", goodsList);
+			model.addAttribute("search",search);
 			model.addAttribute("pagination", pagination);
 			model.addAttribute("searchResult", searchResult);
 			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
@@ -95,13 +96,13 @@ public class GoodsController {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String loginId =null;
 		
-		boolean equalIdFlag = false;
+		boolean equalIdFlag = true;
 		
 		if(loginUser != null) {
 			loginId = loginUser.getLoginId();
-//			if (loginId.equals(userId)) {
-//				equalIdFlag = true;
-//			}
+			if (loginId.equals(userId)) {
+				equalIdFlag = false;
+			}
 		}
 		
 		int checkWish = wishService.checkWish(goodsCode, loginId);

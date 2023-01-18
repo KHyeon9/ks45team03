@@ -166,17 +166,17 @@
 	                    </div>
 	                  </div>
 	                  <div class="btn-area mb-0" style="display:flex;">
-	                    <button th:unless="${equalIdFlag}" type="submit" class="btn btn-primary btn-default payBtn" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+	                    <button th:if="${equalIdFlag}" type="submit" class="btn btn-primary btn-default payBtn" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
                    </form>
-						<a th:unless="${equalIdFlag}" th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
+						<a th:if="${equalIdFlag}" th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
 					  	
-					  	<form id="addWishForm" th:action="@{/wish/addWish}" method="post" th:if="${checkWish == 0}" style="width:0%">
+					  	<form  id="addWishForm" th:action="@{/wish/addWish}" method="post" th:if="${checkWish == 0} and ${equalIdFlag}" style="width:0%">
 					  		<input type="hidden" th:value="${goodsDetail.goodsCode}" name="goodsCode">
 					  		<input type="hidden" th:value="${goodsDetail.userId}" name="userId">
 							<button id="addWishButton" type="button" class="btn btn-primary btn-icon" style="width: 75px;"><i class="fa fa-heart"></i></button>
 					  	</form>
 					  	
-					  	<form id="removeWishForm" th:action="@{/wish/removeWish}" method="post" th:if="${checkWish > 0}" style="width:0%">
+					  	<form id="removeWishForm" th:action="@{/wish/removeWish}" method="post" th:if="${checkWish > 0} and ${equalIdFlag}" style="width:0%">
 					  		<input type="hidden" th:value="${goodsDetail.goodsCode}" name="goodsCode">
 					  		<input type="hidden" th:value="${goodsDetail.userId}" name="userId">
 					  		<input type="hidden" value="goodsDetail" name="prevPage">
