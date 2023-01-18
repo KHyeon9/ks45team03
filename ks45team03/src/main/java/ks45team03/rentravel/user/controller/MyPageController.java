@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ import ks45team03.rentravel.dto.ProfitMonth;
 import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
+import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
@@ -195,6 +198,35 @@ public class MyPageController {
 		return "user/myPage/myWishList";
 	}
 	
+	// 주문 취소
+	@PostMapping("/rentalCancel")
+	public String rentalCancel(String paymentCode, HttpSession session) {
+		
+		log.info("payment code : {}", paymentCode);
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String loginId = loginInfo.getLoginId();
+		
+		orderService.rentalCancel(paymentCode, loginId);
+		
+		return "redirect:/myPage/myOrderList";
+	}
+	
+	// 렌트 물품  배송 정보 가져오기
+	@ResponseBody
+	@PostMapping("/getRentDeliveryInfo")
+	public WaybillRenter getRentDeliveryInfo(@RequestBody String paymentCode, HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String userId = loginUser.getLoginId();
+		
+		return orderMapper.getRentDeliveryInfo(userId, paymentCode);
+		
+	}
+	
+	// 반납 처리
 	@PostMapping("/returnCheck")
 	public String returnCheck(@RequestParam(value = "paymentCode" ) String paymentCode) {
 		
@@ -203,6 +235,7 @@ public class MyPageController {
 		return "redirect:/myPage/myRentList";
 	}
 	
+	// 렌트 운송장번포 추가 post
 	@PostMapping("/addMyRentWaybill")
 	public String modifyMyRent(HttpSession session
 								, WaybillOwner waybillOwner
@@ -262,12 +295,25 @@ public class MyPageController {
 		
 		Pagination pagination = new Pagination(userRentCnt, curPage);
 		
-		List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId());
+		List<Rental> rentList = orderService.getUserRentList(loginInfo.getLoginId(), pagination.getStartIndex(), pagination.getPageSize());
 		model.addAttribute("title","마이페이지 렌트 내역");
 		model.addAttribute("rentList", rentList);
 		model.addAttribute("pagination", pagination);
 		
 		return "user/myPage/myRentList";
+	}
+	
+	// 주문 물품 정보 가져오기
+	@ResponseBody
+	@PostMapping("/getOrderDeliveryInfo")
+	public WaybillOwner getOrderDeliveryInfo(@RequestBody String paymentCode, HttpSession session) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String userId = loginUser.getLoginId();
+		
+		return orderMapper.getOrderDeliveryInfo(userId, paymentCode);
+		
 	}
 	
 	// 렌터의 상품 수령
@@ -325,7 +371,7 @@ public class MyPageController {
 			
 			Pagination pagination = new Pagination(userOrderCnt, curPage);
 			
-			List<Rental> orderList = orderService.getUserOrderList(loginInfo.getLoginId());
+			List<Rental> orderList = orderService.getUserOrderList(loginInfo.getLoginId(), pagination.getStartIndex(), pagination.getPageSize());
 			model.addAttribute("title","마이페이지 주문 내역");
 			model.addAttribute("orderList", orderList);
 			model.addAttribute("pagination", pagination);

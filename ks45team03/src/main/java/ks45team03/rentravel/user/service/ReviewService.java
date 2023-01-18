@@ -25,4 +25,19 @@ public class ReviewService {
 		
 		return reviewMapper.addReview(review);
 	}
+	
+	public int modifyReview(Review review) {
+		
+		return reviewMapper.modifyReview(review);
+	}
+	
+	public int removeReview(String reviewCode) {
+		
+		return reviewMapper.removeReview(reviewCode);
+	}
+	
+	public int checkReview(String goodsCode, String loginId) {
+		
+		return reviewMapper.checkReview(goodsCode, loginId);
+	};
 }

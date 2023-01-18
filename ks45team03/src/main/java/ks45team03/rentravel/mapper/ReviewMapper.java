@@ -12,4 +12,10 @@ public interface ReviewMapper {
 	public List<Review> getReviewList(String goodsCode);
 	
 	public int addReview(Review review);
+	
+	public int modifyReview(Review review);
+	
+	public int removeReview(String reviewCode);
+	
+	public int checkReview(String goodsCode, String loginId);
 }
