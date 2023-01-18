@@ -49,6 +49,7 @@ public class GoodsController {
 		
 		int goodsListCount = goodsService.getGoodsListCount(goodsCategoryCode, searchKey, searchValue,goodsRentalAvailability);
 		Pagination pagination = new Pagination(goodsListCount, curPage,goodsCategoryCode);
+		Search search = new Search(searchKey, searchValue);
 		
 		int startIndex = pagination.getStartIndex();
 		int pageSize = pagination.getPageSize();
@@ -62,6 +63,7 @@ public class GoodsController {
 			
 			List<Goods> goodsList = goodsService.getGoodsListNotLogin(startIndex, pageSize,goodsCategoryCode,searchKey,searchValue,goodsRentalAvailability);
 			model.addAttribute("goodsList", goodsList);
+			model.addAttribute("search",search);
 			model.addAttribute("pagination", pagination);
 			model.addAttribute("searchResult", searchResult);
 			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
@@ -87,6 +89,7 @@ public class GoodsController {
 	public String goodsDetail(Model model
 							 ,@RequestParam(value="goodsCode") String goodsCode
 							 ,@RequestParam(value="userId") String userId
+							 ,@RequestParam(defaultValue="1", required=false) int curPage
 							 ,HttpSession session) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
@@ -110,13 +113,27 @@ public class GoodsController {
 		
 		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
 
-		int userBlockedIdCnt = userBlockMapper.userBlockListCnt(userId, loginUser.getLoginId());
+		int userBlockedIdCnt = userBlockMapper.userBlockListCnt(userId, loginId);
 		
-
+		int checkReviewCount = reviewService.checkReviewCount(goodsCode, loginId);
 		
-		List<Review> reviewList = reviewService.getReviewList(goodsCode);
+		int checkTradeStatus = reviewService.checkTradeStatus(goodsCode, loginId);
+		
+		int reviewListCount = reviewService.getReviewListCount(goodsCode);
+		
+		Pagination pagination = new Pagination(reviewListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		
+		List<Review> reviewList = reviewService.getReviewList(goodsCode, startIndex, pageSize);
+		
+		
 		
 		model.addAttribute("goodsImgs",goodsImg);
+		model.addAttribute("checkReviewCount",checkReviewCount);
+		model.addAttribute("checkTradeStatus",checkTradeStatus);
+		model.addAttribute("pagination",pagination);
 		model.addAttribute("goodsDetail",goodsDetail);
 		model.addAttribute("checkWish",checkWish);
 		model.addAttribute("goodsListByUserId",goodsListByUserId);

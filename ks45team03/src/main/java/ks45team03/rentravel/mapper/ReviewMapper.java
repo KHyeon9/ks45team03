@@ -9,7 +9,7 @@ import ks45team03.rentravel.dto.Review;
 @Mapper
 public interface ReviewMapper {
 	
-	public List<Review> getReviewList(String goodsCode);
+	public List<Review> getReviewList(String goodsCode, int startIndex, int pageSize);
 	
 	public int addReview(Review review);
 	
@@ -17,5 +17,10 @@ public interface ReviewMapper {
 	
 	public int removeReview(String reviewCode);
 	
-	public int checkReview(String goodsCode, String loginId);
+	public int checkReviewCount(String goodsCode, String loginId);
+	
+	public int checkTradeStatus(String goodsCode, String loginId);
+	
+	public int getReviewListCount(String goodsCode);
+	
 }

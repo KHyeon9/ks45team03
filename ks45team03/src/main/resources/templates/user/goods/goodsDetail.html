@@ -185,7 +185,7 @@
 
 	                  </div>
         	          <div class="btn-area mb-0" style="margin-top:10px; display:flex;" th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == goodsDetail.userId}">
-		    			<a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold; margin-right:3px;">수정</button></a>
+		    			<a th:href="@{/goods/modifyGoods(goodsCode=${goodsDetail.goodsCode})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold; margin-right:3px;">수정</button></a>
 			    			<form id="removeGoodsForm" th:action="@{/goods/removeGoods}" method="post" style="width:0%">
 			    				<button type="submit"
 			    						class="btn btn-primary"
@@ -219,7 +219,7 @@
                       </div>
 
                       <div id="Reviews" class="tab-pane fade show active">
-						<div  class="media mb-5 reviewListDiv" th:each="rl : ${reviewList}">
+						<div  class="media mb-5 reviewListDiv" th:each="rl : ${reviewList}" th:if="${not #lists.isEmpty(reviewList)}">
 						  <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
 						  <div class="media-body">
 						    <div class="change-section">
@@ -237,8 +237,11 @@
 						    </div>
 						  </div>
 						</div>
+						<div class="media mb-5 reviewListDiv" th:unless="${not #lists.isEmpty(reviewList)}">
+							등록된 상품평이 없습니다.
+						</div>
 						
-						<div class="mt-5 mb-2 border p-4 p-md-5" th:if="${session.S_USER_INFO != null && checkReview.checkReviewCount < 0}">
+						<div class="mt-5 mb-2 border p-4 p-md-5" th:if="${session.S_USER_INFO != null} and ${checkReviewCount < 1} and ${checkTradeStatus > 0}">
 						  <form id="addReviewForm"  method="post" role="form">
 						    <div class="media flex-column flex-md-row mb-0">
 						      <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="/user/assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
@@ -259,7 +262,7 @@
 						        <div class="row">
 						
 						          <div class="form-group col-md-12">
-						            <textarea class="form-control" id="exampleTextarea" name="reviewContent" rows="5" placeholder="Review"></textarea>
+						            <textarea class="form-control" id="exampleTextarea" name="reviewContent" rows="5" placeholder="상품평을 입력해주세요."></textarea>
 						          </div>
 						          
 						          <input id="goodsCodeInput" type="hidden" name="goodsCode" th:value="${goodsDetail.goodsCode}">
@@ -268,12 +271,43 @@
 						        </div>
 						
 						        <div class="text-center text-md-left">
-						          <button id="addReviewBtn" type="button" class="btn btn-default btn-primary custom-btn">Submit Review</button>
+						          <button id="addReviewBtn" type="button" class="btn btn-default btn-primary custom-btn">상품평 등록</button>
 						        </div>
 						      </div>
 						    </div>
 						  </form>
 						</div>
+						
+						
+						<th:block th:object="${goodsDetail}">
+			              <div class="blogPage" style="display: flex; justify-content:center;">
+							<ul class="pagination" style="margin:3px">
+								<li th:if="${pagination.curRange != 1}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="First"><span aria-hidden="true"></span></a>
+								</li>
+								<li th:if="${pagination.curPage != 1}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+								</li>
+								
+								<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+									<li class="active" th:if="${pageNum == pagination.curPage}" style="padding:0px;">
+										<a th:text="${pageNum}"></a>
+									</li>
+									<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+										<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" th:text="${pageNum}"></a>
+									</li>
+								</th:block>
+			
+								<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+								</li>
+								<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+								</li>
+							</ul>
+			              </div>						
+						</th:block>
+						
 						
 						
 						
@@ -325,256 +359,243 @@
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
+
+/* ----------------------------------------강현구 결제 달력 기능 javascript-시작---------------------------------------------- */
+		
 			const $startDate = document.getElementById('rentalStartDate');
 			const $endDate = document.getElementById('rentalEndDate');
 			const today = new Date();
-			
+	
 			const startDate = new Date(today);
 			const endDate = new Date(today);
 			const defailtDate = new Date(today);
-			
+	
 			endDate.setDate(today.getDate() + 14);
 			defailtDate.setDate(today.getDate() + 1);
-			
+	
 			$startDate.value = today.toISOString().substring(0, 10);
 			$endDate.value = defailtDate.toISOString().substring(0, 10);
-			
+	
 			$startDate.setAttribute('min', startDate.toISOString().substring(0, 10));
 			$startDate.setAttribute('max', endDate.toISOString().substring(0, 10));
 			$endDate.setAttribute('min', defailtDate.toISOString().substring(0, 10));
-			
-			$startDate.addEventListener('change', function(){
-				const changeMinDate = new Date($startDate.value);
-				changeMinDate.setDate(changeMinDate.getDate() + 1);
-				$endDate.setAttribute('min', changeMinDate.toISOString().substring(0, 10));
-				changeDate = new Date($startDate.value);
-				changeDate.setDate(changeDate.getDate() + 1);
-				$endDate.value = changeDate.toISOString().substring(0, 10);
-			}) 
-			
-			
 	
-			$('#submitBtn').click(function(){
-				
-				const userId =  document.getElementById("submitBtn").value;
-							
-				if(!confirm(userId+'님을 차단하시겠습니까?')) {
-					return false;
-				}else{
-					$('#addBlockForm').submit();
-				}
-			}); 
-				
-			$('#removeGoodsButton').click(function(){
-				
-				if(!confirm('상품을 삭제하시겠습니까?')) {
-					return false;
-				}else{
-					$('#removeGoodsForm').submit();
-					alert('상품이 삭제되었습니다.');
-				}
-			});
-			
-			$('#addWishButton').click(function(){
-				
-				if([[${session.S_USER_INFO}]] != null){
-					
-					if(!confirm('관심상품으로 등록하시겠습니까?')) {
-						return false;
-					}else{
-						$('#addWishForm').submit();
-					}
-					
-				}else{
-					
-					if(!confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
-						return false;
-					}else{
-						location.href = '/login';
-					}
-				}
-				
-			});
-			
-			$('#removeWishButton').click(function(){
-				
-				if(!confirm('이미 관심상품으로 등록되어있습니다. 삭제하시겠습니까?')) {
-					return false;
-				}else{
-					$('#removeWishForm').submit();
-				}
-			});
-			
-			$('#addReviewBtn').click(function(){
-				
-				const userId = $('#userIdInput').val();
-				const goodsCode = $('#goodsCodeInput').val();
-				const reviewContent = $('#exampleTextarea').val();
-				
-				const goodsEvaluation = $("input[name='goodsEvaluation']:checked").val();
-				
-				const reviewObj = {
-									'userId':userId,
-									'goodsCode':goodsCode,
-									'reviewContent':reviewContent,
-									'goodsEvaluation':goodsEvaluation
-								  };
-				
-				$.ajax({
-					type:'POST',
-					url:'/review/addReview',
-					contentType: "application/json; charset=UTF-8;",
-					data: JSON.stringify(reviewObj),
-		   			success: function(data) {
-		   				location.reload();
-	   	          		console.log("성공");
-		   			},
-		   			error: function(e) {
-		   				alert("ERROR : " + e);
-		   			}
-		   			
-		   			
-				});
-				
-			});
-				
-				
-			$(document).on('click','.removeReviewBtn',function(){
-				const reviewCode = $(this).attr('data-review-code');
-				
-				$.ajax({
-	   				type:'POST',
-	   				url:'/review/removeReview',
-	   				contentType: "application/json; charset=UTF-8",
-	   				data: reviewCode,
-		   			success: function(data) {
-		   					location.reload();
-		   	          		console.log("성공");
-		   			},
-		   			error: function(e) {
-		   				alert("ERROR : " + e);
-		   			}	
-				});// 상품평 삭제 비동기 끝
-			});	
-			
-			
-			
-			
-			
-			
-			$(document).on('click', '.modifyReviewBtn', function(){
-				
-				const reviewContent = $(this).attr("data-review-cotent");
-				const reviewCode = $(this).attr("data-review-code");
-				
-				//console.log($(this).parents('div.commentInfo').find('div.change-section'));
-				
-				const changeSection = $(this).parents('div.reviewListDiv').find('div.change-section');
-				changeSection.empty();
-				
-				
-				
-				
-				
-				
-				const $textArea = $('<textarea />', {
-					class:'form-control modifyReview',
-					rows:'3',
-					name:'modifyReview',
-					style:'margin-bottom:2px;',
-					text:reviewContent
-				});
-				
-				const $modifyActionBtn = $('<button />',{
-					class:'btn btn-secondary btn-sm modifyActionBtn',
-					type:'button',
-					text:'수정',
-					click: function(){
-						const reviewContentValue = $(this).parent().find('textarea.modifyReview').val();
-						const goodsEvaluationValue = $(this).parent().find(" input[name='goodsEvaluation']:checked ").val();
-						//console.log(infoBoardCommentContentValue);
-						const reviewObj = {
-								'reviewCode':reviewCode,
-			   					'reviewContent':reviewContentValue,
-			   					'goodsEvaluation':goodsEvaluationValue
-   							};
-						
-						$.ajax({
-			   				type:'POST',
-			   				url:'/review/modifyReview',
-			   				contentType: "application/json; charset=UTF-8",
-			   				data: JSON.stringify(reviewObj),
-				   			success: function(data) {
-				   					location.reload();
-				   	          		console.log("성공");
-				   			},
-				   			error: function(e) {
-				   				alert("ERROR : " + e);
-				   			}	
-						});// 댓글 비동기 끝
-					}
-				});
-		
-			
-		$('#removeGoodsButton').click(function(){
-			
-			if(!confirm('상품을 삭제하시겠습니까?')) {
-				return false;
-			}else{
-				$('#removeGoodsForm').submit();
-				alert('상품이 삭제되었습니다.');
-			}
-		});
-		
-		
-			$(document).on('click','.deleteBtn',function(){
-				const infoBoardCommentCode = $(this).attr('data-comment-code');
-				
-				$.ajax({
-	   				type:'POST',
-	   				url:'/infoboard/infoBoardDetail/removeComment',
-	   				contentType: "application/json; charset=UTF-8",
-	   				data: infoBoardCommentCode,
-		   			success: function(data) {
-		   					location.reload();
-		   	          		console.log("성공");
-		   			},
-		   			error: function(e) {
-		   				alert("ERROR : " + e);
-		   			}	
-				});// 댓글 비동기 끝
+			$startDate.addEventListener('change', function () {
+			    const changeMinDate = new Date($startDate.value);
+			    changeMinDate.setDate(changeMinDate.getDate() + 1);
+			    $endDate.setAttribute('min', changeMinDate.toISOString().substring(0, 10));
+			    changeDate = new Date($startDate.value);
+			    changeDate.setDate(changeDate.getDate() + 1);
+			    $endDate.value = changeDate.toISOString().substring(0, 10);
 			})
-					
-			
-		
-		$(document).on('click','.blockBtn',function(){
-			const blockedId = $(this).attr('data-block-id');
-			
-			if(!confirm(blockedId+'님을 차단하시겠습니까?')) {
-				return false;
-			}else{
-			
-			$.ajax({
-   				type:'POST',
-   				url:'/user/block/addUserBlock',
-   				contentType: "application/json; charset=UTF-8",
-   				data: blockedId,
-	   			success: function(data) {   	          		
-	   	          	alert(blockedId + '님이 차단되었습니다.')
-	   	         if(data > 0){
-		 				$('.blockBtn').hide();
-		 			}
 
-	   			},
-	   			error: function(e) {
-	   				alert("ERROR : " + e);
-	   				console.log(blockedId);
-	   			}	
+/* ----------------------------------------강현구 결제 달력 기능 javascript-끝---------------------------------------------- */	
+
+/* -------------------------------------남윤희 상품 삭제,관심상품 추가삭제 기능 javascript-시작------------------------------------ */
+	
+			$('#removeGoodsButton').click(function () {
+	
+			    if (!confirm('상품을 삭제하시겠습니까?')) {
+			        return false;
+			    } else {
+			        $('#removeGoodsForm').submit();
+			        alert('상품이 삭제되었습니다.');
+			    }
+			});
+	
+			$('#addWishButton').click(function () {
+	
+			    if ([[${ session.S_USER_INFO }]] != null) {
+	
+			        if (!confirm('관심상품으로 등록하시겠습니까?')) {
+			            return false;
+			        } else {
+			            $('#addWishForm').submit();
+			        }
+	
+			    } else {
+	
+			        if (!confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
+			            return false;
+			        } else {
+			            location.href = '/login';
+			        }
+			    }
+	
+			});
+	
+			$('#removeWishButton').click(function () {
+	
+			    if (!confirm('이미 관심상품으로 등록되어있습니다. 삭제하시겠습니까?')) {
+			        return false;
+			    } else {
+			        $('#removeWishForm').submit();
+			    }
 			});
 			
-			}
-			  
-		})
+/* -------------------------------------남윤희 상품 삭제,관심상품 추가삭제 기능 javascript-끝------------------------------------ */
+
+/* -------------------------------------------남윤희 상품평 기능 javascript-시작----------------------------------------- */
+			
+			//상품평 추가 ajax 시작
+			$('#addReviewBtn').click(function () {
+	
+			    const userId = $('#userIdInput').val();
+			    const goodsCode = $('#goodsCodeInput').val();
+			    const reviewContent = $('#exampleTextarea').val();
+	
+			    const goodsEvaluation = $("input[name='goodsEvaluation']:checked").val();
+	
+			    const reviewObj = {
+			        'userId': userId,
+			        'goodsCode': goodsCode,
+			        'reviewContent': reviewContent,
+			        'goodsEvaluation': goodsEvaluation
+			    };
+	
+			    $.ajax({
+			        type: 'POST',
+			        url: '/review/addReview',
+			        contentType: "application/json; charset=UTF-8;",
+			        data: JSON.stringify(reviewObj),
+			        success: function (data) {
+			            location.reload();
+			            console.log("성공");
+			        },
+			        error: function (e) {
+			            if(goodsEvaluation == null || goodsEvaluation == ''){
+			            	alert("별점을 선택해주세요");
+			            	$('#exampleTextarea').focus();
+			            }
+			        }
+	
+	
+			    });
+	
+			});
+			//상품평 추가 ajax 끝
+	
+			//상품평 삭제 ajax 시작
+			$(document).on('click', '.removeReviewBtn', function () {
+			    const reviewCode = $(this).attr('data-review-code');
+	
+			    $.ajax({
+			        type: 'POST',
+			        url: '/review/removeReview',
+			        contentType: "application/json; charset=UTF-8",
+			        data: reviewCode,
+			        success: function (data) {
+			            location.reload();
+			            console.log("성공");
+			        },
+			        error: function (e) {
+			            alert("ERROR : " + e);
+			        }
+			    });
+			});
+			// 상품평 삭제 ajax 끝
+	
+			// 상품평 수정 ajax 시작
+			$(document).on('click', '.modifyReviewBtn', function () {
+	
+			    const reviewContent = $(this).attr("data-review-cotent");
+			    const reviewCode = $(this).attr("data-review-code");
+	
+			    //console.log($(this).parents('div.commentInfo').find('div.change-section'));
+	
+			    const changeSection = $(this).parents('div.reviewListDiv').find('div.change-section');
+			    changeSection.empty();
+	
+			    const $textArea = $('<textarea />', {
+			        class: 'form-control modifyReview',
+			        rows: '3',
+			        name: 'modifyReview',
+			        style: 'margin-bottom:2px;',
+			        text: reviewContent
+			    });
+	
+			    const $modifyActionBtn = $('<button />', {
+			        class: 'btn btn-secondary btn-sm modifyActionBtn',
+			        type: 'button',
+			        text: '수정',
+			        click: function () {
+			            const reviewContentValue = $(this).parent().find('textarea.modifyReview').val();
+			            const goodsEvaluationValue = $(this).parent().find(" input[name='goodsEvaluation']:checked ").val();
+			            //console.log(infoBoardCommentContentValue);
+			            const reviewObj = {
+			                'reviewCode': reviewCode,
+			                'reviewContent': reviewContentValue,
+			                'goodsEvaluation': goodsEvaluationValue
+			            };
+	
+			            $.ajax({
+			                type: 'POST',
+			                url: '/review/modifyReview',
+			                contentType: "application/json; charset=UTF-8",
+			                data: JSON.stringify(reviewObj),
+			                success: function (data) {
+			                    location.reload();
+			                    console.log("성공");
+			                },
+			                error: function (e) {
+					            if(goodsEvaluationValue == null){
+					            	alert("별점을 선택해주세요");
+					            	$('.modifyReview').focus();
+					            }
+			                }
+			            });// 댓글 비동기 끝
+			        }
+			    });
+			    
+			    const $modifyCancelBtn = $('<button />',{
+					class:'btn btn-secondary btn-sm modifyCancelBtn',
+					type:'button',
+					text:'취소',
+					click: function(){
+						location.reload();
+					}
+				});
+			    
+			    changeSection.append("<div class='rating-view mb-4'><fieldset><input type='radio' name='goodsEvaluation' value='5' id='rate1'><label for='rate1'>⭐</label><input type='radio' name='goodsEvaluation' value='4' id='rate2'><label for='rate2'>⭐</label><input type='radio' name='goodsEvaluation' value='3' id='rate3'><label for='rate3'>⭐</label><input type='radio' name='goodsEvaluation' value='2' id='rate4'><label for='rate4'>⭐</label><input type='radio' name='goodsEvaluation' value='1' id='rate5'><label for='rate5'>⭐</label></fieldset> </div>");
+				changeSection.append($textArea);
+				changeSection.append($modifyActionBtn);
+				changeSection.append($modifyCancelBtn);
+				console.log(infoBoardCommentContent);
+			});
+			// 상품평 수정 ajax 끝
+	
+/* -------------------------------------------남윤희 상품평 기능 javascript-끝----------------------------------------- */	
+	
+/* ----------------------------------------오경하 차단 기능 javascript-시작---------------------------------------------- */	
+			$(document).on('click', '.blockBtn', function () {
+			    const blockedId = $(this).attr('data-block-id');
+	
+			    if (!confirm(blockedId + '님을 차단하시겠습니까?')) {
+			        return false;
+			    } else {
+	
+			        $.ajax({
+			            type: 'POST',
+			            url: '/user/block/addUserBlock',
+			            contentType: "application/json; charset=UTF-8",
+			            data: blockedId,
+			            success: function (data) {
+			                alert(blockedId + '님이 차단되었습니다.')
+			                if (data > 0) {
+			                    $('.blockBtn').hide();
+			                }
+	
+			            },
+			            error: function (e) {
+			                alert("ERROR : " + e);
+			                console.log(blockedId);
+			            }
+			        });
+	
+			    }
+	
+			});
+/* ----------------------------------------오경하 차단 기능 javascript-끝---------------------------------------------- */
 		
 		
 		
