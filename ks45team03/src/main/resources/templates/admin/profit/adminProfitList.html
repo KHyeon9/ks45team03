@@ -81,20 +81,20 @@
 											<div class="dataTables_paginate paging_simple_numbers">
 												<ul class="pagination">																							
 													<li th:if="${pagination.curPage != 1}" class="paginate_button previous disabled">
-														<a th:href="@{/admin/profit/adminProfitList(curPage=${pagination.prevPage})}" aria-label="Prev">Prev</a>
+														<a th:href="@{/admin/profit/adminProfitList(curPage=${pagination.prevPage},searchId=${profitSearch.searchId})}" aria-label="Prev">Prev</a>
 													</li>
 													
 													<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
 														<li class="active" th:if="${pageNum == pagination.curPage}">
 															<a th:text="${pageNum}"></a>
 														</li>
-														<li th:unless="${pageNum == pagination.curPage}">
-															<a th:href="@{/admin/profit/adminProfitList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+														<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+															<a th:href="@{/admin/profit/adminProfitList(curPage=${pageNum},searchId=${profitSearch.searchId})}" th:text="${pageNum}"></a>
 														</li>
 													</th:block>
 				
 													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-														<a th:href="@{/admin/profit/adminProfitList(curPage=${pagination.nextPage})}" aria-label="Next">Next</a>
+														<a th:href="@{/admin/profit/adminProfitList(curPage=${pagination.nextPage},searchId=${profitSearch.searchId})}" aria-label="Next">Next</a>
 													</li>												
 													
 												</ul>
