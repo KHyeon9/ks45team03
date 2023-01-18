@@ -14,9 +14,9 @@ public class ReviewService {
 	
 	private final ReviewMapper reviewMapper;
 	
-	public List<Review> getReviewList(String goodsCode){
+	public List<Review> getReviewList(String goodsCode, int startIndex, int pageSize){
 		
-		List<Review> reviewList = reviewMapper.getReviewList(goodsCode);
+		List<Review> reviewList = reviewMapper.getReviewList(goodsCode,startIndex,pageSize);
 		
 		return reviewList;
 	}
@@ -36,4 +36,24 @@ public class ReviewService {
 		return reviewMapper.removeReview(reviewCode);
 	}
 	
+	public int checkReviewCount(String goodsCode, String loginId) {
+		
+		int checkReviewCount = reviewMapper.checkReviewCount(goodsCode, loginId);
+		
+		return checkReviewCount;
+	}
+	
+	public int checkTradeStatus(String goodsCode, String loginId) {
+		
+		int checkTradeStatus = reviewMapper.checkTradeStatus(goodsCode, loginId);
+		
+		return checkTradeStatus;
+	}
+	
+	public int getReviewListCount(String goodsCode) {
+		
+		int reviewListCount = reviewMapper.getReviewListCount(goodsCode);
+		
+		return reviewListCount;
+	}
 }
