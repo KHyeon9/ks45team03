@@ -103,7 +103,7 @@ public class GoodsController {
 		
 		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
 
-		int userBlockedIdCnt = userBlockMapper.userBlockListCnt(userId, loginUser.getLoginId());
+		int userBlockedIdCnt = userBlockMapper.userBlockListCnt(userId, loginId);
 		
 
 		
