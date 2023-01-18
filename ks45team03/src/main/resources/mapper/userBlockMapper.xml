@@ -12,6 +12,20 @@
 		
 	</resultMap>
 	
+		
+		
+		<select id="userBlockListCnt" parameterType="String" resultType="int">
+		/* 특정 회원 차단 목록 행 갯수 */
+		SELECT
+			COUNT(1)
+		FROM
+			tb_block AS b
+		WHERE
+			b.blocking_user_id = #{loginId}
+			and 
+			b.blocked_user_id = #{userId};
+	</select>
+		
 	
 		<select id="getUserBlockId" parameterType="String" resultMap="blockResultMap">
 		/* 차단한 회원 id 조회 */
@@ -43,7 +57,7 @@
 			)
 		VALUES 
 			(
-			sf_new_block_code(), #{loginId},#{userId}, CURDATE()
+			sf_new_block_code(), #{loginId},#{userId}, NOW()
 			);
 		</insert>
 		
@@ -59,7 +73,7 @@
 			tb_block AS b
 		WHERE 
 		 b.blocking_user_id = #{loginId}
-		ORDER BY b.block_date
+		ORDER BY b.block_date DESC
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize};
 		</if>

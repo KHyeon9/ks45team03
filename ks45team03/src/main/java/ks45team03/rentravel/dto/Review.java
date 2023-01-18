@@ -12,13 +12,14 @@ public class Review {
 	private String goodsCode;
 	private String userId;
 	private String reviewContent;
-	private int goodsEvaluation;
+	private String goodsEvaluation;
 	private String reviewImg;
 	private String reviewRegDate;
 	private String mileageGroupCode;
 	private String saveMileage;
 	
 	private String goodsName;
+
 	
 	private User user;
 

@@ -62,7 +62,7 @@
 											<div class="dataTables_paginate paging_simple_numbers">
 												<ul class="pagination">																							
 													<li th:if="${pagination.curPage != 1}" class="paginate_button previous disabled">
-														<a th:href="@{/admin/block/adminBlockList(curPage=${pagination.prevPage})}" aria-label="Prev">Prev</a>
+														<a th:href="@{/admin/block/adminBlockList(curPage=${pagination.prevPage}, searchKey=${search.searchKey}, searchValue=${search.searchValue})}" aria-label="Prev">Prev</a>
 													</li>
 													
 													<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
@@ -70,12 +70,12 @@
 															<a th:text="${pageNum}"></a>
 														</li>
 														<li th:unless="${pageNum == pagination.curPage}">
-															<a th:href="@{/admin/block/adminBlockList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+															<a th:href="@{/admin/block/adminBlockList(curPage=${pageNum}, searchKey=${search.searchKey}, searchValue=${search.searchValue})}" th:text="${pageNum}"></a>
 														</li>
 													</th:block>
 				
 													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-														<a th:href="@{/admin/block/adminBlockList(curPage=${pagination.nextPage})}" aria-label="Next">Next</a>
+														<a th:href="@{/admin/block/adminBlockList(curPage=${pagination.nextPage}, searchKey=${search.searchKey}, searchValue=${search.searchValue})}" aria-label="Next">Next</a>
 													</li>												
 													
 												</ul>

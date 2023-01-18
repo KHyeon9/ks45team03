@@ -70,7 +70,7 @@
 			,apply_check
 		FROM 
 			tb_commision_rate
-		ORDER BY LENGTH(SUBSTRING(commision_rate_code,10)),SUBSTRING(commision_rate_code,10)
+		ORDER BY LENGTH(SUBSTRING(commision_rate_code,10)),SUBSTRING(commision_rate_code,10) DESC
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize};
 		</if>

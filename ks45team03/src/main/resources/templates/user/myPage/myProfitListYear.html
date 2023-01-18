@@ -121,10 +121,10 @@
 							<div class="text-left">
 								<ul class="pagination" style="justify-content: center;">
 									<li th:if="${pagination.curRange != 1}">
-										<a th:href="@{/myPage/myProfitListYear}" aria-label="First"><span aria-hidden="true"><<</span></a>
+										<a th:href="@{/myPage/myProfitListYear(searchYear=${profitSearch.searchYear})}" aria-label="First"><span aria-hidden="true"><<</span></a>
 									</li>
 									<li th:if="${pagination.curPage != 1}">
-										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.prevPage}, searchYear=${profitSearch.searchYear})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
 									</li>
 									
 									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
@@ -132,15 +132,15 @@
 											<a th:text="${pageNum}"></a>
 										</li>
 										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
-											<a th:href="@{/myPage/myProfitListYear(curPage=${pageNum})}" th:text="${pageNum}"></a>
+											<a th:href="@{/myPage/myProfitListYear(curPage=${pageNum}, searchYear=${profitSearch.searchYear})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
 
 									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.nextPage}, searchYear=${profitSearch.searchYear})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
 									</li>
 									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.pageCnt}, searchYear=${profitSearch.searchYear})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
 									</li>
 								</ul>
 							</div>

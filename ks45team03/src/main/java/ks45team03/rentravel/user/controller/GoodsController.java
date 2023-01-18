@@ -1,5 +1,7 @@
 package ks45team03.rentravel.user.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Review;
 import ks45team03.rentravel.dto.Search;
+import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.user.service.GoodsService;
 import ks45team03.rentravel.user.service.ReviewService;
 import ks45team03.rentravel.user.service.WishService;
@@ -28,7 +32,11 @@ public class GoodsController {
 	
 	private final GoodsService goodsService;
 	private final WishService wishService;
+
+	private final UserBlockMapper userBlockMapper;
+
 	private final ReviewService reviewService;
+
 	
 	@GetMapping("/goodsList")
 	public String goodsList(Model model
@@ -41,6 +49,7 @@ public class GoodsController {
 		
 		int goodsListCount = goodsService.getGoodsListCount(goodsCategoryCode, searchKey, searchValue,goodsRentalAvailability);
 		Pagination pagination = new Pagination(goodsListCount, curPage,goodsCategoryCode);
+		Search search = new Search(searchKey, searchValue);
 		
 		int startIndex = pagination.getStartIndex();
 		int pageSize = pagination.getPageSize();
@@ -54,6 +63,7 @@ public class GoodsController {
 			
 			List<Goods> goodsList = goodsService.getGoodsListNotLogin(startIndex, pageSize,goodsCategoryCode,searchKey,searchValue,goodsRentalAvailability);
 			model.addAttribute("goodsList", goodsList);
+			model.addAttribute("search",search);
 			model.addAttribute("pagination", pagination);
 			model.addAttribute("searchResult", searchResult);
 			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
@@ -63,6 +73,7 @@ public class GoodsController {
 			
 			List<Goods> goodsList = goodsService.getGoodsList(loginUser.getLoginId(), startIndex,pageSize, goodsCategoryCode,searchKey,searchValue, goodsRentalAvailability);
 			model.addAttribute("goodsList", goodsList);
+			model.addAttribute("search",search);
 			model.addAttribute("pagination", pagination);
 			model.addAttribute("searchResult", searchResult);
 			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
@@ -79,13 +90,19 @@ public class GoodsController {
 	public String goodsDetail(Model model
 							 ,@RequestParam(value="goodsCode") String goodsCode
 							 ,@RequestParam(value="userId") String userId
+							 ,@RequestParam(defaultValue="1", required=false) int curPage
 							 ,HttpSession session) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String loginId =null;
 		
+		boolean equalIdFlag = true;
+		
 		if(loginUser != null) {
 			loginId = loginUser.getLoginId();
+			if (loginId.equals(userId)) {
+				equalIdFlag = false;
+			}
 		}
 		
 		int checkWish = wishService.checkWish(goodsCode, loginId);
@@ -95,17 +112,39 @@ public class GoodsController {
 		
 		
 		
-		
 		List<Goods> goodsListByUserId = goodsService.getGoodsListByUserId(userId,goodsCode);
+
+		int userBlockedIdCnt = userBlockMapper.userBlockListCnt(userId, loginId);
 		
-		List<Review> reviewList = reviewService.getReviewList(goodsCode);
-		 
+		int checkReviewCount = reviewService.checkReviewCount(goodsCode, loginId);
+		
+		int checkTradeStatus = reviewService.checkTradeStatus(goodsCode, loginId);
+		
+		int reviewListCount = reviewService.getReviewListCount(goodsCode);
+		
+		Pagination pagination = new Pagination(reviewListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		
+		List<Review> reviewList = reviewService.getReviewList(goodsCode, startIndex, pageSize);
+		
+		
 		
 		model.addAttribute("goodsImgs",goodsImg);
+		model.addAttribute("checkReviewCount",checkReviewCount);
+		model.addAttribute("checkTradeStatus",checkTradeStatus);
+		model.addAttribute("pagination",pagination);
 		model.addAttribute("goodsDetail",goodsDetail);
 		model.addAttribute("checkWish",checkWish);
 		model.addAttribute("goodsListByUserId",goodsListByUserId);
+
+		model.addAttribute("userBlockedIdCnt",userBlockedIdCnt);
+
 		model.addAttribute("reviewList",reviewList);
+		
+		model.addAttribute("equalIdFlag",equalIdFlag);
+		
 		model.addAttribute("title","상품 상세 정보 화면");
 		
 		return "user/goods/goodsDetail";

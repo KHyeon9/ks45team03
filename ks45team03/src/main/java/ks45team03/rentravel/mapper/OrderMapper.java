@@ -7,12 +7,28 @@ import org.apache.ibatis.annotations.Mapper;
 import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.Rental;
+import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
 
 @Mapper
 public interface OrderMapper {
+	
+	// 오너 주문 취소 확인
+	public int cancelCheckOwner(String paymentCode);
+	
+	// 주문 취소 등록
+	public int addRentalCancel(RentalCancel rentalCancel);
+	
+	// 주문 취소 정보 조회
+	public Rental getCancelInfo(String paymentCode);
+	
+	// 렌터의의 주문 물품 배송 정보 조회
+	public WaybillOwner getOrderDeliveryInfo(String userId, String paymentCode);
+	
+	// 오너의 대여 물품 배송 정보 조회
+	public WaybillRenter getRentDeliveryInfo(String userId, String paymentCode);
 	
 	// 렌터 주문 횟수
 	public int getUserOrderCnt(String userId);
@@ -57,9 +73,9 @@ public interface OrderMapper {
 	public Rental getRentalGoodsInfo(String rentalCode);
 	
 	// 회원은 렌트 내역을 조회
-	public List<Rental> getUserRentalList(String userId);
+	public List<Rental> getUserRentalList(String userId, int startIndex, int pageSize);
 	
 	// 회원의 자신 주문 내역 조회
-	public List<Rental> getUserOrderList(String userId);
+	public List<Rental> getUserOrderList(String userId, int startIndex, int pageSize);
 	
 }

@@ -1,5 +1,7 @@
 package ks45team03.rentravel.admin.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import ks45team03.rentravel.dto.Return;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
 import ks45team03.rentravel.mapper.AdminOrderMapper;
+import ks45team03.rentravel.mapper.OrderMapper;
 
 @Service
 @Transactional
@@ -21,10 +24,33 @@ public class AdminOrderService {
 	
 	// 의존성 주입
 	private AdminOrderMapper adminOrderMapper;
+	private OrderMapper orderMapper;
 	
-	public AdminOrderService(AdminOrderMapper adminOrderMapper) {
+	public AdminOrderService(AdminOrderMapper adminOrderMapper, OrderMapper orderMapper) {
 		this.adminOrderMapper = adminOrderMapper;
+		this.orderMapper = orderMapper;
 	}
+	
+	// 환불 확인
+	public int checkRefound(RentalCancel rentalCancel) {
+		int result = 0;
+		
+		Date nowDate = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		String nowDateStr = simpleDateFormat.format(nowDate);
+		
+		String cancelGroupCode = nowDateStr + "_환불_완료_적립금_" + rentalCancel.getCancelUserId();
+		
+		rentalCancel.setMileageGroupCode(cancelGroupCode);
+		
+		System.out.println(rentalCancel + " => rentalCancel Info ~~~~~~~~~~~~~~~~~~~~~");
+		
+		result += orderMapper.modifyPaymentState(rentalCancel.getPaymentCode(), "trade_status2");
+		result += adminOrderMapper.checkRefound(rentalCancel);
+		
+		
+		return result;
+	};
 	
 	// 주문 내역 수정
 	public int modifyOrderInfo (Rental rentalInfo) {

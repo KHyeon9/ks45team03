@@ -48,70 +48,26 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item dropdown  active ">
-                  <a th:href="@{/}" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
-                  <ul class="dropdown-menu dropdown-menu-left">
-                    <li class="active"><a href="index.html">Home Default</a></li>
-                    <li><a href="index-v2.html">Home Classic</a></li>
-                    <li><a href="index-v3.html">Home Deals</a></li>
-                    <li><a href="index-v4.html">Home Mega</a></li>
-                    <li><a href="index-v5.html">Home Onepage</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown megaDropMenu ">
-                  <a th:href="@{/goods/goodsList}" class="dropdown-toggle nav-link" data-toggle="dropdown" data-hover="dropdown" data-delay="300" data-close-others="true" aria-expanded="false">Goods</b></a>
-                  <ul class="dropdown-menu row">
-                    <li class="col-md-3 col-12">
-                      <ul class="list-unstyled">
-                        <li>Products Grid View</li>
-                        <li class=""><a href="product-grid-left-sidebar.html">Products Sidebar Left</a></li>
-                        <li class=""><a href="product-grid-right-sidebar.html">Products Sidebar Right</a></li>
-                        <li class=""><a href="product-grid-3-col-filter.html">Products 3 Columns V1</a></li>
-                        <li class=""><a href="product-grid-3-col.html">Products 3 Columns V2</a></li>
-                        <li class=""><a href="product-grid-4-col.html">Products 4 Columns</a></li>
-                      </ul>
-                    </li>
-                    <li class="col-md-3 col-12">
-                      <ul class="list-unstyled">
-                        <li>Products List View</li>
-                        <li class=""><a href="product-list-left-sidebar.html">Products Sidebar Left</a></li>
-                        <li class=""><a href="product-list-right-sidebar.html">Products Sidebar Right</a></li>
-                        <li class="listHeading">Others</li>
-                        <li class=""><a href="single-product.html">Single Product</a></li>
-                        <li class=""><a href="cart-page.html">Cart Page</a></li>
-                      </ul>
-                    </li>
-                    <li class="col-md-3 col-12">
-                      <ul class="list-unstyled">
-                        <li>Checkout</li>
-                        <li class=""><a href="checkout-step-1.html">Step 1 - Shipping</a></li>
-                        <li class=""><a href="checkout-step-2.html">Step 2 - Payment</a></li>
-                        <li class=""><a href="checkout-step-3.html">Step 3 - Review</a></li>
-                        <li class=""><a href="checkout-step-4.html">Step 4 - Complete</a></li>
-                      </ul>
-                    </li>
-                    <li class="col-md-3 col-12">
-                      <a href="#" class="menu-photo"><img src="assets/img/menu-photo.jpg" alt="menu-img"></a>
-                    </li>
-                  </ul>
+                  <a th:href="@{/}" class="dropdown-toggle nav-link"  role="button" aria-haspopup="true" aria-expanded="false">Home</a>
                 </li>
                 <li class="nav-item dropdown ">
                   <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rental</a>
                   <ul class="dropdown-menu dropdown-menu-left">
-                    <li class=""><a href="about-us.html">About Us</a></li>
-                    <li class=""><a href="signup.html">Register</a></li>
-                    <li class=""><a href="signup-login.html">Register or Login</a></li>
-                    <li class=""><a href="login.html">Login</a></li>
-                    <li class=""><a href="lost-password.html">Password Recovery</a></li>
-                    <li class=""><a href="privacy-policy.html">Privacy Policy</a></li>
-                    <li class=""><a href="terms-and-conditions.html">Terms &amp; Conditions</a></li>
-                    <li><a href="404.html">404 Not Found</a></li>
-                    <li><a href="coming-soon.html">Coming Soon</a></li>
+                    <li><a th:href="@{/goods/goodsList}">전체보기</a></li>
+                    <li><a th:href="@{/goods/goodsList?goodsCategoryCode=goods_category1}">카메라</a></li>
+                    <li><a th:href="@{/goods/goodsList?goodsCategoryCode=goods_category2}">촬영보조</a></li>
+                    <li><a th:href="@{/goods/goodsList?goodsCategoryCode=goods_category3}">등산용품</a></li>
+                    <li><a th:href="@{/goods/goodsList?goodsCategoryCode=goods_category4}">물놀이용품</a></li>
+                    <li><a th:href="@{/goods/goodsList?goodsCategoryCode=goods_category5}">캠핑용품</a></li>
+                    <li><a th:href="@{/goods/goodsList?goodsCategoryCode=goods_category6}">전자기기</a></li>
+                    <li><a th:href="@{/goods/goodsList?goodsCategoryCode=goods_category7}">놀거리</a></li>
+                    <li><a th:href="@{/goods/goodsList?goodsCategoryCode=goods_category8}">생활용품</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown ">
                   <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Chat</a>
                   <ul class="dropdown-menu dropdown-menu-left">
-                    <li class=""><a th:href="@{/chat/chatRoomList}">Chat Room</a></li>
+                    <li class=""><a th:href="@{/room}">Chat Room</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown ">
@@ -124,8 +80,8 @@
                  <li class="nav-item dropdown ">
                   <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Community</a>
                   <ul class="dropdown-menu dropdown-menu-left">
-                    <li class=""><a th:href="@{/infoboard/infoBoardList}">Info Board</a></li>
-                    <li class=""><a th:href="@{/board/noticeBoard}">Notice Board</a></li>
+                    <li class=""><a th:href="@{/infoboard/infoBoardList}">정보 게시판</a></li>
+                    <li class=""><a th:href="@{/board/noticeBoard}">공지사항</a></li>
                     <li class=""><a th:href="@{/board/FAQList}">FAQ</a></li>
                     <li class=""><a th:href="@{/board/inquiryList}">Q&A</a></li>
                   </ul>
