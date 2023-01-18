@@ -1,5 +1,7 @@
 package ks45team03.rentravel.user.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -71,6 +73,7 @@ public class GoodsController {
 			
 			List<Goods> goodsList = goodsService.getGoodsList(loginUser.getLoginId(), startIndex,pageSize, goodsCategoryCode,searchKey,searchValue, goodsRentalAvailability);
 			model.addAttribute("goodsList", goodsList);
+			model.addAttribute("search",search);
 			model.addAttribute("pagination", pagination);
 			model.addAttribute("searchResult", searchResult);
 			model.addAttribute("goodsCategoryAndCount", goodsCategoryAndCount);
@@ -93,8 +96,13 @@ public class GoodsController {
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String loginId =null;
 		
+		boolean equalIdFlag = true;
+		
 		if(loginUser != null) {
 			loginId = loginUser.getLoginId();
+			if (loginId.equals(userId)) {
+				equalIdFlag = false;
+			}
 		}
 		
 		int checkWish = wishService.checkWish(goodsCode, loginId);
@@ -134,7 +142,9 @@ public class GoodsController {
 		model.addAttribute("userBlockedIdCnt",userBlockedIdCnt);
 
 		model.addAttribute("reviewList",reviewList);
-
+		
+		model.addAttribute("equalIdFlag",equalIdFlag);
+		
 		model.addAttribute("title","상품 상세 정보 화면");
 		
 		return "user/goods/goodsDetail";
