@@ -88,6 +88,16 @@ public class OrderService {
 		return result;
 	};
 	
+	// 오너 반납 직거래 완료
+	public int directTransactionReturn(String paymentCode) {
+		return orderMapper.modifyPaymentState(paymentCode, "trade_status6");
+	}
+	
+	// 렌터 렌트 직거래 완료
+	public int directTransactionOrder(String paymentCode) {
+		return orderMapper.modifyPaymentState(paymentCode, "trade_status4");
+	}
+	
 	// 오너의 운송장 번호 추가
 	public int addWaybillOwner(WaybillOwner waybillOwner, String paymentCode) {
 		int result = 0;

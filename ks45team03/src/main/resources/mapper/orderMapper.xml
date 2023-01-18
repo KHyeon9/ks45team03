@@ -413,6 +413,7 @@
 	<select id="getOrderGoodsInfo" parameterType="String" resultMap="orderMap">
 		SELECT
 			ren.rental_code,
+			ren.select_delivery,
 			g.user_id,
 			g.goods_name,
 			pay.payment_code,
@@ -460,6 +461,7 @@
 	<select id="getRentalGoodsInfo" parameterType="String" resultMap="orderMap">
 		SELECT
 			ren.rental_code,
+			ren.select_delivery,
 			ren.user_id,
 			g.goods_name,
 			pay.payment_code,
@@ -525,6 +527,7 @@
 			pay.payment_code,
 			ren.rental_start_date,
 			ren.rental_end_date,
+			ren.select_delivery,
 			pay.expected_payment_amount,
 			pay.goods_commision_total_price,
 			pay.settlement_amount,
@@ -573,6 +576,7 @@
 			pay.payment_code,
 			ren.rental_start_date,
 			ren.rental_end_date,
+			ren.select_delivery,
 			pay.mileage_use_price,
 			pay.amount_excluding_mileage,
 			tra.order_state_standard_name,
