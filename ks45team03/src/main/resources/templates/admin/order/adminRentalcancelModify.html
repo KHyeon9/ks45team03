@@ -15,8 +15,10 @@
                                <div class="clearfix"></div>
                            </div>
                            <div class="x_content">
-                               <form class="modifyOrderInfo" th:action="@{/admin/order/adminRentalcancelModify}" method="post" novalidate>
-                               	  <input type="hidden" th:value="${rentalCancelInfo.rentalCancelCode}"  name="rentalCancelCode">
+                           		<!-- th:action="@{/admin/order/adminRentalcancelModify}" -->
+                               <form id="orderCancelInfo" method="post" novalidate>
+                               	  <input type="hidden" id="rentalCancelCode" th:value="${rentalCancelInfo.rentalCancelCode}"  name="rentalCancelCode">
+                               	  <input type="hidden" id="paymentCode" th:value="${rentalCancelInfo.paymentCode}"  name="paymentCode">
                                    <div class="field item form-group">
                                        <label class="col-form-label col-md-3 col-sm-3  label-align">취소 회원 ID</label>
                                        <div class="col-md-6 col-sm-6">
@@ -26,18 +28,22 @@
                                    <div class="field item form-group">
                                        <label class="col-form-label col-md-3 col-sm-3  label-align">렌탈 취소 신청일자</label>
                                        <div class="col-md-6 col-sm-6">
-                                           <input th:value="${rentalCancelInfo.rentalCancelSignupDate}" class="form-control" name="rentalCancelSignupDate" type="datetime-local" required="required" />
+                                           <input th:value="${rentalCancelInfo.rentalCancelSignupDate}" class="form-control" name="rentalCancelSignupDate" type="datetime-local" required="required" readonly="readonly" />
                                        </div>
                                    </div>
                                    <div class="field item form-group">
                                        <label class="col-form-label col-md-3 col-sm-3  label-align">환불 담당자 ID</label>
                                        <div class="col-md-6 col-sm-6">
-                                           <input th:value="${rentalCancelInfo.refundUserId}"  class="form-control" name="refundUserId" required="required" type="text" readonly="readonly" /></div>
+                                           <input th:if="${rentalCancelInfo.refundUserId} != null" th:value="${rentalCancelInfo.refundUserId}"  class="form-control" name="refundUserId" required="required" type="text" readonly="readonly" />
+                                           <input th:unless="${rentalCancelInfo.refundUserId} != null" value="환불 전입니다."  class="form-control" name="refundUserId" required="required" type="text" readonly="readonly" />
+                                       </div>
                                    </div>
                                    	<div class="field item form-group">
                                        <label class="col-form-label col-md-3 col-sm-3  label-align">환불 처리일자</label>
                                        <div class="col-md-6 col-sm-6">
-                                           <input th:value="${rentalCancelInfo.refundCancelSignupDate}"  class="form-control" name="refundCancelSignupDate"  type="datetime-local" required='required'></div>
+                                           <input th:if="${rentalCancelInfo.refundCancelSignupDate} != null" th:value="${rentalCancelInfo.refundCancelSignupDate}"  class="form-control" name="refundCancelSignupDate"  type="datetime-local" required='required'>
+                                           <input th:unless="${rentalCancelInfo.refundCancelSignupDate} != null" value="환불 전입니다."  class="form-control" name="refundUserId" required="required" type="text" readonly="readonly" />
+                                       </div>
                                     </div>
                                    	<div class="field item form-group">
                                        <label class="col-form-label col-md-3 col-sm-3  label-align">오너 확인일자</label>
@@ -67,15 +73,18 @@
                                    	<div class="field item form-group">
                                        <label class="col-form-label col-md-3 col-sm-3  label-align">적립금 상세 그룹코드</label>
                                        <div class="col-md-6 col-sm-6">
-                                           <input th:value="${rentalCancelInfo.mileageGroupCode}"  class="form-control" name="mileageGroupCode" type="text" required='required' readonly="readonly"></div>
+                                           <input th:if="${rentalCancelInfo.mileageGroupCode} != null" th:value="${rentalCancelInfo.mileageGroupCode}"  class="form-control" name="mileageGroupCode" type="text" required='required' readonly="readonly">
+                                           <input th:unless="${rentalCancelInfo.mileageGroupCode} != null" value="환불 전입니다."  class="form-control" name="refundUserId" required="required" type="text" readonly="readonly" />
+                                       </div>
                                     </div>
                                    <div class="ln_solid">
                                    	  <br>
                                        <div class="form-group">
                                            <div class="col-md-6 offset-md-3">
-                                               <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
-                                               <button type='reset'  class="btn btn-success">Reset</button>
-                                               <button type='button' class="btn btn-success cancel">Cancel</button>
+                                               <button th:if="${rentalCancelInfo.refundUserId} != null" type="button" id="submitBtn" class="btn btn-primary">수정</button>
+                                               <button th:unless="${rentalCancelInfo.refundUserId} != null" type='button' id="refundBtn" class="btn btn-primary refund">환불확인</button>
+                                               <button type='reset'  class="btn btn-success">초기화</button>
+                                               <button type='button' class="btn btn-success cancel">취소</button>
                                            </div>
                                        </div>
                                    </div>
@@ -140,7 +149,17 @@
 		        }).prop('checked', false);
 		        
 		    	$('.cancel').click(function(){
-		    		location.href = '/admin/order/adminWaybillList';
+		    		location.href = '/admin/order/adminRentalcancelHistory';
+		    	})
+		    	
+		    	$('#submitBtn').click(function(){
+					$('#orderCancelInfo').attr("action", "/admin/order/adminRentalcancelModify");
+					$('#orderCancelInfo').submit();
+		    	})
+		    	
+		    	$('#refundBtn').click(function(){
+		    		$('#orderCancelInfo').attr("action", "/admin/order/refundCheck");
+					$('#orderCancelInfo').submit();
 		    	})
 		    </script>
 		</th:block>

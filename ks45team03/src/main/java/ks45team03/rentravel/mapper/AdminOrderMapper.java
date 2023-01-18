@@ -15,6 +15,8 @@ import ks45team03.rentravel.dto.WaybillRenter;
 @Mapper
 public interface AdminOrderMapper {
 	
+	// 환불 확인
+	public int checkRefound(RentalCancel rentalCancel);
 	
 	// 주문 상태 조회
 	public List<TradeStatus> getTradeStateList();

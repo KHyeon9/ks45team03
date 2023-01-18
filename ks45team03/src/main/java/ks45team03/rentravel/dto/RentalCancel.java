@@ -93,5 +93,38 @@ public class RentalCancel {
 	public void setMileageGroupCode(String mileageGroupCode) {
 		this.mileageGroupCode = mileageGroupCode;
 	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("RentalCancel [rentalCancelCode=");
+		builder.append(rentalCancelCode);
+		builder.append(", cancelUserId=");
+		builder.append(cancelUserId);
+		builder.append(", rentalCode=");
+		builder.append(rentalCode);
+		builder.append(", paymentCode=");
+		builder.append(paymentCode);
+		builder.append(", rentalCancelSignupDate=");
+		builder.append(rentalCancelSignupDate);
+		builder.append(", refundUserId=");
+		builder.append(refundUserId);
+		builder.append(", refundCancelSignupDate=");
+		builder.append(refundCancelSignupDate);
+		builder.append(", ownerCancelSignupCheckDate=");
+		builder.append(ownerCancelSignupCheckDate);
+		builder.append(", refundWay=");
+		builder.append(refundWay);
+		builder.append(", refundMoney=");
+		builder.append(refundMoney);
+		builder.append(", mileageUsePrice=");
+		builder.append(mileageUsePrice);
+		builder.append(", saveMileage=");
+		builder.append(saveMileage);
+		builder.append(", mileageGroupCode=");
+		builder.append(mileageGroupCode);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 	
 }
