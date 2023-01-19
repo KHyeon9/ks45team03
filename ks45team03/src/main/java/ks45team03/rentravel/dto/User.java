@@ -29,6 +29,7 @@ public class User {
 	private String region;
 	private int totalMileage;
 	private String userCreateDate;
+	private String userWithdrawal;
 	
 	private RegionSgg regionSgg;
 	private RegionSido regionSido;
