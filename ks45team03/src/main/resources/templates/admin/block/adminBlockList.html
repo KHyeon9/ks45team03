@@ -27,7 +27,7 @@
 				<button type="submit">검색</button>
 				</form><br>
                       <table class="table table-striped jambo_table bulk_action">
-                        <thead>
+                        <thead style="text-align: center;">
                           <tr class="headings">
 			                <th class="column-title">차단 코드</th>
 			                <th class="column-title">차단한 회원</th>
@@ -41,7 +41,7 @@
 	                       </thead>
 			                
 			       
-                        <tbody>
+                        <tbody style="text-align: center;">
 			            <tr th:unless="${#lists.isEmpty(adminGetUserBlockList)}" th:each="bl : ${adminGetUserBlockList}">
 			                <td th:text="${bl.blockCode}"></td>
 			                <td th:text="${bl.blockingUserId}"></td>

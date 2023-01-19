@@ -45,8 +45,8 @@
 		              </div>
 		             </div>
 					<br>
-                      <table class="table table-striped jambo_table bulk_action">
-                        <thead>
+                      <table class="table table-striped jambo_table bulk_action" id="adminProfit">                      
+                        <thead style="text-align: center;">
                           <tr class="headings">                         	
 			                <th class="column-title">수익 코드</th>
 			                <th class="column-title">ID</th>
@@ -59,12 +59,12 @@
 	                       </thead>
 			                
 			       
-                        <tbody>
+                        <tbody style="text-align: center;">
 			            <tr class=" " th:unless="${#lists.isEmpty(adminGetUserProfitList)}" th:each="pl : ${adminGetUserProfitList}">			            	
 			                <td class=" " th:text="${pl.profitCode}"></td>
 			                <td class=" " th:text="${pl.userId}"></td>
-			                <td class=" " th:text="${pl.profitAmountSave}"></td>
-			                <td class=" " th:text="${pl.profitTotal}"></td>			                
+			                <td class=" " th:text="${'₩' + #numbers.formatInteger(pl.profitAmountSave, 1, 'COMMA')}"></td>
+			                <td class=" " th:text="${'₩' + #numbers.formatInteger(pl.profitTotal, 1, 'COMMA')}"></td>			                
 			                <td class=" " th:text="${pl.profitSaveTime}"></td>			                
 			               
 			                

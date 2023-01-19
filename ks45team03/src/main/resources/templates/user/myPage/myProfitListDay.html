@@ -98,7 +98,7 @@
                       <tbody>
                         <tr th:unless="${#lists.isEmpty(getUserDayProfitList)}" th:each="pd : ${getUserDayProfitList}">                                             
                           <td th:text="${pd.userId}"></td>
-                          <td th:text="${pd.profitDayTotal}"></td>                           
+                          <td th:text="${'₩' + #numbers.formatInteger(pd.profitDayTotal, 1, 'COMMA')}"></td>                           
                           <td th:text="|20${#strings.substring(pd.profitDayGroup,10,12)}-${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}|"></td>                        
                         </tr>
                         <tr th:if="${#lists.isEmpty(getUserDayProfitList)}">
