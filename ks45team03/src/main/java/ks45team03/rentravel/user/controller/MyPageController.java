@@ -30,6 +30,7 @@ import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
+import ks45team03.rentravel.dto.Review;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
@@ -40,6 +41,7 @@ import ks45team03.rentravel.user.service.GoodsService;
 import ks45team03.rentravel.mapper.UserProfitMapper;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.ProfitService;
+import ks45team03.rentravel.user.service.ReviewService;
 import ks45team03.rentravel.user.service.UserService;
 import lombok.AllArgsConstructor;
 
@@ -56,6 +58,7 @@ public class MyPageController {
 	private final UserMapper userMapper;
 	private final GoodsService goodsService;
 	private final ProfitService profitService;
+	private final ReviewService reviewService;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
@@ -188,9 +191,39 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myReviewList")
-	public String myReviewList(Model model) {
+	public String myReviewList(Model model
+							  ,HttpSession session
+							  ,@RequestParam(defaultValue="1", required=false) int curPage) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String loginId ="";
+		String returnURI ="";
+		
+		if(loginUser == null) {
+			returnURI = "redirect:/login";
+		}else {
+			loginId = loginUser.getLoginId();	
+			returnURI = "user/myPage/myReviewList";
+		}
+		
+			
+		
+		int myReviewListCount = reviewService.getMyReviewListCount(loginId);
+		
+		Pagination pagination = new Pagination(myReviewListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+	
+		List<Review> myReviewList = reviewService.getMyReviewList(loginId, startIndex, pageSize);
+		
 		model.addAttribute("title","마이페이지 화면");
-		return "user/myPage/myReviewList";
+		model.addAttribute("myReviewList",myReviewList);
+		model.addAttribute("pagination",pagination);
+		
+		
+		return returnURI;
 	}
 	
 	@GetMapping("/myWishList")

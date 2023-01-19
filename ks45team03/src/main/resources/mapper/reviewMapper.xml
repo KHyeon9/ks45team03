@@ -13,6 +13,8 @@
 		<result property="reviewContent" 		column="review_content"/>
 		<result property="goodsEvaluation" 		column="goods_evaluation"/>
 		<result property="reviewRegDate" 		column="review_reg_date"/>
+
+		<result property="goodsName" 		column="goods_name"/>
 		
 		<association property="user" javaType="User" >
 			
@@ -118,6 +120,48 @@
 		WHERE
 			r.goods_code = #{goodsCode};
 	
+	</select>
+	
+	<select id="getMyReviewList" resultMap="reviewResultMap">
+	
+		SELECT
+			r.review_code, g.goods_name, r.user_id, r.review_content, r.goods_evaluation, r.review_reg_date
+		FROM
+			tb_review AS r
+		JOIN
+			tb_goods AS g
+		ON
+			r.goods_code = g.goods_code
+		WHERE
+			r.user_id = #{loginId}
+		order by
+			r.review_reg_date desc
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize}
+		</if>
+	
+	</select>
+	
+	<select id="getMyReviewListCount" resultType="int">
+		
+		SELECT
+			COUNT(1)
+		FROM
+			tb_review AS r
+		WHERE
+			r.user_id = #{loginId};
+	
+	</select>
+	
+	<select id="getReviewContentByReviewCode" resultMap="reviewResultMap">
+		
+		select
+			review_content
+		from
+			tb_review
+		where
+			review_code = #{reviewCode};
+			
 	</select>
 	
 </mapper> 

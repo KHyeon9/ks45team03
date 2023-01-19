@@ -19,15 +19,30 @@ public class AdminGoodsController {
 	
 	private final AdminGoodsService adminGoodsService;
 	
-	@GetMapping("/adminGoodsList")
-	public String adminGoodsList(Model model) {
+	@GetMapping("/adminActivateGoodsList")
+	public String adminActivateGoodsList(Model model) {
 		
-		List<Goods> adminGoodsList = adminGoodsService.getAdminGoodsList();
+		String goodsState = "activate";
+		
+		List<Goods> adminGoodsList = adminGoodsService.getAdminGoodsList(goodsState);
 		
 		model.addAttribute("adminGoodsList",adminGoodsList);
-		model.addAttribute("title","관리자 상품 관리 화면");
+		model.addAttribute("title","관리자 판매중인 상품 관리");
 		
-		return "admin/goods/adminGoodsList";
+		return "admin/goods/adminActivateGoodsList";
+	}
+	
+	@GetMapping("adminDisabledGoodsList")
+	public String adminDisabledGoodsList(Model model) {
+		
+		String goodsState = "disabled";
+		
+		List<Goods> adminGoodsList = adminGoodsService.getAdminGoodsList(goodsState);
+		
+		model.addAttribute("adminGoodsList",adminGoodsList);
+		model.addAttribute("title","관리자 삭제된 상품 관리");
+		
+		return "admin/goods/adminDisabledGoodsList";
 	}
 	
 	@PostMapping("/adminRemoveGoods")

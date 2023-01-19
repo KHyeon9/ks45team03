@@ -19,7 +19,7 @@
                   <a th:href="@{/}">Home</a>
                 </li>
                 <li>
-                  <a th:href="@{/myPage/myInfo}">myInfo</a>
+                  <a th:href="@{/myPage/myPage}">myPage</a>
                 </li>
                 <li class="active">MY REVIEW</li>
               </ol>
@@ -52,47 +52,27 @@
                       <thead>
                         <tr>
                           <th></th>
-                          <th>Product Name</th>
-                          <th>Unit Price</th>
-                          <th>Stock Status</th>
-                          <th></th>
+                          <th style="text-align:center;">상품명</th>
+                          <th style="text-align:center;">별점</th>
+                          <th style="text-align:center;">상품평</th>
+                          <th style="text-align:center;">등록시간</th>
+                          <th style="text-align:center;">수정</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td class="">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <span class="cartImage"><img src="assets/img/products/cart-image1.jpg" alt="image"></span>
+                        <tr th:each="mrl : ${myReviewList}">
+                          <td class=""  style="text-align:center;">
+                          	<form class="removeMyReviewForm" th:action="@{/review/removeMyReview}" method="post">
+                          		<input type="hidden" th:value="${mrl.reviewCode}" name="reviewCode">
+                         		<button type="submit" class="close removeMyReviewBtn" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </form>
                           </td>
-                          <td>Italian Winter Hat</td>
-                          <td>$ 99.00</td>
-                          <td>In Stock</td>
-                          <td>
-                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <span class="cartImage"><img src="assets/img/products/cart-image2.jpg" alt="image"></span>
-                          </td>
-                          <td>Italian Winter Hat</td>
-                          <td>$ 99.00</td>
-                          <td>In Stock</td>
-                          <td>
-                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <span class="cartImage"><img src="assets/img/products/cart-image3.jpg" alt="image"></span>
-                          </td>
-                          <td>Italian Winter Hat</td>
-                          <td>$ 99.00</td>
-                          <td>In Stock</td>
-                          <td>
-                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
+                          <td th:text="${mrl.goodsName}" style="text-align:center;"></td>
+                          <td style="text-align:center;"><i class="fa fa-star" aria-hidden="true" th:each="num : ${#numbers.sequence(1,mrl.goodsEvaluation)}" style="color:rgb(233, 171, 0); "></i></td>
+                          <td th:text="${mrl.reviewContent}" style="text-align:center;"></td>
+                          <td th:text="${mrl.reviewRegDate}" style="text-align:center;"></td>
+                          <td style="text-align:center;">
+                          	<a th:href="@{/review/modifyMyReview(reviewCode=${mrl.reviewCode})}"><button class="btn btn-secondary">수정</button></a>
                           </td>
                         </tr>
                       </tbody>
@@ -105,4 +85,22 @@
         </div>
       </section>
 	</th:block>
+	
+    <th:block layout:fragment="customScript">
+       	<script th:inline="javascript">
+	
+			$('.removeMyReviewBtn').click(function(){
+				
+				if(!confirm('상품평을 삭제하시겠습니까?')) {
+					return false;
+				}else{
+					$('.removeMyReviewForm').submit();
+					alert('상품평이 삭제되었습니다.');
+				}
+			}); 
+	      
+	    </script>
+
+    </th:block>
+	
 </html>
