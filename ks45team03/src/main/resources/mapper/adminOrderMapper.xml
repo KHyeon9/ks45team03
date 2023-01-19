@@ -376,6 +376,18 @@
 			ret.return_code = #{returnCode};
 	</update>
 	
+	<!-- 환불 확인 -->
+	<update id="checkRefound" parameterType="RentalCancel">
+		UPDATE 
+			tb_rental_cancel
+		SET 
+			refund_user_id = #{refundUserId},
+			refund_cancel_signup_date = NOW(),
+			mileage_group_code = #{mileageGroupCode}
+		WHERE
+			rental_cancel_code= #{rentalCancelCode};
+	</update>
+	
 	<!-- 렌탈 취소 정보를 수정합니다. -->
 	<update id="modifyRentalCancel" parameterType="RentalCancel">
 		UPDATE

@@ -2,7 +2,97 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/layout/default}">
+	<head>
+		<style type="text/css">
+			table{
+				width: 100%;
+			}
+			tr, td {
+				text-align:center;
+			}
+			#pg {
+				display: flex;
+				justify-content: center;
+			}
+			#searchAndAdd {
+				display: flex;
+				justify-content: end;
+			}
+		</style>
+	</head>
 	<th:block layout:fragment="customContents">
-		휴면계정 목록 화면입니다.
+	 <div id="rightcolumn" class="right_col" role="main">
+		<div class="col-md-12 col-sm-12">
+			<div class="x_panel">
+               <div class="x_title">
+                 <h2>휴면계정이력</h2>
+                 <div class="clearfix"></div>
+               </div> 
+               <div id="searchAndAdd">
+	            <form id="searchForm" th:action="@{/admin/userManagement/sleeperAccount}" method="get" class="input-group col-md-4">
+					<input class="form-control" type="text" name="searchValue" placeholder="아이디를 입력해주세요."/>
+					<button id="searchFormBtn" class="btn btn-dark" type="submit">검색</button>
+				</form>
+              </div>
+           	  <div class="x_content">
+                <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+			                <th class="column-title">번호</th>
+			                <th class="column-title">아이디</th>
+			                <th class="column-title">휴면기간</th>
+			                <th class="column-title">최종로그인일자</th>
+			              </tr>
+	                     </thead>
+                         <tbody>
+                              <tr th:if="${not #lists.isEmpty(sleeperAccountList)}" th:each="sa : ${sleeperAccountList}">
+					  	 		 <td th:text="${sa.num}"></td>
+					  	 		 <td th:text="${sa.userId}"></td>
+					  	 		 <td th:text="|${sa.loginDate} 일|"></td>
+					  	 		 <td th:text="${sa.lastLoginDate}"></td>
+					  		  </tr>
+					  		  <tr th:unless="${not #lists.isEmpty(sleeperAccountList)}">
+								<td colspan="4">등록된 휴면계정이 없습니다.</td>
+							  </tr>
+                         </tbody>
+                      </table>
+			         <div class="row">
+						<div class="col-sm-12"  id="pg">
+							<div class="text-left">
+								<ul class="pagination">
+									<li th:if="${pagination.curPage != 1}" class="page-item">
+										<a th:href="@{/admin/userManagement/sleeperAccount(curPage=${pagination.prevPage}, searchValue=${search.searchValue})}" aria-label="Prev" class="page-link"> <span aria-hidden="true">&#60;</span></a>
+									</li>
+									<li th:unless="${pagination.curPage != 1}" class="page-item disabled">
+										<span aria-label="Prev" class="page-link" tabindex="-1" aria-disabled="true"> <span aria-hidden="true">&#60;</span></span>
+									</li>
+									
+									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+											<li class="page-item active" aria-current="page" th:if="${pageNum == pagination.curPage}">
+											<span th:text="${pageNum}" class="page-link"></span>
+										</li>
+										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}" class="page-item">
+											<a th:href="@{/admin/userManagement/sleeperAccount(curPage=${pageNum}, searchValue=${search.searchValue})}" th:text="${pageNum}" class="page-link"></a>
+										</li>
+									</th:block>
+
+									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}" class="page-item">
+										<a th:href="@{/admin/userManagement/sleeperAccount(curPage=${pagination.nextPage}, searchValue=${search.searchValue})}" aria-label="Next" class="page-link"> <span aria-hidden="true">&#62;</span></a>
+									</li>
+									<li th:unless="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}" class="page-item disabled">
+										<span aria-label="Next" class="page-link" tabindex="-1" aria-disabled="true"><span aria-hidden="true">&#62;</span></span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+                    </div>
+							                 
+                  </div>
+          </div>
+          </div>
+        </div>
+       
 	</th:block>
 </html>

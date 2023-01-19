@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks45team03.rentravel.dto.LoginHistory;
+import ks45team03.rentravel.dto.RemoveAccount;
+import ks45team03.rentravel.dto.SleeperAccount;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.UserLevel;
 
@@ -27,5 +29,26 @@ public interface AdminUserMapper {
 		public List<UserLevel> getUserLevelList();
 		
 		// 로그인 이력 조회
-		public List<LoginHistory> loginHistory();
+		public List<LoginHistory> loginHistory(int startIndex, int pageSize, String searchValue);
+		// 로그인 이력 행갯수
+		public int loginHistoryCnt(String searchValue);
+		
+		// 로그인 이력을 통한 휴면 계정 조회
+		public List<LoginHistory> getSleeperAccountByLoginHistory();
+		
+		// 휴면 계정 DB등록
+		public void addSleeperAccount(List<LoginHistory> getSleeperAccountByLoginHistory);
+		
+		// 휴면 계정 조회
+		public List<SleeperAccount> sleeperAccountList(int startIndex, int pageSize, String searchValue);
+		
+		// 휴면 계정 행갯수
+		public int sleeperAccountCnt(String searchValue);
+		
+		// 탈퇴 계정 조회
+		public List<RemoveAccount> removeAccountList();
+		
+		// 탈퇴 계정 행갯수
+		public int removeAccountCnt();
+		
 }

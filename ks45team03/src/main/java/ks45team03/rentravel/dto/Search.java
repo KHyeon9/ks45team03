@@ -8,6 +8,16 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Search {
+	
+	 public Search(String searchKey, String searchValue) { 
+		 this.searchKey = searchKey; 
+		 this.searchValue = searchValue; 
+		 }
+	 
+	 public Search(String searchValue) {
+		 this.searchValue = searchValue; 
+	}
+
 	private String searchKey;
 	private String searchValue;
 }

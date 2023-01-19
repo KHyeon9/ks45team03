@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="ks45team03.rentravel.mapper.ReviewMapper" >
+
+	<resultMap type="Review" id="reviewResultMap">
+	
+		<id property="reviewCode" 			column="review_code"/>
+		<result property="goodsCode" 		column="goods_code"/>
+		<result property="userId" 		column="user_id"/>
+		<result property="reviewContent" 		column="review_content"/>
+		<result property="goodsEvaluation" 		column="goods_evaluation"/>
+		<result property="reviewRegDate" 		column="review_reg_date"/>
+		
+		<association property="user" javaType="User" >
+			
+			<id property="userId" 			column="user_id"/>
+			<result property="userImage" 		column="user_image"/>
+			<result property="userNickName" 		column="user_Nickname"/>
+			
+		</association>	
+		
+	</resultMap>
+
+	<select id="getReviewList" resultMap="reviewResultMap">
+	
+		SELECT
+			r.review_code, r.goods_code, r.user_id, r.review_content, r.goods_evaluation, r.review_reg_date
+			,user_nickname
+		FROM
+			tb_review AS r
+		JOIN
+			tb_user AS u
+		ON
+			r.user_id =  u.user_id
+		WHERE
+			r.goods_code = #{goodsCode}
+		order by
+			r.review_reg_date desc
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize}
+		</if>
+			
+	</select>
+
+	<insert id="addReview" parameterType="Review">
+	
+	INSERT INTO tb_review
+		(review_code, goods_code, user_id, review_content, goods_evaluation, review_img, review_reg_date, mileage_group_code, save_mileage)
+	VALUES
+		(#{reviewCode},#{goodsCode},#{userId},#{reviewContent},#{goodsEvaluation},#{reviewImg},now(),CONCAT(#{userId},'_리뷰완료_적립금_적립_',substring(date_format(CURDATE(),"%Y%m%d"),3,8)),100);
+	
+	</insert>
+	
+	<update id="modifyReview" parameterType="Review">
+	
+		UPDATE
+			tb_review AS r
+		SET
+			r.review_content = #{reviewContent}
+			,r.goods_evaluation = #{goodsEvaluation}
+		WHERE
+			r.review_code = #{reviewCode};
+		
+	</update>
+	
+	<delete id="removeReview" parameterType="String">
+	
+		DELETE
+			FROM
+		tb_review
+			WHERE
+		review_code = #{reviewCode};
+
+	</delete>
+	
+	<select id="checkReviewCount" resultType="int">
+	
+		SELECT
+			COUNT(1)
+		FROM
+			tb_review
+		WHERE
+			user_id = #{loginId}
+		AND
+			goods_code = #{goodsCode};
+	
+	</select>
+	
+	
+	<select id="checkTradeStatus" resultType="int">	
+	
+		SELECT
+			COUNT(1)
+		FROM
+			tb_payment AS p
+		WHERE
+			p.goods_code = #{goodsCode}
+		AND
+			p.user_id = #{loginId}
+		AND
+			p.trade_status_code = 'trade_status6';
+			
+	</select>
+	
+	<select id="getReviewListCount" resultType="int">
+		
+		SELECT
+			COUNT(1)
+		FROM
+			tb_review AS r
+		JOIN
+			tb_user AS u
+		ON
+			r.user_id =  u.user_id
+		WHERE
+			r.goods_code = #{goodsCode};
+	
+	</select>
+	
+</mapper> 

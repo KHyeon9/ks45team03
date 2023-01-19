@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	  <th:block layout:fragment="customContents">
+	  	 <!-- LIGHT SECTION -->
+      	  <section class="lightSection clearfix pageHeader">
+	        <div class="container">
+	          <div class="row">
+	            <div class="col-md-6">
+	              <div class="page-title">
+	                <h2>PROFILE</h2>
+	              </div>
+	            </div>
+	            <div class="col-md-6">
+	              <ol class="breadcrumb float-right">
+	                <li>
+	                  <a th:href="@{/}">Home</a>
+	                </li>
+	                <li class="active">PROFILE</li>
+	              </ol>
+	            </div>
+	          </div>
+	        </div>
+	      </section>
+	
+	      <!-- MAIN CONTENT SECTION -->
+	      <section class="mainContent clearfix userProfile">
+	        <div class="container">
+
+	          <div class="row">
+	            <div class="col-md-12">
+	              <div class="innerWrapper profile">
+	                <div class="orderBox">
+	                  <h2>렌탈 상품</h2>
+	                </div>
+	                <div class="row">
+	                  <div class="col-md-4 col-lg-3 col-xl-2 col-12">
+	                    <div class="thumbnail">
+	                      <img src="/user/assets/img/products/products-03.jpg" alt="products-img">
+	                    </div>
+	                  </div>
+	                  <div class="col-md-8 col-lg-9 col-xl-10 col-12">
+	                      <form class="form-horizontal" id="modyfyMyRentForm" action="/myPage/addMyOrderWaybill" method="post">
+	                      	<input th:value="${orderInfo.payment.paymentCode}" type="hidden" name="paymentCode" readonly="readonly">	                      	
+	                      	<input th:value="${orderInfo.rentalCode}" type="hidden" name="rentalCode" readonly="readonly">
+	                      	<input th:value="${orderInfo.userId}" name="ownerId" type="hidden" readonly="readonly">
+	                        <div class="form-group row">
+	                          <label for="" class="col-md-3 control-label">상품명</label>
+	                          <div class="col-md-7">
+	                            <input type="text" th:value="${orderInfo.goodsName}" name="goodsName" class="form-control" id="" readonly>
+	                          </div>
+	                        </div>
+	                        <div class="form-group row">
+	                          <label for="" class="col-md-3 control-label">렌탈 시작일</label>
+	                          <div class="col-md-7">
+	                            <input type="text" th:value="${orderInfo.rentalStartDate}" class="form-control" id="" readonly>
+	                          </div>
+	                        </div>
+	                        <div class="form-group row">
+	                          <label for="" class="col-md-3 control-label">렌탈 종료일</label>
+	                          <div class="col-md-9">
+	                            <input type="text" th:value="${orderInfo.rentalEndDate}" class="form-control" id="" readonly>
+	                          </div>
+	                        </div>
+	                        <th:block th:object="${orderInfo.payment}">
+	                        	<div class="form-group row">
+		                          <label for="" class="col-md-3 control-label">총 금액</label>
+		                          <div class="col-md-9">
+		                            <input type="text" th:value="*{expectedPaymentAmount}" class="form-control" id="" readonly>
+		                          </div>
+		                        </div>
+		                        <div class="form-group row">
+		                          <label for="" class="col-md-3 control-label">수수료</label>
+		                          <div class="col-md-9">
+		                            <input type="text" th:value="*{goodsCommisionTotalPrice}" class="form-control" id="" readonly>
+		                          </div>
+		                        </div>
+		                        <div class="form-group row">
+		                          <label for="" class="col-md-3 control-label">총 수익</label>
+		                          <div class="col-md-9">
+		                            <input type="text" th:value="*{settlementAmount}" name="settlementAmount" class="form-control" id="" readonly>
+		                          </div>
+		                        </div>
+		                        <div class="form-group row">
+		                          <label for="" class="col-md-3 control-label">운송장번호(렌터)</label>
+	                          	  <div class="col-md-2">
+		                          	 <select id="courierName" name="courierName" class="form-control" >
+			                      		<option value="로젠" selected>로젠</option>
+			                      		<option value="CJ대한통운" >CJ대한통운</option>
+			                      		<option value="롯데" >롯데</option>
+			                      		<option value="한진" >한진</option>
+			                      		<option value="우체국" >우체국</option>
+				                     </select>
+			                      </div>
+		                          <div class="col-md-5">
+	                            	 <input type="number" name="waybillNumber" class="form-control" minlength="10" maxlength="13">
+	                              </div>
+		                        </div>
+	                        </th:block>
+	                        <div class="form-group row">
+	                          <div class=" col-md-12 ">
+	                            <button type="submit" class="btn btn-primary float-right">입력</button>
+	                          </div>
+	                        </div>
+	                      </form>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </section>
+	  </th:block>
+</html>

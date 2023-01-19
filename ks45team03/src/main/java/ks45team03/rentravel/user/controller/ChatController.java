@@ -54,7 +54,7 @@ public class ChatController {
     
 	@ResponseBody
 	@PostMapping("/addChatMessage")
-	public void addChatMessage(@RequestBody ChatMessage chatMessage) {
+	public void addChatMessage(ChatMessage chatMessage) {
 		
 		String chatMessageCode = commonNewCode.getCommonNewCode("tb_chat_message", "chat_message_code");
 		chatMessage.setChatMessageCode(chatMessageCode);

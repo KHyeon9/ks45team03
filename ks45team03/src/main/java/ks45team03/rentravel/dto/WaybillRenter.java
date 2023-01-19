@@ -1,5 +1,8 @@
 package ks45team03.rentravel.dto;
 
+import lombok.ToString;
+
+@ToString
 public class WaybillRenter {
 	private String waybillRenterCode;
 	private String renterId;

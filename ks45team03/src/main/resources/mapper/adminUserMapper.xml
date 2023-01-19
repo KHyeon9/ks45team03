@@ -26,6 +26,19 @@
 		<result property="loginDate" column="login_date" />
 		<result property="logoutDate" column="logout_date" />
 	</resultMap>
+	
+	<resultMap type="SleeperAccount" id="sleeperAccountResultMap">
+		<id property="sleeperAccountCode" column="sleeper_account_code" />
+		<result property="userId" column="user_id" />
+		<result property="loginDate" column="login_date" />
+	</resultMap>
+	
+	<resultMap type="RemoveAccount" id="removeAccountResultMap">
+		<id property="sleeperAccountCode" column="sleeper_account_code" />
+		<result property="userId" column="user_id" />
+		<result property="removeAccountDate" column="remove_account_date" />
+	</resultMap>
+	
 	<select id="userList" parameterType="map" resultMap="userResultMap">
 		/* 회원 목록 조회 */
 		SELECT
@@ -148,11 +161,103 @@
   	
   	<select id="loginHistory" resultMap="loginHistoryResultMap">
   		SELECT 
-  			 l.login_code
+  			 @rownum:=@rownum+1 AS num
+  			,l.login_code
   			,l.user_id
   			,l.login_date
   			,l.logout_date
   		FROM
-  			tb_login AS l;
+  			tb_login AS l, (SELECT @rownum:=0) AS TMP
+  		WHERE
+			l.user_id LIKE CONCAT('%', #{searchValue}, '%')
+ 		ORDER BY num DESC
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
   	</select>
+  	
+  	<select id="loginHistoryCnt" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_login AS l
+		WHERE
+			l.user_id LIKE CONCAT('%', #{searchValue}, '%');
+	</select>
+  	
+  	<select id="sleeperAccountList" resultMap="sleeperAccountResultMap">
+  		SELECT
+  		 	 @rownum:=@rownum+1 AS num
+		    ,sa.user_id
+		    ,sa.login_date
+		    ,max(l.login_date) AS lastLoginDate	
+		FROM
+			tb_sleeper_account AS sa
+			INNER JOIN
+			tb_login AS l
+			ON
+			sa.user_id = l.user_id
+			, (SELECT @rownum:=0) AS TMP
+			WHERE		
+				sa.user_id LIKE CONCAT('%', #{searchValue}, '%')
+			GROUP BY sa.user_id
+			ORDER BY num DESC
+			<if test="startIndex != null and startIndex > -1">
+				LIMIT #{startIndex}, #{pageSize};
+			</if>
+  	</select>
+  	
+  	<select id="sleeperAccountCnt" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_sleeper_account AS sa
+		WHERE
+			sa.user_id LIKE CONCAT('%', #{searchValue}, '%');
+			
+		
+	</select>
+  	
+  	<select id="getSleeperAccountByLoginHistory" resultMap="loginHistoryResultMap">
+		SELECT
+			  l.user_id
+			 ,DATEDIFF(NOW(), MAX(l.login_date)) AS dateDiff
+		FROM
+			tb_login AS l
+		GROUP BY l.user_id
+		HAVING 
+			DATEDIFF(NOW(), MAX(l.login_date)) >= 180;
+	</select>
+	
+	<insert id="addSleeperAccount">
+			REPLACE INTO 
+				tb_sleeper_account(user_id, login_date)
+			VALUES
+		<foreach collection="getSleeperAccountByLoginHistory" item="sleeperAccount" open="(" close=")" separator="),(">
+		
+				#{sleeperAccount.userId}, #{sleeperAccount.dateDiff}
+				
+		</foreach>
+	</insert>
+	
+	<select id="removeAccountList" resultMap="removeAccountResultMap">
+		SELECT
+		     @rownum:=@rownum+1 AS num
+			,ra.user_id
+			,ra.remove_account_date
+			,DATEDIFF(NOW(), ra.remove_account_date) AS dateDiff
+		FROM
+			tb_remove_account as ra, (SELECT @rownum:=0) AS TMP
+		ORDER BY num DESC
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
+	</select>
+	
+	<select id="removeAccountCnt" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_remove_account;
+	</select>
 </mapper>

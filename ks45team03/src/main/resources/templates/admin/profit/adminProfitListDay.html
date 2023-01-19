@@ -48,7 +48,7 @@
 						<option value="09">9월</option>
 						<option value="10">10월</option>
 						<option value="11">11월</option>
-						<option value="11">12월</option>								
+						<option value="12">12월</option>								
 					</select>
                     <input type="text" name="searchDay" placeholder="일"/>                 
 					<input type="text" name="searchId" placeholder="회원 아이디를 입력해주세요."/>
@@ -62,7 +62,7 @@
 		             </div>
 					<br>
                       <table class="table table-striped jambo_table bulk_action">
-                        <thead>
+                        <thead style="text-align: center;">
                           <tr class="headings">                         				                
 			                <th class="column-title">ID</th>
 			                <th class="column-title">정산금획득년월</th>
@@ -73,11 +73,11 @@
 	                       </thead>
 			                
 			       
-                        <tbody>
+                        <tbody style="text-align: center;">
 			            <tr class=" " th:unless="${#lists.isEmpty(adminGetUserDayProfitList)}" th:each="pd : ${adminGetUserDayProfitList}">			            	
 			                <td class=" " th:text="${pd.userId}"></td>
 			                <td class=" " th:text="${pd.profitSaveYearMonth}"></td>
-			                <td class=" " th:text="${pd.profitDayTotal}"></td>			               		                
+			                <td class=" " th:text="${'₩' + #numbers.formatInteger(pd.profitDayTotal, 1, 'COMMA')}"></td>			               		                
 			                <td class=" " th:text="|20${#strings.substring(pd.profitDayGroup,10,12)}-${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}|"></td>			                
 			               
 			                
@@ -94,20 +94,26 @@
 											<div class="dataTables_paginate paging_simple_numbers">
 												<ul class="pagination">																							
 													<li th:if="${pagination.curPage != 1}" class="paginate_button previous disabled">
-														<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pagination.prevPage})}" aria-label="Prev">Prev</a>
+														<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pagination.prevPage}, searchYear=${profitSearch.searchYear}, 
+															searchMonth=${profitSearch.searchMonth}, searchDay=${profitSearch.searchDay},
+															searchId=${profitSearch.searchId})}" aria-label="Prev">Prev</a>
 													</li>
 													
 													<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
 														<li class="active" th:if="${pageNum == pagination.curPage}">
 															<a th:text="${pageNum}"></a>
 														</li>
-														<li th:unless="${pageNum == pagination.curPage}">
-															<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pageNum})}" th:text="${pageNum}"></a>
+														<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+															<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pageNum}, searchYear=${profitSearch.searchYear}, 
+															searchMonth=${profitSearch.searchMonth}, searchDay=${profitSearch.searchDay},
+															searchId=${profitSearch.searchId})}" th:text="${pageNum}"></a>
 														</li>
 													</th:block>
 				
 													<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-														<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pagination.nextPage})}" aria-label="Next">Next</a>
+														<a th:href="@{/admin/profit/adminProfitListDay(curPage=${pagination.nextPage}, searchYear=${profitSearch.searchYear}, 
+															searchMonth=${profitSearch.searchMonth}, searchDay=${profitSearch.searchDay},
+															searchId=${profitSearch.searchId})}" aria-label="Next">Next</a>
 													</li>												
 													
 												</ul>

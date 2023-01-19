@@ -6,9 +6,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    
+    <style>
+		.rating-view fieldset{
+		    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+		    direction: rtl; /* 이모지 순서 반전 */
+		    border: 0; /* 필드셋 테두리 제거 */
+		}
+		.rating-view fieldset legend{
+		    text-align: left;
+		}
+		.rating-view input[type=radio]{
+		    display: none; /* 라디오박스 감춤 */
+		}
+		.rating-view label{
+		    font-size: 1.7em; /* 이모지 크기 */
+		    color: transparent; /* 기존 이모지 컬러 제거 */
+		    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+		}
+		.rating-view label:hover{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 호버 */
+		}
+		.rating-view label:hover ~ label{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 호버 뒤에오는 이모지들 */
+		}
+		.rating-view input[type=radio]:checked ~ label{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 클릭 체크 */
+		}
+	</style>
+    
 </head>
-
-<body>
 
     <th:block layout:fragment="customContents">
     
@@ -97,10 +124,10 @@
                    		<h4 th:text="'등록일자: '+*{goodsRegDate}"></h4>
                    		<h4 th:text="'상품가치: '+*{goodsValuePrice}"></h4>
                    		
-   	               	<form id="addBlockForm" th:action="@{/user/block/addUserBlock}" method="post">
-	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}"
-	                   		type="submit" id="submitBtn" class="btn btn-secondary blockButton" th:value="*{userId}" name="userId">사용자 차단하기</button>
-                    </form>
+   	               
+	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId && userBlockedIdCnt == 0}"
+	                   		type="button" class="btn btn-secondary blockBtn" th:data-block-id = "*{userId}">사용자 차단하기</button>
+                   
                    	
                    <form id="getRentalInfo" action="/order/payment" method="get">
                    	 <input th:value="${goodsDetail.goodsCode}" name="goodsCode" type="hidden" readonly="readonly"/>
@@ -139,17 +166,17 @@
 	                    </div>
 	                  </div>
 	                  <div class="btn-area mb-0" style="display:flex;">
-	                    <button type="submit" class="btn btn-primary btn-default payBtn" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+	                    <button th:if="${equalIdFlag}" type="submit" class="btn btn-primary btn-default payBtn" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">결제<i class="fa fa-angle-right" aria-hidden="true"></i></button>
                    </form>
-						<a th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
+						<a th:if="${equalIdFlag}" th:href="@{/addChatRoom(userId=${goodsDetail.userId})}"><button type="button" class="btn btn-primary" style="margin-right:3px; width: 100px; text-align:center; font-weight: bold;">채팅<i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
 					  	
-					  	<form id="addWishForm" th:action="@{/wish/addWish}" method="post" th:if="${checkWish == 0}" style="width:0%">
+					  	<form  id="addWishForm" th:action="@{/wish/addWish}" method="post" th:if="${checkWish == 0} and ${equalIdFlag}" style="width:0%">
 					  		<input type="hidden" th:value="${goodsDetail.goodsCode}" name="goodsCode">
 					  		<input type="hidden" th:value="${goodsDetail.userId}" name="userId">
 							<button id="addWishButton" type="button" class="btn btn-primary btn-icon" style="width: 75px;"><i class="fa fa-heart"></i></button>
 					  	</form>
 					  	
-					  	<form id="removeWishForm" th:action="@{/wish/removeWish}" method="post" th:if="${checkWish > 0}" style="width:0%">
+					  	<form id="removeWishForm" th:action="@{/wish/removeWish}" method="post" th:if="${checkWish > 0} and ${equalIdFlag}" style="width:0%">
 					  		<input type="hidden" th:value="${goodsDetail.goodsCode}" name="goodsCode">
 					  		<input type="hidden" th:value="${goodsDetail.userId}" name="userId">
 					  		<input type="hidden" value="goodsDetail" name="prevPage">
@@ -158,7 +185,7 @@
 
 	                  </div>
         	          <div class="btn-area mb-0" style="margin-top:10px; display:flex;" th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == goodsDetail.userId}">
-		    			<a th:href="@{/goods/modifyGoods(goodsCode=*{goodsCode})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold; margin-right:3px;">수정</button></a>
+		    			<a th:href="@{/goods/modifyGoods(goodsCode=${goodsDetail.goodsCode})}"><button type="button" class="btn btn-primary" style="width: 100px; text-align:center; font-weight: bold; margin-right:3px;">수정</button></a>
 			    			<form id="removeGoodsForm" th:action="@{/goods/removeGoods}" method="post" style="width:0%">
 			    				<button type="submit"
 			    						class="btn btn-primary"
@@ -182,188 +209,108 @@
                 <div class="media-body">
                   <div class="tabArea">
                     <ul class="nav nav-tabs bar-tabs">
-                      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#OurDetails">상품 상세 정보</a></li>
-                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Reviews">상품평</a></li>
+                      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Reviews">상품평</a></li>
+                      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#OurDetails">상품 상세 정보</a></li>
                       <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#OurShipping">여기에 이용약관,보험약관 넣으면 좋을 듯</a></li>
                     </ul>
                     <div class="tab-content">
-                      <div id="OurDetails" class="tab-pane fade show active">
-                        <p th:text="${goodsDetail.goodsDetail}">LContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
-                          Latin
-                          liter ature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
-                          Hampden-Sydney
-                          College in Virginia.</p>
+                      <div id="OurDetails" class="tab-pane fade">
+                        <p th:text="${goodsDetail.goodsDetail}"></p>
                       </div>
 
-                      <div id="OurSizing" class="tab-pane fade">
-                        <div class="SingleCartListWrapper SingleCartSizing">
-                          <div class="cartListInner">
-                            <div class="table-responsive">
-                              <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th>Inches</th>
-                                    <th>US size</th>
-                                    <th>EN size</th>
-                                  </tr>
-                                </thead>
-
-                                <tbody>
-                                  <tr>
-                                    <td class="">9.65</td>
-                                    <td class="">6.5</td>
-                                    <td class="">39</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">9.84</td>
-                                    <td class="">7</td>
-                                    <td class="">40</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.04</td>
-                                    <td class="">8</td>
-                                    <td class="">41</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.24</td>
-                                    <td class="">8.5</td>
-                                    <td class="">42</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.43</td>
-                                    <td class="">9.5</td>
-                                    <td class="">43</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.63</td>
-                                    <td class="">10.0</td>
-                                    <td class="">44</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">10.83</td>
-                                    <td class="">11.0</td>
-                                    <td class="">45</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">11.02</td>
-                                    <td class="">12.0</td>
-                                    <td class="">46</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">11.2</td>
-                                    <td class="">12.5</td>
-                                    <td class="">47</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td class="">11.42</td>
-                                    <td class="">13</td>
-                                    <td class="">48</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div id="Reviews" class="tab-pane fade">
-                        <div class="media mb-5">
-                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
-                          <div class="media-body">
-                            <h4 class="mt-0 mb-2">Lorem ipsum dolor</h4>
-
-                            <ul class="text-warning d-flex mb-1">
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class=""><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
-                            </ul>
-
-                            <p class="mt-0 mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio dolorum quasi magni mollitia suscipit blanditiis nihil id autem? Voluptates, minima expedita doloremque amet consequuntur quam aliquid repellat architecto accusamus fuga.</p>
-                            <h6 class="mt-0"><em>Rodney Artichoke</em></h6>
-                          </div>
-                        </div>
-
-                        <div class="media mb-5">
-                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small-02.jpg" alt="Generic placeholder image">
-                          <div class="media-body">
-                            <h4 class="mt-0 mb-2">Feugiat primis</h4>
-
-                            <ul class="text-warning d-flex mb-1">
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class=""><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                            </ul>
-
-                            <p class="mt-0 mb-3">Feugiat primis reprehenderit proident cumque nec diam eligendi, qui iure, torquent quod sequi, taciti! Tempus leo
-                            architecto accusantium cillum, taciti nascetur? Iusto facilisi dolores adipisci eros fuga, laoreet culpa molestie, arcu
-                            lectus felis sunt accusantium alias mollitia eius anim eget. voluptatibus facilisi.</p>
-                            <h6 class="mt-0"><em>Samanta Doe</em></h6>
-                          </div>
-                        </div>
-
-                        <div class="media mb-0">
-                          <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small-03.jpg" alt="Generic placeholder image">
-                          <div class="media-body">
-                            <h4 class="mt-0 mb-2">Auctor vitae egestas</h4>
-
-                            <ul class="text-warning d-flex mb-1">
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                              <li class=""><i class="fa fa-star" aria-hidden="true"></i></li>
-                            </ul>
-
-                            <p class="mt-0 mb-2">Auctor vitae egestas et. Accumsan quis nunc. Duis leo justo. Condimentum at purus eu. Amana sed dolor sem. Etiam massa
-                            libero. massa libero, auctor vitae egestas et, accumsan quis nunc. Dous leou justi, condimentam at purus eus actor.
-                            Auctor vitae egestas et duis Condimentum at purus eu. Aemean sed dolor sem. Etiam massa libero.</p>
-                            <h6 class="mt-0"><em>Amanda Smith</em></h6>
-                          </div>
-                        </div>
-
-                        <div class="mt-5 mb-2 border p-4 p-md-5">
-                          <form>
-                            <div class="media flex-column flex-md-row mb-0">
-                              <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="/user/assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
-                              
-                              <div class="media-body mt-4 mt-md-0">
-                                <h6 class="text-center text-md-left text-capitalize mt-0"><em>Rodney samp</em></h6>
-                                <h6 class="text-center text-md-left ReviewsPost mt-0">Posting publicly</h6>
-                            
-                                <div class="rating-view mb-4">
-                                  <span class="add-rating-large pl-0 m-auto m-md-0"></span>
-                                </div>
-
-                                <div class="row">
-                                  <div class="form-group col-md-12">
-                                    <input type="text" class="form-control" id="exampleInputPhone" placeholder="Subject" required="">
-                                  </div>
-
-                                  <div class="form-group col-md-12">
-                                    <textarea class="form-control" id="exampleTextarea" rows="5" placeholder="Review"></textarea>
-                                  </div>
-                                </div>
-
-                                <div class="text-center text-md-left">
-                                  <button type="submit" class="btn btn-default btn-primary custom-btn">Submit Review</button>
-                                </div>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
+                      <div id="Reviews" class="tab-pane fade show active">
+						<div  class="media mb-5 reviewListDiv" th:each="rl : ${reviewList}" th:if="${not #lists.isEmpty(reviewList)}">
+						  <img class="mr-4 rounded rounded-circle" src="/user/assets/img/blog/blog-small2-01.jpg" alt="Generic placeholder image">
+						  <div class="media-body">
+						    <div class="change-section">
+							    <h4 class="mt-0 mb-2" th:text="${rl.user.userNickName}">닉네임</h4>
+							
+							    <ul class="text-warning d-flex mb-1">
+							      <li class="mr-1"><i class="fa fa-star" aria-hidden="true" th:each="num : ${#numbers.sequence(1,rl.goodsEvaluation)}"></i></li>
+							    </ul>
+							
+							    <p class="mt-0 mb-3" th:text="${rl.reviewContent}"></p>
+							    <th:block th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId == rl.userId}">
+									<button type="button" class="btn btn-secondary btn-sm modifyReviewBtn" th:data-review-code="${rl.reviewCode}" th:data-review-cotent = "${rl.reviewContent}">수정</button>
+									<button type="button" class="btn btn-secondary btn-sm removeReviewBtn" th:data-review-code="${rl.reviewCode}">삭제</button>	
+							    </th:block>
+						    </div>
+						  </div>
+						</div>
+						<div class="media mb-5 reviewListDiv" th:unless="${not #lists.isEmpty(reviewList)}">
+							등록된 상품평이 없습니다.
+						</div>
+						
+						<div class="mt-5 mb-2 border p-4 p-md-5" th:if="${session.S_USER_INFO != null} and ${checkReviewCount < 1} and ${checkTradeStatus > 0}">
+						  <form id="addReviewForm"  method="post" role="form">
+						    <div class="media flex-column flex-md-row mb-0">
+						      <img class="m-auto m-md-0 mr-md-4 rounded rounded-circle" src="/user/assets/img/blog/profile-image.jpg" alt="Generic placeholder image">
+						      
+						      <div class="media-body mt-4 mt-md-0">
+						        <h6 class="text-center text-md-left text-capitalize mt-0" th:text="${session.S_USER_INFO.loginNickName}"><em></em></h6>
+						    
+						        <div class="rating-view mb-4">
+						            <fieldset>
+								        <input type="radio" name="goodsEvaluation" value="5" id="rate1"><label for="rate1">⭐</label>
+								        <input type="radio" name="goodsEvaluation" value="4" id="rate2"><label for="rate2">⭐</label>
+								        <input type="radio" name="goodsEvaluation" value="3" id="rate3"><label for="rate3">⭐</label>
+								        <input type="radio" name="goodsEvaluation" value="2" id="rate4"><label for="rate4">⭐</label>
+								        <input type="radio" name="goodsEvaluation" value="1" id="rate5"><label for="rate5">⭐</label>
+								    </fieldset>
+						        </div>
+						
+						        <div class="row">
+						
+						          <div class="form-group col-md-12">
+						            <textarea class="form-control" id="exampleTextarea" name="reviewContent" rows="5" placeholder="상품평을 입력해주세요."></textarea>
+						          </div>
+						          
+						          <input id="goodsCodeInput" type="hidden" name="goodsCode" th:value="${goodsDetail.goodsCode}">
+						          <input id="userIdInput" type="hidden" name="userId" th:value="${session.S_USER_INFO.loginId}">
+						          
+						        </div>
+						
+						        <div class="text-center text-md-left">
+						          <button id="addReviewBtn" type="button" class="btn btn-default btn-primary custom-btn">상품평 등록</button>
+						        </div>
+						      </div>
+						    </div>
+						  </form>
+						</div>
+						
+						
+						<th:block th:object="${goodsDetail}">
+			              <div class="blogPage" style="display: flex; justify-content:center;">
+							<ul class="pagination" style="margin:3px">
+								<li th:if="${pagination.curRange != 1}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="First"><span aria-hidden="true"></span></a>
+								</li>
+								<li th:if="${pagination.curPage != 1}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+								</li>
+								
+								<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+									<li class="active" th:if="${pageNum == pagination.curPage}" style="padding:0px;">
+										<a th:text="${pageNum}"></a>
+									</li>
+									<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+										<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" th:text="${pageNum}"></a>
+									</li>
+								</th:block>
+			
+								<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+								</li>
+								<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+									<a th:href="@{/goods/goodsDetail(goodsCode=*{goodsCode},userId=*{userId},curPage=${pageNum})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+								</li>
+							</ul>
+			              </div>						
+						</th:block>
+						
+						
+						
+						
                       </div>
 
                       <div id="OurShipping" class="tab-pane fade">
@@ -412,88 +359,246 @@
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
+
+/* ----------------------------------------강현구 결제 달력 기능 javascript-시작---------------------------------------------- */
+		
 			const $startDate = document.getElementById('rentalStartDate');
 			const $endDate = document.getElementById('rentalEndDate');
 			const today = new Date();
-			
+	
 			const startDate = new Date(today);
 			const endDate = new Date(today);
 			const defailtDate = new Date(today);
-			
+	
 			endDate.setDate(today.getDate() + 14);
 			defailtDate.setDate(today.getDate() + 1);
-			
+	
 			$startDate.value = today.toISOString().substring(0, 10);
 			$endDate.value = defailtDate.toISOString().substring(0, 10);
-			
+	
 			$startDate.setAttribute('min', startDate.toISOString().substring(0, 10));
 			$startDate.setAttribute('max', endDate.toISOString().substring(0, 10));
 			$endDate.setAttribute('min', defailtDate.toISOString().substring(0, 10));
-			
-			$startDate.addEventListener('change', function(){
-				const changeMinDate = new Date($startDate.value);
-				changeMinDate.setDate(changeMinDate.getDate() + 1);
-				$endDate.setAttribute('min', changeMinDate.toISOString().substring(0, 10));
-				changeDate = new Date($startDate.value);
-				changeDate.setDate(changeDate.getDate() + 1);
-				$endDate.value = changeDate.toISOString().substring(0, 10);
-			}) 
-			
-			
 	
-		$('#submitBtn').click(function(){
+			$startDate.addEventListener('change', function () {
+			    const changeMinDate = new Date($startDate.value);
+			    changeMinDate.setDate(changeMinDate.getDate() + 1);
+			    $endDate.setAttribute('min', changeMinDate.toISOString().substring(0, 10));
+			    changeDate = new Date($startDate.value);
+			    changeDate.setDate(changeDate.getDate() + 1);
+			    $endDate.value = changeDate.toISOString().substring(0, 10);
+			})
+
+/* ----------------------------------------강현구 결제 달력 기능 javascript-끝---------------------------------------------- */	
+
+/* -------------------------------------남윤희 상품 삭제,관심상품 추가삭제 기능 javascript-시작------------------------------------ */
+	
+			$('#removeGoodsButton').click(function () {
+	
+			    if (!confirm('상품을 삭제하시겠습니까?')) {
+			        return false;
+			    } else {
+			        $('#removeGoodsForm').submit();
+			        alert('상품이 삭제되었습니다.');
+			    }
+			});
+	
+			$('#addWishButton').click(function () {
+	
+			    if ([[${ session.S_USER_INFO }]] != null) {
+	
+			        if (!confirm('관심상품으로 등록하시겠습니까?')) {
+			            return false;
+			        } else {
+			            $('#addWishForm').submit();
+			        }
+	
+			    } else {
+	
+			        if (!confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
+			            return false;
+			        } else {
+			            location.href = '/login';
+			        }
+			    }
+	
+			});
+	
+			$('#removeWishButton').click(function () {
+	
+			    if (!confirm('이미 관심상품으로 등록되어있습니다. 삭제하시겠습니까?')) {
+			        return false;
+			    } else {
+			        $('#removeWishForm').submit();
+			    }
+			});
 			
-			const userId =  document.getElementById("submitBtn").value;
-						
-			if(!confirm(userId+'님을 차단하시겠습니까?')) {
-				return false;
-			}else{
-				$('#addBlockForm').submit();
-			}
-		}); 
+/* -------------------------------------남윤희 상품 삭제,관심상품 추가삭제 기능 javascript-끝------------------------------------ */
+
+/* -------------------------------------------남윤희 상품평 기능 javascript-시작----------------------------------------- */
 			
-		$('#removeGoodsButton').click(function(){
-			
-			if(!confirm('상품을 삭제하시겠습니까?')) {
-				return false;
-			}else{
-				$('#removeGoodsForm').submit();
-				alert('상품이 삭제되었습니다.');
-			}
-		});
+			//상품평 추가 ajax 시작
+			$('#addReviewBtn').click(function () {
+	
+			    const userId = $('#userIdInput').val();
+			    const goodsCode = $('#goodsCodeInput').val();
+			    const reviewContent = $('#exampleTextarea').val();
+	
+			    const goodsEvaluation = $("input[name='goodsEvaluation']:checked").val();
+	
+			    const reviewObj = {
+			        'userId': userId,
+			        'goodsCode': goodsCode,
+			        'reviewContent': reviewContent,
+			        'goodsEvaluation': goodsEvaluation
+			    };
+	
+			    $.ajax({
+			        type: 'POST',
+			        url: '/review/addReview',
+			        contentType: "application/json; charset=UTF-8;",
+			        data: JSON.stringify(reviewObj),
+			        success: function (data) {
+			            location.reload();
+			            console.log("성공");
+			        },
+			        error: function (e) {
+			            if(goodsEvaluation == null || goodsEvaluation == ''){
+			            	alert("별점을 선택해주세요");
+			            	$('#exampleTextarea').focus();
+			            }
+			        }
+	
+	
+			    });
+	
+			});
+			//상품평 추가 ajax 끝
+	
+			//상품평 삭제 ajax 시작
+			$(document).on('click', '.removeReviewBtn', function () {
+			    const reviewCode = $(this).attr('data-review-code');
+	
+			    $.ajax({
+			        type: 'POST',
+			        url: '/review/removeReview',
+			        contentType: "application/json; charset=UTF-8",
+			        data: reviewCode,
+			        success: function (data) {
+			            location.reload();
+			            console.log("성공");
+			        },
+			        error: function (e) {
+			            alert("ERROR : " + e);
+			        }
+			    });
+			});
+			// 상품평 삭제 ajax 끝
+	
+			// 상품평 수정 ajax 시작
+			$(document).on('click', '.modifyReviewBtn', function () {
+	
+			    const reviewContent = $(this).attr("data-review-cotent");
+			    const reviewCode = $(this).attr("data-review-code");
+	
+			    //console.log($(this).parents('div.commentInfo').find('div.change-section'));
+	
+			    const changeSection = $(this).parents('div.reviewListDiv').find('div.change-section');
+			    changeSection.empty();
+	
+			    const $textArea = $('<textarea />', {
+			        class: 'form-control modifyReview',
+			        rows: '3',
+			        name: 'modifyReview',
+			        style: 'margin-bottom:2px;',
+			        text: reviewContent
+			    });
+	
+			    const $modifyActionBtn = $('<button />', {
+			        class: 'btn btn-secondary btn-sm modifyActionBtn',
+			        type: 'button',
+			        text: '수정',
+			        click: function () {
+			            const reviewContentValue = $(this).parent().find('textarea.modifyReview').val();
+			            const goodsEvaluationValue = $(this).parent().find(" input[name='goodsEvaluation']:checked ").val();
+			            //console.log(infoBoardCommentContentValue);
+			            const reviewObj = {
+			                'reviewCode': reviewCode,
+			                'reviewContent': reviewContentValue,
+			                'goodsEvaluation': goodsEvaluationValue
+			            };
+	
+			            $.ajax({
+			                type: 'POST',
+			                url: '/review/modifyReview',
+			                contentType: "application/json; charset=UTF-8",
+			                data: JSON.stringify(reviewObj),
+			                success: function (data) {
+			                    location.reload();
+			                    console.log("성공");
+			                },
+			                error: function (e) {
+					            if(goodsEvaluationValue == null){
+					            	alert("별점을 선택해주세요");
+					            	$('.modifyReview').focus();
+					            }
+			                }
+			            });// 댓글 비동기 끝
+			        }
+			    });
+			    
+			    const $modifyCancelBtn = $('<button />',{
+					class:'btn btn-secondary btn-sm modifyCancelBtn',
+					type:'button',
+					text:'취소',
+					click: function(){
+						location.reload();
+					}
+				});
+			    
+			    changeSection.append("<div class='rating-view mb-4'><fieldset><input type='radio' name='goodsEvaluation' value='5' id='rate1'><label for='rate1'>⭐</label><input type='radio' name='goodsEvaluation' value='4' id='rate2'><label for='rate2'>⭐</label><input type='radio' name='goodsEvaluation' value='3' id='rate3'><label for='rate3'>⭐</label><input type='radio' name='goodsEvaluation' value='2' id='rate4'><label for='rate4'>⭐</label><input type='radio' name='goodsEvaluation' value='1' id='rate5'><label for='rate5'>⭐</label></fieldset> </div>");
+				changeSection.append($textArea);
+				changeSection.append($modifyActionBtn);
+				changeSection.append($modifyCancelBtn);
+				console.log(infoBoardCommentContent);
+			});
+			// 상품평 수정 ajax 끝
+	
+/* -------------------------------------------남윤희 상품평 기능 javascript-끝----------------------------------------- */	
+	
+/* ----------------------------------------오경하 차단 기능 javascript-시작---------------------------------------------- */	
+			$(document).on('click', '.blockBtn', function () {
+			    const blockedId = $(this).attr('data-block-id');
+	
+			    if (!confirm(blockedId + '님을 차단하시겠습니까?')) {
+			        return false;
+			    } else {
+	
+			        $.ajax({
+			            type: 'POST',
+			            url: '/user/block/addUserBlock',
+			            contentType: "application/json; charset=UTF-8",
+			            data: blockedId,
+			            success: function (data) {
+			                alert(blockedId + '님이 차단되었습니다.')
+			                if (data > 0) {
+			                    $('.blockBtn').hide();
+			                }
+	
+			            },
+			            error: function (e) {
+			                alert("ERROR : " + e);
+			                console.log(blockedId);
+			            }
+			        });
+	
+			    }
+	
+			});
+/* ----------------------------------------오경하 차단 기능 javascript-끝---------------------------------------------- */
 		
-		$('#addWishButton').click(function(){
-			
-			if([[${session.S_USER_INFO}]] != null){
-				
-				if(!confirm('관심상품으로 등록하시겠습니까?')) {
-					return false;
-				}else{
-					$('#addWishForm').submit();
-				}
-				
-			}else{
-				
-				if(!confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
-					return false;
-				}else{
-					location.href = '/login';
-				}
-			}
-			
-		});
-		
-		$('#removeWishButton').click(function(){
-			
-			if(!confirm('이미 관심상품으로 등록되어있습니다. 삭제하시겠습니까?')) {
-				return false;
-			}else{
-				$('#removeWishForm').submit();
-			}
-		});
 		
 		
 		</script>
 	</th:block>
-</body>
 </html>

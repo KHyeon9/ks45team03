@@ -129,8 +129,14 @@ public class InfoBoardController {
 	}
 
 	@PostMapping("/modifyInfoBoard")
-	public String modifyInfoBoard(InfoBoard infoBoard) {
-		infoBoardService.modifyInfoBoard(infoBoard);
+	public String modifyInfoBoard(InfoBoard infoBoard, MultipartFile[] uploadfile) {
+		
+		String fileRealPath = "/home/springboot/teamproject/files/";
+		
+		infoBoard.setInfoBoardContent(infoBoard.getInfoBoardContent().replace("\r\n", "<br>"));
+		
+		infoBoardService.modifyInfoBoard(infoBoard, uploadfile, fileRealPath);
+		
 		
 		return "redirect:/infoboard/infoBoardDetail?infoBoardCode=" + infoBoard.getInfoBoardCode();
 	}
