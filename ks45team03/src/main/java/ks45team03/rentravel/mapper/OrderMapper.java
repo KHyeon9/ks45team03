@@ -15,6 +15,9 @@ import ks45team03.rentravel.dto.WaybillRenter;
 @Mapper
 public interface OrderMapper {
 	
+	// 마일리지 유저 보유 총량 조회
+	public int getUserTotalMileage(String userId);
+	
 	// 오너 주문 취소 확인
 	public int cancelCheckOwner(String paymentCode);
 	

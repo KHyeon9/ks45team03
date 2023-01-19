@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -42,6 +44,26 @@ public class OrderController {
 	private UserService userService;
 	private CommonNewCode commonNewCode;
 	
+	// 마일리지 사용량 초과 검사
+	@ResponseBody
+	@PostMapping("/checkMileage")
+	public boolean checkMileage(@RequestBody int useMileage, HttpSession session) {
+		boolean result = false;
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		String userId = loginInfo.getLoginId();
+		
+		System.out.println(userId);
+		
+		int totalMileage = orderMapper.getUserTotalMileage(userId);
+		
+		if(useMileage <= totalMileage) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	// 결제 결과 창
 	@GetMapping("/paymentResult")
 	public String paymentResult(@RequestParam(value = "rentalCode") String rentalCode,
 								Model model) throws ParseException {
@@ -83,6 +105,7 @@ public class OrderController {
 		
 		orderService.addOrder(rental);
 		
+		
 		return "redirect:/order/paymentResult?rentalCode=" + rentalCode;
 	}
 	
@@ -112,7 +135,6 @@ public class OrderController {
 		User userInfo = orderMapper.loginUserInfo(loginInfo.getLoginId());
 		List<RegionSido> getRegionSido = userService.getRegionSido();
 		List<RegionSgg> getRegionSgg = orderMapper.getRegionSggBySidoCode(userInfo.getRegionSgg().getRegionSidoCode());
-		
 		model.addAttribute("title", "결제 화면");
 		model.addAttribute("goods", goods);
 		model.addAttribute("userInfo", userInfo);
