@@ -212,6 +212,24 @@ $(function(){
 			$('#mileageUse').addClass('is-invalid');
 			$('#mileageUse').focus();
 			return false;
+		} else {
+			$.ajax({
+				type: 'POST',
+				url: '/order/checkMileage',
+				contentType: "application/json; charset=UTF-8",
+				data: mileageUse,
+				success: function(result){
+					console.log(result);
+					if(!result) {
+						alert('사용할 수 있는 마일리지를 초과했습니다.')
+						return false;
+					}
+					console.log('성공');
+				},
+				error: function(e) {
+				alert("Error : " + e);
+			}
+			})
 		}
 	
 		var regionSidoCode = $('#regionSidoCode').val();

@@ -128,6 +128,19 @@
 		<result property="regionSggName" column="region_sgg_name" />
 	</resultMap>
 	
+	
+	<!-- 마일리지 보유 총량 조화 -->
+	<select id="getUserTotalMileage" parameterType="String" resultType="int">
+		SELECT
+			u.total_mileage	
+		FROM
+			tb_user AS u
+		WHERE
+			u.user_id = #{userId};
+	</select>
+	
+	
+	<!-- 렌탈 취소 오너 체크 -->
 	<update id="cancelCheckOwner" parameterType="String">
 		UPDATE 
 			tb_rental_cancel
@@ -137,6 +150,7 @@
 			payment_code = #{paymentCode};
 	</update>
 	
+	<!-- 렌탈 취소 등록 -->
 	<insert id="addRentalCancel" parameterType="RentalCancel">
 		INSERT INTO tb_rental_cancel
 			(
@@ -164,6 +178,7 @@
 			);
 	</insert>
 	
+	<!-- 렌탈 취소 정보 조회 -->
 	<select id="getCancelInfo" parameterType="String" resultMap="orderMap">
 		SELECT
 			r.rental_code,
