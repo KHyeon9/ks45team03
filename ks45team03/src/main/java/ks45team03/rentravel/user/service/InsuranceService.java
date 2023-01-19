@@ -19,6 +19,16 @@ public class InsuranceService {
 	public InsuranceService(InsuranceMapper insuranceMapper) {
 		this.insuranceMapper = insuranceMapper;
 	}
+	
+	/**
+	 * 보상금 청구서 등록
+	 * @param insuranceBillDetail
+	 * @return
+	 */
+	public int addInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail) {
+		
+		return insuranceMapper.addInsuranceBillDetail(insuranceBillDetail);
+	}
 		
 	/**
 	 * 보상금청구서 수정
@@ -33,9 +43,9 @@ public class InsuranceService {
 	/**
 	 * 보상금청구서 삭제
 	 */
-	public void removeInsuranceBillDetail() {
+	public void removeInsuranceBillDetail(String insuranceBillDetailCode) {
 		
-		insuranceMapper.removeInsuranceBillDetail();
+		insuranceMapper.removeInsuranceBillDetail(insuranceBillDetailCode);
 	}
 	
 }

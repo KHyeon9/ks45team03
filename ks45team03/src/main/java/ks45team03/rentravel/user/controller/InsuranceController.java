@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -44,18 +45,9 @@ public class InsuranceController {
 			List<InsuranceBill> insuranceBillList = insuranceMapper.getInsuranceBillInfoById(loginId);
 			List<InsurancePayout> insurancePayoutList = insuranceMapper.getInsurancePayoutInfoById(loginId);
 			
-			Integer cntInsurance = insuranceMapper.countInsurance(loginId);
-			Integer cntInsuranceBill = insuranceMapper.countInsuranceBill(loginId);
-			Integer cntInsurancePayout = insuranceMapper.countInsurancePayout(loginId);
-
-			
 			model.addAttribute("insuranceList", insuranceList);
 			model.addAttribute("insuranceBillList", insuranceBillList);
 			model.addAttribute("insurancePayoutList", insurancePayoutList);
-			model.addAttribute("cntInsurance", cntInsurance);
-			model.addAttribute("cntInsuranceBill", cntInsuranceBill);
-			model.addAttribute("cntInsurancePayout", cntInsurancePayout);
-
 			 
 			return "user/insurance/insuranceMain";
 			
@@ -68,20 +60,34 @@ public class InsuranceController {
 		
 	}
 	
-	@GetMapping("/insuranceaddBillPersonInfo/{insuranceCode}")
-	public String insuranceaddBillPersonInfo(@PathVariable(value="insuranceCode") String insuranceCode, Model model) {
+	@GetMapping("/insuranceAddBillPersonInfo/{insuranceCode}")
+	public String insuranceAddBillPersonInfo(@PathVariable(value="insuranceCode") String insuranceCode, Model model) {
 		
 		model.addAttribute("title", "Insurance");
 		model.addAttribute("insuranceCode", insuranceCode);
 		
-		return "user/insurance/insuranceaddBillPersonInfo";
+		return "user/insurance/insuranceAddBillPersonInfo";
 			
 	}
 	
-	@GetMapping("/insuranceAddBill/{insuranceCode}")
-	public String addInsuranceBillDetail(@PathVariable(value="insuranceCode") String insuranceCode, Model model,
-														HttpServletResponse response, HttpSession session) throws IOException {
+	@PostMapping("/insuranceAddBill")
+	public String addInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail) {
 		
+		System.out.println("---------보상금청구서 등록------------");
+		System.out.println(insuranceBillDetail.toString());
+		
+		String insuranceBillDetailCode = insuranceBillDetail.getInsuranceBillDetailCode();
+		
+		insuranceService.addInsuranceBillDetail(insuranceBillDetail);
+		
+		return "redirect:insuranceBillDetail/" + insuranceBillDetailCode;
+		
+	}
+	
+	
+	@GetMapping("/insuranceAddBill/{insuranceCode}")
+	public String addInsuranceBillDetail(@PathVariable(value="insuranceCode") String insuranceCode,
+										HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		if(session.getAttribute("S_USER_INFO") != null) {
 			model.addAttribute("title", "Insurance");
 			model.addAttribute("insuranceCode", insuranceCode);
@@ -89,9 +95,19 @@ public class InsuranceController {
 			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
 			String loginId =  loginInfo.getLoginId();
 			
+			model.addAttribute("insuranceCode", insuranceCode);
+			
 			List<Insurance> insuranceList = insuranceMapper.getInsuranceInfoById(loginId);
 			model.addAttribute("insuranceList", insuranceList);
+			
+			List<Insurance> insuranceInfo = insuranceMapper.getInsuranceInfo(insuranceCode);
+			model.addAttribute("insuranceInfo", insuranceInfo);
+			
+			//인적사항 조회
+			List<Insurance> insuranceUserInfo = insuranceMapper.getInsuranceUser(loginId, insuranceCode);
+			model.addAttribute("insuranceUserInfo", insuranceUserInfo);
 
+			return "user/insurance/insuranceAddBill";
 			
 		} else {
 			
@@ -100,7 +116,6 @@ public class InsuranceController {
 			return "user/user/login";
 		}
 		
-		return "user/insurance/insuranceAddBill";
 	}
 	
 	@GetMapping("/insuranceBillRecipt/{insuranceCode}")
@@ -128,17 +143,19 @@ public class InsuranceController {
 			return "user/insurance/insuranceBillDetail";
 		
 	}
-	
+
 	@PostMapping("/insuranceModifyBill")
 	public String modifyInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail) {
 		
 		System.out.println("보험접수증수정");
 		
-		System.out.println(insuranceBillDetail.getAccidentType());
+		System.out.println(insuranceBillDetail.toString());
+		
+		String insuranceBillDetailCode = insuranceBillDetail.getInsuranceBillDetailCode();
 		
 		insuranceService.modifyInsuranceBillDetail(insuranceBillDetail);
 		
-		return "redirect:/user/insurance/insuranceBillDetail";
+		return "redirect:insuranceBillDetail/" + insuranceBillDetailCode;
 	}
 	
 	
@@ -156,9 +173,15 @@ public class InsuranceController {
 	
 	
 	@PostMapping("/insuranceRemoveBill")
-	public String removeInsuranceBillDetail(Model model) {
+	public String removeInsuranceBillDetail(String insuranceBillDetailCode) {
 		
-		return "user/insurance/insuranceRemoveBill";
+		System.out.println("-------------삭제-------------");
+		System.out.println(insuranceBillDetailCode);
+			
+		insuranceService.removeInsuranceBillDetail(insuranceBillDetailCode);
+		
+		String redirectURI = "redirect:/insurance/insuranceMain";
+		return redirectURI;
 	}
 	
 
