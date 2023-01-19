@@ -14,9 +14,9 @@ public class AdminGoodsService {
 	
 	private final AdminGoodsMapper adminGoodsMapper;
 	
-	public List<Goods> getAdminGoodsList(){
+	public List<Goods> getAdminGoodsList(String goodsState){
 		
-		List<Goods> adminGoodsList = adminGoodsMapper.getAdminGoodsList();
+		List<Goods> adminGoodsList = adminGoodsMapper.getAdminGoodsList(goodsState);
 		
 		return adminGoodsList;
 	}

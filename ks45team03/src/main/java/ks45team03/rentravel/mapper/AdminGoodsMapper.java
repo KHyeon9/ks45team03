@@ -8,7 +8,7 @@ import ks45team03.rentravel.dto.Goods;
 
 @Mapper
 public interface AdminGoodsMapper {
-	public List<Goods> getAdminGoodsList();
+	public List<Goods> getAdminGoodsList(String goodsState);
 	
 	public int adminRemoveGoods(String goodsCode);
 }

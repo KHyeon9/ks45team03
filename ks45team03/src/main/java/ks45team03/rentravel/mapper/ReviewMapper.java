@@ -23,4 +23,9 @@ public interface ReviewMapper {
 	
 	public int getReviewListCount(String goodsCode);
 	
+	public List<Review> getMyReviewList(String loginId, int startIndex, int pageSize);
+	
+	public int getMyReviewListCount(String loginId);
+	
+	public Review getReviewContentByReviewCode(String reviewCode);
 }

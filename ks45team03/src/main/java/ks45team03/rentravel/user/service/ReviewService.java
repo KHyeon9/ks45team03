@@ -56,4 +56,25 @@ public class ReviewService {
 		
 		return reviewListCount;
 	}
+	
+	public List<Review> getMyReviewList(String loginId, int startIndex, int pageSize){
+		
+		List<Review> myReviewList = reviewMapper.getMyReviewList(loginId, startIndex, pageSize);
+		
+		return myReviewList;
+	}
+	
+	public int getMyReviewListCount(String loginId) {
+		
+		int myReviewListCount = reviewMapper.getMyReviewListCount(loginId);
+		
+		return myReviewListCount;
+	}
+	
+	public Review getReviewContentByReviewCode(String ReviewCode) {
+		
+		Review reviewContent = reviewMapper.getReviewContentByReviewCode(ReviewCode);
+		
+		return reviewContent;
+	}
 }
