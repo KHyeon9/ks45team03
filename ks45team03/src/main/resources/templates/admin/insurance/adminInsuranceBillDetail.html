@@ -9,12 +9,9 @@
 		  	<div class="clearfix"></div>
 	              <div class="col-md-12 col-sm-12  ">
 	                    <div class="table-responsive">
-	                      <table class="table table-striped jambo_table bulk_action text-center">
+	                      <table class="table table-striped jambo_table text-center">
 	                        <thead>
 	                          <tr class="headings">
-	                            <th>
-	                              <input type="checkbox" id="check-all" class="flat">
-	                            </th>
 	                            <th class="column-title">보험상세코드 </th>
 	                            <th class="column-title">보험코드 </th>
 	                            <th class="column-title">보험가입자아이디</th>
@@ -31,22 +28,23 @@
 	                          </tr>
 	                        </thead>
 	                        <tbody>
-	                          <tr class="even pointer" th:if="${not #lists.isEmpty(adminInsuranceBillDetail)}" th:each="l : ${adminInsuranceBillDetail}">
-	                              <td class="a-center "><input type="checkbox" class="flat" name="table_records"></td>
-							      <td th:text="${l.insuranceBillDetailCode}"></td>
-							      <td th:text="${l.insuranceCode}"></td>
-							      <td th:text="${l.userId}"></td>
-							      <td th:text="${l.goodsCode}"></td>
-							      <td th:text="${l.paymentCode}"></td>
-							      <td th:text="${l.accidentDate}"></td>
-							      <td th:text="${l.accidentType}"></td>
-							      <td th:text="${l.accidentContent}"></td>
-							      <td th:text="${l.insuranceEvidence}"></td>
-							      <td th:text="${l.bankName}"></td>
-							      <td th:text="${l.accountHolder}"></td>
-							      <td th:text="${l.accountNumber}"></td>
-							      <td th:text="${l.requestDate}"></td>
-	                          </tr>
+	                        	<th:block th:if="${not #lists.isEmpty(adminInsuranceBillDetail)}" th:each="l : ${adminInsuranceBillDetail}">
+		                          <tr class="even pointer">
+								      <td th:text="${l.insuranceBillDetailCode}"></td>
+								      <td th:text="${l.insuranceCode}"></td>
+								      <td th:text="${l.userId}"></td>
+								      <td th:text="${l.goodsCode}"></td>
+								      <td th:text="${l.paymentCode}"></td>
+								      <td th:text="${l.accidentDate}"></td>
+								      <td th:text="${l.accidentType}"></td>
+								      <td th:text="${l.accidentContent}"></td>
+								      <td th:text="${l.insuranceEvidence}"></td>
+								      <td th:text="${l.bankName}"></td>
+								      <td th:text="${l.accountHolder}"></td>
+								      <td th:text="${l.accountNumber}"></td>
+								      <td th:text="${l.requestDate}"></td>
+		                          </tr>
+	                          </th:block>
 	                          <tr th:unless="${not #lists.isEmpty(adminInsuranceBillDetail)}">
 				    			<td colspan="9">등록된 상품이 없습니다.</td>
 				    		</tr>

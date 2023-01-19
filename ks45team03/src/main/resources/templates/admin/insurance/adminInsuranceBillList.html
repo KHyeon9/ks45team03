@@ -7,41 +7,91 @@
 	  <div class="right_col" role="main">
 	  	<h1>관리자보험청구상태</h1><br>
 	  	<div class="clearfix"></div>
-              <div class="col-md-12 col-sm-12  ">
-                    <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action text-center">
-                        <thead>
-                          <tr class="headings">
-                            <th>
-                              <input type="checkbox" id="check-all" class="flat">
-                            </th>
-                            <th class="column-title">보상금청구상태코드 </th>
-                            <th class="column-title">보험가입자아이디</th>
-                            <th class="column-title">보상금신청코드</th>
-                            <th class="column-title">보상금청구상태이름코드</th>
-                            <th class="column-title">상태업데이트날짜</th>
-                            <th class="bulk-actions" colspan="7">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="even pointer" th:if="${not #lists.isEmpty(adminInsuranceBillList)}" th:each="l : ${adminInsuranceBillList}">	
-                            <td class="a-center "><input type="checkbox" class="flat" name="table_records"></td>
-                            <td th:text="${l.insuranceBillCode}"></td>
-						    <td th:text="${l.userId}"></td>
-						    <td th:text="${l.insuranceBillDetailCode}"></td>
-						    <td th:text="${l.insuranceBillStateCode}"></td>
-						    <td th:text="${l.insuranceBillModifyDate}"></td>
-                          </tr>
-                           <tr th:unless="${not #lists.isEmpty(adminInsuranceBillList)}">
-				    			<td colspan="9">등록된 상품이 없습니다.</td>
-				    		</tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-	  </th:block>
+		    <div class="col-md-12 col-sm-12  ">
+		          <div class="table-responsive">
+		            <table class="table table-striped jambo_table text-center">
+		              <thead>
+		                <tr class="headings">
+		                  <th class="column-title">보상금청구상태코드 </th>
+		                  <th class="column-title">보험가입자아이디</th>
+		                  <th class="column-title">보상금신청코드</th>
+		                  <th class="column-title">보상금청구상태이름코드</th>
+		                  <th class="column-title">상태업데이트날짜</th>
+		                  <th class="column-title">상태바꾸기</th>
+		                </tr>
+		              </thead>
+		              <tbody>
+		              	<th:block th:if="${not #lists.isEmpty(adminInsuranceBillList)}" th:each="l : ${adminInsuranceBillList}">
+		               	<tr class="even pointer" >	
+		                    <td th:text="${l.insuranceBillCode}"></td>
+							  <td th:text="${l.userId}"></td>
+							  <td th:text="${l.insuranceBillDetailCode}"></td>
+							  <td class="${l.insuranceBillStateCode}" th:text="${l.insuranceBillStateCode}"></td>
+							  <td th:text="${l.insuranceBillModifyDate}"></td>
+			  				<td><button class="btn btn-dark btnChange" id="btnChange" value="변경">변경</button></td>
+			                  </tr>
+		                 </th:block>
+		                 <tr th:unless="${not #lists.isEmpty(adminInsuranceBillList)}">
+			<td colspan="9">등록된 상품이 없습니다.</td>
+		</tr>
+		              </tbody>
+		            </table>
+		          </div>
+		        </div>
+		      </div>
+	  	</th:block>
+	  	<th:block layout:fragment="customScript">
+		<script th:inline="javascript">
+			$(function() {
+				  $('.btnChange').click( function() {
+					  
+					  console.log($(this));
+					  console.log($(this).val());
+				    if($(this).val() == '변경' ) {
+				      $(this).val('확인');
+				      $(this).text('확인');
+						//td를 select로 변경
+						$('${l.insuranceBillStateCode}').replaceWith('<td class="changeInsuranceBillStateCode"><select id="selectInsuranceBillStateCode"></select></td>');
+						
+						//adminInsuranceBillState 리스트를 받아옴
+						request = $.ajax({
+					            url: "/admin/insurance/adminInsuranceBillState",
+					            type: "GET"
+						});
+						
+						var sggOption = {};
+						var blankOption = '<option></option>';
+						var defaultOption = '<option>등록된 청구코드가 없습니다</option>';
+						
+						//성공
+						request.done(function(data){
+							console.log("success");
+							for (i = 0; i < data.length; i++) {
+								sggOption += '<option value="' + data[i].insuranceBillStateCode + '">' + data[i].insuranceBillStateName + '</option>';	
+			                }
+							
+							if(data == '' || data == 'undefined') {
+								 $('#selectInsuranceBillStateCode').html(defaultOption);
+							}else{
+								 $('#selectInsuranceBillStateCode').append(sggOption);
+							}
+							
+						});
+						//실패
+							request.fail(function(jqXHR, textStatus){
+								console.log('Request failed: ' + textStatus);
+							});
+				    }
+				    else {
+				    	$(this).val('변경');
+					     $(this).text('변경');
+					     $('.changeInsuranceBillStateCode').replaceWith('<td class="changeInsuranceBillStateCode" th:text="${l.insuranceBillStateCode}"></td>');
+				    }
+						
+				});
+		});
+			
+		</script>
+	</th:block>
 	  
 </html>

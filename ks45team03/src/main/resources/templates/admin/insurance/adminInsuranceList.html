@@ -10,12 +10,9 @@
 		  	<div class="clearfix"></div>
 	              <div class="col-md-12 col-sm-12  ">
 	                    <div class="table-responsive">
-	                      <table class="table table-striped jambo_table bulk_action text-center">
+	                      <table class="table table-striped jambo_table text-center">
 	                        <thead>
 	                          <tr class="headings">
-	                            <th>
-	                              <input type="checkbox" id="check-all" class="flat">
-	                            </th>
 	                            <th class="column-title">보험코드 </th>
 	                            <th class="column-title">보험가입자아이디</th>
 	                            <th class="column-title">상품코드</th>
@@ -24,13 +21,12 @@
 	                            <th class="column-title">보험이용가능여부</th>
 	                            <th class="column-title">보험등록시간</th>
 	                            <th class="bulk-actions" colspan="7">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                             </th>
 	                          </tr>
 	                        </thead>
 	                        <tbody>
-	                          <tr class="even pointer" th:if="${not #lists.isEmpty(adminInsuranceList)}" th:each="l : ${adminInsuranceList}">	
-	                            <td class="a-center "><input type="checkbox" class="flat" name="table_records"></td>
+	                          <th:block th:if="${not #lists.isEmpty(adminInsuranceList)}" th:each="l : ${adminInsuranceList}">	
+	                          <tr>
 	                            <td th:text="${l.insuranceCode}"></td>
 							      <td th:text="${l.userId}"></td>
 							      <td th:text="${l.goodsCode}"></td>
@@ -38,7 +34,8 @@
 							      <td th:text="${l.rentalCode}"></td>
 							      <td th:text="${l.insuranceAvailable}"></td>
 							      <td th:text="${l.insuranceSignUpTime}"></td>
-	                          </tr>
+							      </tr>
+	                          </th:block>
 	                          <tr th:unless="${not #lists.isEmpty(adminInsuranceList)}">
 				    			<td colspan="9">등록된 상품이 없습니다.</td>
 				    		</tr>
@@ -46,7 +43,6 @@
 	                      </table>
 	                    </div>
 	                  </div>
-	                  	 <button type="button" class="btn btn-secondary btn-lg col-md-10 col-sm-12 a-center" style="float: right;" >수정하기</button>
 	                </div>
 	  </th:block>
 </html>
