@@ -15,6 +15,7 @@ import ks45team03.rentravel.admin.service.AdminUserService;
 import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
+import ks45team03.rentravel.dto.RemoveAccount;
 import ks45team03.rentravel.dto.Search;
 import ks45team03.rentravel.dto.SleeperAccount;
 import ks45team03.rentravel.dto.User;
@@ -126,8 +127,17 @@ public class AdminUserController {
 	}
 	
 	@GetMapping("/removeAccount")
-	public String removeAccount(Model model) {
+	public String removeAccount(Model model
+							   ,@RequestParam(defaultValue="1", required=false) int curPage) {
+		
+		int listCnt = adminUserMapper.removeAccountCnt();
+		Pagination pagination = new Pagination(listCnt, curPage);
+		List<RemoveAccount> removeAccountList = adminUserMapper.removeAccountList();
+		
 		model.addAttribute("title", "탈퇴계정 목록");
+		model.addAttribute("removeAccountList", removeAccountList);
+		model.addAttribute("pagination", pagination);
+		
 		
 		return "admin/userManagement/removeAccount";
 	}

@@ -27,10 +27,16 @@
 		<result property="logoutDate" column="logout_date" />
 	</resultMap>
 	
-	<resultMap type="SleeperAccount" id="SleeperAccountResultMap">
+	<resultMap type="SleeperAccount" id="sleeperAccountResultMap">
 		<id property="sleeperAccountCode" column="sleeper_account_code" />
 		<result property="userId" column="user_id" />
 		<result property="loginDate" column="login_date" />
+	</resultMap>
+	
+	<resultMap type="RemoveAccount" id="removeAccountResultMap">
+		<id property="sleeperAccountCode" column="sleeper_account_code" />
+		<result property="userId" column="user_id" />
+		<result property="removeAccountDate" column="remove_account_date" />
 	</resultMap>
 	
 	<select id="userList" parameterType="map" resultMap="userResultMap">
@@ -179,7 +185,7 @@
 			l.user_id LIKE CONCAT('%', #{searchValue}, '%');
 	</select>
   	
-  	<select id="sleeperAccountList" resultMap="SleeperAccountResultMap">
+  	<select id="sleeperAccountList" resultMap="sleeperAccountResultMap">
   		SELECT
   		 	 @rownum:=@rownum+1 AS num
 		    ,sa.user_id
@@ -233,4 +239,25 @@
 				
 		</foreach>
 	</insert>
+	
+	<select id="removeAccountList" resultMap="removeAccountResultMap">
+		SELECT
+		     @rownum:=@rownum+1 AS num
+			,ra.user_id
+			,ra.remove_account_date
+			,DATEDIFF(NOW(), ra.remove_account_date) AS dateDiff
+		FROM
+			tb_remove_account as ra, (SELECT @rownum:=0) AS TMP
+		ORDER BY num DESC
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize};
+		</if>
+	</select>
+	
+	<select id="removeAccountCnt" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_remove_account;
+	</select>
 </mapper>
