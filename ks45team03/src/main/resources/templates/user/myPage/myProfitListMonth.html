@@ -95,7 +95,7 @@
                         <tr th:unless="${#lists.isEmpty(getUserMonthProfitList)}" th:each="pm : ${getUserMonthProfitList}">                     
                           <td th:text="${pm.userId}"></td>
                           <td th:text="${pm.profitSaveYearMonth}"></td>
-                          <td th:text="${pm.profitMonthTotal}"></td>       
+                          <td th:text="${'₩' + #numbers.formatInteger(pm.profitMonthTotal, 1, 'COMMA')}"></td>       
                         </tr>
                        <tr th:if="${#lists.isEmpty(getUserMonthProfitList)}">
                        		<td colspan="4">등록된 월별 수익이 없습니다.</td>
