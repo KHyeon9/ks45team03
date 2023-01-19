@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
@@ -124,12 +125,14 @@ public class UserController {
 			LoginInfo loginInfo = new LoginInfo(userId, user.getUserNickName(), user.getUserLevelName());
 			
 			session.setAttribute("S_USER_INFO", loginInfo);
+			
+			LoginInfo userInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+			userMapper.loginHistory(userInfo.getLoginId());
 		}
 		
 		return redirectURI;
 		
 	}
-	
 	
 	@GetMapping("/login")
 	public String login(Model model
@@ -144,7 +147,9 @@ public class UserController {
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
 		
-		session.invalidate();
+			LoginInfo loginId = (LoginInfo) session.getAttribute("S_USER_INFO");
+			session.invalidate();
+			userMapper.logoutHistory(loginId.getLoginId());
 		
 		return "redirect:/";
 	}
