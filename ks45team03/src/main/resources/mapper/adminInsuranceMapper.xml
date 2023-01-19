@@ -47,6 +47,11 @@
 		<result property="insurancePayoutDate" column="insurance_payout_date" />
 	</resultMap>
 	
+	<resultMap type="InsuranceBillState" id="adminInsuranceBillStateResultMap">
+		<id property="insuranceBillStateCode" column="insurance_bill_state_code" />
+		<result property="insuranceBillStateName" column="insurance_bill_state_name" />
+	</resultMap>
+	
 	<select id="adminGetInsuranceList" resultMap="adminInsuranceResultMap">
 		/* 보험 정보 조회 */
 		SELECT
@@ -115,8 +120,9 @@
 				ip.insurance_payout_code;
 	</select>
 	
-	
-	
-
+	<select id="adminGetInsuranceBillStateList" resultMap="adminInsuranceBillStateResultMap">
+		SELECT *
+		from tb_insurance_bill_state;
+	</select>
 	
 </mapper>

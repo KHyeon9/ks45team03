@@ -5,106 +5,163 @@
   
 	  <th:block layout:fragment="customContents">
 	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
+	  	
+	 <style>
+	  	.table-bordered {
+			margin-bottom: 4rem;
+		}
+	  	
+		.table-bordered th {
+			background-color: #f0f0f0;
+		}
+		.text-end {
+ 			 text-align: right !important;
 
-	  	<!-- MAIN CONTENT SECTION -->
-	      <section class="mainContent clearfix blogPage">
-	        <div class="container">
-	        	<h1>보험금청구서수정</h1>
-	        	<hr class="my-4"><br/>
-	        	
-
-	      		<form id="modifyInsuranceBillForm" th:action="@{/insurance/insuranceModifyBill}" method="post" th:each="l: ${insuranceBillDetail}">
-	      			<div class="form-group row">
-						<label for="example-text-input" class="col-md-1 col-form-label text-center">보험코드</label>
-						<div class="col-md-11 selectOptions">
-							<input class="form-control" type="text" placeholder="홍길동" th:value="${l.insuranceCode}" readonly>
-						</div>
-						<hr class="my-4"><br/>
-					</div>
-	      			
-	      			<h4>1. 인적사항</h4><br/><br/>
-						<div class="form-group row text-center" th:object="${l.user}">
-							<label for="example-text-input" class="col-md-1 col-form-label text-center">성명</label>
-							<div class="col-md-11">
-								<input class="form-control" type="text" placeholder="홍길동" th:value="*{userPhoneNumber}">
-							</div>
-							<label for="example-text-input" class="col-md-1 col-form-label">이메일</label>
-							<div class="col-md-11">
-								<input class="form-control" type="text" placeholder="email@example.com" th:value="*{userEmail}">
-							</div>
-							<label for="example-text-input" class="col-md-1 col-form-label">연락처</label>
-							<div class="col-md-11">
-								<input class="form-control" type="text" placeholder="000-0000-0000" th:value="*{userPhoneNumber}">
-							</div>
-							<label for="example-text-input" class="col-md-1 col-form-label" >주소</label>
-							<div class="col-md-11">
-								<input class="form-control" type="text" placeholder="address" th:value="*{userAddrDesc}">
-							</div>
-						</div>
-						<hr class="my-4">
-					
-						<h4>2. 사고사항</h4><br/><br/>
-						<div class="form-group row">
-							<label for="example-text-input text-center" class="col-md-1 col-form-label">사고유형</label>
-							<div class="col-md-11 selectOptions mb-4">
-								<select name="accidentType" class="form-control select-drop">
-									<option disabled selected>사고유형</option>
-									<option value="분실" th:selected="${l.accidentType == '분실' }">분실</option>
-									<option value="파손" th:selected="${l.accidentType == '파손'} ">파손</option>
-								</select>
-							</div>
-							<label for="example-datetime-local-input text-center" class="col-md-1 col-form-label">사고일시</label>
-							<div class="col-md-11">
-								<input class="form-control" type="datetime-local" id="example-datetime-local-input" th:value="${l.accidentDate}">
-							</div>
-							<label for="example-text-input text-center" class="col-md-1 col-form-label">사고내용</label>
-							<div class="col-md-11">
-								<textarea class="form-control" placeholder="Contents" cols="50" rows="10" th:text="${l.accidentContent}"></textarea>
-							</div>
-						</div>
-						<hr class="my-4">
-						
-						<h4>3. 계좌정보</h4><br/><br/>
-						<div class="form-group row text-center">
-							<label for="example-text-input" class="col-md-1 col-form-label">은행</label>
-							<div class="col-md-11">
-								<input class="form-control" type="text" placeholder="Bank" th:value="${l.bankName}">
-							</div>
-							<label for="example-text-input" class="col-md-1 col-form-label">예금주</label>
-							<div class="col-md-11">
-								<input class="form-control" type="text" placeholder="Number" th:value="${l.accountHolder}">
-							</div>
-							<label for="example-text-input" class="col-md-1 col-form-label">계좌번호</label>
-							<div class="col-md-11">
-								<input class="form-control" type="text" placeholder="홍길동" th:value="${l.accountNumber}">
-							</div>
-						</div>
-						<hr class="my-4"><br/>
-						
-						<div class="form-group row mb-4">
-							<label for="example-text-input" class="col-md-1 col-form-label">첨부파일</label>
-							<div class="col-md-11">
-								<input class="form-control"  type="file" id="fileUpload" />
-							</div>
-						</div>
-
-						<div class="form-group row text-center">
-							<label for="example-text-input" class="col-md-1 col-form-label">알림</label>
-							<input id="checkbox-1" class="checkbox-custom form-check-input" name="checkbox-1" type="checkbox" checked>
-							<label for="checkbox-1" class="checkbox-custom-label form-check-label">E-mail</label>
-						</div>
-						
-						<div class="form-group row">
-							<a th:href="@{/insurance/insuranceaddBillPersonInfo}" class="btn btn-primary btn-default card-btn billBtn" style="margin-right:auto; ">이전</a>
-							<button type="submit" class="btn btn-primary btn-default card-btn billBtn" style="margin-left:auto;">제출</button>
-						</div>
-					</form>
-				</div>
-	      </section>
-	  </th:block>
-	  <th:block layout:fragment="customScript">
-		<script th:inline="javascript">
+		}
+		
+		
+		@media screen and (max-width: 800px) {				
+			.iconInsuranceProcess {
+				display: none;
+			}
 			
+		}
+		input {
+			border:none;
+			text-align: center;
+		}
+		    		
+	</style>
+ 	<!-- MAIN CONTENT SECTION -->
+     <section class="mainContent clearfix blogPage">
+       <div class="container">
+       	<h1>보험금청구서수정</h1>
+		<th:block th:if="${not #lists.isEmpty(insuranceBillDetail)}" th:each="l: ${insuranceBillDetail}">
+     		<form id="modifyInsuranceBillForm" th:action="@{/insurance/insuranceModifyBill}" method="post">
+		    	<h4>01. 인적사항</h4><br/>
+			    <table class="table table-bordered">
+		            <tr class="text-center" >
+		                <th class="col-md-3">성명</th>
+		             <th:block th:object="${l.user}">
+		                <td class="col-md-3" >
+		                	<input type="text" placeholder="Number" name="userName" th:value="*{userName}" readonly/>
+		                </td>
+					 </th:block>
+		                <th class="col-md-3">이메일</th>
+					 <th:block th:object="${l.user}">
+		                <td class="col-md-3" >
+		                	<input type="text" placeholder="Email" name="userEmail" th:value="*{userEmail}" readonly/>
+		                </td>
+					 </th:block>
+		            </tr>
+		            <tr class="text-center">
+		            	<th>연락처</th>
+		                <th:block th:object="${l.user}">
+		                	<td class="col-md-3">
+		                		<input type="text" placeholder="Email" name="userPhoneNumber" th:value="*{userPhoneNumber}" readonly/>
+		                	</td>
+					 	</th:block>
+		                <th>주소</th>
+		                <th:block th:object="${l.user}">
+		                	<td class="col-md-3">
+		                		<input type="text" placeholder="Email" name="userAddrDesc" th:value="*{userAddrDesc}" readonly/>
+		                	</td>
+					 	</th:block>
+		            </tr>
+		          </table>
+		          <div class="row">
+		          	<div class="col">
+		          	<h4>02. 보험정보</h4><br/>
+			     	 </div>
+			      </div>
+			      <table class="table table-bordered">
+		            <tr class="text-center">
+		                <th class="col-md-3">보험코드</th>
+		                <td class="col-md-3">
+		                	<input type="text" name="insuranceCode" th:value="${l.insuranceCode}" readonly/>
+		                </td>
+		                <th class="col-md-3">청구서코드</th>
+		                <td class="col-md-3">
+		                	<input type="text" name="insuranceBillDetailCode" th:value="${l.insuranceBillDetailCode}" readonly/>
+		                </td>
+		            </tr>
+		            <tr class="text-center">
+		            	<th class="col-md-3">상품코드</th>
+		                <td class="col-md-3">
+		                	<input type="text" name="goodsCode" th:value="${l.goodsCode}" readonly/>
+		                </td>
+		                <th class="col-md-3">상품명</th>
+		                <th:block th:object="${l.goods}">
+		                	<td class="col-md-3">
+		                		<input type="text" name="goodsName" th:value="*{goodsName}" readonly/>
+		                	</td>
+		                </th:block> 	
+		            </tr>
+		          </table>
+		          <h4>03. 사고사항</h4><br/>
+		          <table class="table table-bordered">
+		            <tr class="text-center">
+		                <th class="col-sm-3">사고유형</th>
+		                <td class="col-sm-3">
+							<select class="text-center" name="accidentType" style="width:100%; border:none;">
+								<option value="분실" th:selected="${l.accidentType == '분실' }">분실</option>
+								<option value="파손" th:selected="${l.accidentType == '파손'} ">파손</option>
+							</select>
+						</td>
+		                <th class="col-md-3">사고일시</th>
+		                <td class="col-md-3">
+		                	<input type="datetime-local" id="example-datetime-local-input" name="accidentDate" th:value="${l.accidentDate}"/>
+		                </td>
+		            </tr>
+		            <tr class="text-center">
+		            	<th class="col-md-3">사고내용</th>
+		                <td colspan="3">
+		                	<textarea placeholder="Contents" name="accidentContent" th:text="${l.accidentContent}" rows="10"
+		                				style="width:100%; border:none; padding:5px;"></textarea>
+		                </td>
+		            </tr>
+		           </table>
+		           <h4>04. 계좌정보</h4><br/>
+		           <table class="table table-bordered">
+		            <tr class="text-center">
+		                <th class="col-md-2">은행명</th>
+		                <td class="col-md-2">
+		                	<input type="text" placeholder="Bank" name="bankName" th:value="${l.bankName}"/>
+		                </td>
+		                <th class="col-md-2">예금주</th>
+		                <td class="col-md-2">
+		                	<input type="text" placeholder="Number" name="accountHolder" th:value="${l.accountHolder}"/>
+		                </td>
+		                <th class="col-md-2">계좌번호</th>
+		                <td class="col-md-2">
+		                	<input type="text" placeholder="홍길동" name="accountNumber" th:value="${l.accountNumber}"/>
+		                </td>
+		            </tr>
+			      </table>
+			      	<h4>05. 첨부파일</h4><br/>
+					<table class="table table-bordered">
+						<tr>
+							<th class="col-md-2 text-center">첨부파일</th>
+							<td class="col-md-10">
+			                	<input type="file" id="fileUpload"/>
+			             	</td>
+			             </tr>
+					</table>
+
+					<h5>06. 알림</h5><br/>
+					<input id="checkbox-1" class="checkbox-custom form-check-input" name="checkbox-1" type="checkbox" checked>
+					<label for="checkbox-1" class="checkbox-custom-label form-check-label">E-mail</label>
+					
+					<br/><br/>
+					<button type="submit" class="btn btn-primary btn-default card-btn billBtn float-right">제출</button>
+				</form>
+			</th:block>
+		</div>
+     </section>
+    </th:block>
+	<th:block layout:fragment="customScript">
+		<script th:inline="javascript">
+		
 		</script>
 	</th:block>
 </html>

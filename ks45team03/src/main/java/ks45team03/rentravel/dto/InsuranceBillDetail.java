@@ -17,7 +17,22 @@ public class InsuranceBillDetail {
 	
 	User user;
 	Goods goods;
+	InsuranceBill insuranceBill;
+	InsuranceBillState insuranceBillState;
 	
+	public InsuranceBillState getInsuranceBillState() {
+		return insuranceBillState;
+	}
+	public void setInsuranceBillState(InsuranceBillState insuranceBillState) {
+		this.insuranceBillState = insuranceBillState;
+	}
+	
+	public InsuranceBill getInsuranceBill() {
+		return insuranceBill;
+	}
+	public void setInsuranceBill(InsuranceBill insuranceBill) {
+		this.insuranceBill = insuranceBill;
+	}
 	public User getUser() {
 		return user;
 	}
@@ -113,10 +128,10 @@ public class InsuranceBillDetail {
 	public String toString() {
 		return "InsuranceBillDetail [insuranceBillDetailCode=" + insuranceBillDetailCode + ", insuranceCode="
 				+ insuranceCode + ", userId=" + userId + ", goodsCode=" + goodsCode + ", paymentCode=" + paymentCode
-				+ ", accidentCode=" + accidentDate + ", accidentType=" + accidentType + ", accidentContent="
+				+ ", accidentDate=" + accidentDate + ", accidentType=" + accidentType + ", accidentContent="
 				+ accidentContent + ", insuranceEvidence=" + insuranceEvidence + ", bankName=" + bankName
 				+ ", accountHolder=" + accountHolder + ", accountNumber=" + accountNumber + ", requestDate="
-				+ requestDate + "]";
+				+ requestDate + ", user=" + user + ", goods=" + goods + ", insuranceBill=" + insuranceBill + "]";
 	}
 	
 	

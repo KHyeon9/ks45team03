@@ -20,7 +20,6 @@
 <th:block layout:fragment="customContents">
 	<!-- page content -->
 	<div class="right_col" role="main">
-
 			<div class="row">
 				<div class="col-md-12 col-sm-12 ">
 					<div class="x_panel">
@@ -29,14 +28,12 @@
 							<h2>
 								공지사항
 							</h2>
+						</div>
 							<button id="submitBtn" class="btn btn-light" type="submit" style="float: right">등록</button>
 							<input id="userId" name="userId" th:value="${loginId}" hidden="hidden">
 							<div class="clearfix"></div>
-						</div>
-							<div class="form-group row ">
 								<div class="col-md-12 col-sm-12 ">
 									<input type="text" id="noticeBoardTitle" name="noticeBoardTitle" class="form-control" placeholder="제목을 입력해 주세요.">
-								</div>
 							</div>
 						<div class="x_content">
 								<div id="alerts"></div>

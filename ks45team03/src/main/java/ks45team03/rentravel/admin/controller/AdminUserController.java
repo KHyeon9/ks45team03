@@ -14,6 +14,10 @@ import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.admin.service.AdminUserService;
 import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.dto.Pagination;
+import ks45team03.rentravel.dto.RemoveAccount;
+import ks45team03.rentravel.dto.Search;
+import ks45team03.rentravel.dto.SleeperAccount;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.UserLevel;
 import ks45team03.rentravel.mapper.AdminUserMapper;
@@ -86,26 +90,54 @@ public class AdminUserController {
 	}
 	
 	@GetMapping("/loginHistory")
-	public String loginHistory(Model model, HttpSession session) {
+	public String loginHistory(Model model
+							  ,HttpSession session
+							  ,@RequestParam(defaultValue="1", required=false) int curPage
+							  ,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
 		
-		List<LoginHistory> loginHistory = adminUserMapper.loginHistory();
+		int listCnt = adminUserMapper.loginHistoryCnt(searchValue);
+		Pagination pagination = new Pagination(listCnt, curPage);
+		Search search = new Search(searchValue);
+		List<LoginHistory> loginHistory = adminUserMapper.loginHistory(pagination.getStartIndex(), pagination.getPageSize(), searchValue);
 		
 		model.addAttribute("title", "로그인 이력");
 		model.addAttribute("loginHistory", loginHistory);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("search", search);
 		
 		return "admin/userManagement/loginHistory";
 	}
 	
 	@GetMapping("/sleeperAccount")
-	public String sleeperAccount(Model model) {
+	public String sleeperAccount(Model model
+			 					,@RequestParam(defaultValue="1", required=false) int curPage
+			 					,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
+		
+		int listCnt = adminUserMapper.sleeperAccountCnt(searchValue);
+		Pagination pagination = new Pagination(listCnt, curPage);
+		Search search = new Search(searchValue);
+		List<SleeperAccount> sleeperAccountList = adminUserMapper.sleeperAccountList(pagination.getStartIndex(), pagination.getPageSize(), searchValue);
+		
 		model.addAttribute("title", "휴면계정 목록");
+		model.addAttribute("sleeperAccountList", sleeperAccountList);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("search", search);
 		
 		return "admin/userManagement/sleeperAccount";
 	}
 	
 	@GetMapping("/removeAccount")
-	public String removeAccount(Model model) {
+	public String removeAccount(Model model
+							   ,@RequestParam(defaultValue="1", required=false) int curPage) {
+		
+		int listCnt = adminUserMapper.removeAccountCnt();
+		Pagination pagination = new Pagination(listCnt, curPage);
+		List<RemoveAccount> removeAccountList = adminUserMapper.removeAccountList();
+		
 		model.addAttribute("title", "탈퇴계정 목록");
+		model.addAttribute("removeAccountList", removeAccountList);
+		model.addAttribute("pagination", pagination);
+		
 		
 		return "admin/userManagement/removeAccount";
 	}

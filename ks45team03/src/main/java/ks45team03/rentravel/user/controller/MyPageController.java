@@ -25,6 +25,7 @@ import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Profit;
 import ks45team03.rentravel.dto.ProfitDay;
 import ks45team03.rentravel.dto.ProfitMonth;
+import ks45team03.rentravel.dto.ProfitSearch;
 import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
@@ -231,6 +232,15 @@ public class MyPageController {
 		return "user/myPage/myWishList";
 	}
 	
+	// 주문 취소 확인
+	@PostMapping("/rentalCancelCheck")
+	public String rentalCancelCheck(String paymentCode) {
+		
+		orderService.cancelCheckOwner(paymentCode);
+		
+		return "redirect:/myPage/myRentList";
+	}
+	
 	// 주문 취소
 	@PostMapping("/rentalCancel")
 	public String rentalCancel(String paymentCode, HttpSession session) {
@@ -386,6 +396,24 @@ public class MyPageController {
 		return "user/myPage/addMyOrderWaybill";
 	}
 	
+	// 반납 직거래 완료
+	@PostMapping("/directTransactionReturn")
+	public String directTransactionReturn(String paymentCode) {
+		
+		orderService.directTransactionReturn(paymentCode);
+		
+		return "redirect:/myPage/myRentList";
+	}
+
+	// 주문 직거래 완료
+	@PostMapping("/directTransactionOrder")
+	public String directTransactionOrder(String paymentCode) {
+		
+		orderService.directTransactionOrder(paymentCode);
+		
+		return "redirect:/myPage/myOrderList";
+	}
+	
 	// 상품 주문 목록
 	@GetMapping("/myOrderList")
 	public String myOrderHistory(HttpServletResponse response,
@@ -481,13 +509,21 @@ public class MyPageController {
 										,@RequestParam(defaultValue="1", required=false) int curPage
 										,@RequestParam(value="searchYear", required = false) String searchYear
 										,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
-										,@RequestParam(value="searchDay", required = false, defaultValue = "") String searchDay) {
+										,@RequestParam(value="searchDay", required = false, defaultValue = "") String searchDay
+										,@RequestParam(value="searchId", required = false, defaultValue = "") String searchId) {
+		
+		if(searchDay.length() == 1) {
+					
+					searchDay = "0" + searchDay;
+				}
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		int listCnt = userProfitMapper.dayProfitListCnt(loginUser.getLoginId());
+		int listCnt = userProfitMapper.dayProfitListCnt(loginUser.getLoginId(),searchYear,searchMonth,searchDay);
 		
 		Pagination pagination = new Pagination(listCnt, curPage);
-		List<ProfitDay> getUserDayProfitList = profitService.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
+		ProfitSearch profitSearch = new ProfitSearch(searchId, searchYear, searchMonth, searchDay);
+		
+		List<ProfitDay> getUserDayProfitList = userProfitMapper.getUserDayProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth, searchDay);
 		
 		System.out.println(searchYear+"년도");
 		System.out.println(searchDay+"<-일");
@@ -498,6 +534,7 @@ public class MyPageController {
 		model.addAttribute("loginNickName",loginNickName);
 		model.addAttribute("getUserDayProfitList",getUserDayProfitList);
 		model.addAttribute("pagination",pagination);
+		model.addAttribute("profitSearch",profitSearch);
 		
 		return "user/myPage/myProfitListDay";
 		
@@ -510,13 +547,18 @@ public class MyPageController {
 											,@RequestParam(defaultValue="1", required=false) int curPage
 											,@RequestParam(value="searchYear", required = false) String searchYear
 											,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
+											,@RequestParam(value="searchDay", required = false, defaultValue = "") String searchDay
+											,@RequestParam(value="searchId", required = false, defaultValue = "") String searchId
 											) {
 
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		int listCnt =  userProfitMapper.MonthProfitListCnt(loginUser.getLoginId());
+		int listCnt =  userProfitMapper.MonthProfitListCnt(loginUser.getLoginId(),searchYear,searchMonth);
+		
 			
 		Pagination pagination = new Pagination(listCnt, curPage);
+		ProfitSearch profitSearch = new ProfitSearch(searchId, searchYear, searchMonth, searchDay);
+		
 		List<ProfitMonth> getUserMonthProfitList = userProfitMapper.getUserMonthProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear, searchMonth);
 		
 		String loginNickName = loginUser.getLoginNickName();
@@ -525,6 +567,7 @@ public class MyPageController {
 		model.addAttribute("loginNickName",loginNickName);
 		model.addAttribute("getUserMonthProfitList",getUserMonthProfitList);
 		model.addAttribute("pagination",pagination);
+		model.addAttribute("profitSearch",profitSearch);
 		
 		return "user/myPage/myProfitListMonth";
 		
@@ -536,12 +579,17 @@ public class MyPageController {
 										,HttpSession session
 										,@RequestParam(defaultValue="1", required=false) int curPage	
 										,@RequestParam(value="searchYear", required = false, defaultValue = "") String searchYear
+										,@RequestParam(value="searchMonth", required = false, defaultValue = "") String searchMonth
+										,@RequestParam(value="searchDay", required = false, defaultValue = "") String searchDay
+										,@RequestParam(value="searchId", required = false, defaultValue = "") String searchId
 										) {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		int listCnt = userProfitMapper.YearProfitListCnt(loginUser.getLoginId());
+		int listCnt = userProfitMapper.YearProfitListCnt(loginUser.getLoginId(),searchYear);
 		
 		Pagination pagination = new Pagination(listCnt, curPage);
+		ProfitSearch profitSearch = new ProfitSearch(searchId, searchYear, searchMonth, searchDay);
+		
 		List<ProfitYear> getUserYearProfitList = userProfitMapper.getUserYearProfitList(loginUser.getLoginId(), pagination.getStartIndex(), pagination.getPageSize(), searchYear);
 		
 		String loginNickName = loginUser.getLoginNickName();
@@ -550,6 +598,7 @@ public class MyPageController {
 		model.addAttribute("loginNickName",loginNickName);
 		model.addAttribute("getUserYearProfitList",getUserYearProfitList);
 		model.addAttribute("pagination",pagination);
+		model.addAttribute("profitSearch",profitSearch);
 		
 		return "user/myPage/myProfitListYear";
 	}

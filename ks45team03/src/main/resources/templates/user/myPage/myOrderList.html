@@ -67,21 +67,37 @@
 	                          <th:block>
 		                          <td th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}"><span class="badge badge-warning">결제완료</span></td>
 		                          <td th:if="${order.orderStateName == '결제 취소'}"><span class="badge badge-warning">결제취소</span></td>
+		                          <td th:if="${order.orderStateName == '취소 확인'}"><span class="badge badge-warning">취소확인</span></td>
+		                          <td th:if="${order.orderStateName == '취소 후 환불완료'}"><span class="badge badge-danger">환불완료</span></td>
 		                          <td th:if="${order.orderStateName == '배송중(오너)'}"><span class="badge badge-info">배송중</span></td>
 		                          <td th:if="${order.orderStateName == '배송중(렌터)'}"><span class="badge badge-info">반납중</span></td>
 		                          <td th:if="${order.orderStateName == '사용중(배송완료)'}"><span class="badge badge-primary">사용중</span></td>
 		                          <td th:if="${order.orderStateName == '반납완료'}"><span class="badge badge-success">반납완료</span></td>
-		                          <td th:if="${order.orderStateName == '취소 후 환불완료'}"><span class="badge badge-danger">취소</span></td>
 		                      </th:block>
 		                      <td th:text="${order.rentalOrderDate}"></td>
 	                          <td>
-		                          <a th:if="${order.orderStateName == '사용중(배송완료)'}" th:href="@{/myPage/addMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">배송입력</a>
+		                          <form 
+		                          	th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" 
+		                          	class="readyPaymentForm" 
+		                          	method="POST" 
+		                          	role="form">
+	                          		<input th:value="${order.payment.paymentCode}" name="paymentCode" type="hidden">
+		                            <button 
+		                            	th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'} and ${order.selectDelivery == 'N'}" 
+		                            	type="button"
+		                            	class="btn btn-sm btn-secondary-outlined directTranBtn">
+		                            		수령
+		                            </button>
+	                          		<button  
+	                          			type="button" 
+	                          			id="rentalCancelBtn" 
+	                          			class="btn btn-sm btn-secondary-outlined rentalCancelBtn">
+	                          				환불
+	                          		</button>
+	                          	  </form>
+		                          <a th:if="${order.orderStateName == '사용중(배송완료)'} and ${order.selectDelivery == 'Y'}" th:href="@{/myPage/addMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">배송입력</a>
 		                          <button th:if="${order.orderStateName == '배송중(오너)'}" data-toggle="modal"  th:data-payment-code ="${order.payment.paymentCode}" data-target=".checkDelivery" class="btn btn-sm btn-secondary-outlined checkDeliveryBtn">배송확인</button>
 		                          <!-- <a th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" th:href="@{/myPage/returnMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">환불</a> -->
-		                          <form th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" id="cancelForm" action="/myPage/rentalCancel" method="POST" role="form">
-	                          		<input th:value="${order.payment.paymentCode}" name="paymentCode" type="hidden">
-	                          		<button  type="submit" id="rentalCancelBtn" class="btn btn-sm btn-secondary-outlined">환불</button>
-	                          	</form>
 	                          </td>
 	                        </tr>
 	                      </tbody>
@@ -155,6 +171,18 @@
 	  <!-- 사용자 지정 js script -->
 	  <th:block layout:fragment="customScript">
 		<script type="text/javascript">
+			$('.rentalCancelBtn').click(function(){
+				const form = $(this).parent('form.readyPaymentForm'); 
+				form.attr('action','/myPage/rentalCancel');
+				form.submit();
+			})
+			
+			$('.directTranBtn').click(function(){
+				const form = $(this).parent('form.readyPaymentForm'); 
+				form.attr('action','/myPage/directTransactionOrder');
+				form.submit();
+			})
+			
 			$('.checkDeliveryBtn').click(function(){
 				const paymentCode = $(this).attr('data-payment-code');
 				
@@ -167,13 +195,13 @@
 						console.log("성공");
 						console.log(JSON.stringify(data));
 						if(data.courierName != null && data.waybillNumber != null){
+							$('.receiptDiv').children().remove();
 							$('.courierName').val(data.courierName);
 							$('.waybillNumber').val(data.waybillNumber);	
 							const returnBtn = $('<button type="submit" class="btn btn-primary btn-block">반납확인</button>');
 							const paymentCodeInput = $('<input value="' + data.paymentCode + '" type="hidden" name="paymentCode" />');
 							$('.receiptDiv').append(returnBtn);
 							$('.receiptDiv').append(paymentCodeInput);
-							
 						}
 					},
 		   			error: function(e) {

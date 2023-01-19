@@ -45,6 +45,13 @@
 		<result property="regionSggName" column="region_sgg_name" />
 	</resultMap>
 	
+	<resultMap type="LoginHistory" id="loginHistoryResultMap">
+		<id property="loginCode" column="login_code" />
+		<result property="userId" column="user_id" />
+		<result property="loginDate" column="login_date" />
+		<result property="logoutDate" column="logout_date" />
+	</resultMap>
+	
 	<update id="ModifyuserInfo" parameterType="User">
 		UPDATE 
 			tb_user AS u
@@ -161,4 +168,27 @@
 		WHERE
 			u.user_nickname = #{userNickName};
 	</select>
+
+	<insert id="loginHistory" parameterType="String">
+		INSERT INTO 
+			tb_login(login_code, user_id, login_date)
+		VALUES
+			(
+				sf_new_login_code(), #{loginId}, NOW()
+			)	
+	</insert>	
+	
+	<update id="logoutHistory" parameterType="String">
+		UPDATE 
+			tb_login AS l
+		SET
+			l.logout_date = NOW()
+		WHERE
+			l.user_id = #{loginId}
+		ORDER BY 
+			l.login_date DESC
+		LIMIT 1;
+	</update>
+	
+	
 </mapper>

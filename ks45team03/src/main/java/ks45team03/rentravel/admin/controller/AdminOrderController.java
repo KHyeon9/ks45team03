@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.admin.service.AdminOrderService;
+import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
@@ -140,6 +142,20 @@ public class AdminOrderController {
 		model.addAttribute("waybillRenter", waybillRenter);
 		
 		return "admin/order/adminWaybillModifyRenter";
+	}
+	
+	// 환불 완료
+	@PostMapping("/refundCheck")
+	public String refundCheck(RentalCancel rentalCancel, HttpSession session) {
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO"); 
+		String loginId = loginInfo.getLoginId();
+		
+		rentalCancel.setRefundUserId(loginId);
+		
+		adminOrderService.checkRefound(rentalCancel);
+		
+		return "redirect:/admin/order/adminRentalcancelHistory";
 	}
 	
 	// 주문 취소 내역 조회 

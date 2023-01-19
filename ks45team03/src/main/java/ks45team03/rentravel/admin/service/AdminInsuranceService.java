@@ -30,41 +30,5 @@ public class AdminInsuranceService {
 	}
 	
 	
-	/**
-	 * 보상금청구서 등록
-	 * @return int
-	 */
-	public int adminAddInsuranceBillDetail() {
-		
-		return adminInsuranceMapper.adminAddInsuranceBillDetail();
-	}
-	
-	/**
-	 * 보상금청구서 수정
-	 * @return int
-	 */
-	public int adminModifyInsuranceBillDetail() {
-		
-		return adminInsuranceMapper.adminModifyInsuranceBillDetail();
-	}
-	
-	/**
-	 * 보상금청구서 삭제
-	 */
-	public void adminRemoveInsuranceBillDetail() {
-		
-		adminInsuranceMapper.adminRemoveInsuranceBillDetail();
-	}
-	
-	/**
-	 * 보상금청구상태 갱신
-	 * @return int
-	 */
-	
-	public int adminModifyInsuranceBillState() {
-		
-		return adminInsuranceMapper.adminModifyInsuranceBillState();
-	}
-	
 	
 }

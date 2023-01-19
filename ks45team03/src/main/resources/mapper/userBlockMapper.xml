@@ -57,7 +57,7 @@
 			)
 		VALUES 
 			(
-			sf_new_block_code(), #{loginId},#{userId}, CURDATE()
+			sf_new_block_code(), #{loginId},#{userId}, NOW()
 			);
 		</insert>
 		
@@ -73,7 +73,7 @@
 			tb_block AS b
 		WHERE 
 		 b.blocking_user_id = #{loginId}
-		ORDER BY b.block_date
+		ORDER BY b.block_date DESC
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize};
 		</if>

@@ -114,13 +114,13 @@ public interface UserProfitMapper {
 	public List<Profit> getUserProfitList (String loginId, int startIndex, int pageSize);
 	
 	/* 연별 회원 수익 목록 행 갯수 */
-	public int YearProfitListCnt (String loginId);
+	public int YearProfitListCnt (String loginId, String searchYear);
 	
 	/* 월별 회원 수익 목록 행 갯수 */
-	public int MonthProfitListCnt (String loginId);
+	public int MonthProfitListCnt (String loginId,String searchYear, String searchMonth);
 	
 	/* 일별 회원 수익 목록 행 갯수 */
-	public int dayProfitListCnt (String loginId);
+	public int dayProfitListCnt (String loginId,String searchYear, String searchMonth, String searchDay);
 	
 	/* 회원 수익 목록 행 갯수 */
 	public int profitListCnt (String loginId);
