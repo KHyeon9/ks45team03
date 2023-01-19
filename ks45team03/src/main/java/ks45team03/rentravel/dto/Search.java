@@ -14,6 +14,10 @@ public class Search {
 		 this.searchValue = searchValue; 
 		 }
 	 
+	 public Search(String searchValue) {
+		 this.searchValue = searchValue; 
+	}
+
 	private String searchKey;
 	private String searchValue;
 }

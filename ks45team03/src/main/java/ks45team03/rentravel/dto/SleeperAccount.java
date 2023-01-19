@@ -7,13 +7,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LoginHistory {
+public class SleeperAccount {
 	
 	private int num;
-	private String loginCode;
+	private String sleeperAccountCode;
 	private String userId;
-	private String loginDate;
-	private String logoutDate;
-	private int dateDiff;
-	
+	private int loginDate;
+	private String lastLoginDate;
+
 }
