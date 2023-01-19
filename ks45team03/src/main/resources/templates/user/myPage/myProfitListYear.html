@@ -5,8 +5,14 @@
 	  
 	  <head>
 		<style type="text/css">
-			th, td {
+			th,td {
 				text-align: center !important;
+				width: 16%;
+				table-layout: fixed;
+			}
+			#myProfit2 th{
+				width: auto !important;
+				
 			}
 		</style>
 	</head>	  
@@ -67,85 +73,81 @@
 					</form>
                 </div>
                   <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="myProfit1" th:unless="${#lists.isEmpty(getUserYearProfitList)}" th:each="py : ${getUserYearProfitList}" style="margin-bottom: 30px;">
+                     
+		              <div class="ml-2" style="font-size: 25px; margin-bottom: 10px;"><i class="fa fa-calendar"></i><span th:text="| ${py.ownerProfitYear}년  |" style="margin-left: 5px"></span></div>
+		              
                       <thead>
                         <tr>                         
-                          <th>ID</th>
-                          <th>연도</th>
                           <th>1월</th>
                           <th>2월</th>
                           <th>3월</th>
                           <th>4월</th>
                           <th>5월</th>
                           <th>6월</th>
-                          <th>7월</th>
-                          <th>8월</th>
-                          <th>9월</th>
-                          <th>10월</th>
-                          <th>11월</th>
-                          <th>12월</th>
-                          <th>연별총수익</th>
-                          
+                         </tr>
+                      </thead>
+                      <tbody>         
+                        <tr style="text-align: center;">      
+                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitJanuary, 1, 'COMMA')}"></td>
+                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitFebruary, 1, 'COMMA')}"></td>       
+                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitMarch, 1, 'COMMA')}"></td>
+                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitApril, 1, 'COMMA')}"></td>
+                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitMay, 1, 'COMMA')}"></td>       
+                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitJune, 1, 'COMMA')}"></td>
+                         </tr>                        
+                      </tbody>
+                    	<thead>
+                    		<tr>
+	                          <th>7월</th>
+	                          <th>8월</th>
+	                          <th>9월</th>
+	                          <th>10월</th>
+	                          <th>11월</th>
+	                          <th>12월</th>
+	                        </tr>
+                    	</thead>  
+                    	<tbody>
+                    		 <tr style="text-align: center;">       
+	                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitJuly, 1, 'COMMA')}"></td>
+	                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitAugust, 1, 'COMMA')}"></td>       
+	                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitSeptember, 1, 'COMMA')}"></td>
+	                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitOctober, 1, 'COMMA')}"></td>
+	                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitNovember, 1, 'COMMA')}"></td>       
+	                          <td th:text="${'₩' + #numbers.formatInteger(py.ownerProfitDecember, 1, 'COMMA')}"></td>
+	                        </tr>
+                    	</tbody> 
+                    	<tfoot style="font-weight: 900; font-size:14px; border-bottom: 1px solid black;">
+                    		<tr>
+                   				<td colspan="6" th:text="|연별총수익 :  ${'₩' + #numbers.formatInteger(py.ownerProfitYearTotal, 1, 'COMMA')}|" style="text-align: right !important"></td>
+                    		</tr>
+                    	</tfoot>
+                    </table>
+                     <table class="table" id="myProfit2" th:if="${#lists.isEmpty(getUserYearProfitList)}">
+                      <thead>
+                        <tr>                         
+	                        <th>1월</th>
+	                        <th>2월</th>
+	                        <th>3월</th>
+	                        <th>4월</th>
+	                        <th>5월</th>
+	                        <th>6월</th>
+	                        <th>7월</th>
+	                        <th>8월</th>
+	                        <th>9월</th>
+	                        <th>10월</th>
+	                        <th>11월</th>
+	                        <th>12월</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr th:unless="${#lists.isEmpty(getUserYearProfitList)}" th:each="py : ${getUserYearProfitList}">      
-                          <td th:text="${py.userId}"></td>             
-                          <td th:text="${py.ownerProfitYear}"></td>
-                          <td th:text="${py.ownerProfitJanuary}"></td>
-                          <td th:text="${py.ownerProfitFebruary}"></td>       
-                          <td th:text="${py.ownerProfitMarch}"></td>
-                          <td th:text="${py.ownerProfitApril}"></td>
-                          <td th:text="${py.ownerProfitMay}"></td>       
-                          <td th:text="${py.ownerProfitJune}"></td>
-                          <td th:text="${py.ownerProfitJuly}"></td>
-                          <td th:text="${py.ownerProfitAugust}"></td>       
-                          <td th:text="${py.ownerProfitSeptember}"></td>
-                          <td th:text="${py.ownerProfitOctober}"></td>
-                          <td th:text="${py.ownerProfitNovember}"></td>       
-                          <td th:text="${py.ownerProfitDecember}"></td>
-                          <td th:text="${py.ownerProfitYearTotal}"></td>
-                                                                                
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(getUserYearProfitList)}">
-                       		<td colspan="15">등록된 연별 수익이 없습니다.</td>
-                       </tr>
-                       
-                      </tbody>
-                    </table>
+                   	  <tbody>
+                   		<tr>
+                     		<td colspan="12" style="text-align:center">등록된 연별 수익이 없습니다.</td>
+                     	</tr>
+                   	  </tbody>
+                       </table> 
                   </div>
                 </div>
-                 <!-- 페이징 -->
-      			<div style="margin-top: 50px; display: flex; justify-content: center;" class="blogPage">
-		          <div class="col-sm-6">
-							<div class="text-left">
-								<ul class="pagination" style="justify-content: center;">
-									<li th:if="${pagination.curRange != 1}">
-										<a th:href="@{/myPage/myProfitListYear}" aria-label="First"><span aria-hidden="true"><<</span></a>
-									</li>
-									<li th:if="${pagination.curPage != 1}">
-										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
-									</li>
-									
-									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
-										<li class="active" th:if="${pageNum == pagination.curPage}">
-											<a th:text="${pageNum}"></a>
-										</li>
-										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
-											<a th:href="@{/myPage/myProfitListYear(curPage=${pageNum})}" th:text="${pageNum}"></a>
-										</li>
-									</th:block>
-
-									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
-									</li>
-									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-										<a th:href="@{/myPage/myProfitListYear(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
-									</li>
-								</ul>
-							</div>
-						</div>
-		        </div>
               </div>
             </div>
           </div>

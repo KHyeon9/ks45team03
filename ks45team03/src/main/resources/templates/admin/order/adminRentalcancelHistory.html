@@ -38,8 +38,10 @@
 	                   		<tr class="even pointer" th:if="${cancelState.index % 2 == 0}">
 					  		  <td th:text="${cancel.cancelUserId}"></td>
 					  		  <td th:text="${cancel.rentalCancelSignupDate}"></td>
-					  		  <td th:text="${cancel.refundUserId}"></td>
-					  		  <td th:text="${cancel.refundCancelSignupDate}"></td>
+					  		  <td th:if="${cancel.refundUserId} != null" th:text="${cancel.refundUserId}"></td>
+					  		  <td th:unless="${cancel.refundUserId} != null">환불전</td>
+					  		  <td th:if="${cancel.refundCancelSignupDate} != null" th:text="${cancel.refundCancelSignupDate}"></td>
+					  		  <td th:unless="${cancel.refundCancelSignupDate} != null">환불전</td>
 					  		  <td th:text="${cancel.ownerCancelSignupCheckDate}"></td>
 					  		  <td th:text="${cancel.refundWay}"></td>
 					  		  <td th:text="${cancel.refundMoney}"></td>

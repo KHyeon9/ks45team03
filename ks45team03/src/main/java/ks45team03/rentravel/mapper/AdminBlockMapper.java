@@ -13,7 +13,7 @@ public interface AdminBlockMapper {
 	
 	
 	/* 회원 차단 목록 행 갯수 */
-	public int getBlockListCnt();
+	public int getBlockListCnt(String searchKey, String searchValue);
 	
 	/* 회원 차단 목록 조회 */
 	public List<Block>adminGetUserBlockList (int startIndex, int pageSize, String searchKey, String searchValue);

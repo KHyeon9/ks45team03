@@ -45,9 +45,9 @@
           <div class="row">
             <div class="col-12">
               <div class="btn-group" role="group" aria-label="..." style="float: right";>
-                <a th:href="@{/myPage/myProfitListDay}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
-                <a th:href="@{/myPage/myProfitListMonth}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
-                <a th:href="@{/myPage/myProfitListYear}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>연별 수익</a>
+                <a th:href="@{/myPage/myProfitListDay}" class="btn btn-default" id="myProfitListDay"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
+                <a th:href="@{/myPage/myProfitListMonth}" class="btn btn-default" id="myProfitListMonth"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
+                <a th:href="@{/myPage/myProfitListYear}" class="btn btn-default" id="myProfitListYear"><i class="bi bi-calendar-check" aria-hidden="true"></i>연별 수익</a>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@
 						<div class="col-md-3">
 							<input class="form-control" name="searchDay" type="text" placeholder="일">
 						</div>
-						<button type="submit" class="btn btn-primary btn-lg">조회</button>
+						<button type="submit" class="btn btn-primary btn-lg" name="searchBtn" >조회</button>
 					</div>
 					</form>
                   <div class="table-responsive">                               
@@ -98,7 +98,7 @@
                       <tbody>
                         <tr th:unless="${#lists.isEmpty(getUserDayProfitList)}" th:each="pd : ${getUserDayProfitList}">                                             
                           <td th:text="${pd.userId}"></td>
-                          <td th:text="${pd.profitDayTotal}"></td>                           
+                          <td th:text="${'₩' + #numbers.formatInteger(pd.profitDayTotal, 1, 'COMMA')}"></td>                           
                           <td th:text="|20${#strings.substring(pd.profitDayGroup,10,12)}-${#strings.substring(pd.profitDayGroup,12,14)}-${#strings.substring(pd.profitDayGroup,14,16)}|"></td>                        
                         </tr>
                         <tr th:if="${#lists.isEmpty(getUserDayProfitList)}">
@@ -115,10 +115,12 @@
 							<div class="text-left">
 								<ul class="pagination" style="justify-content: center;">
 									<li th:if="${pagination.curRange != 1}">
-										<a th:href="@{/myPage/myProfitListDay}" aria-label="First"><span aria-hidden="true"><<</span></a>
+										<a th:href="@{/myPage/myProfitListDay(searchYear=${profitSearch.searchYear}
+																			,searchMonth=${profitSearch.searchMonth}, searchDay=${profitSearch.searchDay})}" aria-label="First"><span aria-hidden="true"><<</span></a>
 									</li>
 									<li th:if="${pagination.curPage != 1}">
-										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.prevPage}, searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth}, searchDay=${profitSearch.searchDay})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
 									</li>
 									
 									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
@@ -126,15 +128,18 @@
 											<a th:text="${pageNum}"></a>
 										</li>
 										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
-											<a th:href="@{/myPage/myProfitListDay(curPage=${pageNum})}" th:text="${pageNum}"></a>
+											<a th:href="@{/myPage/myProfitListDay(curPage=${pageNum}, searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth}, searchDay=${profitSearch.searchDay})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
 
 									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.nextPage}, searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth}, searchDay=${profitSearch.searchDay})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
 									</li>
 									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+										<a th:href="@{/myPage/myProfitListDay(curPage=${pagination.pageCnt}, searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth}, searchDay=${profitSearch.searchDay})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
 									</li>
 								</ul>
 							</div>

@@ -65,8 +65,8 @@
                       <tbody>
                         <tr th:unless="${#lists.isEmpty(getUserProfitList)}" th:each="pl : ${getUserProfitList}">                                               
                           <td th:text="${pl.userId}"></td>
-                          <td th:text="${pl.profitAmountSave}"></td>
-                          <td th:text="${pl.profitTotal}"></td>
+                          <td th:text="${'₩' + #numbers.formatInteger(pl.profitAmountSave, 1, 'COMMA')}"></td>	                     
+                          <td th:text="${'₩' + #numbers.formatInteger(pl.profitTotal, 1, 'COMMA')}"></td>
                           <td th:text="${pl.profitSaveTime}"></td>
                          
                         </tr>

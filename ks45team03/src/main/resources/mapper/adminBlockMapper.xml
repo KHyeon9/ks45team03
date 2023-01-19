@@ -19,7 +19,12 @@
 		SELECT 
 			COUNT(1)
 		FROM
-			tb_block;
+			tb_block
+		<where>
+			<if test="searchKey != null and searchKey != ''">		
+				${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+			</if>
+		</where>
 	</select>
 	
 	
@@ -38,7 +43,7 @@
 		</if>
 	</where>
 	
-	ORDER BY LENGTH(SUBSTRING(block_code,6)),SUBSTRING(block_code,6)
+	ORDER BY LENGTH(SUBSTRING(block_code,6)),SUBSTRING(block_code,6) DESC
 		
 	<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize};

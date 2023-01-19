@@ -1,6 +1,5 @@
 package ks45team03.rentravel.user.service;
 
-import java.util.Iterator;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +12,11 @@ import ks45team03.rentravel.dto.InfoBoard;
 import ks45team03.rentravel.dto.InfoBoardComment;
 import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.InfoBoardMapper;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 public class InfoBoardService{
 	// 의존성 주입
 	private final InfoBoardMapper infoBoardMapper;
@@ -81,8 +82,33 @@ public class InfoBoardService{
 	}
 	
 	// 게시글 수정
-	public int modifyInfoBoard(InfoBoard infoBoard) {
-		return infoBoardMapper.modifyInfoBoard(infoBoard);
+	public int modifyInfoBoard(InfoBoard infoBoard, MultipartFile[] uploadfile, String fileRealPath) {
+		int result = 0;
+		
+		if (!infoBoard.getFileGroupCode().equals("")) {
+		List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
+		
+			result += infoBoardMapper.removeFileGroupData(infoBoard.getFileGroupCode());
+			result += infoBoardMapper.removeFileData(fileCodeList);
+		}
+		
+		log.info("upload : {}, filePath {}", uploadfile, fileRealPath);
+		
+		List<FileDto> fileList =  fileService.fileUpload(uploadfile, fileRealPath);
+		String fileGroupCode = commonNewCode.getCommonNewCode("tb_file_group", "file_group_code");
+		
+		
+		if (fileList != null) {
+			for(FileDto fileInfo : fileList) {
+				String fileCode =  fileInfo.getFileCode();
+				fileService.addFileGroup(fileGroupCode, fileCode);
+			}
+			infoBoard.setFileGroupCode(fileGroupCode);
+		}
+		
+		infoBoardMapper.modifyInfoBoard(infoBoard);
+		
+		return result;
 	}
 	
 	// 게시글 등록

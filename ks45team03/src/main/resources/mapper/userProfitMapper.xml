@@ -435,8 +435,12 @@
 			COUNT(1)
 		FROM
 			tb_profit_year AS py
-		WHERE
-			py.user_id = #{loginId};
+		<where>
+		py.user_id = #{loginId}
+		<if test="searchYear != null and searchYear != ''">	
+			and py.owner_profit_year = #{searchYear}				
+		</if>
+	</where>
 	</select>
 	
 	<select id="MonthProfitListCnt" parameterType="String" resultType="int">
@@ -445,8 +449,15 @@
 			COUNT(1)
 		FROM
 			tb_profit_month AS pm
-		WHERE
-			pm.user_id = #{loginId};
+		<where>
+			pm.user_id = #{loginId}
+			<if test="searchYear != null and searchYear != ''">	
+				and substring(pm.profit_month_group,11,2) = substring(#{searchYear},3,2)				
+			</if>
+			<if test="searchYear != null and searchYear != ''">
+				and substring(pm.profit_month_group,13,2) = #{searchMonth}
+			</if>					
+		</where>
 	
 	</select>
 	
@@ -457,8 +468,19 @@
 			COUNT(1)
 		FROM
 			tb_profit_day AS pd
-		WHERE
-			pd.user_id = #{loginId};
+		<where>
+			pd.user_id = #{loginId}
+			<if test="searchYear != null and searchYear != ''">	
+				and substring(pd.profit_day_group,11,2) = substring(#{searchYear},3,2)				
+			</if>
+			<if test="searchYear != null and searchYear != ''">
+				and substring(pd.profit_day_group,13,2) = #{searchMonth}
+			</if>			
+			<if test="searchYear != null and searchYear != '' and searchDay != null and searchDay != ''">
+				and substring(pd.profit_day_group,15,2) = #{searchDay}
+			</if>
+		</where> 
+			
 	</select>
 	
 	

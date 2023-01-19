@@ -20,7 +20,6 @@ public class Review {
 	
 	private String goodsName;
 
-	private int checkReviewCount;
 	
 	private User user;
 

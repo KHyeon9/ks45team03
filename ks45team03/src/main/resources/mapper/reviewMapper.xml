@@ -14,8 +14,6 @@
 		<result property="goodsEvaluation" 		column="goods_evaluation"/>
 		<result property="reviewRegDate" 		column="review_reg_date"/>
 		
-		<result property="checkReviewCount" 		column="check_review"/>
-		
 		<association property="user" javaType="User" >
 			
 			<id property="userId" 			column="user_id"/>
@@ -40,7 +38,10 @@
 		WHERE
 			r.goods_code = #{goodsCode}
 		order by
-			r.review_reg_date desc;
+			r.review_reg_date desc
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize}
+		</if>
 			
 	</select>
 
@@ -75,17 +76,48 @@
 
 	</delete>
 	
-	<select id="checkReview" resultType="int">
+	<select id="checkReviewCount" resultType="int">
 	
 		SELECT
-			COUNT(1) as check_review
+			COUNT(1)
 		FROM
 			tb_review
 		WHERE
 			user_id = #{loginId}
-			and
+		AND
 			goods_code = #{goodsCode};
+	
+	</select>
+	
+	
+	<select id="checkTradeStatus" resultType="int">	
+	
+		SELECT
+			COUNT(1)
+		FROM
+			tb_payment AS p
+		WHERE
+			p.goods_code = #{goodsCode}
+		AND
+			p.user_id = #{loginId}
+		AND
+			p.trade_status_code = 'trade_status6';
+			
+	</select>
+	
+	<select id="getReviewListCount" resultType="int">
 		
+		SELECT
+			COUNT(1)
+		FROM
+			tb_review AS r
+		JOIN
+			tb_user AS u
+		ON
+			r.user_id =  u.user_id
+		WHERE
+			r.goods_code = #{goodsCode};
+	
 	</select>
 	
 </mapper> 

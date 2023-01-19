@@ -95,7 +95,7 @@
                         <tr th:unless="${#lists.isEmpty(getUserMonthProfitList)}" th:each="pm : ${getUserMonthProfitList}">                     
                           <td th:text="${pm.userId}"></td>
                           <td th:text="${pm.profitSaveYearMonth}"></td>
-                          <td th:text="${pm.profitMonthTotal}"></td>       
+                          <td th:text="${'₩' + #numbers.formatInteger(pm.profitMonthTotal, 1, 'COMMA')}"></td>       
                         </tr>
                        <tr th:if="${#lists.isEmpty(getUserMonthProfitList)}">
                        		<td colspan="4">등록된 월별 수익이 없습니다.</td>
@@ -110,10 +110,12 @@
 							<div class="text-left">
 								<ul class="pagination" style="justify-content: center;">
 									<li th:if="${pagination.curRange != 1}">
-										<a th:href="@{/myPage/myProfitListMonth}" aria-label="First"><span aria-hidden="true"><<</span></a>
+										<a th:href="@{/myPage/myProfitListMonth(searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth})}" aria-label="First"><span aria-hidden="true"><<</span></a>
 									</li>
 									<li th:if="${pagination.curPage != 1}">
-										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.prevPage}, searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
 									</li>
 									
 									<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
@@ -121,15 +123,18 @@
 											<a th:text="${pageNum}"></a>
 										</li>
 										<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
-											<a th:href="@{/myPage/myProfitListMonth(curPage=${pageNum})}" th:text="${pageNum}"></a>
+											<a th:href="@{/myPage/myProfitListMonth(curPage=${pageNum}, searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth})}" th:text="${pageNum}"></a>
 										</li>
 									</th:block>
 
 									<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
-										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.nextPage}, searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
 									</li>
 									<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
-										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+										<a th:href="@{/myPage/myProfitListMonth(curPage=${pagination.pageCnt}, searchYear=${profitSearch.searchYear}
+																				,searchMonth=${profitSearch.searchMonth})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
 									</li>
 								</ul>
 							</div>
