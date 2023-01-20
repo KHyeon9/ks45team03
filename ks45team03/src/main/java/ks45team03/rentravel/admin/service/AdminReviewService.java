@@ -22,4 +22,19 @@ public class AdminReviewService {
 		
 		return adminReviewList;
 	}
+	
+	public int removeAdminReview(String reviewCode) {
+		
+		return adminReviewMapper.removeAdminReview(reviewCode);
+	}
+	
+	public int removeAdminReviewMileage(String reviewCode) {
+		
+		return adminReviewMapper.removeAdminReviewMileage(reviewCode);
+	}
+	
+	public int removeAdminReviewReport(String reviewCode) {
+		
+		return adminReviewMapper.removeAdminReviewReport(reviewCode);
+	}
 }

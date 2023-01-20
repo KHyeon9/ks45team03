@@ -31,6 +31,16 @@ public class ReviewService {
 		return reviewMapper.modifyReview(review);
 	}
 	
+	public int removeReviewReport(String reviewCode) {
+		
+		return reviewMapper.removeReviewReport(reviewCode);
+	}
+	
+	public int removeReviewMileage(String reviewCode) {
+		
+		return reviewMapper.removeReviewMileage(reviewCode);
+	}
+	
 	public int removeReview(String reviewCode) {
 		
 		return reviewMapper.removeReview(reviewCode);

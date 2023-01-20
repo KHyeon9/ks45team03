@@ -38,5 +38,36 @@
 			r.goods_code = g.goods_code;
 	
 	</select>
+	
+	<delete id="removeAdminReviewReport" parameterType="String">
+	
+		delete
+		from
+			tb_report_review
+		where
+			review_code = #{reviewCode};
+	
+	</delete>
+
+	<delete id="removeAdminReviewMileage" parameterType="String">
+	
+		delete
+		from
+			tb_mileage_review_save
+		where
+			review_code = #{reviewCode};
+	
+	</delete>
+	
+	
+	<delete id="removeAdminReview" parameterType="String">
+	
+		delete
+		from
+			tb_review
+		where
+			review_code = #{reviewCode};
+	
+	</delete>
 
 </mapper>
