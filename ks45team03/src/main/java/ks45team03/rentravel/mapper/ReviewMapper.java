@@ -15,6 +15,8 @@ public interface ReviewMapper {
 	
 	public int modifyReview(Review review);
 	
+	public int removeReviewReport(String reviewCode);
+	public int removeReviewMileage(String reviewCode);
 	public int removeReview(String reviewCode);
 	
 	public int checkReviewCount(String goodsCode, String loginId);
