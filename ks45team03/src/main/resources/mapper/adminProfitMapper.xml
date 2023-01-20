@@ -78,7 +78,7 @@
 		<if test="searchYear != null and searchYear != ''">	
 			and py.owner_profit_year = #{searchYear}				
 		</if>
-		<if test="searchYear != null and searchYear != ''">
+		<if test="searchId != null and searchId != ''">
 				and py.user_id LIKE CONCAT('%', #{searchId}, '%')
 		</if>
 	</where>
@@ -103,10 +103,10 @@
 			<if test="searchYear != null and searchYear != ''">	
 				and substring(pm.profit_month_group,11,2) = substring(#{searchYear},3,2)				
 			</if>
-			<if test="searchYear != null and searchYear != ''">
+			<if test="searchMonth != null and searchMonth != ''">
 				and substring(pm.profit_month_group,13,2) = #{searchMonth}
 			</if>	
-			<if test="searchYear != null and searchYear != ''">
+			<if test="searchId != null and searchId != ''">
 				and pm.user_id LIKE CONCAT('%', #{searchId}, '%')
 			</if>				
 		</where>
@@ -131,13 +131,13 @@
 			<if test="searchYear != null and searchYear != ''">	
 				substring(pd.profit_day_group,11,2) = substring(#{searchYear},3,2)				
 			</if>
-			<if test="searchYear != null and searchYear != ''">
+			<if test="searchMonth != null and searchMonth != ''">
 				and substring(pd.profit_day_group,13,2) = #{searchMonth}
 			</if>			
-			<if test="searchYear != null and searchYear != '' and searchDay != null and searchDay != ''">
+			<if test="searchDay != null and searchDay != ''">
 				and substring(pd.profit_day_group,15,2) = #{searchDay}
 			</if>
-			<if test="searchYear != null and searchYear != '' and searchDay != null and searchDay != ''">
+			<if test="searchId != null and searchId != ''">
 				and pd.user_id LIKE CONCAT('%', #{searchId}, '%')
 			</if>
 		</where>
@@ -182,7 +182,7 @@
 		<if test="searchYear != null and searchYear != ''">	
 			and py.owner_profit_year = #{searchYear}				
 		</if>
-		<if test="searchYear != null and searchYear != ''">
+		<if test="searchId != null and searchId != ''">
 				and py.user_id LIKE CONCAT('%', #{searchId}, '%')
 		</if>
 	</where>
@@ -199,10 +199,10 @@
 			<if test="searchYear != null and searchYear != ''">	
 				and substring(pm.profit_month_group,11,2) = substring(#{searchYear},3,2)				
 			</if>
-			<if test="searchYear != null and searchYear != ''">
+			<if test="searchMonth != null and searchMonth != ''">
 				and substring(pm.profit_month_group,13,2) = #{searchMonth}
 			</if>	
-			<if test="searchYear != null and searchYear != ''">
+			<if test="searchId != null and searchId != ''">
 				and pm.user_id LIKE CONCAT('%', #{searchId}, '%')
 			</if>				
 		</where>
@@ -218,13 +218,13 @@
 			<if test="searchYear != null and searchYear != ''">	
 				substring(pd.profit_day_group,11,2) = substring(#{searchYear},3,2)				
 			</if>
-			<if test="searchYear != null and searchYear != ''">
+			<if test="searchMonth != null and searchMonth != ''">
 				and substring(pd.profit_day_group,13,2) = #{searchMonth}
 			</if>			
-			<if test="searchYear != null and searchYear != '' and searchDay != null and searchDay != ''">
+			<if test="searchDay != null and searchDay != ''">
 				and substring(pd.profit_day_group,15,2) = #{searchDay}
 			</if>
-			<if test="searchYear != null and searchYear != '' and searchDay != null and searchDay != ''">
+			<if test="searchId != null and searchId != ''">
 				and pd.user_id LIKE CONCAT('%', #{searchId}, '%')
 			</if>
 		</where>
