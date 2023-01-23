@@ -18,6 +18,7 @@
 		                  <th class="column-title">보상금청구상태이름코드</th>
 		                  <th class="column-title">상태업데이트날짜</th>
 		                  <th class="column-title">상태바꾸기</th>
+		                  <th class="column-title">보상금지급</th>
 		                </tr>
 		              </thead>
 		              <tbody>
@@ -26,10 +27,11 @@
 		                    <td th:text="${l.insuranceBillCode}"></td>
 							  <td th:text="${l.userId}"></td>
 							  <td th:text="${l.insuranceBillDetailCode}"></td>
-							  <td class="${l.insuranceBillStateCode}" th:text="${l.insuranceBillStateCode}"></td>
+							  <td class="${l.insuranceBillStateCode} insuranceBillStateCode" th:text="${l.insuranceBillStateCode}"></td>
 							  <td th:text="${l.insuranceBillModifyDate}"></td>
 			  				<td><button class="btn btn-dark btnChange" id="btnChange" value="변경">변경</button></td>
-			                  </tr>
+			  				<td><a class="btn btn-dark" th:href="@{/admin/insurance/adminAddInsurancePayout/{insuranceBillCode}(insuranceBillCode=${l.insuranceBillCode})}">지급</a></td>
+			             </tr>
 		                 </th:block>
 		                 <tr th:unless="${not #lists.isEmpty(adminInsuranceBillList)}">
 			<td colspan="9">등록된 상품이 없습니다.</td>
@@ -43,15 +45,24 @@
 	  	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
 			$(function() {
+				for(i = 0; i < $('tbody tr').length; i++){
+					var tdClassStr = 'insuranceBillState' + i.toString();
+					var btnClassStr = 'btnChange' + i.toString();
+					$('.insuranceBillStateCode')[i].classList.add(tdClassStr);
+					$('.btnChange')[i].classList.add(btnClassStr);
+					console.log($('.insuranceBillStateCode')[i].classList);
+					console.log($('.btnChange')[i].classList);
+					
+					
+				}
 				  $('.btnChange').click( function() {
-					  
-					  console.log($(this));
+					  console.log($(this).classList);
 					  console.log($(this).val());
-				    if($(this).val() == '변경' ) {
-				      $(this).val('확인');
-				      $(this).text('확인');
+					  if($(this).val() == '변경' ) {
+				      	$(this).val('확인');
+				      	$(this).text('확인');
 						//td를 select로 변경
-						$('${l.insuranceBillStateCode}').replaceWith('<td class="changeInsuranceBillStateCode"><select id="selectInsuranceBillStateCode"></select></td>');
+						$("").replaceWith('<td class="changeInsuranceBillStateCode"><select id="selectInsuranceBillStateCode"></select></td>');
 						
 						//adminInsuranceBillState 리스트를 받아옴
 						request = $.ajax({

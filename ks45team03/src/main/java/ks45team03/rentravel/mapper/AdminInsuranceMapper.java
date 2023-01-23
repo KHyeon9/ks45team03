@@ -22,6 +22,9 @@ public interface AdminInsuranceMapper {
 	// 보상금청구서리스트
 	public List<InsuranceBill> adminGetInsuranceBillList();
 	
+	// 보상금청구서리스트(insuranceBillCode)
+	public List<InsuranceBill> adminGetInsuranceBillInfoByCode(String insuranceBillCode);
+	
 	//보상금청구상태리스트
 	public List<InsuranceBillState> adminGetInsuranceBillStateList();
 	
@@ -31,12 +34,15 @@ public interface AdminInsuranceMapper {
 	// 보상금지급내역
 	public List<InsurancePayout> adminGetInsurancePayoutList();
 	
+	// 보상금지급내역(보상금지급코드)
+	public List<InsurancePayout> adminGetInsurancePayoutInfoByCode(String insurancePayoutCode);
+	
 	// 보상금지급내역 등록
 	public int adminAddInsurancePayout(InsurancePayout insurancePayout);
 	
 	// 보상금지급내역 수정
-	public int adminModifyInsurancePayout();
+	public int adminModifyInsurancePayout(InsurancePayout insurancePayout);
 		
 	// 보상금지급내역 삭제
-	public int adminRemoveInsurancePayout();
+	public int adminRemoveInsurancePayout(String insurancePayout);
 }

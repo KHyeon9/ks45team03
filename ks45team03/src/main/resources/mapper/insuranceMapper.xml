@@ -451,6 +451,7 @@
 				ip.insurance_payout_code;
 	</select>
 	
+	
 	<delete id="removeInsuranceBillDetail" parameterType="String">
 		/*보상금 접수증 삭제*/
 		DELETE FROM

@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks45team03.rentravel.dto.ReportGoods;
-import ks45team03.rentravel.dto.ReportState;
-import ks45team03.rentravel.dto.ReportType;
 import ks45team03.rentravel.mapper.ReportMapper;
 import lombok.AllArgsConstructor;
 
