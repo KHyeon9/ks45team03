@@ -3,6 +3,7 @@ package ks45team03.rentravel.user.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.RegionSgg;
@@ -107,14 +109,16 @@ public class UserController {
 					   ,RedirectAttributes reAttr
 					   ,HttpSession session
 					   ,HttpServletRequest request
-					   ,HttpServletResponse response) {
+					   ,HttpServletResponse response
+					   ,Authentication authentication) {
 		
 		Map<String, Object> checkResult = userService.checkPwByUserId(userId, userPw);
 		
 		boolean isChecked = (boolean) checkResult.get("result");
+		String redirectURI;
 		
-		String redirectURI = "redirect:/";
-		
+		redirectURI = "redirect:" + session.getAttribute("referer");
+		System.out.println(session.getAttribute("referer"));
 		// 비밀번호 미일치시
 		if(!isChecked) {
 			redirectURI = "redirect:/login";
@@ -138,7 +142,17 @@ public class UserController {
 	// 로그인 화면
 	@GetMapping("/login")
 	public String login(Model model
-					   ,@RequestParam(value="msg", required=false) String msg) {
+					   ,@RequestParam(value="msg", required=false) String msg
+					   ,HttpServletRequest request
+					   ,HttpSession session) {
+		
+		String referer = request.getHeader("Referer");
+		
+		if (!referer.contains("/login")) {
+			session.setAttribute("referer", referer);
+			System.out.println("실행됨");
+			System.out.println(session.getAttribute("referer"));
+	    }
 		
 		model.addAttribute("title", "login");
 		if(msg != null) model.addAttribute("msg", msg);
