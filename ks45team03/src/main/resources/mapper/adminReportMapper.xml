@@ -12,7 +12,6 @@
 		<result property="reportStateCode" column="report_state_code" />
 		<result property="reportingUserId" column="reporting_user_id" />
 		<result property="reportedUserId" column="reported_user_id" />
-		<result property="reportCommentContent" column="report_comment_content" />
 		<result property="reportCommentDatetime" column="report_comment_datetime" />
 		<association property="reportType" javaType="ReportType">
 			<id property="reportTypeCode" column="report_type_code" />
@@ -31,7 +30,6 @@
 		<result property="reportStateCode" column="report_state_code" />
 		<result property="reportingUserId" column="reporting_user_id" />
 		<result property="reportedUserId" column="reported_user_id" />
-		<result property="reportGoodsContent" column="report_goods_content" />
 		<result property="reportGoodsDateTime" column="report_goods_datetime" />
 		<association property="reportType" javaType="ReportType">
 			<id property="reportTypeCode" column="report_type_code" />
@@ -50,7 +48,6 @@
 		<result property="reportStateCode" column="report_state_code" />
 		<result property="reportingUserId" column="reporting_user_id" />
 		<result property="reportedUserId" column="reported_user_id" />
-		<result property="reportInfoBoardContent" column="report_info_board_content" />
 		<result property="reportInfoBoardDatetime" column="report_info_board_datetime" />
 		<association property="reportType" javaType="ReportType">
 			<id property="reportTypeCode" column="report_type_code" />
@@ -70,7 +67,6 @@
 		<result property="reportStateCode" column="report_state_code" />
 		<result property="reportingUserId" column="reporting_user_id" />
 		<result property="reportedUserId" column="reported_user_id" />
-		<result property="reportReviewContent" column="report_review_content" />
 		<result property="reportReviewDatetime" column="report_review_datetime" />
 		<association property="reportType" javaType="ReportType">
 			<id property="reportTypeCode" column="report_type_code" />
@@ -89,7 +85,6 @@
 			,c.info_board_comment_code
 			,c.reporting_user_id
 			,c.reported_user_id
-			,c.report_comment_content
 			,c.report_comment_datetime
 			,t.report_type
 			,s.report_state_name
@@ -113,7 +108,6 @@
 			,g.goods_code
 			,g.reporting_user_id
 			,g.reported_user_id
-			,g.report_goods_content
 			,g.report_goods_datetime
 			,t.report_type
 			,s.report_state_name
@@ -137,7 +131,6 @@
 			,b.info_board_code
 			,b.reporting_user_id
 			,b.reported_user_id
-			,b.report_info_board_content
 			,b.report_info_board_datetime
 			,t.report_type
 			,s.report_state_name
@@ -162,7 +155,6 @@
 			,r.review_code
 			,r.reporting_user_id
 			,r.reported_user_id
-			,r.report_review_content
 			,r.report_review_datetime
 			,t.report_type
 			,s.report_state_name
