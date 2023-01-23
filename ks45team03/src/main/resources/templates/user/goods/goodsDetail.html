@@ -62,22 +62,26 @@
 						<div class="media flex-wrap">
 							
 							<div class="media-body">
+							 <form id="reportGoodsForm" th:action="@{/reportGoods}" method="POST">
 								<h2>신고하기</h2>
 								<p>해당 상품 신고하기</p>
 								<h4>신고사유</h4><br/>
 								<div class="quick-drop selectOptions mb-4">
 									<ul>
-									<li><label><input type="radio" name="reportType" value="광고성 글" >광고성 글</label></li>
-	      							<li><label><input type="radio" name="reportType" value="무분별한 도배" >무분별한 도배</label></li>
-	      							<li><label><input type="radio" name="reportType" value="사기성 글" >사기성 글</label></li>
-	      							<li><label><input type="radio" name="reportType" value="음란성 글" >음란성 글</label></li>
-	      							<li><label><input type="radio" name="reportType" value="욕설 및 혐오 조장 글" >욕설 및 혐오 조장 글</label></li>
+									<li><label><input type="radio" name="reportTypeCode" value="report_type1" >광고성 글</label></li>
+	      							<li><label><input type="radio" name="reportTypeCode" value="report_type2" >무분별한 도배</label></li>
+	      							<li><label><input type="radio" name="reportTypeCode" value="report_type3" >사기성 글</label></li>
+	      							<li><label><input type="radio" name="reportTypeCode" value="report_type4" >음란성 글</label></li>
+	      							<li><label><input type="radio" name="reportTypeCode" value="report_type5" >욕설 및 혐오 조장 글</label></li>
 	      							</ul>
+	      							<input name="goodsCode" th:value="${goodsDetail.goodsCode}" hidden="hidden">
+	      							<input name="userId" th:value="${goodsDetail.userId}" hidden="hidden">
       							</div>
 								
 								<div class="btn-area" style="display: inline-block; margin: 0 5px;  float: right; text-align:right; ">
-									<a href="#" class="btn btn-primary btn-block">신고하기 <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+									<button type="button" class="btn btn-primary btn-block" id="reportGoodsBtn">신고하기 <i class="fa fa-angle-right" aria-hidden="true"></i></button>
 								</div>
+							</form>
 							</div>
 						</div>
 					</div>
@@ -172,9 +176,10 @@
                    		
    	               
 	                   		<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId && userBlockedIdCnt == 0}"
-	                   		type="button" class="btn btn-secondary blockBtn" th:data-block-id = "*{userId}">사용자 차단하기</button>
+	                   		type="button" class="btn btn-primary blockBtn" th:data-block-id = "*{userId}">회원 차단</button>
 	                   		<!-- Button trigger modal -->
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#goodsReportModal">상품 신고하기</button>
+							<button th:if="${session.S_USER_INFO != null && session.S_USER_INFO.loginId != goodsDetail.userId}" 
+							type="button" class="btn btn-primary" data-toggle="modal" data-target="#goodsReportModal">상품 신고</button>
                    
                    	
                    <form id="getRentalInfo" action="/order/payment" method="get">
@@ -644,8 +649,79 @@
 	
 			});
 /* ----------------------------------------오경하 차단 기능 javascript-끝---------------------------------------------- */
-		
-		
+/* ----------------------------------------신지혜 차단 기능을 김대현이 하는 javascript-시작--------------------------------- */
+
+ 			$('#reportGoodsBtn').click(function(){
+ 				if($('input[name=reportTypeCode]').is(':checked') == false){
+	 				alert('신고종류를 선택해주세요!');
+	 				return false;
+ 				}else{
+ 					if(!confirm('해당 상품을 정말로 신고하시겠습니까?')){
+ 						return false;
+ 					}else{
+ 						
+ 					  var goodsCode = $('input[name=goodsCode]').val();
+ 					
+					  $.ajax({
+				            type: 'GET',
+				            url: '/reportGoodsAjax?goodsCode=' + goodsCode,
+				            success: function(data) {
+				            	if(data >= 1){
+				            		alert('이미 신고된 상품입니다.');
+				            		$('.close').trigger('click');
+				            		return false;
+				            	}else{
+				            		$('#reportGoodsForm').submit();
+				            	}
+				            },
+				            error: function (e) {
+				                alert("ERROR : " + e);
+				            }
+				        });
+					}
+ 				}
+ 			});
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+/* ----------------------------------------신지혜 차단 기능을 김대현이 하는 javascript-끝---------------------------------- */
+
 		
 		</script>
 	</th:block>

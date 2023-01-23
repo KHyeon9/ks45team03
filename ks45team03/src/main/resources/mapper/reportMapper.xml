@@ -28,7 +28,18 @@
 			tb_report_goods
 		VALUES
 		(
-			sf_new_report_goods_code(), #{reportTypeCode}, #{goodsCode}, 'report_state_1', #{loginId}, #{userId}, NOW()
+			sf_new_report_goods_code(), #{reportTypeCode}, #{goodsCode}, 'report_state1', #{loginId}, #{userId}, NOW()
 		);
 	</insert>
+	
+	<select id="reportGoodsAjax" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_report_goods AS rg
+		WHERE
+			rg.goods_code = #{goodsCode}
+			AND 
+			rg.reporting_user_id = #{loginId};
+	</select>
 </mapper>

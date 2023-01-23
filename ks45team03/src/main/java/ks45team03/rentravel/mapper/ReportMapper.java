@@ -15,5 +15,7 @@ public interface ReportMapper {
 	
 	public List<ReportType> getReportTypeList();
 	
-	public List<ReportGoods> reportGoodsList(String goodsCode, String reportTypeCode, String userId, String loginId);
+	public int reportGoodsList(String goodsCode, String reportTypeCode, String userId, String loginId);
+	
+	public int reportGoodsAjax(String goodsCode, String loginId);
 }
