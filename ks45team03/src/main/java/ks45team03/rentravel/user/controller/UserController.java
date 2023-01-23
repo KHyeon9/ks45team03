@@ -100,6 +100,7 @@ public class UserController {
 		return "user/user/addUser";
 	}
 	
+	// 로그인 처리
 	@PostMapping("/login")
 	public String login(@RequestParam(value="userId") String userId
 					   ,@RequestParam(value="userPw") String userPw
@@ -134,6 +135,7 @@ public class UserController {
 		
 	}
 	
+	// 로그인 화면
 	@GetMapping("/login")
 	public String login(Model model
 					   ,@RequestParam(value="msg", required=false) String msg) {
@@ -144,6 +146,7 @@ public class UserController {
 		return "user/user/login";
 	}	
 	
+	// 로그아웃
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
 		
@@ -153,4 +156,14 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+	
+	// 아이디 찾기
+	@GetMapping("/findId")
+	public String findId(Model model) {
+		
+		model.addAttribute("title", "아이디 찾기");
+		
+		return "user/user/findId";
+	}
+	
 }
