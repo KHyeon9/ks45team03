@@ -97,9 +97,11 @@ public class InsuranceController {
 			
 			model.addAttribute("insuranceCode", insuranceCode);
 			
+			//로그인아이디로 보험리스트조회
 			List<Insurance> insuranceList = insuranceMapper.getInsuranceInfoById(loginId);
 			model.addAttribute("insuranceList", insuranceList);
 			
+			//보험코드로 보험리스트 조회
 			List<Insurance> insuranceInfo = insuranceMapper.getInsuranceInfo(insuranceCode);
 			model.addAttribute("insuranceInfo", insuranceInfo);
 			

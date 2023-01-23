@@ -2,9 +2,11 @@ package ks45team03.rentravel.admin.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,8 @@ import ks45team03.rentravel.dto.InsuranceBillDetail;
 import ks45team03.rentravel.dto.InsuranceBillState;
 import ks45team03.rentravel.dto.InsurancePayout;
 import ks45team03.rentravel.mapper.AdminInsuranceMapper;
+import ks45team03.rentravel.mapper.CommonNewCode;
+import ks45team03.rentravel.user.controller.CommonController;
 
 
 @Controller
@@ -28,9 +32,13 @@ public class AdminInsuranceController {
 	private final AdminInsuranceMapper adminInsuranceMapper;
 	private final AdminInsuranceService adminInsuranceService;
 	
-	public AdminInsuranceController(AdminInsuranceMapper adminInsuranceMapper, AdminInsuranceService adminInsuranceService) {
+	@Autowired
+	private final CommonNewCode commonNewCode;
+	
+	public AdminInsuranceController(AdminInsuranceMapper adminInsuranceMapper, AdminInsuranceService adminInsuranceService, CommonNewCode commonNewCode) {
 		this.adminInsuranceMapper = adminInsuranceMapper;
 		this.adminInsuranceService = adminInsuranceService;
+		this.commonNewCode = commonNewCode;
 	}
 
 	@GetMapping("/adminInsuranceList")
@@ -89,21 +97,83 @@ public class AdminInsuranceController {
 		return "admin/insurance/adminInsurancePayoutList";
 	}
 	
-	@GetMapping("/adminAddInsurancePayout")
-	public String adminAddInsurancePayoutList(Model model) {
+	@ResponseBody
+	@GetMapping("/adminInsurancePayoutCode")
+	public List<InsurancePayout> adminGetInsurancePayoutCode(Model model) {
+		
+		List<InsurancePayout> adminInsurancePayoutCode = adminInsuranceMapper.adminGetInsurancePayoutList();
+		
+		model.addAttribute("adminInsurancePayoutCode", adminInsurancePayoutCode);
+		
+		return adminInsurancePayoutCode;
+	}
+	
+	@GetMapping("/adminAddInsurancePayout/{insuranceBillCode}")
+	public String adminAddInsurancePayoutList(@PathVariable(value="insuranceBillCode") String insuranceBillCode, Model model) {
 		model.addAttribute("title", "보상금지급내역등록");
+		
+		List<InsuranceBill> adminInsuranceBillList = adminInsuranceMapper.adminGetInsuranceBillInfoByCode(insuranceBillCode);
+		System.out.println(adminInsuranceBillList);
+		
+		String newInsurancePayoutCode = commonNewCode.getCommonNewCode("tb_insurance_payout", "insurance_payout_code");
+		
+		model.addAttribute("newInsurancePayoutCode", newInsurancePayoutCode);
+		System.out.println(newInsurancePayoutCode + "<-newInsurancePayoutCode");
+		model.addAttribute("adminInsuranceBillList", adminInsuranceBillList);
 		
 		return "admin/insurance/adminAddInsurancePayout";
 	}
 	
 	@PostMapping("/adminAddInsurancePayout")
 	public String adminAddInsurancePayoutList(InsurancePayout insurancePayout, Model model) {
-		System.out.println("");
+		System.out.println("보상금지급내역등록");
 		model.addAttribute("title", "보상금지급내역등록");
 		
+		System.out.println(insurancePayout);
+
 		adminInsuranceMapper.adminAddInsurancePayout(insurancePayout);
 		
 		return "admin/insurance/adminAddInsurancePayout";
+	}
+	
+	@GetMapping("/adminModifyInsurancePayout")
+	public String adminModifyInsurancePayout(@RequestParam(value="insurancePayoutCode") String insurancePayoutCode, Model model) {
+		
+		model.addAttribute("title", "보상금지급내역수정");
+		
+		List<InsurancePayout> adminInsurancePayoutList = adminInsuranceMapper.adminGetInsurancePayoutInfoByCode(insurancePayoutCode);
+		
+		model.addAttribute("adminInsurancePayoutList", adminInsurancePayoutList);
+		
+		return "admin/insurance/adminModifyInsurancePayout";
+	}
+	
+	@PostMapping("/adminModifyInsurancePayout")
+	public String adminModifyInsurancePayout(InsurancePayout insurancePayout, Model model) {
+		System.out.println("----------보상금지급내역수정-----------");
+		model.addAttribute("title", "보상금지급내역수정");
+		
+		System.out.println(insurancePayout);
+
+		adminInsuranceMapper.adminModifyInsurancePayout(insurancePayout);
+		
+		String redirectURI = "redirect:/admin/insurance/adminInsurancePayoutList";
+		
+		return redirectURI;
+	}
+		
+	@PostMapping("/adminRemoveInsurancePayout")
+	public String adminRemoveInsurancePayout(String insurancePayoutCode) {
+		System.out.println("----------보상금지급내역삭제-----------");
+		
+		System.out.println(insurancePayoutCode);
+		
+		adminInsuranceMapper.adminRemoveInsurancePayout(insurancePayoutCode);
+		
+		String redirectURI = "redirect:/admin/insurance/adminInsurancePayoutList";
+		
+		return redirectURI;
+		
 	}
 	
 }
