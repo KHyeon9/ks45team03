@@ -203,9 +203,9 @@
 							$('.receiptDiv').children().remove();
 							$('.courierName').val(data.courierName);
 							$('.waybillNumber').val(data.waybillNumber);	
-							const returnBtn = $('<button type="submit" class="btn btn-primary btn-block">반납확인</button>');
+							const receiptBtn = $('<button type="submit" class="btn btn-primary btn-block">물품수령</button>');
 							const paymentCodeInput = $('<input value="' + data.paymentCode + '" type="hidden" name="paymentCode" />');
-							$('.receiptDiv').append(returnBtn);
+							$('.receiptDiv').append(receiptBtn);
 							$('.receiptDiv').append(paymentCodeInput);
 						}
 					},
