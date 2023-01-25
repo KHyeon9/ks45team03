@@ -45,24 +45,17 @@
 	  	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
 			$(function() {
-				for(i = 0; i < $('tbody tr').length; i++){
-					var tdClassStr = 'insuranceBillState' + i.toString();
-					var btnClassStr = 'btnChange' + i.toString();
-					$('.insuranceBillStateCode')[i].classList.add(tdClassStr);
-					$('.btnChange')[i].classList.add(btnClassStr);
-					console.log($('.insuranceBillStateCode')[i].classList);
-					console.log($('.btnChange')[i].classList);
-					
-					
-				}
 				  $('.btnChange').click( function() {
-					  console.log($(this).classList);
 					  console.log($(this).val());
 					  if($(this).val() == '변경' ) {
 				      	$(this).val('확인');
 				      	$(this).text('확인');
+				      	var stateCode = $(this).parent().parent().children()[3];
+				      	console.log($(this).parent().parent().children()[3]);
+				      	console.log($(this).parent().parent().childNodes);
 						//td를 select로 변경
-						$("").replaceWith('<td class="changeInsuranceBillStateCode"><select id="selectInsuranceBillStateCode"></select></td>');
+						var str = "<td><select id=" + "selectInsuranceBillStateCode" + "></select></td>";
+						stateCode.replaceWith(str);
 						
 						//adminInsuranceBillState 리스트를 받아옴
 						request = $.ajax({

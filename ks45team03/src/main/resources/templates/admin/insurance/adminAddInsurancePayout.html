@@ -16,7 +16,7 @@
 								<div class="clearfix"></div>
 							</div>
 							<div class="x_content"><br />
-								<form th:action="@{/admin/insurance/adminAddInsurancePayout}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+								<form id="adminAddInsurancePayoutForm" th:action="@{/admin/insurance/adminAddInsurancePayout}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 									<th:block th:if="${not #lists.isEmpty(adminInsuranceBillList)}" th:each="l : ${adminInsuranceBillList}">
 										<div class="item form-group">
 											<label class="col-form-label col-md-5 col-sm-5 label-align" for="first-name">보상금지급코드
@@ -58,7 +58,7 @@
 											<div class="col-md-12 col-sm-12 offset-md-5">
 												<a class="btn btn-primary" type="button" th:href="@{/admin/insurance/adminInsuranceBillList}">Cancel</a>
 												<button class="btn btn-primary" type="reset">Reset</button>
-												<button id="btnSubmitPayout" type="submit" class="btn btn-success">Submit</button>
+												<button id="btnSubmitPayout" type="button" class="btn btn-success">Submit</button>
 											</div>
 										</div>
 									</th:block>
@@ -89,9 +89,11 @@
 								if($('#insuranceBillCode').val() == data[0].insuranceBillCode) {
 									console.log("보험금지급불가능");
 									alert("이미 보험금이 지급된 청구서입니다");
+									return false;
 								}
 								else{
 									console.log("보험금지급가능");
+									adminAddInsurancePayoutForm.submit();
 								}
 			                }
 					  });
