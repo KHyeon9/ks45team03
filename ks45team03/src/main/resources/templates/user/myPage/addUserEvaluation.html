@@ -2,13 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{user/layout/default}">
-<head>
-	<style type="text/css">
-		th, td{
-			text-align: center;
-		}
-	</style>
-</head>
 <th:block layout:fragment="customContents">
 	<!-- LIGHT SECTION -->
 	<section class="lightSection clearfix pageHeader">
@@ -16,7 +9,7 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="page-title">
-						<h2>[[${userNickName}]]님의 평가</h2>
+						<h2>[[${userNickName}]]님에게 매너 칭찬 남기기</h2>
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -38,29 +31,31 @@
 							<div class="card single-block"></div>
 						</div>
 						<div class="display-single_element">
-							<p style="font-size: 18px"><i class="fa fa-thumbs-o-up mr-1"></i>받은 매너 칭찬</p>
-							<table class="table">
-								<thead>
-									<tr>
-										<th>번호</th>
-										<th>매너 종류</th>
-										<th><i class="fa fa-group mr-1"></i>인원</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:Each="ue : ${userEvaluation}">
-										<td th:text="${ue.num}"></td>
-										<td th:text="${ue.userEvaluationTypeName}"></td>
-										<td><i class="fa fa-group mr-1"></i>[[${ue.countEvaluationType}]]명</td>
-									</tr>
-								</tbody>
-							</table>
+							<p style="font-size: 18px"><i class="fa fa-thumbs-o-up mr-1"></i>어떤 점이 좋았나요?</p>
+							<form id="addUserEvaluationForm" action="/myPage/addUserEvaluation" method="post">
+							<input name="userNickName" th:value="${userNickName}" hidden=hidden>
+							    <div class="form-control my-3" th:each="uet : ${userEvaluationList}">
+							   		<input type="checkbox" name="userEvaluationTypeCodeList" th:value="${uet.userEvaluationTypeCode}" th:text="| ${uet.userEvaluationTypeName}|">
+							    </div>
+								<button type="button" id="evaluationBtn" class="btn btn-primary form-control mb-5" style="float: right">칭찬하기</button>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+</th:block>
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript">
+		$('#evaluationBtn').click(function(){
+			if($('input:checkbox[name=userEvaluationTypeCodeList]').is(":checked")== false){
+				alert('선택해주세요.');
+			}else{
+			$('#addUserEvaluationForm').submit();
+			}
+		});
+	
+	</script>
 </th:block>
 </html>

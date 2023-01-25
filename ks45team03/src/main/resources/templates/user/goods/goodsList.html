@@ -137,7 +137,7 @@
 	                    </div>
 	                    <div class="media-body">
 	                      <h4 class="media-heading"><a th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}" th:text="${gl.goodsName}"></a></h4>
-	                      <p th:text="|판매자 닉네임: ${gl.userNickname}|"></p>
+	                      <p>판매자 닉네임 : <a th:href="@{/myPage/myPage(userNickName=${gl.userNickname})}" th:text="${gl.userNickname}" style="color: black"></a></p>
 	                      <h4 th:text="|렌탈 가능 여부: ${gl.goodsRentalAvailability}|"></h4>
 	                      <h4 th:text="|상품 가치: ${gl.goodsValuePrice}|"></h4>
 	                      <h4 th:text="|카테고리: ${gl.goodsCategoryName}|"></h4>
