@@ -15,6 +15,5 @@ public class NoticeBoard {
 	private String userNickName;
 	private String noticeBoardTitle;
 	private String noticeBoardContent;
-	private String noticeBoardFile;
 	private String noticeBoardRegTime;
 }
