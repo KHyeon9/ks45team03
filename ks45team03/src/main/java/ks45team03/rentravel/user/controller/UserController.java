@@ -3,15 +3,13 @@ package ks45team03.rentravel.user.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
@@ -100,20 +97,23 @@ public class UserController {
 		return "user/user/addUser";
 	}
 	
+	// 로그인 처리
 	@PostMapping("/login")
 	public String login(@RequestParam(value="userId") String userId
 					   ,@RequestParam(value="userPw") String userPw
 					   ,RedirectAttributes reAttr
 					   ,HttpSession session
 					   ,HttpServletRequest request
-					   ,HttpServletResponse response) {
+					   ,HttpServletResponse response
+					   ,Authentication authentication) {
 		
 		Map<String, Object> checkResult = userService.checkPwByUserId(userId, userPw);
 		
 		boolean isChecked = (boolean) checkResult.get("result");
+		String redirectURI;
 		
-		String redirectURI = "redirect:/";
-		
+		redirectURI = "redirect:" + session.getAttribute("referer");
+		System.out.println(session.getAttribute("referer"));
 		// 비밀번호 미일치시
 		if(!isChecked) {
 			redirectURI = "redirect:/login";
@@ -134,9 +134,18 @@ public class UserController {
 		
 	}
 	
+	// 로그인 화면
 	@GetMapping("/login")
 	public String login(Model model
-					   ,@RequestParam(value="msg", required=false) String msg) {
+					   ,@RequestParam(value="msg", required=false) String msg
+					   ,HttpServletRequest request
+					   ,HttpSession session) {
+		
+		String referer = request.getHeader("Referer");
+		
+		if (!referer.contains("/login")) {
+			session.setAttribute("referer", referer);
+	    }
 		
 		model.addAttribute("title", "login");
 		if(msg != null) model.addAttribute("msg", msg);
@@ -144,6 +153,7 @@ public class UserController {
 		return "user/user/login";
 	}	
 	
+	// 로그아웃
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
 		
@@ -152,5 +162,48 @@ public class UserController {
 			userMapper.logoutHistory(loginId.getLoginId());
 		
 		return "redirect:/";
+	}
+	
+	@ResponseBody
+	@PostMapping("/findId")
+	public int findId(@RequestParam(value="userName") String userName
+						,@RequestParam(value="userEmail") String userEmail
+						,@RequestParam(value="userPhoneNumber") String userPhoneNumber) {
+		
+		int findIdCheck = userService.findIdCheck(userName, userEmail, userPhoneNumber);
+		
+		return findIdCheck;
+	}
+	
+	// 아이디 찾기
+	@GetMapping("/findId")
+	public String findId(Model model) {
+		
+		model.addAttribute("title", "아이디 찾기");
+		
+		return "user/user/findId";
+	}
+	
+	@GetMapping("/showFindId")
+	public String showFindId(@RequestParam(value="userName") String userName
+							,@RequestParam(value="userEmail") String userEmail
+							,@RequestParam(value="userPhoneNumber") String userPhoneNumber
+							,Model model) {
+		
+		List<User> showFindId = userMapper.showFindId(userName, userEmail, userPhoneNumber);
+		
+		model.addAttribute("title", "아이디 찾기");
+		model.addAttribute("showFindId", showFindId);
+		
+		return "user/user/showFindId";
+	}
+	
+	// 비밀번호 찾기
+	@GetMapping("/findPw")
+	public String findPw(Model model) {
+		
+		model.addAttribute("title", "비밀번호 찾기");
+		
+		return "user/user/findPw";
 	}
 }

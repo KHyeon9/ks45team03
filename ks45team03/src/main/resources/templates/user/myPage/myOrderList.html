@@ -53,6 +53,7 @@
 	                          <th>상품 상태</th>
 	                          <th>결제 시간</th>
 	                          <th></th>
+	                          <th></th>
 	                        </tr>
 	                      </thead>
 	                      <tbody>
@@ -99,6 +100,10 @@
 		                          <button th:if="${order.orderStateName == '배송중(오너)'}" data-toggle="modal"  th:data-payment-code ="${order.payment.paymentCode}" data-target=".checkDelivery" class="btn btn-sm btn-secondary-outlined checkDeliveryBtn">배송확인</button>
 		                          <!-- <a th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" th:href="@{/myPage/returnMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">환불</a> -->
 	                          </td>
+  	                          <td th:if="${order.orderStateName == '반납완료'}">
+                          		<a th:href="@{/review/addReview(goodsCode=${order.goodsCode})}"><button class="badge badge-primary">리뷰</button></a>
+	                          </td>
+	                          <td th:unless="${order.orderStateName == '반납완료'}"></td>
 	                        </tr>
 	                      </tbody>
 	                    </table>

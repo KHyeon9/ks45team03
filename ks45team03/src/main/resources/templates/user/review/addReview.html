@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+<head>
+    <style>
+		.rating-view fieldset{
+		    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+		    direction: rtl; /* 이모지 순서 반전 */
+		    border: 0; /* 필드셋 테두리 제거 */
+		}
+		.rating-view fieldset legend{
+		    text-align: left;
+		}
+		.rating-view input[type=radio]{
+		    display: none; /* 라디오박스 감춤 */
+		}
+		.rating-view label{
+		    font-size: 1.7em; /* 이모지 크기 */
+		    color: transparent; /* 기존 이모지 컬러 제거 */
+		    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+		}
+		.rating-view label:hover{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 호버 */
+		}
+		.rating-view label:hover ~ label{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 호버 뒤에오는 이모지들 */
+		}
+		.rating-view input[type=radio]:checked ~ label{
+		    text-shadow: 0 0 0 rgb(233, 171, 0); /* 마우스 클릭 체크 */
+		}
+	</style>
+</head>
+	  
+	<th:block layout:fragment="customContents">
+	  <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>MY REVIEW</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                <li>
+                  <a th:href="@{/myPage/myPage}">myPage</a>
+                </li>
+                <li class="active">Add Review</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix userProfile">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="btn-group" role="group" aria-label="...">
+                <a href="account-dashboard.html" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>Account Dashboard</a>
+                <a href="account-profile.html" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+                <a href="account-address.html" class="btn btn-default"><i class="fa fa-map-marker" aria-hidden="true"></i>My Address</a>
+                <a href="account-all-orders.html" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>All Orders</a>
+                <a href="account-wishlist.html" class="btn btn-default active"><i class="fa fa-gift" aria-hidden="true"></i>Wishlist</a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="innerWrapper">
+                <div class="orderBox myAddress wishList">
+                  <h2>Add Review</h2>
+                  	<div class="table-responsive">
+                  
+                	  <form id="addReviewForm" th:action="@{/review/addMyReview}" method="post" role="form">
+					    <div class="media flex-column flex-md-row mb-0">
+					      
+					      <div class="media-body mt-4 mt-md-0">
+					        <h6 class="text-center text-md-left text-capitalize mt-0" ><em></em></h6>
+					    
+					        <div class="rating-view mb-4">
+					            <fieldset>
+							        <input type="radio" name="goodsEvaluation" value="5" id="rate1"><label for="rate1">⭐</label>
+							        <input type="radio" name="goodsEvaluation" value="4" id="rate2"><label for="rate2">⭐</label>
+							        <input type="radio" name="goodsEvaluation" value="3" id="rate3"><label for="rate3">⭐</label>
+							        <input type="radio" name="goodsEvaluation" value="2" id="rate4"><label for="rate4">⭐</label>
+							        <input type="radio" name="goodsEvaluation" value="1" id="rate5"><label for="rate5">⭐</label>
+							    </fieldset>
+					        </div>
+					
+					        <div class="row">
+					
+					          <div class="form-group col-md-12">
+					            <textarea class="form-control" id="exampleTextarea" name="reviewContent" rows="5" placeholder="상품평을 입력해주세요."></textarea>
+					          </div>
+							  
+							  <input type="hidden" name="goodsCode" th:value="${goodsCode}">
+							  
+					        </div>
+					
+					        <div class="text-center text-md-left">
+					          <button id="addReviewBtn" type="submit" class="btn btn-default btn-primary custom-btn">상품평 등록</button>
+					        </div>
+					      </div>
+					    </div>
+					  </form>
+					  
+                  	</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+	</th:block>
+	
+	<th:block layout:fragment="customScript">
+		<script th:inline="javascript">
+		
+			$('#addReviewBtn').click(function () {
+				
+				const goodsEvaluation = $("input[name='goodsEvaluation']:checked").val();
+
+				if(goodsEvaluation == null || goodsEvaluation == ''){
+	            	alert("별점을 선택해주세요");
+	            	return false;
+				}else{
+					$('#addReviewForm').submit();
+				}
+			    
+			});
+			
+		</script>
+	</th:block>		
+</html>

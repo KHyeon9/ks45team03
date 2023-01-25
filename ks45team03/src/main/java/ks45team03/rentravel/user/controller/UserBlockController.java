@@ -67,5 +67,4 @@ public class UserBlockController {
 		return userBlockedIdCnt;
 		
 	}			
-	
 }

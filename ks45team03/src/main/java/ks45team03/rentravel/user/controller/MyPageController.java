@@ -34,6 +34,7 @@ import ks45team03.rentravel.dto.Review;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
+import ks45team03.rentravel.dto.Wish;
 import ks45team03.rentravel.mapper.OrderMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
@@ -43,6 +44,7 @@ import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.ProfitService;
 import ks45team03.rentravel.user.service.ReviewService;
 import ks45team03.rentravel.user.service.UserService;
+import ks45team03.rentravel.user.service.WishService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -59,6 +61,7 @@ public class MyPageController {
 	private final GoodsService goodsService;
 	private final ProfitService profitService;
 	private final ReviewService reviewService;
+	private final WishService wishService;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
@@ -227,9 +230,36 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myWishList")
-	public String myWishList(Model model) {
+	public String myWishList(Model model
+							,HttpSession session
+							,@RequestParam(defaultValue="1", required=false) int curPage) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String loginId ="";
+		String returnURI ="";
+		
+		if(loginUser == null) {
+			returnURI = "redirect:/login";
+		}else {
+			loginId = loginUser.getLoginId();	
+			returnURI = "user/myPage/myWishList";
+		}
+		
+		int wishListCount = wishService.getWishListCount(loginId);
+		
+		Pagination pagination = new Pagination(wishListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		
+		List<Wish> wishList = wishService.getWishList(loginId, startIndex, pageSize);
+		
 		model.addAttribute("title","마이페이지 화면");
-		return "user/myPage/myWishList";
+		model.addAttribute("wishList",wishList);
+		model.addAttribute("pagination",pagination);
+		
+		return returnURI;
 	}
 	
 	// 주문 취소 확인

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.ReportMapper">
+<!-- tb_report_goods -->
+	<resultMap type="ReportGoods" id="reportGoodsResultMap">
+		<id property="reportGoodsCode" column="report_goods_code" />
+		<result property="reportTypeCode" column="report_type_code" />
+		<result property="goodsCode" column="goods_code" />
+		<result property="reportStateCode" column="report_state_code" />
+		<result property="reportingUserId" column="reporting_user_id" />
+		<result property="reportedUserId" column="reported_user_id" />
+		<result property="reportGoodsContent" column="report_goods_content" />
+		<result property="reportGoodsDateTime" column="report_goods_datetime" />
+		<association property="reportType" javaType="ReportType">
+			<id property="reportTypeCode" column="report_type_code" />
+			<result property="reportType" column="report_type" />
+		</association>
+		<association property="reportState" javaType="ReportState">
+			<id property="reportStateCode" column="report_state_code" />
+			<result property="reportStateName" column="report_state_name" />
+		</association>
+	</resultMap>
+	
+	<insert id="reportGoodsList">
+		INSERT INTO 
+			tb_report_goods
+		VALUES
+		(
+			sf_new_report_goods_code(), #{reportTypeCode}, #{goodsCode}, 'report_state1', #{loginId}, #{userId}, NOW()
+		);
+	</insert>
+	
+	<select id="reportGoodsAjax" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_report_goods AS rg
+		WHERE
+			rg.goods_code = #{goodsCode}
+			AND 
+			rg.reporting_user_id = #{loginId};
+	</select>
+</mapper>

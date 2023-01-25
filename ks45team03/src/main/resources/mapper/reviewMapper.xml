@@ -68,13 +68,33 @@
 		
 	</update>
 	
+	<delete id="removeReviewReport" parameterType="String">
+	
+		delete
+		from
+			tb_report_review
+		where
+			review_code = #{reviewCode};
+	
+	</delete>
+
+	<delete id="removeReviewMileage" parameterType="String">
+	
+		delete
+		from
+			tb_mileage_review_save
+		where
+			review_code = #{reviewCode};
+	
+	</delete>
+	
 	<delete id="removeReview" parameterType="String">
 	
 		DELETE
-			FROM
-		tb_review
-			WHERE
-		review_code = #{reviewCode};
+		FROM
+			tb_review
+		WHERE
+			review_code = #{reviewCode};
 
 	</delete>
 	

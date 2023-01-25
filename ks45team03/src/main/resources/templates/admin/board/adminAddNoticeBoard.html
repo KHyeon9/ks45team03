@@ -28,10 +28,10 @@
 							<h2>
 								공지사항
 							</h2>
-						</div>
 							<button id="submitBtn" class="btn btn-light" type="submit" style="float: right">등록</button>
 							<input id="userId" name="userId" th:value="${loginId}" hidden="hidden">
 							<div class="clearfix"></div>
+						</div>
 								<div class="col-md-12 col-sm-12 ">
 									<input type="text" id="noticeBoardTitle" name="noticeBoardTitle" class="form-control" placeholder="제목을 입력해 주세요.">
 							</div>
@@ -99,9 +99,6 @@
 								<textarea name="noticeBoardContent" id="noticeBoardContent" style="display:none;"></textarea>
 
 								<div class="ln_solid"></div>
-								<div class="btn-group">
- 										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
-									</div>
 							</div>
 							</form>
 						</div>

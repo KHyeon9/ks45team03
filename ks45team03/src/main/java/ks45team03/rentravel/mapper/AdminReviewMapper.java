@@ -10,4 +10,10 @@ import ks45team03.rentravel.dto.Review;
 public interface AdminReviewMapper {
 	
 	public List<Review> getAdminReviewList();
+	
+	public int removeAdminReview(String reviewCode);
+	
+	public int removeAdminReviewMileage(String reviewCode);
+	
+	public int removeAdminReviewReport(String reviewCode);
 }

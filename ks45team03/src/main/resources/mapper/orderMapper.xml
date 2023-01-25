@@ -588,6 +588,7 @@
 		SELECT
 			ren.rental_code,
 			g.goods_name,
+			g.goods_code,
 			pay.payment_code,
 			ren.rental_start_date,
 			ren.rental_end_date,

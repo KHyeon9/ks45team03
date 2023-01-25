@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+	
+	  <section class="mainContent clearfix userProfile pb-0">
+        <div class="container">
+          <div class="row">
+            <div class="col-12" style="text-align: center">
+              <div class="btn-group" role="group" aria-label="...">
+              	<a th:href="@{/findId}" class="btn btn-default"><i class="fa fa-user"></i>아이디 찾기</a>
+              	<a th:href="@{/findPw}" class="btn btn-default"><i class="fa fa-user"></i>비밀번호 찾기</a>
+              </div>
+            </div>
+          </div> 
+        </div>
+      </section>
+
+      <!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix logIn pt-0">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-8 col-xl-7 col-12">
+              <div class="panel panel-default">
+                <div class="panel-heading"><h3>아이디 찾기</h3></div>
+                <div class="panel-body">
+                  <form id="findIdForm" action="/showFindId" method="get" role="form">
+                    <div class="form-group">
+                      <label for="userName">이름</label>
+                      <input type="text" class="form-control" id="userName" name="userName" placeholder="이름을 입력해주세요." required>
+                    </div>
+                    <div class="form-group">
+                      <label for="userEmail">이메일</label>
+                      <input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="이메일을 입력해 주세요." required>
+                    </div>
+                    <div class="form-group">
+                      <label for="userPhoneNumber">전화번호</label>
+                      <input type="text" class="form-control" id="userPhoneNumber" name="userPhoneNumber" placeholder="'-'없이 입력해주세요." required>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-default btn-block" id="findIdBtn">아이디 찾기</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script th:inline="javascript"> 
+		$('#findIdBtn').click(function(){
+			
+			const userName = $('#userName').val();
+			const userEmail = $('#userEmail').val();
+			const userPhoneNumber = $('#userPhoneNumber').val();
+			
+			$(function(){
+				function validateValue(checkValue){
+					if(typeof checkValue == 'undefined'
+							|| checkValue == null
+							|| checkValue == '' ){
+						return true;
+					}
+					return false;
+				}
+			
+				if(validateValue(userName)) {
+					alert('이름을 입력해주세요.');
+					$('#userName').focus();
+				}
+				else if(validateValue(userEmail)) {
+					alert('이메일을 입력해주세요.');
+					$('#userEmail').focus();
+				}
+				else if(validateValue(userPhoneNumber)) {
+					alert('전화번호를 입력해주세요.');
+					$('#userPhoneNumber').focus();
+				}else{
+			
+					$.ajax({
+						url : '/findId',
+						type : 'POST',
+						data : {userName, userEmail, userPhoneNumber},
+						success : function(result){
+							if(result == 0){
+								alert('입력하신 정보와 일치하는 아이디가 없습니다.');
+								return false;
+							}else{
+								$('#findIdForm').submit();
+							}
+						},
+						error: function(e){
+							alert( 'Request failed: ' + e);
+						}
+					});
+				}
+			});
+		});
+		</script>
+	</th:block>
+</html>

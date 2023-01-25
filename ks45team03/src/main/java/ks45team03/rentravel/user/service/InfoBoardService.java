@@ -1,5 +1,7 @@
 package ks45team03.rentravel.user.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,11 +72,11 @@ public class InfoBoardService{
 	public int removeInfoBoard(InfoBoard infoBoard) {
 		int result = 0;
 		
-		List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
-		
-		
-		result += infoBoardMapper.removeFileGroupData(infoBoard.getFileGroupCode());
-		result += infoBoardMapper.removeFileData(fileCodeList);
+		if(infoBoard.getFileGroupCode() != null) {
+			List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
+			result += infoBoardMapper.removeFileGroupData(infoBoard.getFileGroupCode());
+			result += infoBoardMapper.removeFileData(fileCodeList);
+		}
 		result += infoBoardMapper.removeInfoBoardCommentAll(infoBoard.getInfoBoardCode());
 		result += infoBoardMapper.removeInfoBoard(infoBoard.getInfoBoardCode());
 		

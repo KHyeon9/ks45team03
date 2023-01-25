@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks45team03.rentravel.admin.service.AdminReportService;
@@ -42,10 +43,12 @@ public class AdminReportController {
 		return "admin/report/adminReportList";
 	}
 	
-	@GetMapping("/adminReportDetail")
-	public String adminGetReportDetail(Model model) {
+	@GetMapping("/adminReportDetail/{reportCommentCode}")
+	public String adminGetReportDetail(Model model, @PathVariable(value="reportCommentCode")String reportComment) {
 		model.addAttribute("title", "관리자 신고 상세");
 		return "admin/report/adminReportDetail";
 	}
+	
+	
 
 }
