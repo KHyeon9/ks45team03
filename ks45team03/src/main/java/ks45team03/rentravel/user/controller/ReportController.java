@@ -26,7 +26,7 @@ public class ReportController {
 	
 	private static final Logger log = LoggerFactory.getLogger(ReportController.class);
 
-	
+	//상품 신고
 	@PostMapping("/reportGoods")
 	public String reportGoods(@RequestParam(value="goodsCode") String goodsCode
 							 ,@RequestParam(value="userId") String userId
@@ -55,4 +55,36 @@ public class ReportController {
 		
 		return reportGoodsAjax;
 	}
+	
+	//상품평 신고
+	@PostMapping("/reportReview")
+	public String reportReview(@RequestParam(value="reviewCode") String reviewCode
+							 ,@RequestParam(value="userId") String userId
+							 ,@RequestParam(value="reportTypeCode") String reportTypeCode
+							 ,HttpSession session
+							 ,HttpServletRequest request) {
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		reportService.reportReviewList(reviewCode, reportTypeCode, userId, reportTypeCode);
+		
+		String referer = request.getHeader("Referer");
+		
+		return "redirect:"+ referer;
+	}
+	
+	@ResponseBody
+	@GetMapping("/reportReviewAjax")
+	public int reportReviewAjax(@RequestParam(value="reviewCode") String reviewCode
+							  ,HttpSession session) {
+		log.info("reviewCode -->", reviewCode);
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		int reportReviewAjax = reportMapper.reportReviewAjax(reviewCode, loginInfo.getLoginId());
+		
+		return reportReviewAjax;
+	}
+	
+	
 }
