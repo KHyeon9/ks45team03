@@ -190,5 +190,30 @@
 		LIMIT 1;
 	</update>
 	
+	<select id="findIdCheck" resultType="int">
+		SELECT
+			COUNT(u.user_id)
+		FROM
+			tb_user AS u
+		WHERE	
+			u.user_name = #{userName}
+			AND
+			u.user_email = #{userEmail}
+			AND
+			u.user_phone_number = #{userPhoneNumber};
+	</select>
 	
+	<select id="showFindId" resultMap="userResultMap">
+		SELECT
+			 u.user_id
+			,u.user_create_date
+		FROM
+			tb_user AS u
+		WHERE	
+			u.user_name = #{userName}
+			AND
+			u.user_email = #{userEmail}
+			AND
+			u.user_phone_number = #{userPhoneNumber};
+	</select>
 </mapper>

@@ -4,15 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
-import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
@@ -150,8 +145,6 @@ public class UserController {
 		
 		if (!referer.contains("/login")) {
 			session.setAttribute("referer", referer);
-			System.out.println("실행됨");
-			System.out.println(session.getAttribute("referer"));
 	    }
 		
 		model.addAttribute("title", "login");
@@ -171,6 +164,17 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@ResponseBody
+	@PostMapping("/findId")
+	public int findId(@RequestParam(value="userName") String userName
+						,@RequestParam(value="userEmail") String userEmail
+						,@RequestParam(value="userPhoneNumber") String userPhoneNumber) {
+		
+		int findIdCheck = userService.findIdCheck(userName, userEmail, userPhoneNumber);
+		
+		return findIdCheck;
+	}
+	
 	// 아이디 찾기
 	@GetMapping("/findId")
 	public String findId(Model model) {
@@ -180,4 +184,26 @@ public class UserController {
 		return "user/user/findId";
 	}
 	
+	@GetMapping("/showFindId")
+	public String showFindId(@RequestParam(value="userName") String userName
+							,@RequestParam(value="userEmail") String userEmail
+							,@RequestParam(value="userPhoneNumber") String userPhoneNumber
+							,Model model) {
+		
+		List<User> showFindId = userMapper.showFindId(userName, userEmail, userPhoneNumber);
+		
+		model.addAttribute("title", "아이디 찾기");
+		model.addAttribute("showFindId", showFindId);
+		
+		return "user/user/showFindId";
+	}
+	
+	// 비밀번호 찾기
+	@GetMapping("/findPw")
+	public String findPw(Model model) {
+		
+		model.addAttribute("title", "비밀번호 찾기");
+		
+		return "user/user/findPw";
+	}
 }

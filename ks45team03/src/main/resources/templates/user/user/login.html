@@ -3,7 +3,6 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{user/layout/default}">
 	<th:block layout:fragment="customContents">
-		<!-- MAIN CONTENT SECTION -->
       <section class="mainContent clearfix logIn">
         <div class="container">
           <div class="row justify-content-center">
@@ -21,10 +20,12 @@
                       <input type="password" class="form-control" id="userPw" name="userPw">
                     </div>
                     <button type="submit" id="submitBtn" class="btn btn-primary btn-default btn-block">log in</button>
-                     <div class="row">
-	                    <button type="button" class="btn btn-link btn-block">아이디</button>/
-	                    <button type="button" class="btn btn-link btn-block">비밀번호 찾기</button>
-                     </div>
+                    <div class="col-md-12 mt-3" style="text-align:center">
+	                  <span>
+		                  <a th:href="@{/findId}" class="btn" style="color: black">아이디</a>/
+		                  <a th:href="@{/findPw}" class="btn" style="color: black">비밀번호 찾기</a>
+	                  </span> 
+                    </div>
                   </form>
                 </div>
               </div>
