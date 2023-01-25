@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -74,6 +75,7 @@ public class AdminInsuranceController {
 		
 		return "admin/insurance/adminInsuranceBillDetail";
 	}
+
 	
 	@GetMapping("/adminInsuranceBillState")
 	@ResponseBody
@@ -83,6 +85,19 @@ public class AdminInsuranceController {
 		model.addAttribute("adminInsuranceBillStateList", adminInsuranceBillStateList);
 		
 		return adminInsuranceBillStateList;
+	}
+	
+	
+	@RequestMapping(value = "/adminModifyInsuranceBillState", method = { RequestMethod.POST })
+	public String adminModifyInsuranceBillState(@RequestParam(value = "insuranceBillCode") String insuranceBillCode,
+											@RequestParam(value = "insuranceBillStateCode") String insuranceBillStateCode) {
+	
+		System.out.println("-----------상태업데이트------------");
+		adminInsuranceMapper.adminModifyInsuranceBillState(insuranceBillCode, insuranceBillStateCode);
+		
+		String redirectURI = "redirect:/admin/insurance/adminInsuranceBillList";
+		
+		return redirectURI;
 	}
 	
 	

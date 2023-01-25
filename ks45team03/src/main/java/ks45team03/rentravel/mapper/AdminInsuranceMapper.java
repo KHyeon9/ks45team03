@@ -19,7 +19,7 @@ public interface AdminInsuranceMapper {
 	// 보험 수정(보험이용가능 여부 갱신)
 	public int adminModifyInsurance();
 	
-	// 보상금청구서리스트
+	// 보상금청구상태리스트
 	public List<InsuranceBill> adminGetInsuranceBillList();
 	
 	// 보상금청구서리스트(insuranceBillCode)
@@ -28,7 +28,9 @@ public interface AdminInsuranceMapper {
 	//보상금청구상태리스트
 	public List<InsuranceBillState> adminGetInsuranceBillStateList();
 	
-	// 보상금청구서 상세화면
+	public int adminModifyInsuranceBillState(String insuranceBillCode, String insuranceBillStateCode);
+	
+	// 보상금접수 리스트
 	public List<InsuranceBillDetail> adminGetInsuranceBillDetail();
 	
 	// 보상금지급내역

@@ -119,6 +119,15 @@
 				ib.insurance_bill_code = #{insuranceBillCode};
 	</select>
 	
+	<update id="adminModifyInsuranceBillState" parameterType="String">
+		UPDATE
+			tb_insurance_bill
+		SET
+			insurance_bill_state_code = #{insuranceBillStateCode}
+		WHERE
+			insurance_bill_code = #{insuranceBillCode};
+	</update>
+	
 	<select id="adminGetInsurancePayoutList" resultMap="adminInsurancePayoutResultMap">
 			/* 보상급 지급내역 조회 */
 			SELECT
@@ -150,6 +159,7 @@
 	</select>
 	
 	<select id="adminGetInsuranceBillStateList" resultMap="adminInsuranceBillStateResultMap">
+		/* 보상금청구상태이름 조회 */
 		SELECT *
 		from tb_insurance_bill_state;
 	</select>
