@@ -36,4 +36,8 @@ public interface UserMapper {
 	
 	public void logoutHistory(String loginId);
 	
+	public int findIdCheck(String userName, String userEmail, String userPhoneNumber);
+	
+	public List<User> showFindId(String userName, String userEmail, String userPhoneNumber);
+	
 }

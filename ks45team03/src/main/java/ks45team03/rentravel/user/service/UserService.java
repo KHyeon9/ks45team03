@@ -61,4 +61,9 @@ public class UserService {
 		
 		return getRegionSido;
 	}
+	
+	public int findIdCheck(String userName, String userEmail, String userPhoneNumber) {
+		
+		return userMapper.findIdCheck(userName, userEmail, userPhoneNumber);
+	}
 }
