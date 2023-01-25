@@ -132,7 +132,7 @@ public class OrderController {
 		Date endDate = format.parse(rentalEndDate);
 		long dayGap = (endDate.getTime() - startDate.getTime()) /  (24*60*60*1000);
 		
-		User userInfo = orderMapper.loginUserInfo(loginInfo.getLoginId());
+		User userInfo = orderMapper.getLoginUserInfo(loginInfo.getLoginId());
 		List<RegionSido> getRegionSido = userService.getRegionSido();
 		List<RegionSgg> getRegionSgg = orderMapper.getRegionSggBySidoCode(userInfo.getRegionSgg().getRegionSidoCode());
 		model.addAttribute("title", "결제 화면");
@@ -150,10 +150,4 @@ public class OrderController {
 		return "user/order/payment";
 	}
 	
-	@GetMapping("/waybill")
-	public String addWaybill(Model model) {
-		model.addAttribute("title", "운송장 번호 입력");
-		
-		return "user/order/waybill";
-	}
 }

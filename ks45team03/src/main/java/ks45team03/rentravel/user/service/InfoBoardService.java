@@ -49,7 +49,7 @@ public class InfoBoardService{
 		return infoBoardMapper.addInfoBoardComment(infoBoardComment);
 	}
 	
-	// 게시글 댓글 조회
+	// 게시글 댓글 갯수 조회
 	public int getCommnetCnt(String infoBoardCode) {
 		return infoBoardMapper.getCommentCnt(infoBoardCode);
 	}
