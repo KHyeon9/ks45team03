@@ -18,4 +18,8 @@ public interface ReportMapper {
 	public int reportGoodsList(String goodsCode, String reportTypeCode, String userId, String loginId);
 	
 	public int reportGoodsAjax(String goodsCode, String loginId);
+	
+	public int reportReviewList(String reviewCode, String reportTypeCode, String userId, String loginId);
+	
+	public int reportReviewAjax(String reviewCode, String loginId);
 }

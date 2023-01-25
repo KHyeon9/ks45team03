@@ -23,6 +23,7 @@
 		</association>
 	</resultMap>
 	
+	<!-- 상품 신고 / tb_report_goods에 추가 -->
 	<insert id="reportGoodsList">
 		INSERT INTO 
 			tb_report_goods
@@ -32,6 +33,7 @@
 		);
 	</insert>
 	
+	<!--상품 신고 / tb_report_goods에 추가 시 이미 신고된 상품이 있는 지 확인 -->
 	<select id="reportGoodsAjax" resultType="int">
 		SELECT
 			COUNT(*)
@@ -42,4 +44,27 @@
 			AND 
 			rg.reporting_user_id = #{loginId};
 	</select>
+	<!-- 상품평 신고 / tb_report_review에 추가 -->
+	<insert id="reportReviewList">
+		INSERT INTO 
+			tb_report_review
+		VALUES
+		(
+			sf_new_report_review_code(), #{reportTypeCode}, #{reviewCode}, 'report_state1', #{loginId}, #{userId}, NOW()
+		);
+		
+	</insert>
+	
+	<!--상품평 신고 / tb_report_review에 추가 시 이미 신고된 상품이 있는 지 확인 -->
+	<select id="reportReviewAjax" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_report_review AS rr
+		WHERE
+			rr.review_code = #{reviewCode}
+			AND 
+			rr.reporting_user_id = #{loginId};
+	</select>
+	
 </mapper>
