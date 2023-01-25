@@ -55,7 +55,7 @@
 		              </div>
 		            </div>
 		         </div>
-     		<form id="addInsuranceBillForm" th:action="@{/insurance/insuranceAddBill}" method="post">					
+      		<form id="addInsuranceBillForm" th:action="@{/insurance/insuranceAddBill}" method="post">			
 		    	<h4>01. 인적사항</h4><br/>
 		    	<p>인적사항은 회원의 정보로 자동 기입됩니다.</p>
 			    <table class="table table-bordered">
@@ -96,7 +96,7 @@
 					<tr class="text-center">
 		                <th class="col-sm-2">보험코드</th>
 		                <td class="col-sm-2">
-							<select id="insuranceCodeSelect" name="insuranceCodeSelect" class="text-center" style="width:100%; border:none;">
+							<select id="insuranceCodeSelect" name="insuranceCode" class="text-center" style="width:100%; border:none;">
 								<th:block if="${not #lists.isEmpty(insuranceList)}" th:each="l : ${insuranceList}" style="text-transform: none;">
 									<option th:text="${l.insuranceCode}" th:selected="${l.insuranceCode == insuranceCode}"></option>
 								</th:block>
@@ -175,49 +175,94 @@
 					
 					<br/><br/>
 					<a id="btnBefore" class="btn btn-primary btn-default card-btn billBtn float-left" th:href="@{/insurance/insuranceAddBillPersonInfo/{insuranceCode}(insuranceCode=${insuranceCode})}">이전</a>
-					<button type="submit" class="btn btn-primary btn-default card-btn billBtn float-right">제출</button>
-				</form>
+					<button id="btnSubmitBill" type="button" class="btn btn-primary btn-default card-btn billBtn float-right">제출</button>
+ 				</form>
 			</div>
     	 </section>
     </th:block>
 	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
-			$('#btnBefore').on("click", function () {
-				console.log("true");
-				if(confirm("작성중이던 내용이 사라집니다.")) {
-				}
-			});
-		
-			//select 변경시 ajax로 상품코드 상품명 변경
-			$('#insuranceCodeSelect').change(function() {
-				var text = $('#insuranceCodeSelect option:selected').text();
-				var value = $(this).val();
-				console.log($('#insuranceCodeSelect'));
-				console.log(text);
-				console.log(value);
-				
-				request = $.ajax({
-			            url: "/insurance/insuranceAddBill/{insuranceCode}",
-			            type: "GET",
-						data: {'insuranceCode': text},
-						dataType: "text"
+			$(function() {
+				$('#btnBefore').on("click", function () {
+					console.log("true");
+					if(confirm("작성중이던 내용이 사라집니다. 정말로 돌아가시겠습니까?")) {
+					}
+					else {
+						return false;
+					}
 				});
-				
-				//성공
-				request.done(function() {
-					console.log("success");
-					
-					let url = "/insurance/insuranceAddBill/" + text;
-					
-					location.replace(url);
-				});
-			//실패
-				request.fail(function(jqXHR, textStatus){
-					console.log('Request failed: ' + textStatus);
-				});
-			});
 			
-			//유효성 검사
+				//select 변경시 ajax로 상품코드 상품명 변경
+				$('#insuranceCodeSelect').change(function() {
+					var text = $('#insuranceCodeSelect option:selected').text();
+					var value = $(this).val();
+					console.log($('#insuranceCodeSelect'));
+					console.log(text);
+					console.log(value);
+					
+					request = $.ajax({
+				            url: "/insurance/insuranceAddBill/{insuranceCode}",
+				            type: "GET",
+							data: {'insuranceCode': text},
+							dataType: "text"
+					});
+					
+					//성공
+					request.done(function() {
+						console.log("success");
+						
+						let url = "/insurance/insuranceAddBill/" + text;
+						
+						location.replace(url);
+					});
+				//실패
+					request.fail(function(jqXHR, textStatus){
+						console.log('Request failed: ' + textStatus);
+					});
+				});
+				
+				//유효성 검사
+				//이미 청구서가 작성된 보험코드는 제출 불가
+				  $('#btnSubmitBill').click( function(e) {
+					  let text = "insuranceCode";
+					  console.log($("select[name=insuranceCode]").val());
+					  var selectedCode = $("select[name=insuranceCode]").val();
+					  
+					  request = $.ajax({
+				            url: "/insurance/insuranceCode?insuranceCode="+selectedCode,
+				            type: "GET"
+					});
+					  //성공시
+					  request.done(function(data) {
+						  var rv = true;
+						  console.log("success");
+						  console.log(data);
+								if(data == "") {
+									console.log("보험접수가능");
+									$("#addInsuranceBillForm").submit();
+								}
+								else if(data == "만료") {
+									console.log("만료된보험접수");
+									alert("만료된 보험의 보험코드입니다.\n다른 보험코드로 청구해주세요");
+									rv = false;
+								}
+								else {
+									console.log("보험접수불가능");
+									alert("이미 보험청구가 완료된 보험코드입니다.\n다른 보험코드로 청구해주세요");
+									rv = false;
+
+								}
+					  });
+					  
+					  request.fail(function(jqXHR, textStatus){
+							console.log('Request failed: ' + textStatus);
+							rv = false;
+						});
+					  
+					  return rv;
+				  });
+				
+			});
 			
 		</script>
 	</th:block>

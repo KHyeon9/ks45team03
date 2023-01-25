@@ -39,14 +39,14 @@
 				    </div>
 				  </div>
 				  <div class="display-single_element">
-					  <form id="addInfoBoardForm" action="/infoboard/modifyInfoBoard" method="post" enctype="multipart/form-data">
+					  <form id="modifyInfoBoardForm" action="/infoboard/modifyInfoBoard" method="post" enctype="multipart/form-data">
 					  	<input th:value="${infoBoardDetail.infoBoardCode}" class="infoBoardCode" name="infoBoardCode" type="hidden" readonly="readonly"/>
 					  	<input th:value="${infoBoardDetail.fileGroupCode}" class="fileGroupCode" name="fileGroupCode" type="hidden" readonly="readonly"/>
 						<div class="row">
 						  <div class="form-group col-md-12">
 						  	<h4 class="mb-0">제목</h4>
 						  	<br>
-							<input th:value="${infoBoardDetail.infoBoardTitle}" type="text" name="infoBoardTitle" class="form-control" id="exampleInputPhone" placeholder="제목을 입력해 주세요.">
+							<input th:value="${infoBoardDetail.infoBoardTitle}" id="infoTitle" type="text" name="infoBoardTitle" class="form-control" placeholder="제목을 입력해 주세요.">
 						  </div>
 						  <div class="form-group col-md-12">
 						  	<h4 class="mb-0">사진</h4>
@@ -58,10 +58,10 @@
 						  <div class="form-group col-md-12">
 						  	<h4 class="mb-0">내용</h4>
 						  	<br>
-						    <textarea th:text="${infoBoardDetail.infoBoardContent}" class="form-control" name="infoBoardContent" id="exampleTextarea" rows="15" placeholder="내용을 입력해 주세요."></textarea>
+						    <textarea th:text="${infoBoardDetail.infoBoardContent}" id="infoContent" class="form-control" name="infoBoardContent"  rows="15" placeholder="내용을 입력해 주세요."></textarea>
 						  </div>
 						  </div>
-							<button type="submit" class="btn btn-default btn-primary">수정</button>
+							<button type="button" id="submitBtn" class="btn btn-default btn-primary">수정</button>
 							<button type="button" class="btn btn-default btn-primary" id="cancelBtn">취소</button>
 						</form>
 					</div>
@@ -95,6 +95,34 @@
 		            reader.readAsDataURL(this.files[0]);
 		        }
 		    });
+			
+			function validateValue(checkValue){
+				if(typeof checkValue == 'undefined'
+						|| checkValue == null
+						|| checkValue == '' ){
+					return true;
+				}
+				return false;
+			}
+			
+			$('#submitBtn').click(function(){
+				const infoTitle = $('#infoTitle').val();
+				const infoContent = $('#infoContent').val();
+				
+				if(validateValue(infoTitle)){
+					alert('게시글 제목을 입력해주세요.');
+					$('#infoTitle').focus();
+					return false;
+				}
+				
+				if(validateValue(infoContent)){
+					alert('게시글 내용을 입력해주세요.');
+					$('#infoContent').focus();
+					return false;
+				}
+				
+				$('#modifyInfoBoardForm').submit();
+			})
 		</script>
 	  </th:block>
   </th:block>

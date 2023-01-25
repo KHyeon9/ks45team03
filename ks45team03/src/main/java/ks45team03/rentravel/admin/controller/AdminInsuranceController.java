@@ -133,7 +133,9 @@ public class AdminInsuranceController {
 
 		adminInsuranceMapper.adminAddInsurancePayout(insurancePayout);
 		
-		return "admin/insurance/adminAddInsurancePayout";
+		String redirectURI = "redirect:/admin/insurance/adminInsurancePayoutList";
+		
+		return redirectURI;
 	}
 	
 	@GetMapping("/adminModifyInsurancePayout")
