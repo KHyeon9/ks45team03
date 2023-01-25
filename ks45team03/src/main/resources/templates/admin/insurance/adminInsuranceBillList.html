@@ -27,7 +27,7 @@
 		                    <td th:text="${l.insuranceBillCode}"></td>
 							  <td th:text="${l.userId}"></td>
 							  <td th:text="${l.insuranceBillDetailCode}"></td>
-							  <td class="${l.insuranceBillStateCode} insuranceBillStateCode" th:text="${l.insuranceBillStateCode}"></td>
+							  <td th:text="${l.insuranceBillStateCode}"></td>
 							  <td th:text="${l.insuranceBillModifyDate}"></td>
 			  				<td><button class="btn btn-dark btnChange" id="btnChange" value="변경">변경</button></td>
 			  				<td><a class="btn btn-dark" th:href="@{/admin/insurance/adminAddInsurancePayout/{insuranceBillCode}(insuranceBillCode=${l.insuranceBillCode})}">지급</a></td>
@@ -45,14 +45,13 @@
 	  	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
 			$(function() {
-				  $('.btnChange').click( function() {
+				  $(document).on('click','.btnChange', function() {
 					  console.log($(this).val());
+				      var stateCode = $(this).parents('tr').children().eq(3);
 					  if($(this).val() == '변경' ) {
 				      	$(this).val('확인');
 				      	$(this).text('확인');
-				      	var stateCode = $(this).parent().parent().children()[3];
-				      	console.log($(this).parent().parent().children()[3]);
-				      	console.log($(this).parent().parent().childNodes);
+				      	
 						//td를 select로 변경
 						var str = "<td><select id=" + "selectInsuranceBillStateCode" + "></select></td>";
 						stateCode.replaceWith(str);
@@ -71,7 +70,7 @@
 						request.done(function(data){
 							console.log("success");
 							for (i = 0; i < data.length; i++) {
-								sggOption += '<option value="' + data[i].insuranceBillStateCode + '">' + data[i].insuranceBillStateName + '</option>';	
+								sggOption += '<option value="' + data[i].insuranceBillStateCode + '">' + data[i].insuranceBillStateCode + '</option>';	
 			                }
 							
 							if(data == '' || data == 'undefined') {
@@ -87,9 +86,30 @@
 							});
 				    }
 				    else {
+				    	var insuranceBillCode = $(this).parents('tr').children().eq(0).text();
+				    	var insuranceBillStateCode = $("select[id=selectInsuranceBillStateCode]").val();
+				    	console.log(insuranceBillCode);
+				    	console.log(insuranceBillStateCode);
 				    	$(this).val('변경');
-					     $(this).text('변경');
-					     $('.changeInsuranceBillStateCode').replaceWith('<td class="changeInsuranceBillStateCode" th:text="${l.insuranceBillStateCode}"></td>');
+					    $(this).text('변경');
+					    
+					    //셀렉트 박스에 선택된 값을 db에 업데이트
+					    request = $.ajax({
+				            url: "/admin/insurance/adminModifyInsuranceBillState",
+				            type: "POST",
+				            data: {"insuranceBillCode": insuranceBillCode, "insuranceBillStateCode" : insuranceBillStateCode}
+						});
+					  	//성공
+						request.done(function(data){
+							console.log("success");
+							var str = "<td>" + insuranceBillStateCode + "</td>";
+							stateCode.replaceWith(str);
+							
+						});
+						//실패
+							request.fail(function(jqXHR, textStatus){
+								console.log('Request failed: ' + textStatus);
+							});
 				    }
 						
 				});

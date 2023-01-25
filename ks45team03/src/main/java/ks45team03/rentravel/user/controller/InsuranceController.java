@@ -41,7 +41,7 @@ public class InsuranceController {
 		this.commonNewCode = commonNewCode;
 	}
 	@GetMapping("/insuranceMain")
-	public String getInsuranceList(HttpServletResponse response, Model model, HttpSession session) throws IOException {
+	public String getInsurance(HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		
 		if(session.getAttribute("S_USER_INFO") != null) {
 			model.addAttribute("title", "Insurance");
@@ -140,13 +140,13 @@ public class InsuranceController {
 	@GetMapping("/insuranceCode")
 	public String justifyInsuranceBillRecipt(@RequestParam(value="insuranceCode", required = false) String insuranceCode, Model model) {
 				
-		String result = insuranceMapper.justifyInsuranceBillRecipt(insuranceCode);
+		String justifyInsurance = insuranceMapper.justifyInsuranceBillRecipt(insuranceCode);
 		
-		System.out.println(result);
+		System.out.println(justifyInsurance);
 		
-		model.addAttribute("result", result);
+		model.addAttribute("justifyInsurance", justifyInsurance);
 		
-		return result;
+		return justifyInsurance;
 	}
 	
 	@GetMapping("/insuranceBillRecipt/{insuranceCode}")
