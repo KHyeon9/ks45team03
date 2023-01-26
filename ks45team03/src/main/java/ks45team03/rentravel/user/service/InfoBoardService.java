@@ -1,13 +1,10 @@
 package ks45team03.rentravel.user.service;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import groovyjarjarantlr4.v4.misc.EscapeSequenceParsing.Result;
 import groovyjarjarantlr4.v4.runtime.atn.SemanticContext.AND;
 import ks45team03.rentravel.dto.FileDto;
 import ks45team03.rentravel.dto.InfoBoard;
@@ -87,20 +84,25 @@ public class InfoBoardService{
 	public int modifyInfoBoard(InfoBoard infoBoard, MultipartFile[] uploadfile, String fileRealPath) {
 		int result = 0;
 		
-		if (!infoBoard.getFileGroupCode().equals("")) {
-		List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
+		log.info("infoBoard : {}", infoBoard);
+		
+		if (!infoBoard.getFileGroupCode().equals("") && !fileRealPath.equals("/home/springboot/teamproject/files/")) {
+			List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
 		
 			result += infoBoardMapper.removeFileGroupData(infoBoard.getFileGroupCode());
 			result += infoBoardMapper.removeFileData(fileCodeList);
 		}
 		
-		log.info("upload : {}, filePath {}", uploadfile, fileRealPath);
+		log.info("upload : {}, filePath : {}", uploadfile, fileRealPath);
 		
 		List<FileDto> fileList =  fileService.fileUpload(uploadfile, fileRealPath);
-		String fileGroupCode = commonNewCode.getCommonNewCode("tb_file_group", "file_group_code");
+		 
+		log.info("fileList : {}", fileList);
 		
 		
 		if (fileList != null) {
+			String fileGroupCode = commonNewCode.getCommonNewCode("tb_file_group", "file_group_code");
+			
 			for(FileDto fileInfo : fileList) {
 				String fileCode =  fileInfo.getFileCode();
 				fileService.addFileGroup(fileGroupCode, fileCode);
