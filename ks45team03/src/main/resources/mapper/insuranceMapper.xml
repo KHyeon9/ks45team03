@@ -200,6 +200,7 @@
 	/* 보험 정보 조회(보험코드) */
 	SELECT
 			i.insurance_code,
+			i.user_id,
 			i.goods_code,
 			g.goods_name,
 			i.payment_code,
@@ -228,6 +229,19 @@
 			i.insurance_code;
 	</select>
 	
+	<select id="justifyInsuranceBillRecipt" parameterType="String" resultType="String">
+		SELECT
+			IF(COUNT(1), i.insurance_available, NULL)
+		FROM
+			tb_insurance AS i
+			INNER JOIN
+			tb_insurance_bill_detail AS ibd
+			ON
+			ibd.insurance_code = i.insurance_code
+		WHERE
+			i.insurance_code = #{insuranceCode};
+	</select>
+	
 	<insert id="addInsuranceBillDetail" parameterType="InsuranceBillDetail">
 		/* 보상금 접수증 등록 */
 		INSERT INTO tb_insurance_bill_detail
@@ -249,6 +263,7 @@
 		VALUES
 		(
 			#{insuranceBillDetailCode},
+			#{insuranceCode},
 			#{userId},
 			#{goodsCode},
 			#{paymentCode},
@@ -259,28 +274,7 @@
 			#{bankName},
 			#{accountHolder},
 			#{accountNumber},
-			#{requestDate}
-		);
-	</insert>
-	
-	<insert id="addInsuranceBill" parameterType="InsuranceBill">
-		INSERT INTO tb_insurance_bill
-		(
-			insurance_bill_code,
-			user_id,
-			insurance_code,
-			insurance_bill_detail_code,
-			insurance_bill_state_code,
-			insurance_bill_modify_date
-		)
-		VALUES
-		(
-			#{insuranceBillCode},
-			#{userId},
-			#{insuranceCode},
-			#{insuranceBillDetailCode},
-			#{insuranceBillStateCode},
-			#{insuranceBillModifyDate}
+			NOW()
 		);
 	</insert>
 	
@@ -450,6 +444,7 @@
 			ORDER BY
 				ip.insurance_payout_code;
 	</select>
+	
 	
 	<delete id="removeInsuranceBillDetail" parameterType="String">
 		/*보상금 접수증 삭제*/

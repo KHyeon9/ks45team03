@@ -3,6 +3,7 @@ package ks45team03.rentravel.user.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +21,7 @@ import ks45team03.rentravel.dto.InsuranceBill;
 import ks45team03.rentravel.dto.InsuranceBillDetail;
 import ks45team03.rentravel.dto.InsurancePayout;
 import ks45team03.rentravel.dto.LoginInfo;
+import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.InsuranceMapper;
 import ks45team03.rentravel.user.service.InsuranceService;
 
@@ -29,12 +32,16 @@ public class InsuranceController {
 	private final InsuranceMapper insuranceMapper;
 	private final InsuranceService insuranceService;
 	
-	public InsuranceController(InsuranceMapper insuranceMapper, InsuranceService insuranceService) {
+	@Autowired
+	private final CommonNewCode commonNewCode;
+	
+	public InsuranceController(InsuranceMapper insuranceMapper, InsuranceService insuranceService, CommonNewCode commonNewCode) {
 		this.insuranceMapper = insuranceMapper;
 		this.insuranceService = insuranceService;
+		this.commonNewCode = commonNewCode;
 	}
 	@GetMapping("/insuranceMain")
-	public String getInsuranceList(HttpServletResponse response, Model model, HttpSession session) throws IOException {
+	public String getInsurance(HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		
 		if(session.getAttribute("S_USER_INFO") != null) {
 			model.addAttribute("title", "Insurance");
@@ -71,16 +78,25 @@ public class InsuranceController {
 	}
 	
 	@PostMapping("/insuranceAddBill")
-	public String addInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail) {
+	public String addInsuranceBillDetail(InsuranceBillDetail insuranceBillDetail, HttpSession session) {
 		
 		System.out.println("---------보상금청구서 등록------------");
-		System.out.println(insuranceBillDetail.toString());
 		
-		String insuranceBillDetailCode = insuranceBillDetail.getInsuranceBillDetailCode();
+		String newInsuranceBillDetailCode = commonNewCode.getCommonNewCode("tb_insurance_bill_detail", "insurance_bill_detail_code");
+		
+		List<Insurance> insuranceList = insuranceMapper.getInsuranceInfo(insuranceBillDetail.getInsuranceCode());
+		
+		insuranceBillDetail.setInsuranceBillDetailCode(newInsuranceBillDetailCode);
+		System.out.println(insuranceList.toString());
+		
+		insuranceBillDetail.setUserId(insuranceList.get(0).getUserId());
+		insuranceBillDetail.setPaymentCode(insuranceList.get(0).getPaymentCode());
+		
+		System.out.println(insuranceBillDetail.toString());
 		
 		insuranceService.addInsuranceBillDetail(insuranceBillDetail);
 		
-		return "redirect:insuranceBillDetail/" + insuranceBillDetailCode;
+		return "redirect:insuranceBillDetail/" + newInsuranceBillDetailCode;
 		
 	}
 	
@@ -97,9 +113,11 @@ public class InsuranceController {
 			
 			model.addAttribute("insuranceCode", insuranceCode);
 			
+			//로그인아이디로 보험리스트조회
 			List<Insurance> insuranceList = insuranceMapper.getInsuranceInfoById(loginId);
 			model.addAttribute("insuranceList", insuranceList);
 			
+			//보험코드로 보험리스트 조회
 			List<Insurance> insuranceInfo = insuranceMapper.getInsuranceInfo(insuranceCode);
 			model.addAttribute("insuranceInfo", insuranceInfo);
 			
@@ -116,6 +134,19 @@ public class InsuranceController {
 			return "user/user/login";
 		}
 		
+	}
+	
+	@ResponseBody
+	@GetMapping("/insuranceCode")
+	public String justifyInsuranceBillRecipt(@RequestParam(value="insuranceCode", required = false) String insuranceCode, Model model) {
+				
+		String justifyInsurance = insuranceMapper.justifyInsuranceBillRecipt(insuranceCode);
+		
+		System.out.println(justifyInsurance);
+		
+		model.addAttribute("justifyInsurance", justifyInsurance);
+		
+		return justifyInsurance;
 	}
 	
 	@GetMapping("/insuranceBillRecipt/{insuranceCode}")

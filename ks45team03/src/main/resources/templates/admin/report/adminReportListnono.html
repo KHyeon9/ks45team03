@@ -2,14 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{admin/layout/default}">
-<style>
-
-
-</style>
 
 <th:block layout:fragment="customContents">
 	 <div class="right_col" role="main">
-
+		  	<h1>관리자보험리스트</h1><br>
+			  	<h3>현재 보험에 가입되어 있는 유저를 보여줍니다</h3><br>
 		  	<div class="clearfix"></div>
 	              <div class="col-md-12 col-sm-12  ">
 
@@ -19,47 +16,48 @@
 						<h1>Report List</h1>
 						<p>회원의 신고 목록</p>
 					</div>
-				</div>
-					
+
+
 					<!-- FOUR TAB -->
-					<ul class="nav nav-tabs nav-pills nav-justified col-md-12"  role="tablist" >
-						<li class="nav-item">
-							<a class="nav-link tabAll active" data-toggle="tab" href="#jutified1" role="tab" aria-selected="true">ALL</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link tabReportComment" data-toggle="tab" href="#justified2" role="tab">COMMENT</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link tabReportGoods" data-toggle="tab" href="#justified3" role="tab">GOODS</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link tabReportInfoBoard" data-toggle="tab" href="#justified4" role="tab">INFOBOARD</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link tabReportReview" data-toggle="tab" href="#justified4" role="tab">REVIEW</a>
-						</li>
-					</ul><br/><br/>
+					<ul class="nav nav-tabs nav-pills nav-justified" role="tablist">
+						<li class="nav-item"><a class="nav-link tabAll active"
+							data-toggle="tab" href="#jutified1" role="tab"
+							aria-selected="true">ALL</a></li>
+						<li class="nav-item"><a class="nav-link tabReportComment"
+							data-toggle="tab" href="#justified2" role="tab">COMMENT</a></li>
+						<li class="nav-item"><a class="nav-link tabReportGoods"
+							data-toggle="tab" href="#justified3" role="tab">GOODS</a></li>
+						<li class="nav-item"><a class="nav-link tabReportInfoBoard"
+							data-toggle="tab" href="#justified4" role="tab">INFOBOARD</a></li>
+						<li class="nav-item"><a class="nav-link tabReportReview"
+							data-toggle="tab" href="#justified5" role="tab">REVIEW</a></li>
+					</ul>
+					<br /> <br />
+
 					<!-- 신고된 댓글 목록 -->
 					<div class="tableReportComment">
-						<h4>신고된 댓글 목록</h4><br />
+						<h4>신고된 댓글 목록</h4>
+						<br />
 						 <div class="table-responsive">
 						 
-                      <table class="table table-striped jambo_table bulk_action text-center">
+                      <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
-									<th>신고댓글코드</th>
-									<th>신고타입</th>
-									<th>정보게시판댓글코드</th>
-									<th>신고상태</th>
-									<th>신고한회원</th>
-									<th>신고받은회원</th>
-									<th>신고일시</th>
-									<th>원문 보기</th>
-									
-
-								</tr>
-							</thead>
-							<tbody >
+                            
+                            <th class="column-title">신고댓글코드</th>
+                            <th class="column-title">신고타입</th>
+                            <th class="column-title">정보게시판댓글코드 </th>
+                            <th class="column-title">신고상태</th>
+                            <th class="column-title">신고한회원</th>
+                            <th class="column-title">신고받은회원</th>
+                            <th class="column-title">신고내용</th>
+                            <th class="column-title">신고일시</th>
+                            <th class="column-title">원문 보기</th>
+                            
+                            
+                          </tr>
+                        </thead>
+						<tbody >
 								<tr th:if="${not #lists.isEmpty(reportCommentList)}"
 									th:each="l : ${reportCommentList}">
 									<td th:text="${l.reportCommentCode}" ></td>
@@ -72,38 +70,42 @@
 						      		</th:block>
 									<td th:text="${l.reportingUserId}"></td>
 									<td th:text="${l.reportedUserId}"></td>
+									<td th:text="${l.reportCommentContent}"></td>
 									<td th:text="${l.reportCommentDatetime}"></td>
-									<td><a class="btn btn-danger navyBtn"  th:href="@{adminReportDetail/{reportCommentCode}(reportCommentCode=${l.reportCommentCode})}">이동</a></td>
+									<td><a class="btn btn-danger navyBtn" style="width:100%"
+												th:href="@{adminReportDetail/{reportCommentCode}(reportCommentCode=${l.reportCommentCode})}">이동</a></td>
 
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(reportCommentList)}">
 									<td colspan="9">신고된 댓글이 없습니다.</td>
 								</tr>
 							</tbody>
-						</table>
-						<hr class="my-4">
-						<br />
+                      </table>
+                      <hr class="my-4">
+					<br />
+                    </div>
+                    
 					</div>
-					</div>
-
-
+					
 					<!-- 신고된 상품 목록 -->
-					<div class="tableReportGoods">
-						<h4>신고된 상품 목록</h4>
+					<div class="tableReportComment">
+						<h4>신고된 댓글 목록</h4>
 						<br />
 						 <div class="table-responsive">
 						 
-                      <table class="table table-striped jambo_table bulk_action text-center">
+                      <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
+                            
+						
 									<th>상품신고코드</th>
 									<th>신고타입</th>
 									<th>상품코드</th>
 									<th>신고상태</th>
 									<th>신고한회원</th>
 									<th>신고받은회원</th>
+									<th>신고내용</th>
 									<th>신고시간</th>
-									<th>원문 보기</th>
 									
 								</tr>
 							</thead>
@@ -121,8 +123,8 @@
 						      		</th:block>
 									<td th:text="${l.reportingUserId}"></td>
 									<td th:text="${l.reportedUserId}"></td>
+									<td th:text="${l.reportGoodsContent}"></td>
 									<td th:text="${l.reportGoodsDateTime}"></td>
-									<td><a class="btn btn-danger navyBtn"  th:href="@{/goods/goodsDetail(goodsCode=${l.goodsCode}, userId=${l.reportedUserId})}" >이동</a></td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(reportGoodsList)}">
 									<td colspan="9">신고된 상품이 없습니다.</td>
@@ -132,15 +134,14 @@
 						<hr class="my-4">
 						<br />
 					</div>
-					</div>
-
+					
 					<!-- 신고된 정보게시글 목록 -->
-					<div class="tableReportInfoBoard">
-						<h4>신고된 정보게시글 목록</h4>
+					<div class="tableReportComment">
+						<h4>신고된 댓글 목록</h4>
 						<br />
 						 <div class="table-responsive">
 						 
-                      <table class="table table-striped jambo_table bulk_action text-center">
+                      <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
 									<th>게시글신고코드</th>
@@ -149,8 +150,8 @@
 									<th>신고상태</th>
 									<th>신고한회원</th>
 									<th>신고당한회원</th>
+									<th>신고내용</th>
 									<th>신고시간</th>
-									<th>원문 보기</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -167,8 +168,8 @@
 						      		</th:block>
 									<td th:text="${l.reportingUserId}"></td>
 									<td th:text="${l.reportedUserId}"></td>
+									<td th:text="${l.reportInfoBoardContent}"></td>
 									<td th:text="${l.reportInfoBoardDatetime}"></td>
-									<td><a class="btn btn-danger navyBtn" th:href="@{/infoboard/infoBoardDetail(infoBoardCode=${l.infoBoardCode})}" >이동</a></td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(reportInfoBoardList)}">
 									<td colspan="9">신고된 정보게시글이 없습니다.</td>
@@ -178,15 +179,14 @@
 						<hr class="my-4">
 						<br />
 					</div>
-					</div>
 					
 					<!-- 신고된 상품평 목록 -->
-					<div class="tableReportReview">
-						<h4>신고된 상품평 목록</h4>
+					<div class="tableReportComment">
+						<h4>신고된 댓글 목록</h4>
 						<br />
 						 <div class="table-responsive">
 						 
-                      <table class="table table-striped jambo_table bulk_action text-center">
+                      <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
 									<th>상품평신고코드</th>
@@ -195,6 +195,7 @@
 									<th>신고상태</th>
 									<th>신고한회원</th>
 									<th>신고받은회원</th>
+									<th>신고내용</th>
 									<th>신고시간</th>
 									
 								</tr>
@@ -213,6 +214,7 @@
 						      		</th:block>
 									<td th:text="${l.reportingUserId}"></td>
 									<td th:text="${l.reportedUserId}"></td>
+									<td th:text="${l.reportReviewContent}"></td>
 									<td th:text="${l.reportReviewDatetime}"></td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(reportReviewList)}">
@@ -223,15 +225,13 @@
 						<hr class="my-4">
 						<br />
 					</div>
+					
 				</div>
 			</div>
 		</div>
 </th:block>
 <th:block layout:fragment="customScript">
 	<script th:inline="javascript">
-
-	
-	
 		// nav tab 이벤트
 		$('.tabAll').on("click", function() {
 			console.log("All탭");
@@ -275,7 +275,33 @@
 		});
 
 		
-		
+
+		// 보험만료시 청구버튼 숨기기
+		console.log($(".btnaddBill"));
+		for (let j = 0; j < $('.avlInsurance').length; j++) {
+			if ($('.avlInsurance')[j].innerText == "만료") {
+				$(".btnaddBill")[j].hidden = true;
+			}
+
+		}
+
+		// 상태 색깔 주기
+		for (let i = 0; i < $('.billState').length; i++) {
+			let state_name = $('.billState')[i].innerText;
+
+			if (state_name == "접수중") {
+				$('.billState')[i].style.color = "green";
+			} else if (state_name == "적합성판단중") {
+				$('.billState')[i].style.color = "orange";
+			} else if (state_name == "보상금지급대기") {
+				$('.billState')[i].style.color = "blue";
+			} else if (state_name == "부적합") {
+				$('.billState').style.color = "red";
+			} else {
+				$('.billState').style.color = "black";
+			}
+
+		}
 	</script>
 </th:block>
 </html>

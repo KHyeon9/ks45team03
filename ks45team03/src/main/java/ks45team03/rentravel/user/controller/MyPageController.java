@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Block;
@@ -32,6 +33,8 @@ import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
 import ks45team03.rentravel.dto.Review;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.dto.UserEvaluation;
+import ks45team03.rentravel.dto.UserEvaluationType;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
 import ks45team03.rentravel.dto.Wish;
@@ -67,7 +70,7 @@ public class MyPageController {
 	
 	
 	@GetMapping("/myPage")
-	public String myPage(Model model, HttpSession session) {
+	public String myPage(Model model, HttpSession session, @RequestParam(value="userNickName") String userNickName) {
 	
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		String redirectURI = "user/myPage/myPage";
@@ -77,8 +80,11 @@ public class MyPageController {
 			redirectURI = "redirect:/login";	
 			
 		}else {
+			int getDuplicateEvaluation = userMapper.getDuplicateEvaluation(userNickName, loginUser.getLoginId());
 			
 			model.addAttribute("title", "내 정보");
+			model.addAttribute("userNickName", userNickName);
+			model.addAttribute("getDuplicateEvaluation", getDuplicateEvaluation);
 			
 		}
 		return redirectURI;
@@ -473,17 +479,93 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/userEvaluation")
-	public String userEvaluation(Model model) {
+	public String userEvaluation(Model model
+								,HttpSession session
+								,@RequestParam(value="userNickName") String userNickName) {
+		
+		List<UserEvaluation> userEvaluation = userService.userEvaluation(userNickName);
+		
 		model.addAttribute("title","내 평가");
+		model.addAttribute("userEvaluation", userEvaluation);
+		model.addAttribute("userNickName", userNickName);
+		
 		return "user/myPage/userEvaluation";
 	}
 	
-	@GetMapping("/userEvaluated")
-	public String userEvaluated(Model model) {
-		model.addAttribute("title","내가 한 평가");
-		return "user/myPage/userEvaluated";
+	@PostMapping("/addUserEvaluation")
+	public String addUserEvaluation(@RequestParam(value="userNickName") String userNickName
+								   ,@RequestParam(value="userEvaluationTypeCodeList") List<String> userEvaluationTypeCodeList
+								   ,HttpSession session) {
+		
+		
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		userMapper.addUserEvaluation(userNickName, userEvaluationTypeCodeList, loginInfo.getLoginId());
+		
+		return "redirect:" + session.getAttribute("referer");
 	}
 	
+	@GetMapping("/addUserEvaluation")
+	public String addUserEvaluation(Model model, @RequestParam(value="userNickName") String userNickName
+									,HttpSession session
+								    ,HttpServletRequest request) {
+		
+		String referer = request.getHeader("Referer");
+		
+		if (!referer.contains("/login")) {
+			session.setAttribute("referer", referer);
+	    }
+		
+		
+			List<UserEvaluationType> userEvaluationList = userMapper.userEvaluationList();
+			
+			model.addAttribute("title", "회원평가");
+			model.addAttribute("userNickName", userNickName);
+			model.addAttribute("userEvaluationList", userEvaluationList);
+		
+		return "user/myPage/addUserEvaluation";
+	}
+	
+	@GetMapping("/addUserEvalueationDone")
+	public String addUserEvalueationDone(Model model, @RequestParam(value="userNickName") String userNickName, HttpSession session ,HttpServletRequest request) {
+		
+		String referer = request.getHeader("Referer");
+		
+		if (!referer.contains("/login")) {
+			session.setAttribute("referer", referer);
+	    }
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		List<UserEvaluation> getUserEvaluationDoneList = userMapper.getUserEvaluationDoneList(userNickName, loginInfo.getLoginId());
+		
+		model.addAttribute("title", "회원평가");
+		model.addAttribute("userNickName", userNickName);
+		model.addAttribute("getUserEvaluationDoneList", getUserEvaluationDoneList);
+		
+		return "user/myPage/addUserEvalueationDone";
+	}
+	
+	@PostMapping("/modifyEvaluationAjax")
+	@ResponseBody
+	public List<UserEvaluationType> modifyEvaluation(){
+		
+		List<UserEvaluationType> userEvaluationList = userMapper.userEvaluationList();
+		
+		return userEvaluationList;
+	}
+	
+	@PostMapping("/modifyUserEvaluation")
+	public String modifyUserEvaluation(@RequestParam(value="userNickName") String userNickName
+								   ,@RequestParam(value="userEvaluationTypeCodeList") List<String> userEvaluationTypeCodeList
+								   ,HttpSession session) {
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		userMapper.deleteUserEvaluation(userNickName, loginInfo.getLoginId());
+		userMapper.addUserEvaluation(userNickName, userEvaluationTypeCodeList, loginInfo.getLoginId());
+		
+		return "redirect:" + session.getAttribute("referer");
+	}
 	@GetMapping("/myBlockList")
 	public String getUserBlockrList(Model model
 									,HttpSession session

@@ -81,8 +81,6 @@ public class GoodsController {
 		return "user/goods/goodsList";
 	}
 	
-	
-	
 	@GetMapping("/goodsDetail")
 	public String goodsDetail(Model model
 							 ,@RequestParam(value="goodsCode") String goodsCode

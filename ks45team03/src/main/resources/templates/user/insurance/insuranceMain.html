@@ -100,8 +100,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${not #lists.isEmpty(insuranceList)}"
-					    	th:each="l : ${insuranceList}">	
+						<th:block th:if="${not #lists.isEmpty(insuranceList)}" th:each="l : ${insuranceList}">	
+						<tr>
 					      <td th:text="${l.insuranceCode}"></td>
 					      <td th:text="${l.goodsCode}"></td>
 					      <th:block th:object="${l.goods}">
@@ -118,6 +118,7 @@
 					      	<a th:href="@{/insurance/insuranceAddBillPersonInfo/{insuranceCode}(insuranceCode=${l.insuranceCode})}" class="badge badge-primary btnaddBill">청구하기</a>
 					      </td>
 					    </tr>
+					      </th:block>
 					    <tr th:unless="${not #lists.isEmpty(insuranceList)}">
 					    	<td colspan="9">가입된 보험이 없습니다.</td>
 					    </tr>
@@ -228,6 +229,8 @@
 	   			// nav tab 이벤트
 	   			$('.tabAll').on("click", function () {
 	   		    	console.log("All탭");
+	   		    	$('.tabAll').css("background-color", "black");
+	   		    	$('.tabAll').css("border-color", "black");
 	   		    	$('.tableInsurance').show();
 	   		    	$('.tableInsuranceBill').show();
 	   		    	$('.tableInsurancePayout').show();
@@ -281,6 +284,8 @@
 		   			}
 		   			
 		   		}
+	   			
+	   			
 	   		</script>
 	   </th:block>
 </html>
