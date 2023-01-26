@@ -225,27 +225,37 @@
 	<!-- 사용자 지정 js script -->
 	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
+			function validateValue(checkValue){
+				if(typeof checkValue == 'undefined'
+						|| checkValue == null
+						|| checkValue == '' ){
+					return true;
+				}
+				return false;
+			}
 			/* console.log('>>>>>>>>',$('.carousel-control-prev-icon').css('background-image',`url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%230d59ab' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e")`)); */
 			$('.modifyInfoBoard').click(function(){
 				location.href='/infoboard/modifyInfoBoard?infoBoardCode=' + $(this).attr('data-infoboard-code');
 			})
 		
 			$('.deleteInfoBoard').click(function(){
-				const deleteForm = $('<form></form>');
-				deleteForm.attr({
-					action:'/infoboard/removeInfoBoard',
-					method:'POST'
-				});
-				deleteForm.append($('<input />', {
-					value: $(this).data('infoboardCode'),
-					name: 'infoboardCode',
-					type: 'hidden'
-				}));
-				deleteForm.appendTo('body');
+				if(confirm('게시글을 삭제하시겠습니까?')){
+					const deleteForm = $('<form></form>');
+					deleteForm.attr({
+						action:'/infoboard/removeInfoBoard',
+						method:'POST'
+					});
+					deleteForm.append($('<input />', {
+						value: $(this).data('infoboardCode'),
+						name: 'infoboardCode',
+						type: 'hidden'
+					}));
+					deleteForm.appendTo('body');
+					deleteForm.submit();
+				}
 				
 				//$('body').appendTo(deleteForm);
 				
-				deleteForm.submit();
 			})
 		
 			$(document).on('click', '.modifyBtn', function(){
@@ -270,7 +280,10 @@
 					text:'수정',
 					click: function(){
 						const infoBoardCommentContentValue = $(this).parent().find('textarea.modifyComment').val();
-						console.log(infoBoardCommentContentValue);
+						if (validateValue(infoBoardCommentContentValue)){
+							alert("댓글 수정 내용을 입력해 주세요.");
+							return false;
+						}
 						const commentObj = {
 								'infoBoardCommentCode':infoBoardCommentCode,
 			   					'infoBoardCommentContent':infoBoardCommentContentValue,
@@ -310,23 +323,25 @@
 		
 			$(document).on('click','.deleteBtn',function(){
 				const infoBoardCommentCode = $(this).attr('data-comment-code');
-				
-				$.ajax({
-	   				type:'POST',
-	   				url:'/infoboard/infoBoardDetail/removeComment',
-	   				contentType: "application/json; charset=UTF-8",
-	   				data: infoBoardCommentCode,
-		   			success: function(data) {
-		   					location.reload();
-		   	          		console.log("성공");
-		   			},
-		   			error: function(e) {
-		   				alert("ERROR : " + e);
-		   			}	
-				});// 댓글 비동기 끝
+				if(confirm('댓글을 삭제하시겠습니까?')){
+					$.ajax({
+		   				type:'POST',
+		   				url:'/infoboard/infoBoardDetail/removeComment',
+		   				contentType: "application/json; charset=UTF-8",
+		   				data: infoBoardCommentCode,
+			   			success: function(data) {
+			   					location.reload();
+			   	          		console.log("성공");
+			   			},
+			   			error: function(e) {
+			   				alert("ERROR : " + e);
+			   			}	
+					});// 댓글 비동기 끝
+				}				
 			})
 		
 			$('#commentBtn').click(function(){
+				console.log('1');
 				const userId= $('#commentId').val();
 				const infoBoardCode = $('#boardCode').val();
 				const infoBoardCommentContent = $('#comment').val();
@@ -334,8 +349,9 @@
 				console.log(infoBoardCode);
 				console.log(infoBoardCommentContent);
 					
-				if(infoBoardCommentContent == '') {
+				if(validateValue(infoBoardCommentContent)) {
 					alert('내용을 입력하세요.');
+					return false;
 				}
 				const userObj = {
 									'userId':userId,

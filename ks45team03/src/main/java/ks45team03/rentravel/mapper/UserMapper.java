@@ -10,6 +10,8 @@ import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.dto.UserEvaluation;
+import ks45team03.rentravel.dto.UserEvaluationType;
 
 @Mapper
 public interface UserMapper {
@@ -35,5 +37,21 @@ public interface UserMapper {
 	public void loginHistory(String loginId);
 	
 	public void logoutHistory(String loginId);
+	
+	public int findIdCheck(String userName, String userEmail, String userPhoneNumber);
+	
+	public List<User> showFindId(String userName, String userEmail, String userPhoneNumber);
+	
+	public List<UserEvaluation> userEvaluation(String userNickName);
+	
+	public List<UserEvaluationType> userEvaluationList();
+	
+	public int addUserEvaluation(String userNickName, List<String> userEvaluationTypeCodeList, String loginId);
+	
+	public int getDuplicateEvaluation(String userNickName, String loginId);
+	
+	public List<UserEvaluation> getUserEvaluationDoneList(String userNickName, String loginId);
+	
+	public int deleteUserEvaluation(String userNickName, String loginId);
 	
 }
