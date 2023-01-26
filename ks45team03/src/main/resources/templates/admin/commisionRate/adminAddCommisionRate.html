@@ -8,7 +8,7 @@
 		<th:block layout:fragment="customJs">
 			<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 			<script>
-		$(function() { // 요소가 다그려지고 나서 실행해 주세요	
+		$(function() { 
 			function validateValue(checkValue) {
 				if (typeof checkValue == 'undefined' || checkValue == null
 						|| checkValue == '') {
@@ -19,7 +19,7 @@
 			}
 
 		
-			/* 유효성검사를 구현하시오. (#submitBtn 를 클릭 시) */
+			
 			$('#submitBtn').click(
 					function() {
 						let isSubmit = true;
