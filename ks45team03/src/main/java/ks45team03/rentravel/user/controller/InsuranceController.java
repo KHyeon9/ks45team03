@@ -43,6 +43,8 @@ public class InsuranceController {
 	@GetMapping("/insuranceMain")
 	public String getInsurance(HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		
+		String URI;
+		
 		if(session.getAttribute("S_USER_INFO") != null) {
 			model.addAttribute("title", "Insurance");
 			LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");  // 세션에서 값을 가져오는 방법
@@ -56,14 +58,15 @@ public class InsuranceController {
 			model.addAttribute("insuranceBillList", insuranceBillList);
 			model.addAttribute("insurancePayoutList", insurancePayoutList);
 			 
-			return "user/insurance/insuranceMain";
+			URI = "user/insurance/insuranceMain";
 			
 		} else {
 			
 			CommonController.alertPlzLogin(response);
+			URI = "user/user/login";
 			
-			return "user/user/login";
 		}
+		return URI;
 		
 	}
 	
@@ -103,8 +106,7 @@ public class InsuranceController {
 	
 	@GetMapping("/insuranceAddBill/{insuranceCode}")
 	public String addInsuranceBillDetail(@PathVariable(value="insuranceCode") String insuranceCode,
-										HttpServletResponse response, Model model, HttpSession session) throws IOException {
-		if(session.getAttribute("S_USER_INFO") != null) {
+										Model model, HttpSession session) throws IOException {
 			model.addAttribute("title", "Insurance");
 			model.addAttribute("insuranceCode", insuranceCode);
 			
@@ -126,13 +128,6 @@ public class InsuranceController {
 			model.addAttribute("insuranceUserInfo", insuranceUserInfo);
 
 			return "user/insurance/insuranceAddBill";
-			
-		} else {
-			
-			CommonController.alertPlzLogin(response);
-			
-			return "user/user/login";
-		}
 		
 	}
 	

@@ -4,10 +4,7 @@
 	  layout:decorate="~{user/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
-		  <section class="mainContent clearfix logIn">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-md-7 col-lg-8 col-xl-7 col-12">
+		  <section class="mainContent clearfix logIn pt-0 pb-0">
 					<!-- 페이지마다 변경되는 contents -->
 						<!-- Preloader -->
 						<div id="preloader" class="smooth-loader-wrapper">
@@ -29,18 +26,575 @@
 								<div class="block"></div>
 								<div class="block"></div>
 							</div>
-						</div> 
-						
-					  	<h1>메인화면</h1>
-					  	
-					  	<h3><a th:href="@{/insurance/insuranceMain}" style="color:blue;">보험메인화면</a></h3>
-					  	<h3><a th:href="@{/goods/goodsList}" style="color:blue;">상품 리스트</a></h3>
-					  	<h3><a th:href="@{/board/inquiryList}" style="color:blue;">1 대 1 문의 게시판 리스트</a></h3>
-					  	<h3><a th:href="@{/goods/addGoods}" style="color:blue;">상품추가</a></h3>
-					  	<h3><a th:href="@{/room}" style="color:blue;">내 채팅방 목록(로그인 필요)</a></h3>
-					</div>
-				</div>
-			</div>
+						</div>
+						 <!-- MAIN CONTENT SECTION -->
+      <div class="mainContent clearfix home-v5 ">
+      
+      	        <!-- CTA SECTION -->
+        <div class="bg-image" style="background-image: url('img/home/bg-cta.jpg');">
+          <div class="container">
+            <div class="row justify-content-center cta">
+              <div class="col-12 col-md-8 col-lg-6 align-self-center">
+                <div class="video-holder">
+                  <h1>What is RENTravel</h1>
+                  <p>
+                      스마트한 소비의 시작 사지마세요 빌려쓰세요
+                  </p>
+                  <a class="video-link" th:href="@{/goods/goodsList}">
+                    <i class="fa fa-plane p-0"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         <!-- FEATURE PRODUCT SECTION -->
+          <div class="row featuredProducts version3 justify-content-center">
+            <div class="col-md-10 mb-4 mt-4 mb-md-5">
+              <div class="tabCommon">
+                <ul class="nav nav-tabs">
+                  <li><a class="active" data-toggle="tab" href="#menu1">New Araivals</a></li>
+                  <li><a data-toggle="tab" href="#menu2">Top Rated</a></li>
+                  <li><a data-toggle="tab" href="#menu3">On Sale</a></li>
+                </ul>
+                <div class="tab-bottom">
+                </div>
+                <div class="tab-content">
+                  <div id="menu1" class="tab-pane fade show active">
+                    <div class="row">
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img7.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Nike Sportswear</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img8.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Scarf Ring Corner</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img9.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Sun Buddies</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img10.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img11.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Nike Sportswear</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img12.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">porro quisquam</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img13.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">enim ad minim</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img3.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">sunt in culpa</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="menu2" class="tab-pane fade">
+                    <div class="row">
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img6.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img5.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img4.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img3.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img11.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Nike Sportswear</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img12.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">porro quisquam</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img13.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">enim ad minim</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img3.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">sunt in culpa</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="menu3" class="tab-pane fade">
+                    <div class="row">
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img5.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img3.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img8.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Scarf Ring Corner</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img9.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Sun Buddies</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img10.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img11.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Nike Sportswear</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img6.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="imageBox">
+                          <div class="productImage clearfix">
+                            <a href="single-product.html">
+                              <img src="user/assets/img/home/featured-product/product-img4.jpg" alt="featured-product-img">
+                            </a>
+                            <div class="productMasking">
+                              <ul class="list-inline btn-group" role="group">
+                                <li><a class="btn btn-default btn-wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-default" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="fa fa-shopping-basket"></i></a></li>
+                                <li><a data-toggle="modal" href=".quick-view" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="productCaption clearfix">
+                            <h5><a href="single-product.html">Mauris efficitur</a></h5>
+                            <h3>$199</h3>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- FEATURE SECTION -->
+        <div id="features" class="featureSection" style="background-color: #f0f0f0;">
+          <div class="container"  >
+            <div class="row justify-content-center">
+              <div class="col-md-12o">
+                <div class="media mb-4 mb-md-5 flex-wrap">
+                  <div class="icon-box"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+                  <div class="media-body">
+                    <h4 class="mt-0">BORROW</h4>
+                    <p>여행갈 때마다 여행용품을 살 순 없죠. 필요한 여행용품 원하는 기간만큼 빌리고 반납하고 여행갈 때 필수 랜트래블! </p>
+                  </div>
+                </div>
+                <div class="media  mb-4 mb-md-5 flex-wrap">
+                  <div class="icon-box"><i class="fa fa-money" aria-hidden="true"></i></div>
+                  <div class="media-body">
+                    <h4 class="mt-0">RENTAL</h4>
+                    <p>집에 쓰지않는 여행용품, 전자기기 등을 빌려주고 용돈을 벌어요! </p>
+                  </div>
+                </div>
+                <div class="media  mb-4 mb-md-5 flex-wrap">
+                  <div class="icon-box"><i class="fa fa-comment-o" aria-hidden="true"></i></div>
+                  <div class="media-body">
+                    <h4 class="mt-0">COMMUNITY</h4>
+                    <p>정보게시판을 통해 회원들과 여행 정보를 공유할 수 있습니다. 매달 베스트글은 시상이 있어요 </p>
+                  </div>
+                </div>
+                <div class="media  mb-4 mb-md-5 flex-wrap">
+                  <div class="icon-box"><i class="fa fa-server" aria-hidden="true"></i></div>
+                  <div class="media-body">
+                    <h4 class="mt-0">INSURANCE</h4>
+                    <p>내 물건.. 돌아오지 않을까 불안하시다고요? 랜트래블만의 보험시스템! 대여해줄때마다 가입! 더이상 불안해하지마세요 </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>
 		</section>
 		</th:block>
 </html>
