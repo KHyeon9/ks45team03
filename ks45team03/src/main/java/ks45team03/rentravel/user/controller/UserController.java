@@ -104,8 +104,7 @@ public class UserController {
 					   ,RedirectAttributes reAttr
 					   ,HttpSession session
 					   ,HttpServletRequest request
-					   ,HttpServletResponse response
-					   ,Authentication authentication) {
+					   ,HttpServletResponse response) {
 		
 		Map<String, Object> checkResult = userService.checkPwByUserId(userId, userPw);
 		
@@ -113,7 +112,6 @@ public class UserController {
 		String redirectURI;
 		
 		redirectURI = "redirect:" + session.getAttribute("referer");
-		System.out.println(session.getAttribute("referer"));
 		// 비밀번호 미일치시
 		if(!isChecked) {
 			redirectURI = "redirect:/login";

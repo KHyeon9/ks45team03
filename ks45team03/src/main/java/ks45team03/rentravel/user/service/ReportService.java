@@ -17,4 +17,8 @@ public class ReportService {
 	public void reportGoodsList(String goodsCode, String reportTypeCode, String userId, String loginId){
 		reportMapper.reportGoodsList(goodsCode, reportTypeCode, userId, loginId);
 	}
+	
+	public void reportReviewList(String reviewCode, String reportTypeCode, String userId, String loginId){
+		reportMapper.reportReviewList(reviewCode, reportTypeCode, userId, loginId);
+	}
 }
