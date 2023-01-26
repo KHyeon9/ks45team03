@@ -12,7 +12,7 @@
                 <div class="col-md-12 col-sm-12">
                    	<div class="x_panel">
                            <div class="x_title">
-                               <h2>환불 정보 수정 <small>User</small></h2>
+                               <h2>반납 정보 수정 <small>User</small></h2>
                                <div class="clearfix"></div>
                            </div>
                            <div class="x_content">
@@ -58,9 +58,9 @@
                                    	  <br>
                                        <div class="form-group">
                                            <div class="col-md-6 offset-md-3">
-                                               <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
-                                               <button type='reset'  class="btn btn-success">Reset</button>
-                                               <button type='button' class="btn btn-success cancel">Cancel</button>
+                                               <button type="submit" id="submitBtn" class="btn btn-primary">수정</button>
+                                               <button type='reset'  class="btn btn-success">초기화</button>
+                                               <button type='button' class="btn btn-success cancel">취소</button>
                                            </div>
                                        </div>
                                    </div>
@@ -125,7 +125,7 @@
 		        }).prop('checked', false);
 		        
 		    	$('.cancel').click(function(){
-		    		location.href = '/admin/order/adminWaybillList';
+		    		location.href = '/admin/order/adminReturnHistory';
 		    	})
 		    </script>
 		</th:block>

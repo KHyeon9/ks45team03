@@ -49,18 +49,15 @@ public class InfoBoardController {
 	private final CommonNewCode commonNewCode;
 	private final UserMapper userMapper;
 
-	/*
-	 * public InfoBoardController(InfoBoardService infoBoardService) {
-	 * this.infoBoardService = infoBoardService; }
-	 * List<Map<String, Object>> paramMaps
-	 */
 	
+	// 댓글 수정
 	 @ResponseBody
 	 @PostMapping("/infoBoardDetail/modifyComment") 
 	 public void modifyComment(@RequestBody InfoBoardComment comment) {
 		 infoBoardService.modifyInfoBoardComment(comment);
 	}
 	
+	 // 댓글 삭제
 	 @ResponseBody
 	 @PostMapping("/infoBoardDetail/removeComment") 
 	 public void removeComment(@RequestBody String infoBoardCommentCode) {
@@ -68,6 +65,7 @@ public class InfoBoardController {
 		 infoBoardService.removeInfoBoardComment(infoBoardCommentCode);
 	}
 
+	 // 댓글 등록
 	 @ResponseBody
 	 @PostMapping("/infoBoardDetail/addComment") 
 	 public void addComment(@RequestBody InfoBoardComment comment) {
@@ -76,11 +74,7 @@ public class InfoBoardController {
 		 infoBoardService.addInfoBoardComment(comment);
 	}	
 
-	@GetMapping("/removeInfoBoard")
-	public String removeInfoBoard(Model model) {
-		return "redirect:/";
-	}
-
+	 // 게시글 목록 조회
 	@GetMapping("/infoBoardList")
 	public String infoBoardList(@RequestParam(value="curPage", defaultValue="1", required=false) int curPage, 
 								Model model) {
@@ -97,6 +91,7 @@ public class InfoBoardController {
 		return "user/board/infoBoardList";
 	}
 
+	// 게시글 상세 조회
 	@GetMapping("/infoBoardDetail")
 	public String infoBoardDetail(@RequestParam(value = "infoBoardCode", required = false) String infoBoardCode,
 								  @RequestParam(value="curPage", defaultValue="1", required=false) int curPage, 
@@ -128,6 +123,7 @@ public class InfoBoardController {
 		return "user/board/infoBoardDetail";
 	}
 
+	// 게시글 수정 post
 	@PostMapping("/modifyInfoBoard")
 	public String modifyInfoBoard(InfoBoard infoBoard, MultipartFile[] uploadfile) {
 		
@@ -141,6 +137,7 @@ public class InfoBoardController {
 		return "redirect:/infoboard/infoBoardDetail?infoBoardCode=" + infoBoard.getInfoBoardCode();
 	}
 	
+	// 게시글 수정 get
 	@GetMapping("/modifyInfoBoard")
 	public String modifyInfoBoard(@RequestParam(value = "infoBoardCode") String infoBoardCode,
 								  Model model) {
@@ -152,6 +149,7 @@ public class InfoBoardController {
 		return "user/board/modifyInfoBoard";
 	}
 	
+	// 게시글 삭제
 	@PostMapping("/removeInfoBoard")
 	public String removeInfoBoard(String infoboardCode) {
 		InfoBoard infoBoard = infoBoardMapper.getInfoBoardDetail(infoboardCode);
@@ -160,7 +158,8 @@ public class InfoBoardController {
 		
 		return "redirect:/infoboard/infoBoardList";
 	}
-	
+	 
+	// 게시글 등록 post
 	@PostMapping("/addInfoBoard")
 	public String addInfoBoard(@RequestPart(value = "uploadfile", required = false) MultipartFile[] uploadfile,
 							   HttpServletRequest request,
@@ -177,6 +176,7 @@ public class InfoBoardController {
 		return "redirect:/infoboard/infoBoardList";
 	}
 
+	// 게시글 등록 get
 	@GetMapping("/addInfoBoard")
 	public String addInfoBoard(HttpSession session, HttpServletResponse response, Model model) throws IOException {
 		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");

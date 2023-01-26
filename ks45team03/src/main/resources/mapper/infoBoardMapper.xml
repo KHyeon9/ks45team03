@@ -104,7 +104,7 @@
 			info.info_board_code = #{infoBoardCode};
 	</update>
 	
-	<!-- 게시글 수정 (img 수정 x) -->
+	<!-- 게시글 수정 -->
 	<update id="modifyInfoBoard" parameterType="InfoBoard">
 		UPDATE
 			tb_info_board AS info

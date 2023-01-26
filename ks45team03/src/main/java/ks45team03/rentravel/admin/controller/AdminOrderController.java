@@ -201,7 +201,7 @@ public class AdminOrderController {
 	public String adminReturnHistory(@RequestParam(value="curPage", defaultValue="1", required=false) int curPage,
 								      Model model) {
 		
-		int listCnt = adminOrderMapper.getRentalCancelHistoryCnt();
+		int listCnt = adminOrderMapper.getReturnCnt();
 		Pagination pagination = new Pagination(listCnt, curPage);
 		List<Return> returnHistory = adminOrderMapper.getReturnHistory(pagination.getStartIndex(), pagination.getPageSize());
 		
