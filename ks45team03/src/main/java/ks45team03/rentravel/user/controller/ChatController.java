@@ -1,7 +1,5 @@
 package ks45team03.rentravel.user.controller;
 
-
-
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -39,7 +37,6 @@ public class ChatController {
     public String chat(Model model, @RequestParam(value="chatRoomCode") String chatRoomCode,HttpSession session){
     	
     	LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-    	String loginId = loginUser.getLoginId();
     	List<ChatMessage> chatMessageList = chatService.getChatMessageList(chatRoomCode);
     	ChatRoom chatRoomInfo = chatMapper.getChatRoomCode(chatRoomCode);
     	
@@ -54,7 +51,7 @@ public class ChatController {
     
 	@ResponseBody
 	@PostMapping("/addChatMessage")
-	public void addChatMessage(ChatMessage chatMessage) {
+	public void addChatMessage(@RequestBody ChatMessage chatMessage) {
 		
 		String chatMessageCode = commonNewCode.getCommonNewCode("tb_chat_message", "chat_message_code");
 		chatMessage.setChatMessageCode(chatMessageCode);
