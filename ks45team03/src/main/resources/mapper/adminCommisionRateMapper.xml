@@ -14,6 +14,7 @@
 	
 	
 	<update id="adminModifyCommisionRate" parameterType="CommisionRate">
+		/* 특정 플랫폼 수수료율 수정 */
 		UPDATE tb_commision_rate AS cr
 		SET 
 			cr.commision_rate = ${commisionRate}
