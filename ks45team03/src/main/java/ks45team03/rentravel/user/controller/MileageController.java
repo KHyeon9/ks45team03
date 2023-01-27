@@ -10,14 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MileageController {
 	
 	
-	
-	@GetMapping("/myMileageList")
-	public String getMyMileageList(Model model) {
-		model.addAttribute("title", "적립금 적립/사용 내역");
-
-		return "/user/myPage/myMileageList";
-	}
-
 
 	
 }
