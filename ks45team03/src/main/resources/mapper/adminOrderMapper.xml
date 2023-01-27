@@ -327,6 +327,14 @@
 		</if>
 	</select>
 	
+	<!-- 반납 이력 갯수 조회 -->
+	<select id="getReturnCnt" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM
+			tb_return AS ret;
+	</select>
+	
 	<!-- 반납 정보 조회 -->
 	<select id="getReturn" parameterType="String" resultMap="returnMap">
 		SELECT

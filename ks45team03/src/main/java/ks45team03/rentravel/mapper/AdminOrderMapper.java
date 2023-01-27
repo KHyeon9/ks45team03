@@ -42,6 +42,9 @@ public interface AdminOrderMapper {
 	// 주문 반납 내역 조회
 	public List<Return> getReturnHistory(int startIndex, int pageSize);
 	
+	// 주문 반납 내역 갯수 조회
+	public int getReturnCnt();
+	
 	// 주문 반납 수정 폼 조회
 	public Return getReturn(String returnCode);
 	

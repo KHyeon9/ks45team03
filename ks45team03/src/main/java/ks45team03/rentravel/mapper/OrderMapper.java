@@ -67,7 +67,7 @@ public interface OrderMapper {
 	public List<RegionSgg> getRegionSggBySidoCode(String regionSidoCode);
 	
 	// 로그인 아이디로 유저 주소 정보 조회
-	public User loginUserInfo(String userId); 
+	public User getLoginUserInfo(String userId); 
 	
 	// 회원 주문 물품 정보 조회
 	public Rental getOrderGoodsInfo(String rentalCode);

@@ -129,7 +129,7 @@
 	</resultMap>
 	
 	
-	<!-- 마일리지 보유 총량 조화 -->
+	<!-- 마일리지 보유 총량 조회 -->
 	<select id="getUserTotalMileage" parameterType="String" resultType="int">
 		SELECT
 			u.total_mileage	
@@ -378,7 +378,7 @@
 	</select>
 	
 	<!-- 로그인 아이디로 주소 가져오기 -->
-	<select id="loginUserInfo" parameterType="String" resultMap="userResultMap">
+	<select id="getLoginUserInfo" parameterType="String" resultMap="userResultMap">
 		SELECT
 			 u.user_id,
 			 u.user_nickname, 
