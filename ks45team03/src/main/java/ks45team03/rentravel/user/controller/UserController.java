@@ -1,9 +1,9 @@
 package ks45team03.rentravel.user.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
+import ks45team03.rentravel.dto.SleeperAccount;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.mapper.UserMapper;
 import ks45team03.rentravel.user.service.UserService;
@@ -97,6 +98,34 @@ public class UserController {
 		return "user/user/addUser";
 	}
 	
+	@PostMapping("/disableSleeperAccount")
+	public String disableSleeperAccount(@RequestParam(value="userId") String userId, HttpSession session) {
+		
+		Map<String, Object> checkResult = userService.userInfo(userId);
+		
+		User user = (User) checkResult.get("userInfo");
+		
+		LoginInfo loginInfo = new LoginInfo(userId, user.getUserNickName(), user.getUserLevelName());
+		
+		session.setAttribute("S_USER_INFO", loginInfo);
+		
+		LoginInfo userInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		userMapper.loginHistory(userInfo.getLoginId());
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping("/disableSleeperAccount")
+	public String disableSleeperAccount(Model model, @RequestParam(value="userId") String userId) {
+		
+		SleeperAccount getSleeperAccount = userMapper.getSleeperAccount(userId);
+		
+		model.addAttribute("title", "휴면계정해제");
+		model.addAttribute("getSleeperAccount", getSleeperAccount);
+		
+		return "user/user/disableSleeperAccount";
+	}
+	
 	// 로그인 처리
 	@PostMapping("/login")
 	public String login(@RequestParam(value="userId") String userId
@@ -104,7 +133,7 @@ public class UserController {
 					   ,RedirectAttributes reAttr
 					   ,HttpSession session
 					   ,HttpServletRequest request
-					   ,HttpServletResponse response) {
+					   ,HttpServletResponse response) throws IOException {
 		
 		Map<String, Object> checkResult = userService.checkPwByUserId(userId, userPw);
 		
@@ -117,15 +146,29 @@ public class UserController {
 			redirectURI = "redirect:/login";
 			reAttr.addAttribute("msg", "아이디(ID)와 비밀번호를 확인하고 다시 로그인해주세요.");
 		} else {
-			// 비밀번호 일치
-			User user = (User) checkResult.get("userInfo");
+			int checkRemoveId = userMapper.checkRemoveId(userId);
+			int checkSleeperId = userMapper.checkSleeperId(userId);
 			
-			LoginInfo loginInfo = new LoginInfo(userId, user.getUserNickName(), user.getUserLevelName());
-			
-			session.setAttribute("S_USER_INFO", loginInfo);
-			
-			LoginInfo userInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
-			userMapper.loginHistory(userInfo.getLoginId());
+			if(checkRemoveId == 1) {
+				
+				CommonController.alertRemoveAccount(response);
+				
+				return "user/user/login";
+			}else if(checkSleeperId == 1) {
+				session.setAttribute("userId", userId);
+				redirectURI = "redirect:/disableSleeperAccount?userId=" + userId;
+				
+			}else {
+				// 비밀번호 일치
+				User user = (User) checkResult.get("userInfo");
+				
+				LoginInfo loginInfo = new LoginInfo(userId, user.getUserNickName(), user.getUserLevelName());
+				
+				session.setAttribute("S_USER_INFO", loginInfo);
+				
+				LoginInfo userInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+				userMapper.loginHistory(userInfo.getLoginId());
+			}
 		}
 		
 		return redirectURI;
@@ -155,9 +198,7 @@ public class UserController {
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
 		
-			LoginInfo loginId = (LoginInfo) session.getAttribute("S_USER_INFO");
 			session.invalidate();
-			userMapper.logoutHistory(loginId.getLoginId());
 		
 		return "redirect:/";
 	}

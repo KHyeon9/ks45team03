@@ -51,6 +51,16 @@ public class UserService {
 		return resultMap;
 	}
 	
+	public Map<String, Object> userInfo(String userId){
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		User user = userMapper.checkPwByUserId(userId);
+		resultMap.put("userInfo", user);
+		
+		return resultMap;
+	}
+	
 	public void addUser(User user) {
 		
 		userMapper.addUser(user);
