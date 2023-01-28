@@ -24,7 +24,6 @@
 		<id property="loginCode" column="login_code" />
 		<result property="userId" column="user_id" />
 		<result property="loginDate" column="login_date" />
-		<result property="logoutDate" column="logout_date" />
 	</resultMap>
 	
 	<resultMap type="SleeperAccount" id="sleeperAccountResultMap">
@@ -165,7 +164,6 @@
   			,l.login_code
   			,l.user_id
   			,l.login_date
-  			,l.logout_date
   		FROM
   			tb_login AS l, (SELECT @rownum:=0) AS TMP
   		WHERE
