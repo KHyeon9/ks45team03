@@ -36,33 +36,25 @@ public class AdminUserController {
 	}
 	
 	// 회원목록 + 페이징
-	@SuppressWarnings("unchecked")
 	@GetMapping("/userList")
-	public String userList(Model model
-			 ,@RequestParam(value="currentPage", defaultValue = "1", required = false) int currentPage
-			 ,@RequestParam(value="searchKey", required = false) String searchKey
-			 ,@RequestParam(value="searchValue", required = false, defaultValue = "") String searchValue) {
+	public String userList(Model model) {
 		
 		// 회원 목록 리스트
-		Map<String, Object> paramMap = adminUserService.userList(currentPage, searchKey, searchValue);
-		int lastPage = (int) paramMap.get("lastPage");
-		List<User> userList = (List<User>) paramMap.get("userList");
-		
-		int startPageNum = (int) paramMap.get("startPageNum");
-		int endPageNum = (int) paramMap.get("endPageNum");
-		int nextPage = (int) paramMap.get("nextPage");
-		int prevPage = (int) paramMap.get("prevPage");
+		List<User> userList = adminUserService.userList();
 		
 		model.addAttribute("title", "유저목록");
-		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("userList", userList);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		model.addAttribute("nextPage", nextPage);
-		model.addAttribute("prevPage", prevPage);
-		
+
 		return "admin/userManagement/userList";
+	}
+	// 삭제 처리
+	@GetMapping("/removeUserByAdmin")
+	public String removeUserByAdmin(@RequestParam(value="userId") String userId) {
+		
+		adminUserMapper.removeUserByAdmin(userId);
+		adminUserMapper.setRemoveAccount(userId);
+		
+		return "redirect:/admin/userManagement/userList";
 	}
 	
 	// 수정 처리

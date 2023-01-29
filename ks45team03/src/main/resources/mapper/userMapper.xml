@@ -23,6 +23,7 @@
 		<result property="totalExp" column="total_exp" />
 		<result property="totalMileage" column="total_mileage" />
 		<result property="userCreateDate" column="user_create_date" />
+		<result property="userWithdrawal" column="user_withdrawal" />
 			<association property="regionSgg" javaType="RegionSgg">
 				<id property="regionSggCode" column="region_sgg_code" />
 				<result property="regionSidoCode" column="region_sido_code" />
@@ -310,9 +311,11 @@
 		SELECT
 		    COUNT(*)
 		FROM
-			tb_remove_account
+			tb_user
 		WHERE
-			user_id = #{userId};
+			user_id = #{userId}
+			AND
+			user_withdrawal = 'Y';
 	</select>
 	
 	<select id="getSleeperAccount" parameterType="string" resultMap="sleeperAccountResultMap">
@@ -328,4 +331,22 @@
 		WHERE
 			sa.user_id = #{userId};		
 	</select>
+	
+	<update id="removeUser" parameterType="String">
+		UPDATE 
+			tb_user AS u
+		SET
+			u.user_withdrawal = 'Y'
+		WHERE
+			u.user_id = #{loginId};	
+	</update>
+	
+	<insert id="setRemoveAccount">
+		INSERT INTO 
+			tb_remove_account(user_id, remove_account_date)
+		VALUES
+		(
+			#{loginId}, NOW()
+		);
+	</insert>
 </mapper>

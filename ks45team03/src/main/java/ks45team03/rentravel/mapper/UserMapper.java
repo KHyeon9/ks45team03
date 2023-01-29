@@ -59,4 +59,8 @@ public interface UserMapper {
 	
 	public SleeperAccount getSleeperAccount(String userId);
 	
+	public int removeUser(String loginId);
+	
+	public void setRemoveAccount(String loginId);
+	
 }
