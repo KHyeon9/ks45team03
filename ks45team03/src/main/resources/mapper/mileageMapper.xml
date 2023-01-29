@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.MileageMapper">
+	<!-- mileageSaveUsetMap -->
+	<resultMap type="MileageSaveUse" id="mileageSaveUseMap">
+		<id     property="mileageSaveUseCode" 	column="mileage_save_use_code" />
+		<result property="userId" 		  		column="user_id" />
+		<result property="mileageChange"  		column="mileage_change" />
+		<result property="mileageTotal"   	 	column="mileage_total" />
+		<result property="mileageChangeTime"	column="mileage_change_time" />
+		<result property="mileageChangeReason"  column="mileage_change_reason" />
+		<result property="mileageSaveUseType"   column="mileage_save_use_type" />
+		<result property="mileageGroupCode"     column="mileage_group_code" />
+		<result property="mileageDayFinish"     column="mileage_day_finish" />
+	</resultMap>
+	
+	<!-- mileagePaymentSaveMap -->
+	<resultMap type="MileagePaymentSave" id="mileagePaymentSaveMap">
+		<id     property="mileagePaymentSaveCode" column="mileage_payment_save_code" />
+		<result property="userId" 				  column="user_id" />
+		<result property="paymentCode"			  column="payment_code" />
+		<result property="mileageSaveAmount" 	  column="mileage_save_amount" />
+		<result property="mileageSaveTime" 		  column="mileage_save_time" />
+		<result property="mileageGroupCode"		  column="mileage_group_code" />
+	</resultMap>
+	
+	<!-- mileageUseMap -->
+	<resultMap type="MileageUse" id="mileageUseMap">
+		<id 	property="getMileageUseCode" column="mileage_use_code" />
+		<result property="userId" 			 column="user_id" />
+		<result property="paymentCode"   	 column="payment_code" />
+		<result property="mileageUseAmount"  column="mileage_use_amount" />
+		<result property="mileageUseTime"	 column="mileage_use_time" />
+		<result property="mileageGroupCode"  column="mileage_group_code" />
+	</resultMap>
+	<!-- 유저 마일리지 이력 추가 -->
+ 	<insert id="addMileageSaveUse" parameterType="MileageSaveUse">
+		INSERT INTO tb_mileage_save_use
+			(
+			mileage_save_use_code,
+			user_id,
+			mileage_change,
+			mileage_total,
+			mileage_change_time,
+			mileage_change_reason,
+			mileage_save_use_type,
+			mileage_group_code,
+			mileage_day_finish
+			)
+		VALUES
+			(
+			#{mileageSaveUseCode},
+			#{userId},
+			#{mileageChange},
+			#{mileageTotal},
+			NOW(),
+			#{mileageChangeReason},
+			#{mileageSaveUseType},
+			#{mileageGroupCode},
+			#{mileageDayFinish}
+			)
+	</insert>
+	<!-- 유저 마일리지 사용 -->
+	<insert id="addMileageUse" parameterType="MileageUse">
+		INSERT INTO tb_mileage_use
+			(
+			mileage_use_code,
+			user_id,
+			payment_code,
+			mileage_use_amount,
+			mileage_use_time,
+			mileage_group_code
+			)
+		VALUES
+			(
+			#{mileageUseCode},
+			#{userId},
+			#{paymentCode},
+			#{mileageUseAmount},
+			NOW(),
+			#{mileageGroupCode}
+			);
+	</insert>
+	<!-- 유저 결제 마일리지 적립 -->
+	 <insert id="addMileagePaymentSave" parameterType="MileagePaymentSave">
+		INSERT INTO tb_mileage_payment_save
+			(
+			mileage_payment_save_code,
+			user_id,
+			payment_code,
+			mileage_save_amount,
+			mileage_save_time,
+			mileage_group_code
+			)
+		VALUES
+			(
+			#{mileagePaymentSaveCode},
+			#{userId},
+			#{paymentCode},
+			#{mileageSaveAmount},
+			NOW(),
+			#{mileageGroupCode}
+			);
+	</insert>
+	
+	<!-- 유저 마일리지 수정 -->
+	<update id="modifyUserTotalMileage" parameterType="User">
+		UPDATE
+			tb_user
+		SET
+			total_mileage = #{totalMileage}
+		WHERE
+			user_id = #{userId};
+	</update>
+</mapper>

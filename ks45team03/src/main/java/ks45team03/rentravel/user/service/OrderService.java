@@ -8,13 +8,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import ks45team03.rentravel.dto.MileagePaymentSave;
+import ks45team03.rentravel.dto.MileageSaveUse;
+import ks45team03.rentravel.dto.MileageUse;
 import ks45team03.rentravel.dto.Payment;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
+import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
 import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.GoodsMapper;
+import ks45team03.rentravel.mapper.MileageMapper;
 import ks45team03.rentravel.mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,11 +31,13 @@ public class OrderService {
 	private final OrderMapper orderMapper;
 	private final GoodsMapper goodsMapper;
 	private final CommonNewCode commonNewCode;
+	private final MileageMapper mileageMapper;
 	
-	public OrderService(OrderMapper orderMapper, GoodsMapper goodsMapper, CommonNewCode commonNewCode) {
+	public OrderService(OrderMapper orderMapper, GoodsMapper goodsMapper, CommonNewCode commonNewCode, MileageMapper mileageMapper) {
 		this.orderMapper = orderMapper;
 		this.goodsMapper = goodsMapper;
 		this.commonNewCode = commonNewCode;
+		this.mileageMapper = mileageMapper;
 	}
 	
 	public int modifyPaymentState(String paymentCode, String tradeStateCode) {
@@ -115,6 +122,11 @@ public class OrderService {
 		int result =  0;
 		
 		Payment paymentInfo = rental.getPayment();
+		MileageUse mileageUse = new MileageUse();
+		MileagePaymentSave mileagePaymentSave = new MileagePaymentSave();
+		
+		String userId = rental.getUserId();
+		int useMileage = paymentInfo.getMileageUsePrice();
 		
 		// 계산에 필요한 값
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -149,7 +161,75 @@ public class OrderService {
 		paymentInfo.setMileageUseGroupCode(milegeUseGroupCode);
 		paymentInfo.setMileageSaveGroupCode(milegeSaveGroupCode);
 		
+		String mileageUseCode = commonNewCode.getCommonNewCode("tb_mileage_use", "mileage_use_code");
+		String mileageSaveCode = commonNewCode.getCommonNewCode("tb_mileage_payment_save", "mileage_payment_save_code");
+		String mileageSaveUseCode = commonNewCode.getCommonNewCode("tb_mileage_save_use", "mileage_save_use_code");
+		String paymentCode = paymentInfo.getPaymentCode();
+		String mileageUseGroupCode = rental.getUserId() + "_결제완료_적립금_사용_" + groupCodeDate;
+		String mileageSaveGroupCode = rental.getUserId() + "_결제완료_적립금_적립_" + groupCodeDate;
+		String mileageDayFinishGroupCode = rental.getUserId() + "_적립금_" + groupCodeDate;
+		
+		// 마일리지 사용 셋팅
+		mileageUse.setMileageUseCode(mileageUseCode);
+		mileageUse.setUserId(userId);
+		mileageUse.setPaymentCode(paymentCode);
+		mileageUse.setMileageUseAmount(useMileage);
+		mileageUse.setMileageGroupCode(mileageUseGroupCode);
+		System.out.println(mileageUse + "mileageUse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		// 마일리지 적립 셋팅
+		mileagePaymentSave.setMileagePaymentSaveCode(mileageSaveCode);
+		mileagePaymentSave.setUserId(userId);
+		mileagePaymentSave.setPaymentCode(paymentCode);
+		mileagePaymentSave.setMileageSaveAmount(saveMileage);
+		mileagePaymentSave.setMileageGroupCode(mileageSaveGroupCode);
+		System.out.println(mileagePaymentSave + "mileagePaymentSave~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		// 마일리지 이력에 셋팅
+		
+		MileageSaveUse mileageSaveUse = new MileageSaveUse();
+		User user = new User();
+		mileageSaveUse.setUserId(userId);
+		mileageSaveUse.setMileageDayFinish(mileageDayFinishGroupCode);
+		
+		// 마일리지 적립 사용 이력
+		if (useMileage != 0) {
+			System.out.println(mileageSaveUseCode + "1111111111111111111111111111111111111");
+			int totalMileage = orderMapper.getUserTotalMileage(userId) - useMileage;
+			mileageSaveUse.setMileageSaveUseCode(mileageSaveUseCode);
+			mileageSaveUse.setMileageChange(useMileage);
+			mileageSaveUse.setMileageTotal(totalMileage);
+			mileageSaveUse.setMileageChangeReason("1. 렌탈 마일리지 사용");
+			mileageSaveUse.setMileageSaveUseType("사용");
+			mileageSaveUse.setMileageGroupCode(mileageUseGroupCode);
+			
+			user.setUserId(userId);
+			user.setTotalMileage(totalMileage);
+			
+			result += mileageMapper.modifyUserTotalMileage(user);
+			result += mileageMapper.addMileageSaveUse(mileageSaveUse);
+			
+			mileageSaveUseCode = commonNewCode.getCommonNewCode("tb_mileage_save_use", "mileage_save_use_code");
+		}
+		
+		
+		int totalMileage = orderMapper.getUserTotalMileage(userId) + saveMileage;
+		mileageSaveUse.setMileageSaveUseCode(mileageSaveUseCode);
+		mileageSaveUse.setMileageChange(useMileage);
+		mileageSaveUse.setMileageTotal(totalMileage);
+		mileageSaveUse.setMileageChangeReason("2. 렌탈 마일리지 적립");
+		mileageSaveUse.setMileageSaveUseType("적립");
+		mileageSaveUse.setMileageGroupCode(mileageSaveGroupCode);
+		
+		user.setUserId(userId);
+		user.setTotalMileage(totalMileage);
+		
+		result += mileageMapper.modifyUserTotalMileage(user);
+		result += mileageMapper.addMileageSaveUse(mileageSaveUse);
+		
 		result += orderMapper.addPayment(paymentInfo);
+		result += mileageMapper.addMileageUse(mileageUse);
+		result += mileageMapper.addMileagePaymentSave(mileagePaymentSave);
 		
 		return result;
 	}
