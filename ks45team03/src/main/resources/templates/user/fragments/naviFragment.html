@@ -17,7 +17,7 @@
                   <li th:unless="${session.S_USER_INFO != null}" class="account-login"><span><a th:href="@{/login}">Login</a><small>or</small><a th:href="@{/addUser}">Create an account</a></span></li>
                   <li th:if="${session.S_USER_INFO != null}" class="dropdown-center"><span th:text="|${session.S_USER_INFO.loginNickName}님 |" style="color: white; font-weight: 900; font-size:14px"></span><span><a th:href="@{/logout}">로그아웃</a></span></li>
                   <li th:if="${session.S_USER_INFO != null}" class="searchBox"><a th:href="@{/myPage/myOrderHistory}">My Order</a></li>
-                  <li th:if="${session.S_USER_INFO != null}" class="dropdown cart-dropdown"><a th:href="@{/myPage/myPage(userNickName=${session.S_USER_INFO.loginNickName})}">My Page</a></li>
+                  <li th:if="${session.S_USER_INFO != null}" class="dropdown cart-dropdown"><a th:href="@{/myPage/myOrderList}">My Page</a></li>
                 </ul>
               </div>
             </div>

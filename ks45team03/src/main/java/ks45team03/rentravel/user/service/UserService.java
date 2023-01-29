@@ -78,7 +78,11 @@ public class UserService {
 		return userMapper.findIdCheck(userName, userEmail, userPhoneNumber);
 	}
 	
-	public List<UserEvaluation> userEvaluation(String userNickName){
-		return userMapper.userEvaluation(userNickName);
+	public List<UserEvaluation> userEvaluation(String loginId){
+		return userMapper.userEvaluation(loginId);
+	}
+	
+	public List<UserEvaluation> userEvaluation2(String userNickName){
+		return userMapper.userEvaluation2(userNickName);
 	}
 }
