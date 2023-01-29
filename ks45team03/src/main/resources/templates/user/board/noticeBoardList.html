@@ -63,8 +63,8 @@
 									</thead>
 									<tbody>
 										 <tr th:if="${not #lists.isEmpty(noticeBoardList)}" th:each="nb : ${noticeBoardList}">
-								  			<td style="width: 5%" th:text="${nb.num}"></td>
-								  			<td style="overflow: hidden; text-overflow: ellipsis; width:55%"><a th:text="${nb.noticeBoardTitle}" th:href="@{/board/detailNoticeBoard(noticeBoardCode=${nb.noticeBoardCode})}"></a></td>
+								  			<td style="width: 8%" th:text="${nb.num}"></td>
+								  			<td style="overflow: hidden; text-overflow: ellipsis; width:52%"><a th:text="${nb.noticeBoardTitle}" th:href="@{/board/detailNoticeBoard(noticeBoardCode=${nb.noticeBoardCode})}"></a></td>
 								  			<td style="width: 20%" th:text="${nb.userNickName}"></td>
 								  			<td style="width: 20%" th:text="${nb.noticeBoardRegTime}"></td>
 			                             <tr th:unless="${not #lists.isEmpty(noticeBoardList)}">

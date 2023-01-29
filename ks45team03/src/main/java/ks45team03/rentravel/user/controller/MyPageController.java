@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -154,16 +155,16 @@ public class MyPageController {
 		return "user/myPage/checkPassword";
 	}
 	
-	@GetMapping("/modifyUser")
-	public String modifyUser(Model model) {
-		model.addAttribute("title", "회원정보 수정");
-		return "user/myPage/modifyUser";
-	}
-	
-	@GetMapping("/removeUser")
-	private String removeUser(Model model) {
-		model.addAttribute("title", "탈퇴 화면");
-		return "user/myPage/removeUser";
+	@RequestMapping("/removeUser")
+	private String removeUser(HttpSession session){
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		userMapper.removeUser(loginInfo.getLoginId());
+		userMapper.setRemoveAccount(loginInfo.getLoginId());
+		
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 	
 	@GetMapping("/myGoodsList")
