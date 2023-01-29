@@ -128,36 +128,15 @@
 		            </ul>
 		          </div>
 		        </div>
-		        <div class="panel panel-default recentBlogPosts">
-		          <div class="panel-heading">recent posts</div>
+		        <div class="panel panel-default">
+		          <div class="panel-heading">게시판</div>
 		          <div class="panel-body">
-		            <div class="media">
-		              <a class="media-left" href="blog-single-right-sidebar.html">
-		                <img class="media-object" src="/user/assets/img/blog/blog-small-01.jpg" alt="Image">
-		              </a>
-		              <div class="media-body">
-		                <h4 class="media-heading"><a href="blog-single-right-sidebar.html">Totam Rem Aperiam Ea queab Ipsa.</a></h4>
-		                <p><i class="fa fa-calendar" aria-hidden="true"></i>5 March, 2016</p>
-		              </div>
-		            </div>
-		            <div class="media">
-		              <a class="media-left" href="blog-single-right-sidebar.html">
-		                <img class="media-object" src="/user/assets/img/blog/blog-small-02.jpg" alt="Image">
-		              </a>
-		              <div class="media-body">
-		                <h4 class="media-heading"><a href="blog-single-right-sidebar.html">Totam Rem Aperiam Ea queab Ipsa.</a></h4>
-		                <p><i class="fa fa-calendar" aria-hidden="true"></i>5 March, 2016</p>
-		              </div>
-		            </div>
-		            <div class="media">
-		              <a class="media-left" href="blog-single-right-sidebar.html">
-		                <img class="media-object" src="/user/assets/img/blog/blog-small-03.jpg" alt="Image">
-		              </a>
-		              <div class="media-body">
-		                <h4 class="media-heading"><a href="blog-single-right-sidebar.html">Totam Rem Aperiam Ea queab Ipsa.</a></h4>
-		                <p><i class="fa fa-calendar" aria-hidden="true"></i>5 March, 2016</p>
-		              </div>
-		            </div>
+		            <ul class="list-unstyle sidebar-list">
+		              <li><a th:href="@{/infoboard/infoBoardList}"><i class="fa fa-caret-right" aria-hidden="true"></i>정보 게시판</a></li>
+		              <li><a th:href="@{/board/noticeBoard}"><i class="fa fa-caret-right" aria-hidden="true"></i>공지사항</a></li>
+		              <li><a th:href="@{/board/FAQList}"><i class="fa fa-caret-right" aria-hidden="true"></i>FAQ</a></li>
+		              <li><a th:href="@{/board/inquiryList}"><i class="fa fa-caret-right" aria-hidden="true"></i>Q & A</a></li>
+		            </ul>
 		          </div>
 		        </div>
 		      </div>

@@ -5,7 +5,7 @@ public class MileagePaymentSave {
 	private String mileagePaymentSaveCode;
 	private String userId;
 	private String paymentCode;
-	private String mileageSaveAmount;
+	private int mileageSaveAmount;
 	private String mileageSaveTime;
 	private String mileageGroupCode;
 	
@@ -27,10 +27,10 @@ public class MileagePaymentSave {
 	public void setPaymentCode(String paymentCode) {
 		this.paymentCode = paymentCode;
 	}
-	public String getMileageSaveAmount() {
+	public int getMileageSaveAmount() {
 		return mileageSaveAmount;
 	}
-	public void setMileageSaveAmount(String mileageSaveAmount) {
+	public void setMileageSaveAmount(int mileageSaveAmount) {
 		this.mileageSaveAmount = mileageSaveAmount;
 	}
 	public String getMileageSaveTime() {
@@ -45,6 +45,7 @@ public class MileagePaymentSave {
 	public void setMileageGroupCode(String mileageGroupCode) {
 		this.mileageGroupCode = mileageGroupCode;
 	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
