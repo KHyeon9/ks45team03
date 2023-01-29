@@ -4,8 +4,8 @@ public class MileageSaveUse {
 
 	private String mileageSaveUseCode;
 	private String userId;
-	private String mileageChange;
-	private String mileageTotal;
+	private int mileageChange;
+	private int mileageTotal;
 	private String mileageChangeTime;
 	private String mileageChangeReason;
 	private String mileageSaveUseType;
@@ -24,10 +24,10 @@ public class MileageSaveUse {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getMileageChange() {
+	public int getMileageChange() {
 		return mileageChange;
 	}
-	public void setMileageChange(String mileageChange) {
+	public void setMileageChange(int mileageChange) {
 		this.mileageChange = mileageChange;
 	}
 	
@@ -44,10 +44,10 @@ public class MileageSaveUse {
 		this.mileageChangeReason = mileageChangeReason;
 	}
 	
-	public String getMileageTotal() {
+	public int getMileageTotal() {
 		return mileageTotal;
 	}
-	public void setMileageTotal(String mileageTotal) {
+	public void setMileageTotal(int mileageTotal) {
 		this.mileageTotal = mileageTotal;
 	}
 	public String getMileageSaveUseType() {
