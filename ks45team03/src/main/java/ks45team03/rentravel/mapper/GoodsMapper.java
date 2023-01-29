@@ -35,4 +35,8 @@ public interface GoodsMapper {
 	public List<Goods> getMyGoodsList(String loginId,int startIndex, int pageSize);
 	
 	public int getMyGoodsListCount(String loginId);
+	
+	public List<Goods> getMyGoodsList2(String userNickName,int startIndex, int pageSize);
+	
+	public int getMyGoodsListCount2(String userNickName);
 }

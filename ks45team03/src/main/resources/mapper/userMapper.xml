@@ -231,7 +231,27 @@
 			,uet.user_evaluation_type_name
 			,COUNT(ue.user_evaluation_code) AS countEvaluationType
 		FROM
-			(SELECT * FROM tb_user_evaluation WHERE evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName})) AS ue
+			(SELECT * FROM tb_user_evaluation WHERE evaluated_user_id = #{loginId}) AS ue
+			RIGHT JOIN 
+			tb_user_evaluation_type AS uet
+			on
+			ue.user_evaluation_type_code = uet.user_evaluation_type_code 
+			,(SELECT @rownum:=0) AS TMP
+		GROUP by uet.user_evaluation_type_name;
+	</select>
+	
+	<select id="userEvaluation2" parameterType="String" resultMap="userEvaluationResultMap">
+		SELECT
+			@rownum:=@rownum+1 AS num
+			,uet.user_evaluation_type_name
+			,COUNT(ue.user_evaluation_code) AS countEvaluationType
+		FROM
+			(SELECT 
+				* 
+			FROM 
+				tb_user_evaluation 
+			WHERE 
+				evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName})) AS ue
 			RIGHT JOIN 
 			tb_user_evaluation_type AS uet
 			on
@@ -295,7 +315,7 @@
 		WHERE 
 			ue.user_id = #{loginId}
 			AND 
-			ue.evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName});;
+			ue.evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName});
 	</delete>
 	
 	<select id="checkSleeperId" parameterType="String" resultType="int">

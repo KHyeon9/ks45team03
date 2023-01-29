@@ -22,22 +22,26 @@
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-right">
 						<li><a th:href="@{/}">Home</a></li>
-						<li><a th:href="@{/myPage/myOrderList}">MyPage</a></li>
+						<li><a th:href="@{/userMyPage}">MyPage</a></li>
 						<li class="active">Evaluation</li>
 					</ol>
 				</div>
 			</div>
 		</div>
 	</section>
-	<div class="grid-wrapper section">
+	<div class="mainContent clearfix userProfile">
 		<div class="container">
 			<div class="row">
-				<div class="col-12 col-lg-12 element-content pt-5">
+				<div class="col-12 col-lg-12 element-content">
 					<div id="tables" class="element_single">
-						<div id="accordion" role="tablist" aria-multiselectable="true">
-							<div class="card single-block"></div>
-							   <div th:replace="~{user/fragments/myPageButtonFragmentForMe :: myPageButtonFragmentForMe}"></div>
-						</div>
+					 <div class="col-12">
+					              <div class="btn-group" role="group" aria-label="...">
+					                <a th:href="@{/userMyPage(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>회원 상품</a>
+					                <a th:href="@{/userMyEvaluation(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>회원 평가</a>
+					                <a th:if="${getDuplicateEvaluation == 0}" th:href="@{/myPage/addUserEvaluation(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>칭찬하기</a>
+                					<a th:unless="${getDuplicateEvaluation == 0}" th:href="@{/myPage/addUserEvalueationDone(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>칭찬하기</a>
+					              </div>
+					              </div>
 						<div class="display-single_element">
 							<p style="font-size: 18px"><i class="fa fa-thumbs-o-up mr-1"></i>받은 매너 칭찬</p>
 							<table class="table">
@@ -49,7 +53,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:Each="ue : ${userEvaluation}">
+									<tr th:Each="ue : ${userEvaluation2}">
 										<td th:text="${ue.num}"></td>
 										<td th:text="${ue.userEvaluationTypeName}"></td>
 										<td><i class="fa fa-group mr-1"></i>[[${ue.countEvaluationType}]]명</td>

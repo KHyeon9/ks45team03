@@ -41,7 +41,9 @@ public interface UserMapper {
 	
 	public List<User> showFindId(String userName, String userEmail, String userPhoneNumber);
 	
-	public List<UserEvaluation> userEvaluation(String userNickName);
+	public List<UserEvaluation> userEvaluation(String loginId);
+	
+	public List<UserEvaluation> userEvaluation2(String NickName);
 	
 	public List<UserEvaluationType> userEvaluationList();
 	
