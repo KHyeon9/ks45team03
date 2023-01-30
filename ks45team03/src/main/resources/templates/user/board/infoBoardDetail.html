@@ -90,7 +90,7 @@
 		                </ul>
 		                <ul class="list-unstyled">
 		                	<li style="margin-bottom: 3px;">
-		                		<th:block th:if = "${loginInfo != null && loginInfo.loginId.equals(infoBoardDetail.userId)}">
+		                		<th:block th:if = "${loginInfo != null && loginInfo.loginId.equals(infoBoardDetail.userId) || loginInfo.loginLevelName.equals('관리자')}">
 									<button type="button" class="btn btn-primary modifyInfoBoard" th:data-infoboard-code="${infoBoardDetail.infoBoardCode}">수정</button>
 		                			<button type="button" class="btn btn-primary deleteInfoBoard" th:data-infoboard-code="${infoBoardDetail.infoBoardCode}">삭제</button>		                		
 		                		</th:block>
