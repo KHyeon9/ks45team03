@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks45team03.rentravel.dto.LoginHistory;
+import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.RemoveAccount;
 import ks45team03.rentravel.dto.SleeperAccount;
 import ks45team03.rentravel.dto.User;
@@ -56,5 +57,8 @@ public interface AdminUserMapper {
 		
 		// 회원 삭제시 탈퇴회원목록으로 
 		public void setRemoveAccount(String userId);
+		
+		// 회원 수정 시/도 
+		public List<RegionSido> regionSidoList(String regionSggCode);
 		
 }

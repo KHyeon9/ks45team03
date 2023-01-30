@@ -147,14 +147,19 @@ public class MyPageController {
 	@GetMapping("/myGoodsList")
 	public String myGoodsList(Model model
 							 ,HttpSession session
-							 ,@RequestParam(defaultValue="1", required=false) int curPage) {
+							 ,@RequestParam(defaultValue="1", required=false) int curPage
+							 ,HttpServletResponse response) throws IOException {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String returnURI;
-		if(loginUser == null) {
-			returnURI = "redirect:/login";
-		}else {
-		int myGoodsListCount = goodsService.getMyGoodsListCount(loginUser.getLoginId());
+		
+		if (loginUser == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
+		String loginId = loginUser.getLoginId();
+		
+		int myGoodsListCount = goodsService.getMyGoodsListCount(loginId);
 
 		Pagination pagination = new Pagination(myGoodsListCount, curPage);
 		
@@ -167,10 +172,7 @@ public class MyPageController {
 		model.addAttribute("pagination",pagination);
 		model.addAttribute("title","마이페이지 화면");
 		
-		returnURI = "user/myPage/myGoodsList";
-		
-		}
-		return returnURI;
+		return "user/myPage/myGoodsList";
 	}
 	
 	@PostMapping("/myRemoveGoods")
