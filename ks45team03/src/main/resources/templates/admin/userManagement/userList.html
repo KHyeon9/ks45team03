@@ -67,7 +67,7 @@
 					  			<td th:text="${u.totalMileage}"></td>
 					  			<td th:text="${u.userCreateDate}"></td>
 					  			<td>
-					  				<a th:href="@{/admin/userManagement/modifyUser(userId=${u.userId})}">수정</a>
+					  				<a th:href="@{/admin/userManagement/modifyUser(userId=${u.userId}, regionSggCode=${u.regionSggCode})}">수정</a>
 					  			</td>
 	  							<td>
 	  								<a class="removeUser" th:href="@{/admin/userManagement/removeUserByAdmin(userId=${u.userId})}">삭제</a>
