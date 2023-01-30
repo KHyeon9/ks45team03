@@ -111,7 +111,6 @@ public class InfoBoardController {
 			User userCheck = userMapper.checkPwByUserId(loginInfo.getLoginId());
 			model.addAttribute("nickName", userCheck.getUserNickName());
 		}
-		
 		model.addAttribute("title", "정보게시판상세");
 		model.addAttribute("infoBoardDetail", infoBoardDetail);
 		model.addAttribute("commentList", commentList);
