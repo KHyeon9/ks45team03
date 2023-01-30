@@ -27,7 +27,7 @@
                   <a th:href="@{/}">Home</a>
                 </li>
                 <li>
-                  <a th:href="@{/myPage/myInfo}">myInfo</a>
+                  <a th:href="@{/myPage/myOrderList}">MyPage</a>
                 </li>
                 <li>
                   <a th:href="@{/myPage/myProfitList}">MY PROFIT LIST</a>
@@ -44,6 +44,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
+              <div th:replace="~{user/fragments/myPageButtonFragmentForMe :: myPageButtonFragmentForMe}"></div>
               <div class="btn-group" role="group" aria-label="..." style="float: right";>
                 <a th:href="@{/myPage/myProfitListDay}" class="btn btn-default" id="myProfitListDay"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
                 <a th:href="@{/myPage/myProfitListMonth}" class="btn btn-default" id="myProfitListMonth"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>

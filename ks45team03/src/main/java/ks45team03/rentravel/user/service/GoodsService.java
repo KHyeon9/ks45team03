@@ -3,19 +3,24 @@ package ks45team03.rentravel.user.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import ks45team03.rentravel.dto.FileDto;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
+import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.GoodsMapper;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
+@Transactional
 public class GoodsService {
 	
 	private final GoodsMapper goodsMapper;
-	
-	public GoodsService(GoodsMapper goodsMapper) {
-		this.goodsMapper = goodsMapper;
-	}
+	private final FileService fileService;
+	private final CommonNewCode commonNewCode;
 	
 	public List<Goods> getGoodsList(String loginId, int startIndex, int pageSize, String goodsCategoryCode,String searchKey, String searchValue, String goodsRentalAvailability){
 		
@@ -67,9 +72,23 @@ public class GoodsService {
 		return goodsDetail;
 	}
 	
-	public int addGoods(Goods goods) {
+	public int addGoods(Goods goods,MultipartFile[] uploadfile, String fileRealPath) {
 		
-		return goodsMapper.addGoods(goods);
+		List<FileDto> fileList =  fileService.fileUpload(uploadfile, fileRealPath);
+		String fileGroupCode = commonNewCode.getCommonNewCode("tb_file_group", "file_group_code");
+		
+		
+		if (fileList != null) {
+			for(FileDto fileInfo : fileList) {
+				String fileCode =  fileInfo.getFileCode();
+				fileService.addFileGroup(fileGroupCode, fileCode);
+			}
+			goods.setFileGroupCode(fileGroupCode);
+		}
+		
+		goodsMapper.addGoods(goods);
+				
+		return 0;
 	}
 	
 	public int modifyGoods(Goods goods) {
@@ -131,5 +150,43 @@ public class GoodsService {
 	public int getMyGoodsListCount(String loginId) {
 		
 		return goodsMapper.getMyGoodsListCount(loginId);
+	}
+	
+	public List<Goods> getMyGoodsList2(String userNickName,int startIndex, int pageSize){
+		
+		List<Goods> myGoodsList2 = goodsMapper.getMyGoodsList2(userNickName,startIndex,pageSize);
+		
+		return myGoodsList2;
+	}
+	
+	public int getMyGoodsListCount2(String userNickName) {
+		
+		return goodsMapper.getMyGoodsListCount2(userNickName);
+	}
+	
+	public List<Goods> getGoodsListImg(){
+		
+		return goodsMapper.getGoodsListImg();
+	}
+	
+	public List<Goods> getGoodsCategoryListForGoods(){
+		
+		List<Goods> goodsCategoryListForGoods = goodsMapper.getGoodsCategoryListForGoods();
+		
+		return goodsCategoryListForGoods;
+	}
+	
+	public String getLoginUserRegion(String loginId) {
+		
+		String loginUserRegion = goodsMapper.getLoginUserRegion(loginId);
+		
+		return loginUserRegion;
+	}
+	
+	public List<Goods> getMainGoodsList(){
+		
+		List<Goods> mainGoodsList = goodsMapper.getMainGoodsList();
+		
+		return mainGoodsList;
 	}
 }

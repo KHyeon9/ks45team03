@@ -1,5 +1,6 @@
 package ks45team03.rentravel.user.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.ChatMessage;
 import ks45team03.rentravel.dto.ChatRoom;
@@ -34,9 +36,18 @@ public class ChatController {
 	}
 	
     @GetMapping("/chat")
-    public String chat(Model model, @RequestParam(value="chatRoomCode") String chatRoomCode,HttpSession session){
+    public String chat(Model model, @RequestParam(value="chatRoomCode") String chatRoomCode,HttpSession session
+    					,HttpServletResponse response) throws IOException{
     	
-    	LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		if (loginUser == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
+		String loginId = loginUser.getLoginId();
+		
     	List<ChatMessage> chatMessageList = chatService.getChatMessageList(chatRoomCode);
     	ChatRoom chatRoomInfo = chatMapper.getChatRoomCode(chatRoomCode);
     	
@@ -62,11 +73,20 @@ public class ChatController {
 	/**
 	 * 방 페이지
 	 * @return
+	 * @throws IOException 
 	 */
 	@GetMapping("/room")
-	public String room(Model model,HttpSession session, @RequestParam(defaultValue="1", required=false) int curPage) {
+	public String room(Model model
+			,HttpServletResponse response
+			,HttpSession session, @RequestParam(defaultValue="1", required=false) int curPage) throws IOException {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		if (loginUser == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
 		String loginId = loginUser.getLoginId();
 		
 		int chatRoomListCount = chatService.getChatRoomListCount(loginId);

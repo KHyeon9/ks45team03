@@ -127,12 +127,5 @@ public class AdminProfitController {
 	}
 	
 	
-	@GetMapping("/adminModifyProfit")
-	public String adminModifyUserProfit (Model model) {
-		
-		model.addAttribute("title","회원 수익 수정");
-		
-		return "/admin/profit/adminModifyProfit";
-	}
 
 }

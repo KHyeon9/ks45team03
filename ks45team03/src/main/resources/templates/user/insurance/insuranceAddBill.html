@@ -62,7 +62,7 @@
 			                <th class="col-md-3">성명</th>
 			             <th:block th:object="${l.user}">
 			                <td class="col-md-3" >
-			                	<input type="text" placeholder="Number" name="userName" th:value="*{userName}" readonly/>
+			                	<input type="text" placeholder="Name" name="userName" th:value="*{userName}" readonly/>
 			                </td>
 						 </th:block>
 			                <th class="col-md-3">이메일</th>
@@ -76,13 +76,13 @@
 			            	<th>연락처</th>
 			                <th:block th:object="${l.user}">
 			                	<td class="col-md-3">
-			                		<input type="text" placeholder="Email" name="userPhoneNumber" th:value="*{userPhoneNumber}" readonly/>
+			                		<input type="text" placeholder="Number" name="userPhoneNumber" th:value="*{userPhoneNumber}" readonly/>
 			                	</td>
 						 	</th:block>
 			                <th>주소</th>
 			                <th:block th:object="${l.user}">
 			                	<td class="col-md-3">
-			                		<input type="text" placeholder="Email" name="userAddrDesc" th:value="*{userAddrDesc}" readonly/>
+			                		<input type="text" placeholder="Addr" name="userAddrDesc" th:value="*{userAddrDesc}" readonly/>
 			                	</td>
 						 	</th:block>
 			            </tr>
@@ -128,13 +128,13 @@
 						</td>
 		                <th class="col-md-3">사고일시</th>
 		                <td class="col-md-3">
-		                	<input type="datetime-local" id="example-datetime-local-input" name="accidentDate" />
+		                	<input type="datetime-local" id="example-datetime-local-input" name="accidentDate" required/>
 		                </td>
 		            </tr>
 		            <tr class="text-center">
 		            	<th class="col-md-3">사고내용</th>
 		                <td colspan="3">
-		                	<textarea placeholder="Contents" name="accidentContent" rows="10" style="width:100%; border:none; padding:5px ;"></textarea>
+		                	<textarea placeholder="Contents" name="accidentContent" rows="10" style="width:100%; border:none; padding:5px ;" required></textarea>
 		                </td>
 		            </tr>
 		           </table>
@@ -144,15 +144,15 @@
 		            <tr class="text-center">
 		                <th class="col-md-2">은행명</th>
 		                <td class="col-md-2">
-		                	<input type="text" placeholder="Bank" name="bankName"/>
+		                	<input type="text" placeholder="Bank" name="bankName" required/>
 		                </td>
 		                <th class="col-md-2">예금주</th>
 		                <td class="col-md-2">
-		                	<input type="text" placeholder="홍길동" name="accountHolder"/>
+		                	<input type="text" placeholder="홍길동" name="accountHolder" required/>
 		                </td>
 		                <th class="col-md-2">계좌번호</th>
 		                <td class="col-md-2">
-		                	<input type="text" placeholder="123456789" name="accountNumber"/>
+		                	<input type="number" placeholder="숫자만입력해주세요" name="accountNumber" required/>
 		                </td>
 		            </tr>
 			      </table>
@@ -173,7 +173,7 @@
 					
 					<br/><br/>
 					<a id="btnBefore" class="btn btn-primary btn-default card-btn billBtn float-left" th:href="@{/insurance/insuranceAddBillPersonInfo/{insuranceCode}(insuranceCode=${insuranceCode})}">이전</a>
-					<button id="btnSubmitBill" type="button" class="btn btn-primary btn-default card-btn billBtn float-right">제출</button>
+					<button id="btnSubmitBill" type="submit" class="btn btn-primary btn-default card-btn billBtn float-right">제출</button>
  				</form>
 			</div>
     	 </section>
@@ -221,7 +221,7 @@
 				
 				//유효성 검사
 				//이미 청구서가 작성된 보험코드는 제출 불가
-				  $('#btnSubmitBill').click( function(e) {
+				  $('#btnSubmitBill').click( function() {
 					  let text = "insuranceCode";
 					  console.log($("select[name=insuranceCode]").val());
 					  var selectedCode = $("select[name=insuranceCode]").val();
@@ -237,7 +237,6 @@
 						  console.log(data);
 								if(data == "") {
 									console.log("보험접수가능");
-									$("#addInsuranceBillForm").submit();
 								}
 								else if(data == "만료") {
 									console.log("만료된보험접수");

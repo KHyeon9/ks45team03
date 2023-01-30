@@ -159,15 +159,9 @@
                 <div class="media-left productSlider">
                   <div id="carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner SingleProductItem" >
-                      <div class="carousel-item active productImage SingleProductImage" th:each="gi : ${goodsImgs}" th:if="${gi.goodsImgRowNum == 1}" th:data-thumb="${gi.goodsImgRowNum}" >
-                        <img th:src="@{${gi.goodsImg}}">
-                        <a data-fancybox="images" th:href="@{${gi.goodsImg}}" class="product-content">
-                          <div class="MaskingIcon"><i class="fa fa-plus"></i></div>
-                        </a>
-                      </div>
-                      <div class="carousel-item SingleProductImage" th:each="gi : ${goodsImgs}" th:if="${gi.goodsImgRowNum != 1}" th:data-thumb="${gi.goodsImgRowNum}" >
-                        <img th:src="@{${gi.goodsImg}}">
-                        <a data-fancybox="images" th:href="@{${gi.goodsImg}}" class="product-content">
+                      <div class="carousel-item active productImage SingleProductImage" data-thumb="1" >
+                      	<img alt="goodsImg" th:src="@{|/files/${goodsDetail.filePath}|}">
+                        <a data-fancybox="images" th:href="@{|/files/${goodsDetail.filePath}|}" class="product-content">
                           <div class="MaskingIcon"><i class="fa fa-plus"></i></div>
                         </a>
                       </div>
@@ -180,9 +174,6 @@
                   <div class="clearfix">
                     <div id="thumbcarousel" class="carousel slide" data-interval="false" >
                       <div class="carousel-inner">
-                          <div th:each="gi : ${goodsImgs}" data-target="#carousel" th:data-slide-to="${gi.goodsImgRowNum - 1}" class="thumb">
-                          	<img th:src="@{${gi.goodsImg}}">
-                          </div>
                       </div>
                       <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
                         <span class="glyphicon glyphicon-chevron-left"></span>
@@ -305,7 +296,7 @@
                     </ul>
                     <div class="tab-content">
                       <div id="OurDetails" class="tab-pane fade">
-                        <p th:text="${goodsDetail.goodsDetail}"></p>
+                        <p th:utext="${goodsDetail.goodsDetail}"></p>
                       </div>
 
                       <div id="Reviews" class="tab-pane fade show active">
@@ -410,7 +401,29 @@
                       <div id="OurShipping" class="tab-pane fade">
                         <div class="SingleCartListWrapper SingleCartShipping">
                           <div class="cartListInner">
-                          	약관 ㅇㅇ
+                          	제 4 조(용어의 정의) <br>
+							이 약관에서 사용하는 용어의 정의는 다음과 같습니다.<br>
+							① 회원.회원사 : 회사와 서비스 이용계약을 체결한 개인이나 법인 또는 법인에 준하는 단체.<br>
+							⑦ 빅장 회원 : 회원(이하 "회원사"라 칭함)이 한달에 일정금액을 내고 서비스를 이용하는 개인이나 단체.<br>
+							⑧ 설싸맨 회원 : 상한음식을 섭취하였거나 장염에 심하게 걸린 개인이나 단체.<br>
+							⑨ 전사독 회원 : 무료 서비스를 이용하는 개인이나 단체.<br><br>
+							
+							제 7 조( 이용 신청 및 승낙)<br>
+							① 이용신청은 서비스의 이용자등록에서 다음사항을 가입신청 양식에 기록하여 신청합니다.<br>
+							ⓐ 이름<br>
+							ⓑ e-mail<br>
+							ⓒ 아이디,비밀번호<br>
+							ⓓ 주민등록번호<br>
+							ⓔ 주소<br>
+							ⓕ 전화번호<br>
+							ⓖ 회원등급<br>
+							ⓗ 개인.회원사<br>
+							ⓘ 빅장 구사 여부(또는 4. 이야오랷걁긝)<br><br>
+							
+							제 9 조( 이용계약의 종료 )<br>
+							① 이용계약은 회원 또는 회사의 해지에 의하여 즉시 뼈와 살이 분리됩니다.<br>
+							② 회원은 해지의사 발생 시 즉시 회사에 e-mail을 통한 해지 신청을 합니다.<br>
+							③ 회사는 다음과 같은 사유 발생시 이용신청에 대한 빅장을 구사 할 수 있습니다.
                           </div>
                         </div>
                       </div>
@@ -429,7 +442,7 @@
             <div class="col-md-3 col-12 " th:each="glByUid : ${goodsListByUserId}">
               <div class="productBox">
                 <div class="productImage clearfix">
-                  <img src="/user/assets/img/products/products-01.jpg" alt="products-img">
+                  <img th:src="@{|/files/${glByUid.filePath}|}" alt="products-img">
                   <div class="productMasking">
                     <ul class="list-inline btn-group" role="group">
                       <li><a class="btn btn-default" th:href="@{/goods/goodsDetail(userId=${glByUid.userId} ,goodsCode=${glByUid.goodsCode})}" ><i class="fa fa-eye"></i></a></li>

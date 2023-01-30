@@ -73,7 +73,8 @@
 									<td th:text="${l.reportingUserId}"></td>
 									<td th:text="${l.reportedUserId}"></td>
 									<td th:text="${l.reportCommentDatetime}"></td>
-									<td><a class="btn btn-danger navyBtn"  th:href="@{adminReportDetail/{reportCommentCode}(reportCommentCode=${l.reportCommentCode})}">이동</a></td>
+									<td><a class="btn btn-danger navyBtn" 
+												 th:href="@{adminReportDetail/{reportCommentCode}(reportCommentCode=${l.reportCommentCode})}">이동</a></td>
 
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(reportCommentList)}">

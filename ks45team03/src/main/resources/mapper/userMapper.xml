@@ -23,6 +23,7 @@
 		<result property="totalExp" column="total_exp" />
 		<result property="totalMileage" column="total_mileage" />
 		<result property="userCreateDate" column="user_create_date" />
+		<result property="userWithdrawal" column="user_withdrawal" />
 			<association property="regionSgg" javaType="RegionSgg">
 				<id property="regionSggCode" column="region_sgg_code" />
 				<result property="regionSidoCode" column="region_sido_code" />
@@ -49,7 +50,6 @@
 		<id property="loginCode" column="login_code" />
 		<result property="userId" column="user_id" />
 		<result property="loginDate" column="login_date" />
-		<result property="logoutDate" column="logout_date" />
 	</resultMap>
 	
 	<resultMap type="UserEvaluation" id="userEvaluationResultMap">
@@ -64,6 +64,12 @@
 	<resultMap type="UserEvaluationType" id="userEvaluationTypeResultMap">
 		<id property="userEvaluationTypeCode" column="user_evaluation_type_code"/>
 		<result property="userEvaluationTypeName" column="user_evaluation_type_name" />
+	</resultMap>
+	
+	<resultMap type="SleeperAccount" id="sleeperAccountResultMap">
+		<id property="sleeperAccountCode" column="sleeper_account_code" />
+		<result property="userId" column="user_id" />
+		<result property="loginDate" column="login_date" />
 	</resultMap>
 	
 	<update id="ModifyuserInfo" parameterType="User">
@@ -192,18 +198,6 @@
 			)	
 	</insert>	
 	
-	<update id="logoutHistory" parameterType="String">
-		UPDATE 
-			tb_login AS l
-		SET
-			l.logout_date = NOW()
-		WHERE
-			l.user_id = #{loginId}
-		ORDER BY 
-			l.login_date DESC
-		LIMIT 1;
-	</update>
-	
 	<select id="findIdCheck" resultType="int">
 		SELECT
 			COUNT(u.user_id)
@@ -237,7 +231,27 @@
 			,uet.user_evaluation_type_name
 			,COUNT(ue.user_evaluation_code) AS countEvaluationType
 		FROM
-			(SELECT * FROM tb_user_evaluation WHERE evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName})) AS ue
+			(SELECT * FROM tb_user_evaluation WHERE evaluated_user_id = #{loginId}) AS ue
+			RIGHT JOIN 
+			tb_user_evaluation_type AS uet
+			on
+			ue.user_evaluation_type_code = uet.user_evaluation_type_code 
+			,(SELECT @rownum:=0) AS TMP
+		GROUP by uet.user_evaluation_type_name;
+	</select>
+	
+	<select id="userEvaluation2" parameterType="String" resultMap="userEvaluationResultMap">
+		SELECT
+			@rownum:=@rownum+1 AS num
+			,uet.user_evaluation_type_name
+			,COUNT(ue.user_evaluation_code) AS countEvaluationType
+		FROM
+			(SELECT 
+				* 
+			FROM 
+				tb_user_evaluation 
+			WHERE 
+				evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName})) AS ue
 			RIGHT JOIN 
 			tb_user_evaluation_type AS uet
 			on
@@ -301,6 +315,58 @@
 		WHERE 
 			ue.user_id = #{loginId}
 			AND 
-			ue.evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName});;
+			ue.evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName});
 	</delete>
+	
+	<select id="checkSleeperId" parameterType="String" resultType="int">
+		SELECT
+		    COUNT(*)
+		FROM
+			tb_sleeper_account
+		WHERE
+			user_id = #{userId};
+	</select>
+	
+	<select id="checkRemoveId" parameterType="String" resultType="int">
+		SELECT
+		    COUNT(*)
+		FROM
+			tb_user
+		WHERE
+			user_id = #{userId}
+			AND
+			user_withdrawal = 'Y';
+	</select>
+	
+	<select id="getSleeperAccount" parameterType="string" resultMap="sleeperAccountResultMap">
+		SELECT
+			 sa.user_id
+			,max(l.login_date) AS lastLoginDate	
+		FROM
+			tb_sleeper_account as sa
+			INNER JOIN 
+			tb_login AS l
+			ON
+			sa.user_id = l.user_id 
+		WHERE
+			sa.user_id = #{userId};		
+	</select>
+	
+	<update id="removeUser" parameterType="String">
+		UPDATE 
+			tb_user AS u
+		SET
+			u.user_withdrawal = 'Y'
+		WHERE
+			u.user_id = #{loginId};	
+	</update>
+	
+	<insert id="setRemoveAccount">
+		INSERT INTO 
+			tb_remove_account(user_id, remove_account_date)
+		VALUES
+		(
+			#{loginId}, NOW()
+		);
+	</insert>
 </mapper>
