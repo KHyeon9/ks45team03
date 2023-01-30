@@ -42,7 +42,6 @@
 									<th class="column-title">번호</th>
 									<th class="column-title">아이디</th>
 									<th class="column-title">로그인 일자</th>
-									<th class="column-title">로그아웃 일자</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -51,10 +50,9 @@
 									<td th:text="${l.num}"></td>
 									<td th:text="${l.userId}"></td>
 									<td th:text="${l.loginDate}"></td>
-									<td th:text="${l.logoutDate}"></td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(loginHistory)}">
-									<td colspan="4">등록된 로그인 이력이 없습니다.</td>
+									<td colspan="3">등록된 로그인 이력이 없습니다.</td>
 								</tr>
 							</tbody>
 						</table>

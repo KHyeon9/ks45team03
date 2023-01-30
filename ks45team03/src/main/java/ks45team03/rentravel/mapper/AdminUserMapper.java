@@ -14,7 +14,7 @@ import ks45team03.rentravel.dto.UserLevel;
 @Mapper
 public interface AdminUserMapper {
 		// 회원 목록
-		public List<User> userList(Map<String, Object> paramMap);
+		public List<User> userList();
 		
 		// 테이블 행의 갯수
 		public int getUserListCnt(String searchKey, String searchValue);
@@ -50,5 +50,11 @@ public interface AdminUserMapper {
 		
 		// 탈퇴 계정 행갯수
 		public int removeAccountCnt();
+		
+		// 회원 삭제
+		public int removeUserByAdmin(String userId);
+		
+		// 회원 삭제시 탈퇴회원목록으로 
+		public void setRemoveAccount(String userId);
 		
 }

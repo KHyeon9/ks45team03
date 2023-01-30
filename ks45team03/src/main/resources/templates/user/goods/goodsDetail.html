@@ -206,7 +206,7 @@
                   <h2 th:text="*{goodsName}"></h2>
                   <h3 th:text="'1일당 '+*{goodsDayPrice}+'원'"></h3>
                             
-                   		<h4>판매자 닉네임 : <a th:href="@{/myPage/myPage(userNickName=*{userNickname})}" th:text="*{userNickname}" style="color: black"></a></h4>
+                   		<h4>판매자 닉네임 : <a th:href="@{/userMyPage(userNickName=*{userNickname})}" th:text="*{userNickname}" style="color: black"></a></h4>
                    		<h4 th:text="'카테고리: '+*{goodsCategoryName}"></h4>
                    		<h4 th:text="'등록일자: '+*{goodsRegDate}"></h4>
                    		<h4 th:text="'상품가치: '+*{goodsValuePrice}"></h4>

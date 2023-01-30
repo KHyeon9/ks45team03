@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
+import ks45team03.rentravel.dto.SleeperAccount;
 import ks45team03.rentravel.dto.User;
 import ks45team03.rentravel.dto.UserEvaluation;
 import ks45team03.rentravel.dto.UserEvaluationType;
@@ -36,13 +37,13 @@ public interface UserMapper {
 	
 	public void loginHistory(String loginId);
 	
-	public void logoutHistory(String loginId);
-	
 	public int findIdCheck(String userName, String userEmail, String userPhoneNumber);
 	
 	public List<User> showFindId(String userName, String userEmail, String userPhoneNumber);
 	
-	public List<UserEvaluation> userEvaluation(String userNickName);
+	public List<UserEvaluation> userEvaluation(String loginId);
+	
+	public List<UserEvaluation> userEvaluation2(String NickName);
 	
 	public List<UserEvaluationType> userEvaluationList();
 	
@@ -53,5 +54,15 @@ public interface UserMapper {
 	public List<UserEvaluation> getUserEvaluationDoneList(String userNickName, String loginId);
 	
 	public int deleteUserEvaluation(String userNickName, String loginId);
+	
+	public int checkSleeperId(String userId);
+	
+	public int checkRemoveId(String userId);
+	
+	public SleeperAccount getSleeperAccount(String userId);
+	
+	public int removeUser(String loginId);
+	
+	public void setRemoveAccount(String loginId);
 	
 }

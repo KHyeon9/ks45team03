@@ -51,6 +51,16 @@ public class UserService {
 		return resultMap;
 	}
 	
+	public Map<String, Object> userInfo(String userId){
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		User user = userMapper.checkPwByUserId(userId);
+		resultMap.put("userInfo", user);
+		
+		return resultMap;
+	}
+	
 	public void addUser(User user) {
 		
 		userMapper.addUser(user);
@@ -68,7 +78,11 @@ public class UserService {
 		return userMapper.findIdCheck(userName, userEmail, userPhoneNumber);
 	}
 	
-	public List<UserEvaluation> userEvaluation(String userNickName){
-		return userMapper.userEvaluation(userNickName);
+	public List<UserEvaluation> userEvaluation(String loginId){
+		return userMapper.userEvaluation(loginId);
+	}
+	
+	public List<UserEvaluation> userEvaluation2(String userNickName){
+		return userMapper.userEvaluation2(userNickName);
 	}
 }

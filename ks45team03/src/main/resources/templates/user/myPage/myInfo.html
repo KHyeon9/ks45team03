@@ -19,19 +19,9 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <div class="btn-group" role="group" aria-label="...">
-              	<a th:href="@{/myPage/myInfo}" class="btn btn-default active"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
-                <a th:href="@{/myPage/myGoodsList}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>내 상품</a>
-                <a th:href="@{/myPage/myReviewList}" class="btn btn-default active"><i class="fa fa-list" aria-hidden="true"></i>내 리뷰</a>
-                <a th:href="@{/myPage/myWishList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 관심상품</a>
-                <a th:href="@{/myPage/myOrderList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 주문 내역</a>
-                <a th:href="@{/myPage/userEvaluation}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 평가</a>
-                <a th:href="@{/myPage/userEvaluated}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내가 한 평가</a>
-                <a th:href="@{/myPage/myBlockList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>나의 차단 목록</a>
-                <a th:href="@{/myPage/myProfitList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>나의 수익 목록</a>
-                <a th:href="@{/myPage/myMileageList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 적립금 내역</a>
-                <a th:href="@{/myPage/alarmList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 알림 목록</a>
-                <a th:href="@{/myPage/myExperience}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 경험치</a>
+              	<div th:replace="~{user/fragments/myPageButtonFragmentForMe :: myPageButtonFragmentForMe}"></div>
+              <div class="btn-group" role="group" aria-label="..." style="float: right">
+              	<a th:href="@{/myPage/removeUser}" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>탈퇴하기</a>
               </div>
             </div>
           </div>
@@ -345,6 +335,14 @@
 				
 				})
 			});
+		
+		$('#removeUserBtn').click(function(){
+			if(!confirm('정말 탈퇴하시겠습니까? 탈퇴한 계정은 되돌릴 수 없습니다.')){
+				return false;
+			}else{
+				alert('탈퇴되었습니다.');
+			}
+		});
 		</script>
 	</th:block>
 </html>

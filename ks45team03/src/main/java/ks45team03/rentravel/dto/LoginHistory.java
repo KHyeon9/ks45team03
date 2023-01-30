@@ -13,7 +13,6 @@ public class LoginHistory {
 	private String loginCode;
 	private String userId;
 	private String loginDate;
-	private String logoutDate;
 	private int dateDiff;
 	
 }

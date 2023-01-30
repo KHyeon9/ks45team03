@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -68,29 +69,6 @@ public class MyPageController {
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
 	
-	
-	@GetMapping("/myPage")
-	public String myPage(Model model, HttpSession session, @RequestParam(value="userNickName") String userNickName) {
-	
-		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String redirectURI = "user/myPage/myPage";
-		
-		if(loginUser == null) {
-		
-			redirectURI = "redirect:/login";	
-			
-		}else {
-			int getDuplicateEvaluation = userMapper.getDuplicateEvaluation(userNickName, loginUser.getLoginId());
-			
-			model.addAttribute("title", "내 정보");
-			model.addAttribute("userNickName", userNickName);
-			model.addAttribute("getDuplicateEvaluation", getDuplicateEvaluation);
-			
-		}
-		return redirectURI;
-		
-	}
-	
 	@PostMapping("/myInfo")
 	public String myInfo(User user) {
 								
@@ -104,16 +82,16 @@ public class MyPageController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
-		String loginNickName = loginUser.getLoginNickName();
 		String loginId = loginUser.getLoginId();
+		String loginNickName = loginUser.getLoginNickName();
 		User userInfo = userMapper.userInfo(loginId);
 		
 		List<RegionSido> regionSidoCode = userMapper.getMyPageRegionSido(userInfo.getRegionSido().getRegionSidoCode());
 		
 		model.addAttribute("title", "내 정보");
-		model.addAttribute("loginNickName", loginNickName);
 		model.addAttribute("userInfo", userInfo);
 		model.addAttribute("regionSidoCode", regionSidoCode);
+		model.addAttribute("loginNickName", loginNickName);
 		
 		return "user/myPage/myInfo";
 	}
@@ -132,7 +110,7 @@ public class MyPageController {
 		
 		boolean isChecked = (boolean) checkResult.get("result");
 		
-		String redirectURI = "redirect:/myPage/myInfo";
+		String redirectURI;
 		
 		if(!isChecked) {
 			redirectURI = "redirect:/myPage/checkPassword";
@@ -154,16 +132,16 @@ public class MyPageController {
 		return "user/myPage/checkPassword";
 	}
 	
-	@GetMapping("/modifyUser")
-	public String modifyUser(Model model) {
-		model.addAttribute("title", "회원정보 수정");
-		return "user/myPage/modifyUser";
-	}
-	
-	@GetMapping("/removeUser")
-	private String removeUser(Model model) {
-		model.addAttribute("title", "탈퇴 화면");
-		return "user/myPage/removeUser";
+	@RequestMapping("/removeUser")
+	private String removeUser(HttpSession session){
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		userMapper.removeUser(loginInfo.getLoginId());
+		userMapper.setRemoveAccount(loginInfo.getLoginId());
+		
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 	
 	@GetMapping("/myGoodsList")
@@ -171,24 +149,28 @@ public class MyPageController {
 							 ,HttpSession session
 							 ,@RequestParam(defaultValue="1", required=false) int curPage) {
 		
-		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String loginId = loginUser.getLoginId();
-		
-		int myGoodsListCount = goodsService.getMyGoodsListCount(loginId);
+		String returnURI;
+		if(loginUser == null) {
+			returnURI = "redirect:/login";
+		}else {
+		int myGoodsListCount = goodsService.getMyGoodsListCount(loginUser.getLoginId());
 
 		Pagination pagination = new Pagination(myGoodsListCount, curPage);
 		
 		int startIndex = pagination.getStartIndex();
 		int pageSize = pagination.getPageSize();
 		
-		List<Goods> myGoodsList = goodsService.getMyGoodsList(loginId,startIndex,pageSize);
+		List<Goods> myGoodsList = goodsService.getMyGoodsList(loginUser.getLoginId(),startIndex,pageSize);
 		
 		model.addAttribute("myGoodsList",myGoodsList);
 		model.addAttribute("pagination",pagination);
 		model.addAttribute("title","마이페이지 화면");
 		
-		return "user/myPage/myGoodsList";
+		returnURI = "user/myPage/myGoodsList";
+		
+		}
+		return returnURI;
 	}
 	
 	@PostMapping("/myRemoveGoods")
@@ -461,7 +443,7 @@ public class MyPageController {
 		
 		if (loginInfo == null) {
 			CommonController.alertPlzLogin(response);
-			redirectURI = "redirect:/";
+			redirectURI = "user/user/login";
 		
 		} else {
 			int userOrderCnt = orderMapper.getUserOrderCnt(loginInfo.getLoginId());
@@ -480,14 +462,15 @@ public class MyPageController {
 	
 	@GetMapping("/userEvaluation")
 	public String userEvaluation(Model model
-								,HttpSession session
-								,@RequestParam(value="userNickName") String userNickName) {
+								,HttpSession session) {
 		
-		List<UserEvaluation> userEvaluation = userService.userEvaluation(userNickName);
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+
+		
+		List<UserEvaluation> userEvaluation = userService.userEvaluation(loginInfo.getLoginId());
 		
 		model.addAttribute("title","내 평가");
 		model.addAttribute("userEvaluation", userEvaluation);
-		model.addAttribute("userNickName", userNickName);
 		
 		return "user/myPage/userEvaluation";
 	}

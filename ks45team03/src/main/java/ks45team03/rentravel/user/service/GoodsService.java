@@ -132,4 +132,16 @@ public class GoodsService {
 		
 		return goodsMapper.getMyGoodsListCount(loginId);
 	}
+	
+	public List<Goods> getMyGoodsList2(String userNickName,int startIndex, int pageSize){
+		
+		List<Goods> myGoodsList2 = goodsMapper.getMyGoodsList2(userNickName,startIndex,pageSize);
+		
+		return myGoodsList2;
+	}
+	
+	public int getMyGoodsListCount2(String userNickName) {
+		
+		return goodsMapper.getMyGoodsListCount2(userNickName);
+	}
 }
