@@ -14,6 +14,9 @@
 		<result property="userPhoneNumber" column="user_phone_number" />
 		<result property="userImage" column="user_image" />
 		<result property="regionSggCode" column="region_sgg_code" />
+		<result property="regionSggName" column="region_sgg_name" />
+		<result property="regionSidoCode" column="region_sido_code" />
+		<result property="regionSidoName" column="region_sido_name" />
 		<result property="userAddrDesc" column="user_addr_desc" />
 		<result property="totalExp" column="total_exp" />
 		<result property="totalMileage" column="total_mileage" />
@@ -39,6 +42,11 @@
 		<result property="removeAccountDate" column="remove_account_date" />
 	</resultMap>
 	
+	<resultMap type="RegionSido" id="regionSidoResultMap">
+		<id property="regionSidoCode" column="region_sido_code" />
+		<result property="regionSidoName" column="region_sido_name" />
+	</resultMap>
+	
 	<select id="userList" resultMap="userResultMap">
 		/* 회원 목록 조회 */
 		SELECT
@@ -52,6 +60,7 @@
 			,u.user_image
 			,u.total_exp
 			,CONCAT_WS(' ', si.region_sido_name, sgg.region_sgg_name, u.user_addr_desc) AS region
+			,sgg.region_sgg_code
 			,u.total_mileage
 			,u.user_create_date
 		FROM
@@ -99,12 +108,23 @@
 			,u.user_level_code
 			,u.user_email
 			,u.user_phone_number
-			,u.region_sgg_code
+			,rs.region_sgg_code
+			,rs.region_sgg_name
+			,rsi.region_sido_code
+			,rsi.region_sido_name
 			,u.user_addr_desc
 			,u.total_exp
 			,u.total_mileage
 		FROM
 			tb_user AS u
+			INNER JOIN
+			tb_region_sgg AS rs
+			ON
+			u.region_sgg_code = rs.region_sgg_code
+			INNER JOIN
+			tb_region_sido AS rsi
+			ON
+			rs.region_sido_code = rsi.region_sido_code
 		WHERE	
 			u.user_id = #{userId};
 	</select>
@@ -145,13 +165,30 @@
 	  	<if test="regionSggCode != null and regionSggCode != ''">
 	  		,region_sgg_code = #{regionSggCode}
 	  	</if>
-	  		<if test="totalMileage != null and totalMileage != ''">
+	  	<if test="userAddrDesc != null and userAddrDesc != ''">
+	  		,user_addr_desc = #{userAddrDesc}
+	  	</if>
+	  	<if test="totalMileage != null and totalMileage != ''">
 	  		,total_mileage = #{totalMileage}
 	  	</if>
 	  	</trim>
 	  	WHERE
 	  		user_id = #{userId};
   	</update>
+  	
+  	<select id="regionSidoList" resultMap="regionSidoResultMap">
+  		SELECT
+  			 DISTINCT rs.region_sido_code
+  			,rs.region_sido_name
+  		FROM
+  			tb_region_sido AS rs
+  			INNER JOIN
+  			tb_region_sgg AS sgg
+  			ON
+  			rs.region_sido_code = sgg.region_sido_code
+  		WHERE
+  			rs.region_sido_code NOT IN (SELECT region_sido_code FROM tb_region_sgg WHERE region_sgg_code = #{regionSggCode});
+  	</select>
   	
   	<select id="loginHistory" resultMap="loginHistoryResultMap">
   		SELECT 
