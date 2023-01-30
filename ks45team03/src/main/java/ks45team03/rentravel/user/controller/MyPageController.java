@@ -364,7 +364,7 @@ public class MyPageController {
 		return "user/myPage/myRentList";
 	}
 	
-	// 주문 물품 정보 가져오기
+	// 주문 배송 정보 가져오기
 	@ResponseBody
 	@PostMapping("/getOrderDeliveryInfo")
 	public WaybillOwner getOrderDeliveryInfo(@RequestBody String paymentCode, HttpSession session) {
