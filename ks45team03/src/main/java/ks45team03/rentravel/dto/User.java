@@ -25,6 +25,9 @@ public class User {
 	private String userImage;
 	private int totalExp;
 	private String regionSggCode;
+	private String regionSggName;
+	private String regionSidoCode;
+	private String regionSidoName;
 	private String userAddrDesc;
 	private String region;
 	private int totalMileage;

@@ -15,6 +15,7 @@ import ks45team03.rentravel.admin.service.AdminUserService;
 import ks45team03.rentravel.dto.LoginHistory;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
+import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.RemoveAccount;
 import ks45team03.rentravel.dto.Search;
 import ks45team03.rentravel.dto.SleeperAccount;
@@ -69,14 +70,17 @@ public class AdminUserController {
 	// 특정회원 조회해서 수정화면으로 --> userLevelCode :: userLevelName 
 	@GetMapping("/modifyUser")
 	public String modifyUser(Model model
-							 ,@RequestParam(value="userId", required=false) String userId) {
+							 ,@RequestParam(value="userId", required=false) String userId
+							 ,@RequestParam(value="regionSggCode") String regionSggCode) {
 		
 		User userInfo = adminUserService.getUserInfoById(userId);
 		List<UserLevel> userLevelList = adminUserService.getUserLevelList();
+		List<RegionSido> regionSidoList = adminUserMapper.regionSidoList(regionSggCode);
 		
 		model.addAttribute("title", "수정화면");
 		model.addAttribute("userInfo", userInfo);
 		model.addAttribute("userLevelList", userLevelList);
+		model.addAttribute("regionSidoList", regionSidoList);
 		
 		return "admin/userManagement/modifyUser";
 	}
