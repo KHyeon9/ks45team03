@@ -138,6 +138,7 @@
 	                    <div class="media-body">
 	                      <h4 class="media-heading"><a th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}" th:text="${gl.goodsName}"></a></h4>
 	                      <p>닉네임: <a th:href="@{/userMyPage(userNickName=${gl.userNickname})}" th:text="${gl.userNickname}" style="color: black"></a></p>
+	                      <h4 th:text="|대여 가능 여부: ${gl.goodsRentalAvailability}|"></h4>
 	                      <h4 th:text="|상품 가치: ${gl.goodsValuePrice}|"></h4>
 	                      <h4 th:text="|카테고리: ${gl.goodsCategoryName}|"></h4>
 	                      <h4 th:text="|일당 가격: ${gl.goodsDayPrice}|"></h4>
