@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+<section class="mainContent clearfix setp5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="thanksContent">
+                <h2>고객님의 ID는 현재 <span style="color: rgb(71, 186, 193)">휴면계정</span>상태입니다.<small>180일 이상 RENTravel 서비스 미이용 고객님으로 휴면 전환 처리 되었습니다.</small></h2>
+                <div class="thanksInner">
+                  <div class="row">
+                    <div class="col-md-8 tableBlcok">
+                      <address>
+                        <span style="font-weight: 900">회원 아이디 : </span>[[${getSleeperAccount.userId}]]<span></span> <br>
+                        <span style="font-weight: 900">휴면계정전환일자 : </span>[[${getSleeperAccount.lastLoginDate}]]<span></span> <br>
+                        <span style="font-weight: 900">개인정보 이용기간</span><br>
+                        <span>선택된 유효기간 동안 RENTravel 서비스 이용 내역이 없어도 개인정보 분리보관 및 휴면회원으로  전환되지 않습니다.</span><br>
+                        <label for="selectSleeperDay180" class="mr-5">
+                        <input type="radio" name="selectSleeperDay" id="selectSleeperDay180"> 6개월</label>
+                        <label for="selectSleeperDay365">
+                        <input type="radio" name="selectSleeperDay" id="selectSleeperDay365"> 12개월</label>
+                      </address>
+                    </div>
+                    <div class="col-md-4">
+                    <form th:action="@{/disableSleeperAccount}" method="post" id="disableSleeperForm">
+	                    <button class="well py-3" type="button" id="disableSleeperBtn">
+	                    	<h2>휴면 해제</h2>
+	                    </button>
+	                    <input th:value="${getSleeperAccount.userId}" name="userId" hidden="hidden">
+	                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+		</th:block>
+		 <th:block layout:fragment="customScript">
+		<script th:inline="javascript"> 
+			  $('#disableSleeperBtn').click(function(){
+				  if($('input[name=selectSleeperDay]').is(':checked') == false){
+					  alert('기간을 선택해 주세요.');
+					  return false;
+				  }else{
+					  $('#disableSleeperForm').submit();
+				  }
+			  });
+		</script>
+</th:block>
+		</html>

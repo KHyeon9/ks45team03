@@ -44,7 +44,6 @@
 			,g.goods_day_price
 			,g.goods_reg_date
 			,CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
-			,g.goods_state
 		FROM
 			tb_goods AS g
 			JOIN
@@ -63,6 +62,17 @@
 				tb_region_sido AS rsido
 			ON
 				rsgg.region_sido_code = rsido.region_sido_code
+		<where>
+		
+			<if test="goodsState == 'activate'">
+				g.goods_state = 'activate'
+			</if>		
+			
+			<if test="goodsState == 'disabled'">
+				g.goods_state = 'disabled'
+			</if>		
+
+		</where>
 		ORDER BY 
 			g.goods_reg_date DESC;
 

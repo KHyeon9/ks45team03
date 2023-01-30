@@ -11,7 +11,15 @@ public class Insurance {
 	
 	Goods goods;
 	Rental rental;
+	User user;
 	
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public Rental getRental() {
 		return rental;
 	}
@@ -78,8 +86,10 @@ public class Insurance {
 	public String toString() {
 		return "Insurance [insuranceCode=" + insuranceCode + ", userId=" + userId + ", goodsCode=" + goodsCode
 				+ ", paymentCode=" + paymentCode + ", rentalCode=" + rentalCode + ", insuranceAvailable="
-				+ insuranceAvailable + ", insuranceSignUpTime=" + insuranceSignUpTime + "]";
+				+ insuranceAvailable + ", insuranceSignUpTime=" + insuranceSignUpTime + ", goods=" + goods + ", rental="
+				+ rental + ", user=" + user + ", payment=" + payment + "]";
 	}
 
+	
 	
 }

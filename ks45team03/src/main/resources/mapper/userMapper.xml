@@ -23,6 +23,7 @@
 		<result property="totalExp" column="total_exp" />
 		<result property="totalMileage" column="total_mileage" />
 		<result property="userCreateDate" column="user_create_date" />
+		<result property="userWithdrawal" column="user_withdrawal" />
 			<association property="regionSgg" javaType="RegionSgg">
 				<id property="regionSggCode" column="region_sgg_code" />
 				<result property="regionSidoCode" column="region_sido_code" />
@@ -43,6 +44,32 @@
 		<id property="regionSggCode" column="region_sgg_code" />
 		<result property="regionSidoCode" column="region_sido_code" />
 		<result property="regionSggName" column="region_sgg_name" />
+	</resultMap>
+	
+	<resultMap type="LoginHistory" id="loginHistoryResultMap">
+		<id property="loginCode" column="login_code" />
+		<result property="userId" column="user_id" />
+		<result property="loginDate" column="login_date" />
+	</resultMap>
+	
+	<resultMap type="UserEvaluation" id="userEvaluationResultMap">
+		<id property="userEvaluationCode" column="user_evaluation_code" />
+		<result property="userId" column="user_id" />
+		<result property="evaluatedUserId" column="evaluated_user_id" />
+		<result property="userEvaluationTypeCode" column="user_evaluation_type_code" />
+		<result property="userEvaluationTypeName" column="user_evaluation_type_name" />
+		<result property="userEvaluationDate" column="user_evaluation_date" />
+	</resultMap>
+	
+	<resultMap type="UserEvaluationType" id="userEvaluationTypeResultMap">
+		<id property="userEvaluationTypeCode" column="user_evaluation_type_code"/>
+		<result property="userEvaluationTypeName" column="user_evaluation_type_name" />
+	</resultMap>
+	
+	<resultMap type="SleeperAccount" id="sleeperAccountResultMap">
+		<id property="sleeperAccountCode" column="sleeper_account_code" />
+		<result property="userId" column="user_id" />
+		<result property="loginDate" column="login_date" />
 	</resultMap>
 	
 	<update id="ModifyuserInfo" parameterType="User">
@@ -161,4 +188,185 @@
 		WHERE
 			u.user_nickname = #{userNickName};
 	</select>
+
+	<insert id="loginHistory" parameterType="String">
+		INSERT INTO 
+			tb_login(login_code, user_id, login_date)
+		VALUES
+			(
+				sf_new_login_code(), #{loginId}, NOW()
+			)	
+	</insert>	
+	
+	<select id="findIdCheck" resultType="int">
+		SELECT
+			COUNT(u.user_id)
+		FROM
+			tb_user AS u
+		WHERE	
+			u.user_name = #{userName}
+			AND
+			u.user_email = #{userEmail}
+			AND
+			u.user_phone_number = #{userPhoneNumber};
+	</select>
+	
+	<select id="showFindId" resultMap="userResultMap">
+		SELECT
+			 u.user_id
+			,u.user_create_date
+		FROM
+			tb_user AS u
+		WHERE	
+			u.user_name = #{userName}
+			AND
+			u.user_email = #{userEmail}
+			AND
+			u.user_phone_number = #{userPhoneNumber};
+	</select>
+	
+	<select id="userEvaluation" parameterType="String" resultMap="userEvaluationResultMap">
+		SELECT
+			@rownum:=@rownum+1 AS num
+			,uet.user_evaluation_type_name
+			,COUNT(ue.user_evaluation_code) AS countEvaluationType
+		FROM
+			(SELECT * FROM tb_user_evaluation WHERE evaluated_user_id = #{loginId}) AS ue
+			RIGHT JOIN 
+			tb_user_evaluation_type AS uet
+			on
+			ue.user_evaluation_type_code = uet.user_evaluation_type_code 
+			,(SELECT @rownum:=0) AS TMP
+		GROUP by uet.user_evaluation_type_name;
+	</select>
+	
+	<select id="userEvaluation2" parameterType="String" resultMap="userEvaluationResultMap">
+		SELECT
+			@rownum:=@rownum+1 AS num
+			,uet.user_evaluation_type_name
+			,COUNT(ue.user_evaluation_code) AS countEvaluationType
+		FROM
+			(SELECT 
+				* 
+			FROM 
+				tb_user_evaluation 
+			WHERE 
+				evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName})) AS ue
+			RIGHT JOIN 
+			tb_user_evaluation_type AS uet
+			on
+			ue.user_evaluation_type_code = uet.user_evaluation_type_code 
+			,(SELECT @rownum:=0) AS TMP
+		GROUP by uet.user_evaluation_type_name;
+	</select>
+	
+	<select id="userEvaluationList" resultMap="userEvaluationTypeResultMap">
+		SELECT
+			 uet.user_evaluation_type_code
+			,uet.user_evaluation_type_name
+		FROM
+			tb_user_evaluation_type AS uet;
+	</select>
+	
+	<insert id="addUserEvaluation">
+		INSERT INTO 
+			tb_user_evaluation(user_id, evaluated_user_id, user_evaluation_type_code, user_evaluation_date)
+		VALUES
+		<foreach collection="userEvaluationTypeCodeList" item="userEvaluationTypeCodeList" open="(" close=")" separator="),(">
+		
+			#{loginId}, (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName}),
+			
+			 #{userEvaluationTypeCodeList}
+			 
+			 , NOW() 	
+		
+		</foreach>
+	</insert>
+	
+	<select id="getDuplicateEvaluation" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_user_evaluation AS eu
+		WHERE
+		eu.user_id = #{loginId}
+		AND
+		eu.evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName});
+	</select>
+	
+	<select id="getUserEvaluationDoneList" resultMap="userEvaluationResultMap">
+		SELECT
+			uet.user_evaluation_type_name
+		FROM
+			tb_user_evaluation AS ue
+			INNER JOIN
+			tb_user_evaluation_type AS uet
+			ON 
+			ue.user_evaluation_type_code = uet.user_evaluation_type_code
+		WHERE
+			ue.user_id = #{loginId}
+			AND
+			ue.evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName});
+	</select>
+	
+	<delete id="deleteUserEvaluation">
+		DELETE FROM 
+			tb_user_evaluation AS ue
+		WHERE 
+			ue.user_id = #{loginId}
+			AND 
+			ue.evaluated_user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName});
+	</delete>
+	
+	<select id="checkSleeperId" parameterType="String" resultType="int">
+		SELECT
+		    COUNT(*)
+		FROM
+			tb_sleeper_account
+		WHERE
+			user_id = #{userId};
+	</select>
+	
+	<select id="checkRemoveId" parameterType="String" resultType="int">
+		SELECT
+		    COUNT(*)
+		FROM
+			tb_user
+		WHERE
+			user_id = #{userId}
+			AND
+			user_withdrawal = 'Y';
+	</select>
+	
+	<select id="getSleeperAccount" parameterType="string" resultMap="sleeperAccountResultMap">
+		SELECT
+			 sa.user_id
+			,max(l.login_date) AS lastLoginDate	
+		FROM
+			tb_sleeper_account as sa
+			INNER JOIN 
+			tb_login AS l
+			ON
+			sa.user_id = l.user_id 
+		WHERE
+			sa.user_id = #{userId};		
+	</select>
+	
+	<update id="removeUser" parameterType="String">
+		UPDATE 
+			tb_user AS u
+		SET
+			u.user_withdrawal = 'Y'
+		WHERE
+			u.user_id = #{loginId};	
+	</update>
+	
+	<insert id="setRemoveAccount">
+		INSERT INTO 
+			tb_remove_account(user_id, remove_account_date)
+		VALUES
+		(
+			#{loginId}, NOW()
+		);
+	</insert>
 </mapper>

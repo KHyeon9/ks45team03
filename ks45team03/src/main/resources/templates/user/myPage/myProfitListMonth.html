@@ -27,7 +27,7 @@
                   <a th:href="@{/}">Home</a>
                 </li>
                 <li>
-                  <a th:href="@{/myPage/myInfo}">myInfo</a>
+                  <a th:href="@{/myPage/myOrderList}">MyPage</a>
                 </li>
                 <li>
                   <a th:href="@{/myPage/myProfitList}">MY PROFIT LIST</a>
@@ -44,6 +44,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
+            <div th:replace="~{user/fragments/myPageButtonFragmentForMe :: myPageButtonFragmentForMe}"></div>
               <div class="btn-group" role="group" aria-label="..." style="float: right";>
                 <a th:href="@{/myPage/myProfitListDay}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>일별 수익</a>
                 <a th:href="@{/myPage/myProfitListMonth}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>월별 수익</a>
@@ -95,7 +96,7 @@
                         <tr th:unless="${#lists.isEmpty(getUserMonthProfitList)}" th:each="pm : ${getUserMonthProfitList}">                     
                           <td th:text="${pm.userId}"></td>
                           <td th:text="${pm.profitSaveYearMonth}"></td>
-                          <td th:text="${pm.profitMonthTotal}"></td>       
+                          <td th:text="${'₩' + #numbers.formatInteger(pm.profitMonthTotal, 1, 'COMMA')}"></td>       
                         </tr>
                        <tr th:if="${#lists.isEmpty(getUserMonthProfitList)}">
                        		<td colspan="4">등록된 월별 수익이 없습니다.</td>

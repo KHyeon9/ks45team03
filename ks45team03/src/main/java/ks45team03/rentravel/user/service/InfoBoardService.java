@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import groovyjarjarantlr4.v4.misc.EscapeSequenceParsing.Result;
 import groovyjarjarantlr4.v4.runtime.atn.SemanticContext.AND;
 import ks45team03.rentravel.dto.FileDto;
 import ks45team03.rentravel.dto.InfoBoard;
@@ -49,7 +48,7 @@ public class InfoBoardService{
 		return infoBoardMapper.addInfoBoardComment(infoBoardComment);
 	}
 	
-	// 게시글 댓글 조회
+	// 게시글 댓글 갯수 조회
 	public int getCommnetCnt(String infoBoardCode) {
 		return infoBoardMapper.getCommentCnt(infoBoardCode);
 	}
@@ -70,11 +69,11 @@ public class InfoBoardService{
 	public int removeInfoBoard(InfoBoard infoBoard) {
 		int result = 0;
 		
-		List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
-		
-		
-		result += infoBoardMapper.removeFileGroupData(infoBoard.getFileGroupCode());
-		result += infoBoardMapper.removeFileData(fileCodeList);
+		if(infoBoard.getFileGroupCode() != null) {
+			List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
+			result += infoBoardMapper.removeFileGroupData(infoBoard.getFileGroupCode());
+			result += infoBoardMapper.removeFileData(fileCodeList);
+		}
 		result += infoBoardMapper.removeInfoBoardCommentAll(infoBoard.getInfoBoardCode());
 		result += infoBoardMapper.removeInfoBoard(infoBoard.getInfoBoardCode());
 		
@@ -85,20 +84,25 @@ public class InfoBoardService{
 	public int modifyInfoBoard(InfoBoard infoBoard, MultipartFile[] uploadfile, String fileRealPath) {
 		int result = 0;
 		
-		if (!infoBoard.getFileGroupCode().equals("")) {
-		List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
+		log.info("infoBoard : {}", infoBoard);
+		
+		if (!infoBoard.getFileGroupCode().equals("") && !fileRealPath.equals("/home/springboot/teamproject/files/")) {
+			List<String> fileCodeList = infoBoardMapper.getFileCodeByFeilGroupCode(infoBoard.getFileGroupCode());
 		
 			result += infoBoardMapper.removeFileGroupData(infoBoard.getFileGroupCode());
 			result += infoBoardMapper.removeFileData(fileCodeList);
 		}
 		
-		log.info("upload : {}, filePath {}", uploadfile, fileRealPath);
+		log.info("upload : {}, filePath : {}", uploadfile, fileRealPath);
 		
 		List<FileDto> fileList =  fileService.fileUpload(uploadfile, fileRealPath);
-		String fileGroupCode = commonNewCode.getCommonNewCode("tb_file_group", "file_group_code");
+		 
+		log.info("fileList : {}", fileList);
 		
 		
 		if (fileList != null) {
+			String fileGroupCode = commonNewCode.getCommonNewCode("tb_file_group", "file_group_code");
+			
 			for(FileDto fileInfo : fileList) {
 				String fileCode =  fileInfo.getFileCode();
 				fileService.addFileGroup(fileGroupCode, fileCode);

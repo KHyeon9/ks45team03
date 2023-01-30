@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks45team03.rentravel.dto.Block;
@@ -30,9 +32,13 @@ import ks45team03.rentravel.dto.ProfitYear;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.Rental;
 import ks45team03.rentravel.dto.RentalCancel;
+import ks45team03.rentravel.dto.Review;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.dto.UserEvaluation;
+import ks45team03.rentravel.dto.UserEvaluationType;
 import ks45team03.rentravel.dto.WaybillOwner;
 import ks45team03.rentravel.dto.WaybillRenter;
+import ks45team03.rentravel.dto.Wish;
 import ks45team03.rentravel.mapper.OrderMapper;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.mapper.UserMapper;
@@ -40,7 +46,9 @@ import ks45team03.rentravel.user.service.GoodsService;
 import ks45team03.rentravel.mapper.UserProfitMapper;
 import ks45team03.rentravel.user.service.OrderService;
 import ks45team03.rentravel.user.service.ProfitService;
+import ks45team03.rentravel.user.service.ReviewService;
 import ks45team03.rentravel.user.service.UserService;
+import ks45team03.rentravel.user.service.WishService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -56,28 +64,10 @@ public class MyPageController {
 	private final UserMapper userMapper;
 	private final GoodsService goodsService;
 	private final ProfitService profitService;
+	private final ReviewService reviewService;
+	private final WishService wishService;
 	
 	private static final Logger log = LoggerFactory.getLogger(MyPageController.class);
-	
-	
-	@GetMapping("/myPage")
-	public String myPage(Model model, HttpSession session) {
-	
-		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
-		String redirectURI = "user/myPage/myPage";
-		
-		if(loginUser == null) {
-		
-			redirectURI = "redirect:/login";	
-			
-		}else {
-			
-			model.addAttribute("title", "내 정보");
-			
-		}
-		return redirectURI;
-		
-	}
 	
 	@PostMapping("/myInfo")
 	public String myInfo(User user) {
@@ -92,16 +82,16 @@ public class MyPageController {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
 		
-		String loginNickName = loginUser.getLoginNickName();
 		String loginId = loginUser.getLoginId();
+		String loginNickName = loginUser.getLoginNickName();
 		User userInfo = userMapper.userInfo(loginId);
 		
 		List<RegionSido> regionSidoCode = userMapper.getMyPageRegionSido(userInfo.getRegionSido().getRegionSidoCode());
 		
 		model.addAttribute("title", "내 정보");
-		model.addAttribute("loginNickName", loginNickName);
 		model.addAttribute("userInfo", userInfo);
 		model.addAttribute("regionSidoCode", regionSidoCode);
+		model.addAttribute("loginNickName", loginNickName);
 		
 		return "user/myPage/myInfo";
 	}
@@ -120,7 +110,7 @@ public class MyPageController {
 		
 		boolean isChecked = (boolean) checkResult.get("result");
 		
-		String redirectURI = "redirect:/myPage/myInfo";
+		String redirectURI;
 		
 		if(!isChecked) {
 			redirectURI = "redirect:/myPage/checkPassword";
@@ -142,25 +132,31 @@ public class MyPageController {
 		return "user/myPage/checkPassword";
 	}
 	
-	@GetMapping("/modifyUser")
-	public String modifyUser(Model model) {
-		model.addAttribute("title", "회원정보 수정");
-		return "user/myPage/modifyUser";
-	}
-	
-	@GetMapping("/removeUser")
-	private String removeUser(Model model) {
-		model.addAttribute("title", "탈퇴 화면");
-		return "user/myPage/removeUser";
+	@RequestMapping("/removeUser")
+	private String removeUser(HttpSession session){
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		userMapper.removeUser(loginInfo.getLoginId());
+		userMapper.setRemoveAccount(loginInfo.getLoginId());
+		
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 	
 	@GetMapping("/myGoodsList")
 	public String myGoodsList(Model model
 							 ,HttpSession session
-							 ,@RequestParam(defaultValue="1", required=false) int curPage) {
-		
+							 ,@RequestParam(defaultValue="1", required=false) int curPage
+							 ,HttpServletResponse response) throws IOException {
 		
 		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		if (loginUser == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
 		String loginId = loginUser.getLoginId();
 		
 		int myGoodsListCount = goodsService.getMyGoodsListCount(loginId);
@@ -170,7 +166,7 @@ public class MyPageController {
 		int startIndex = pagination.getStartIndex();
 		int pageSize = pagination.getPageSize();
 		
-		List<Goods> myGoodsList = goodsService.getMyGoodsList(loginId,startIndex,pageSize);
+		List<Goods> myGoodsList = goodsService.getMyGoodsList(loginUser.getLoginId(),startIndex,pageSize);
 		
 		model.addAttribute("myGoodsList",myGoodsList);
 		model.addAttribute("pagination",pagination);
@@ -188,15 +184,72 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myReviewList")
-	public String myReviewList(Model model) {
+	public String myReviewList(Model model
+							  ,HttpSession session
+							  ,@RequestParam(defaultValue="1", required=false) int curPage) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String loginId ="";
+		String returnURI ="";
+		
+		if(loginUser == null) {
+			returnURI = "redirect:/login";
+		}else {
+			loginId = loginUser.getLoginId();	
+			returnURI = "user/myPage/myReviewList";
+		}
+		
+			
+		
+		int myReviewListCount = reviewService.getMyReviewListCount(loginId);
+		
+		Pagination pagination = new Pagination(myReviewListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+	
+		List<Review> myReviewList = reviewService.getMyReviewList(loginId, startIndex, pageSize);
+		
 		model.addAttribute("title","마이페이지 화면");
-		return "user/myPage/myReviewList";
+		model.addAttribute("myReviewList",myReviewList);
+		model.addAttribute("pagination",pagination);
+		
+		
+		return returnURI;
 	}
 	
 	@GetMapping("/myWishList")
-	public String myWishList(Model model) {
+	public String myWishList(Model model
+							,HttpSession session
+							,@RequestParam(defaultValue="1", required=false) int curPage) {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		String loginId ="";
+		String returnURI ="";
+		
+		if(loginUser == null) {
+			returnURI = "redirect:/login";
+		}else {
+			loginId = loginUser.getLoginId();	
+			returnURI = "user/myPage/myWishList";
+		}
+		
+		int wishListCount = wishService.getWishListCount(loginId);
+		
+		Pagination pagination = new Pagination(wishListCount, curPage);
+		
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		
+		List<Wish> wishList = wishService.getWishList(loginId, startIndex, pageSize);
+		
 		model.addAttribute("title","마이페이지 화면");
-		return "user/myPage/myWishList";
+		model.addAttribute("wishList",wishList);
+		model.addAttribute("pagination",pagination);
+		
+		return returnURI;
 	}
 	
 	// 주문 취소 확인
@@ -392,7 +445,7 @@ public class MyPageController {
 		
 		if (loginInfo == null) {
 			CommonController.alertPlzLogin(response);
-			redirectURI = "redirect:/";
+			redirectURI = "user/user/login";
 		
 		} else {
 			int userOrderCnt = orderMapper.getUserOrderCnt(loginInfo.getLoginId());
@@ -410,17 +463,94 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/userEvaluation")
-	public String userEvaluation(Model model) {
+	public String userEvaluation(Model model
+								,HttpSession session) {
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+
+		
+		List<UserEvaluation> userEvaluation = userService.userEvaluation(loginInfo.getLoginId());
+		
 		model.addAttribute("title","내 평가");
+		model.addAttribute("userEvaluation", userEvaluation);
+		
 		return "user/myPage/userEvaluation";
 	}
 	
-	@GetMapping("/userEvaluated")
-	public String userEvaluated(Model model) {
-		model.addAttribute("title","내가 한 평가");
-		return "user/myPage/userEvaluated";
+	@PostMapping("/addUserEvaluation")
+	public String addUserEvaluation(@RequestParam(value="userNickName") String userNickName
+								   ,@RequestParam(value="userEvaluationTypeCodeList") List<String> userEvaluationTypeCodeList
+								   ,HttpSession session) {
+		
+		
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		userMapper.addUserEvaluation(userNickName, userEvaluationTypeCodeList, loginInfo.getLoginId());
+		
+		return "redirect:" + session.getAttribute("referer");
 	}
 	
+	@GetMapping("/addUserEvaluation")
+	public String addUserEvaluation(Model model, @RequestParam(value="userNickName") String userNickName
+									,HttpSession session
+								    ,HttpServletRequest request) {
+		
+		String referer = request.getHeader("Referer");
+		
+		if (!referer.contains("/login")) {
+			session.setAttribute("referer", referer);
+	    }
+		
+		
+			List<UserEvaluationType> userEvaluationList = userMapper.userEvaluationList();
+			
+			model.addAttribute("title", "회원평가");
+			model.addAttribute("userNickName", userNickName);
+			model.addAttribute("userEvaluationList", userEvaluationList);
+		
+		return "user/myPage/addUserEvaluation";
+	}
+	
+	@GetMapping("/addUserEvalueationDone")
+	public String addUserEvalueationDone(Model model, @RequestParam(value="userNickName") String userNickName, HttpSession session ,HttpServletRequest request) {
+		
+		String referer = request.getHeader("Referer");
+		
+		if (!referer.contains("/login")) {
+			session.setAttribute("referer", referer);
+	    }
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		List<UserEvaluation> getUserEvaluationDoneList = userMapper.getUserEvaluationDoneList(userNickName, loginInfo.getLoginId());
+		
+		model.addAttribute("title", "회원평가");
+		model.addAttribute("userNickName", userNickName);
+		model.addAttribute("getUserEvaluationDoneList", getUserEvaluationDoneList);
+		
+		return "user/myPage/addUserEvalueationDone";
+	}
+	
+	@PostMapping("/modifyEvaluationAjax")
+	@ResponseBody
+	public List<UserEvaluationType> modifyEvaluation(){
+		
+		List<UserEvaluationType> userEvaluationList = userMapper.userEvaluationList();
+		
+		return userEvaluationList;
+	}
+	
+	@PostMapping("/modifyUserEvaluation")
+	public String modifyUserEvaluation(@RequestParam(value="userNickName") String userNickName
+								   ,@RequestParam(value="userEvaluationTypeCodeList") List<String> userEvaluationTypeCodeList
+								   ,HttpSession session) {
+		
+		LoginInfo loginInfo = (LoginInfo) session.getAttribute("S_USER_INFO");
+		userMapper.deleteUserEvaluation(userNickName, loginInfo.getLoginId());
+		userMapper.addUserEvaluation(userNickName, userEvaluationTypeCodeList, loginInfo.getLoginId());
+		
+		return "redirect:" + session.getAttribute("referer");
+	}
 	@GetMapping("/myBlockList")
 	public String getUserBlockrList(Model model
 									,HttpSession session

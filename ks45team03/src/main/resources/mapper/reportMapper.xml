@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks45team03.rentravel.mapper.ReportMapper">
+<!-- tb_report_goods -->
+	<resultMap type="ReportGoods" id="reportGoodsResultMap">
+		<id property="reportGoodsCode" column="report_goods_code" />
+		<result property="reportTypeCode" column="report_type_code" />
+		<result property="goodsCode" column="goods_code" />
+		<result property="reportStateCode" column="report_state_code" />
+		<result property="reportingUserId" column="reporting_user_id" />
+		<result property="reportedUserId" column="reported_user_id" />
+		<result property="reportGoodsContent" column="report_goods_content" />
+		<result property="reportGoodsDateTime" column="report_goods_datetime" />
+		<association property="reportType" javaType="ReportType">
+			<id property="reportTypeCode" column="report_type_code" />
+			<result property="reportType" column="report_type" />
+		</association>
+		<association property="reportState" javaType="ReportState">
+			<id property="reportStateCode" column="report_state_code" />
+			<result property="reportStateName" column="report_state_name" />
+		</association>
+	</resultMap>
+	
+	<!-- 상품 신고 / tb_report_goods에 추가 -->
+	<insert id="reportGoodsList">
+		INSERT INTO 
+			tb_report_goods
+		VALUES
+		(
+			sf_new_report_goods_code(), #{reportTypeCode}, #{goodsCode}, 'report_state1', #{loginId}, #{userId}, NOW()
+		);
+	</insert>
+	
+	<!--상품 신고 / tb_report_goods에 추가 시 이미 신고된 상품이 있는 지 확인 -->
+	<select id="reportGoodsAjax" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_report_goods AS rg
+		WHERE
+			rg.goods_code = #{goodsCode}
+			AND 
+			rg.reporting_user_id = #{loginId};
+	</select>
+	
+	
+	<!-- 상품평 신고 / tb_report_review에 추가 -->
+	<insert id="reportReviewList">
+		INSERT INTO 
+			tb_report_review
+		VALUES
+		(
+			sf_new_report_review_code(), #{reportTypeCode}, #{reviewCode}, 'report_state1', #{loginId}, #{userId}, NOW()
+		);
+		
+	</insert>
+	
+	<!--상품평 신고 / tb_report_review에 추가 시 이미 신고된 상품평이 있는 지 확인 -->
+	<select id="reportReviewAjax" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_report_review AS rr
+		WHERE
+			rr.review_code = #{reviewCode}
+			AND 
+			rr.reporting_user_id = #{loginId};
+	</select>
+	
+</mapper>

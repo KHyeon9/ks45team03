@@ -20,6 +20,8 @@
 		<result property="goodsRegDate" 	column="goods_reg_date"/>
 		<result property="regionSggCode" 	column="region_sgg_code"/>
 		<result property="goodsState" 	column="goods_state"/>
+		<result property="fileGroupCode" 	column="file_group_code"/>
+		<result property="filePath" 	column="file_path"/>
 		
 		<result property="goodsCategoryCode" 		column="goods_category_code"/>
 		<result property="goodsCategoryName" 	column="goods_category_name"/>
@@ -35,6 +37,7 @@
 		<result property="goodsImg" 		column="goods_img"/>
 		<result property="goodsImgRowNum" 		column="row_number() OVER()"/>
 	</resultMap>
+	
 
 	<select id="getGoodsListNotLogin" resultMap="goodsResultMap">
     
@@ -52,6 +55,7 @@
 			, gc.goods_category_name
 			, CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
 			, u.user_nickname
+			,f.file_path
 		FROM
 			tb_goods AS g
 		join
@@ -69,7 +73,15 @@
 		JOIN
 			tb_user AS u
 		ON
-			u.user_id = g.user_id	
+			u.user_id = g.user_id
+		JOIN
+			tb_file_group AS fg
+		ON
+			g.file_group_code = fg.file_group_code
+		JOIN
+			tb_file AS f
+		ON
+			f.file_code = fg.file_code
 		<where>
 			g.goods_state = 'activate'
 			<if test="goodsCategoryCode != 'all'">
@@ -87,13 +99,37 @@
 			<if test='goodsRentalAvailability == "N"'>
 				and goods_rental_availability = 'N'
 			</if>
-			
-			
 		</where>
 		order by g.goods_reg_date desc
 		<if test="startIndex != null and startIndex > -1">
 			LIMIT #{startIndex}, #{pageSize}
 		</if>
+    </select>
+    
+    <select id="getMainGoodsList" resultMap="goodsResultMap">
+
+		SELECT
+			g.goods_code
+			, g.goods_name
+			, g.goods_day_price
+			,f.file_path
+			,g.user_id
+		FROM
+			tb_goods AS g
+		JOIN
+			tb_file_group AS fg
+		ON
+			g.file_group_code = fg.file_group_code
+		JOIN
+			tb_file AS f
+		ON
+			f.file_code = fg.file_code
+		where
+			goods_rental_availability = 'Y'
+		order by
+			g.goods_reg_date desc
+		LIMIT 8;
+    
     </select>
     
     <select id="getGoodsList" resultMap="goodsResultMap">
@@ -112,6 +148,7 @@
 			, gc.goods_category_name
 			, CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
 			, u.user_nickname
+			,f.file_path
 		FROM
 			tb_goods AS g
 		join
@@ -130,6 +167,14 @@
 			tb_user AS u
 		ON
 			u.user_id = g.user_id	
+		JOIN
+			tb_file_group AS fg
+		ON
+			g.file_group_code = fg.file_group_code
+		JOIN
+			tb_file AS f
+		ON
+			f.file_code = fg.file_code
 		<where>
 			g.goods_state = 'activate'
 			and
@@ -194,6 +239,7 @@
 			,gc.goods_category_name
 			, CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
 			, u.user_nickname
+			,f.file_path
 		FROM
 			tb_goods AS g
 		join
@@ -211,7 +257,15 @@
 		JOIN
 			tb_user AS u
 		ON
-			u.user_id = g.user_id	
+			u.user_id = g.user_id
+		JOIN
+			tb_file_group AS fg
+		ON
+			g.file_group_code = fg.file_group_code
+		JOIN
+			tb_file AS f
+		ON
+			f.file_code = fg.file_code
 		WHERE
 			g.goods_code = #{goodsCode};
     </select>
@@ -229,9 +283,11 @@
 			,goods_category_code
 			,commision_rate_code
 			,commision_rate
-			,goods_commision_day_price)
+			,goods_commision_day_price
+			,file_group_code
+			,region_sgg_code)
 		VALUES
-			(sf_new_goods_code()
+			(#{goodsCode}
 			,#{goodsName}
 			,#{userId}
 			,'Y'
@@ -242,7 +298,9 @@
 			,#{goodsCategoryCode}
 			,'commision3'
 			,'0.1'
-			,goods_day_price * commision_rate);
+			,goods_day_price * commision_rate
+			,#{fileGroupCode}
+			,#{regionSggCode});
     </insert>
     
     <update id="modifyGoods" parameterType="Goods">
@@ -251,10 +309,11 @@
 			tb_goods
 		SET
 			goods_name=#{goodsName} 
+			,goods_category_code=#{goodsCategoryCode}
 			,goods_value_price=#{goodsValuePrice}
+			,goods_purchase_date=#{goodsPurchaseDate}
 			,goods_day_price=#{goodsDayPrice}
 			,goods_detail=#{goodsDetail}
-			,goods_category_code=#{goodsCategoryCode}
 		WHERE
 			goods_code=#{goodsCode};
 			
@@ -323,8 +382,17 @@
 			,goods_name
 			,user_id
 			,goods_day_price
+			,f.file_path
 		FROM
-			tb_goods
+			tb_goods as g
+		JOIN
+			tb_file_group AS fg
+		ON
+			g.file_group_code = fg.file_group_code
+		JOIN
+			tb_file AS f
+		ON
+			f.file_code = fg.file_code
 		WHERE
 			user_id = #{userId}
 		and
@@ -395,11 +463,89 @@
 		where
 			goods_state = 'activate'
 			and
-			user_id=#{loginId};
-		
+			user_id= #{loginId};
+    </select>
+    
+    
+     <select id="getMyGoodsList2" parameterType="String" resultMap="goodsResultMap">
 
+		SELECT
+			g.goods_code
+			, g.goods_name
+			, g.user_id
+			, g.goods_rental_availability
+			, g.goods_value_price
+			, g.goods_day_price
+			, g.goods_reg_date
+			, g.goods_detail
+			, g.goods_category_code
+			, gc.goods_category_name
+			, CONCAT(rsido.region_sido_name,' ',rsgg.region_sgg_name) as user_region
+		FROM
+			tb_goods AS g
+		join
+			tb_region_sgg AS rsgg
+		ON
+		 	rsgg.region_sgg_code = g.region_sgg_code
+		join
+			tb_region_sido AS rsido
+		on
+			rsgg.region_sido_code = rsido.region_sido_code
+		join
+			tb_goods_category AS gc
+		on
+			gc.goods_category_code = g.goods_category_code
+		where
+			g.user_id = (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName})
+		and
+			g.goods_state = 'activate'
+		order by g.goods_reg_date desc
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{startIndex}, #{pageSize}
+		</if>
+			
     
     </select>
     
-
+        <select id="getMyGoodsListCount2" resultType="int">
+    
+    	SELECT
+			COUNT(1)
+		FROM
+			tb_goods
+		where
+			goods_state = 'activate'
+			and
+			user_id= (SELECT u.user_id FROM tb_user AS u WHERE u.user_nickname = #{userNickName});
+    </select>
+    
+    <select id="getGoodsCategoryListForGoods" resultMap="goodsResultMap">
+    
+		SELECT
+			goods_category_code
+			,goods_category_name
+		from
+			tb_goods_category;
+    
+    </select>
+    
+    <select id="getLoginUserRegion" resultType="String">
+    
+	    SELECT
+	    	u.region_sgg_code as regionSggCode
+		FROM
+			tb_user AS u
+			join
+			tb_region_sgg AS rsgg
+			on
+			u.region_sgg_code = rsgg.region_sgg_code
+			join
+			tb_region_sido AS rsido
+			on
+			rsgg.region_sido_code = rsido.region_sido_code
+		WHERE
+			u.user_id = #{loginId};
+	
+    </select>
+    
 </mapper>

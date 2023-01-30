@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="myPageButton clearfix" th:fragment="myPageButtonFragment">
+<section class="mainContent clearfix userProfile pt-0 pb-2">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="btn-group" role="group" aria-label="...">
+              	<a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/checkPassword(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>내 정보</a>
+                <a th:href="@{/myPage/myGoodsList(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>내 상품</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/myReviewList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 리뷰</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/myWishList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 관심상품</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/myRentList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 렌트 내역</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/myOrderList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 주문 내역</a>
+                <a th:href="@{/myPage/userEvaluation(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 평가</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/myBlockList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>나의 차단 목록</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/myProfitList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>나의 수익 목록</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/myMileageList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 적립금 내역</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/alarmList}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 알림 목록</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/myPage/myExperience}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 경험치</a>
+                <a th:if="${userNickName == session.S_USER_INFO.loginNickName}" th:href="@{/room}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>내 채팅</a>
+                <a th:if="${userNickName != session.S_USER_INFO.loginNickName && getDuplicateEvaluation == 0}" th:href="@{/myPage/addUserEvaluation(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>칭찬하기</a>
+                <a th:if="${userNickName != session.S_USER_INFO.loginNickName && getDuplicateEvaluation != 0}" th:href="@{/myPage/addUserEvalueationDone(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>칭찬하기</a>
+              </div>
+            </div>
+          </div> 
+        </div>
+      </section>
+</div>
+</html>

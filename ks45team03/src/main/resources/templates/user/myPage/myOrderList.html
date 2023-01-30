@@ -30,6 +30,7 @@
 	        <div class="container">
 	          <div class="row">
 	            <div class="col-12">
+              	 <div th:replace="~{user/fragments/myPageButtonFragmentForMe :: myPageButtonFragmentForMe}"></div>
 	              <div class="btn-group" role="group" aria-label="..." style="float: right">
 	                <a th:href="@{/myPage/myOrderList}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>주문 내역</a>
 	                <a th:href="@{/myPage/myRentList}" class="btn btn-default"><i class="bi bi-calendar-check" aria-hidden="true"></i>렌트 내역</a>
@@ -52,6 +53,7 @@
 	                          <th>총 결제 금액</th>
 	                          <th>상품 상태</th>
 	                          <th>결제 시간</th>
+	                          <th></th>
 	                          <th></th>
 	                        </tr>
 	                      </thead>
@@ -99,6 +101,10 @@
 		                          <button th:if="${order.orderStateName == '배송중(오너)'}" data-toggle="modal"  th:data-payment-code ="${order.payment.paymentCode}" data-target=".checkDelivery" class="btn btn-sm btn-secondary-outlined checkDeliveryBtn">배송확인</button>
 		                          <!-- <a th:if="${order.orderStateName == '배송전 결제완료(취소 및 환불가능)'}" th:href="@{/myPage/returnMyOrderWaybill(rentalCode=${order.rentalCode})}" class="btn btn-sm btn-secondary-outlined">환불</a> -->
 	                          </td>
+  	                          <td th:if="${order.orderStateName == '반납완료'}">
+                          		<a th:href="@{/review/addReview(goodsCode=${order.goodsCode})}"><button class="badge badge-primary">리뷰</button></a>
+	                          </td>
+	                          <td th:unless="${order.orderStateName == '반납완료'}"></td>
 	                        </tr>
 	                      </tbody>
 	                    </table>
@@ -198,9 +204,9 @@
 							$('.receiptDiv').children().remove();
 							$('.courierName').val(data.courierName);
 							$('.waybillNumber').val(data.waybillNumber);	
-							const returnBtn = $('<button type="submit" class="btn btn-primary btn-block">반납확인</button>');
+							const receiptBtn = $('<button type="submit" class="btn btn-primary btn-block">물품수령</button>');
 							const paymentCodeInput = $('<input value="' + data.paymentCode + '" type="hidden" name="paymentCode" />');
-							$('.receiptDiv').append(returnBtn);
+							$('.receiptDiv').append(receiptBtn);
 							$('.receiptDiv').append(paymentCodeInput);
 						}
 					},

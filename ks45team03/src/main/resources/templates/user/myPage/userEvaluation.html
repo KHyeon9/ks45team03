@@ -1,9 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{user/layout/default}">
-	  
-  	<th:block layout:fragment="customContents">
-		내 평가 화면입니다.
-	</th:block>
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/layout/default}">
+<head>
+	<style type="text/css">
+		th, td{
+			text-align: center;
+		}
+	</style>
+</head>
+<th:block layout:fragment="customContents">
+	<!-- LIGHT SECTION -->
+	<section class="lightSection clearfix pageHeader">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="page-title">
+						<h2>내 평가</h2>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-right">
+						<li><a th:href="@{/}">Home</a></li>
+						<li><a th:href="@{/myPage/myOrderList}">MyPage</a></li>
+						<li class="active">Evaluation</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="grid-wrapper section">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-lg-12 element-content pt-5">
+					<div id="tables" class="element_single">
+						<div id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="card single-block"></div>
+							   <div th:replace="~{user/fragments/myPageButtonFragmentForMe :: myPageButtonFragmentForMe}"></div>
+						</div>
+						<div class="display-single_element">
+							<p style="font-size: 18px"><i class="fa fa-thumbs-o-up mr-1"></i>받은 매너 칭찬</p>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>매너 종류</th>
+										<th><i class="fa fa-group mr-1"></i>인원</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:Each="ue : ${userEvaluation}">
+										<td th:text="${ue.num}"></td>
+										<td th:text="${ue.userEvaluationTypeName}"></td>
+										<td><i class="fa fa-group mr-1"></i>[[${ue.countEvaluationType}]]명</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</th:block>
 </html>

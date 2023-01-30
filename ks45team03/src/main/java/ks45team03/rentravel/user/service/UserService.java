@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ks45team03.rentravel.dto.RegionSgg;
 import ks45team03.rentravel.dto.RegionSido;
 import ks45team03.rentravel.dto.User;
+import ks45team03.rentravel.dto.UserEvaluation;
 import ks45team03.rentravel.mapper.UserMapper;
 
 @Service
@@ -50,6 +51,16 @@ public class UserService {
 		return resultMap;
 	}
 	
+	public Map<String, Object> userInfo(String userId){
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		User user = userMapper.checkPwByUserId(userId);
+		resultMap.put("userInfo", user);
+		
+		return resultMap;
+	}
+	
 	public void addUser(User user) {
 		
 		userMapper.addUser(user);
@@ -60,5 +71,18 @@ public class UserService {
 		List<RegionSido> getRegionSido = userMapper.getRegionSido();
 		
 		return getRegionSido;
+	}
+	
+	public int findIdCheck(String userName, String userEmail, String userPhoneNumber) {
+		
+		return userMapper.findIdCheck(userName, userEmail, userPhoneNumber);
+	}
+	
+	public List<UserEvaluation> userEvaluation(String loginId){
+		return userMapper.userEvaluation(loginId);
+	}
+	
+	public List<UserEvaluation> userEvaluation2(String userNickName){
+		return userMapper.userEvaluation2(userNickName);
 	}
 }

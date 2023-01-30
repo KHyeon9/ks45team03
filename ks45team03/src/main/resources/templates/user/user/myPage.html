@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	<th:block layout:fragment="customContents">
+	  <!-- LIGHT SECTION -->
+      <section class="lightSection clearfix pageHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="page-title">
+                <h2>[[${userNickName}]]님의 상품목록</h2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <ol class="breadcrumb pull-right">
+                <li>
+                  <a th:href="@{/}">Home</a>
+                </li>
+                 <li>
+                  <a th:href="@{/goods/goodsList}">goodsList</a>
+                </li>
+                <li class="active">MyPage</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+	
+	  <!-- MAIN CONTENT SECTION -->
+      <section class="mainContent clearfix userProfile">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="btn-group" role="group" aria-label="...">
+                <a th:href="@{/userMyPage(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>회원 상품</a>
+                <a th:href="@{/userMyEvaluation(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>회원 평가</a>
+                <a th:if="${getDuplicateEvaluation == 0}" th:href="@{/myPage/addUserEvaluation(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>칭찬하기</a>
+                <a th:unless="${getDuplicateEvaluation == 0}" th:href="@{/myPage/addUserEvalueationDone(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>칭찬하기</a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="innerWrapper">
+                <div class="orderBox myAddress wishList">
+                  <h2>My Items</h2>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="text-align:center">상품명</th>
+                          <th style="text-align:center">카테고리</th>
+                          <th style="text-align:center">렌탈가능여부</th>
+                          <th style="text-align:center">가격</th>
+                          <th style="text-align:center">판매지역</th>
+                          <th style="text-align:center">등록일자</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="mgl : ${myGoodsList2}" th:if="${not #lists.isEmpty(myGoodsList2)}">
+                          <td style="text-align:center" th:text="${mgl.goodsName}"></td>
+                          <td style="text-align:center" th:text="${mgl.goodsCategoryName}"></td>
+                          <td style="text-align:center" th:text="${mgl.goodsRentalAvailability}"></td>
+                          <td style="text-align:center" th:text="${mgl.goodsDayPrice}"></td>
+                          <td style="text-align:center" th:text="${mgl.userRegion}"></td>
+                          <td style="text-align:center" th:text="${mgl.goodsRegDate}"></td>
+   
+                        </tr>
+           				<tr th:unless="${not #lists.isEmpty(myGoodsList2)}">
+							<td colspan="6" style="text-align:center;">등록한 상품이 없습니다.</td>
+						</tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+                <div class="blogPage" style="display: flex; justify-content:center;">
+					<ul class="pagination" style="margin:3px">
+						<li th:if="${pagination.curRange != 1}">
+							<a th:href="@{/myPage}" aria-label="First"><span aria-hidden="true"></span></a>
+						</li>
+						<li th:if="${pagination.curPage != 1}">
+							<a th:href="@{/myPage(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+						</li>
+						
+						<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+							<li class="active" th:if="${pageNum == pagination.curPage}">
+								<a th:text="${pageNum}"></a>
+							</li>
+							<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+								<a th:href="@{/myPage(curPage=${pageNum})}" th:text="${pageNum}"></a>
+							</li>
+						</th:block>
+	
+						<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+							<a th:href="@{/myPage(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+						</li>
+						<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+							<a th:href="@{/myPage(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+						</li>
+					</ul>
+	              </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+		</th:block>
+</html>

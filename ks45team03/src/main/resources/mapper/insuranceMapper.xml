@@ -24,6 +24,13 @@
 			<result property="rentalStartDate" 		column="rental_start_date" />
 			<result property="rentalEndDate" 		column="rental_end_date" />
 		</association>
+		<association property="user" javaType="User">
+			<id 	property="userId" 	  		column="user_id" />
+			<result property="userName" 	column="user_name" />
+			<result property="userPhoneNumber" 	column="user_phone_number" />
+			<result property="userEmail" 	column="user_email" />
+			<result property="userAddrDesc" 	  	column="user_addr_desc" />
+		</association>
 	</resultMap>
 	
 	<!-- insuranceBillDetailResultMap -->
@@ -52,7 +59,18 @@
 			<result property="userEmail" 	column="user_email" />
 			<result property="userAddrDesc" 	  	column="user_addr_desc" />
 		</association>
-		
+		<association property="insuranceBill" javaType="InsuranceBill">
+			<id property="insuranceBillCode" column="insurance_bill_code" />
+			<result property="userId" column="user_id" />
+			<result property="insuranceCode" column="insurance_code" />
+			<result property="insuranceBillDetailCode" column="insurance_bill_detail_code" />
+			<result property="insuranceBillStateCode" column="insurance_bill_state_code" />
+			<result property="insuranceBillModifyDate" column="insurance_bill_modify_date" />
+		</association>
+		<association property="insuranceBillState"  javaType="InsuranceBillState">
+			<id property="insuranceBillStateCode" column="insurance_bill_state_code" />
+			<result property="insuranceBillStateName" column="insurance_bill_state_name" />
+		</association>
 	</resultMap>
 	
 	<resultMap type="InsuranceBill" id="insuranceBillResultMap">
@@ -126,8 +144,28 @@
 		
 	</resultMap>
 	
+	<select id="getInsuranceUser" parameterType="String" resultMap="insuranceResultMap">
+		/* 인적사항 조회 */
+		SELECT
+			i.insurance_code,
+			u.user_name,
+			u.user_email,
+			u.user_phone_number,
+			u.user_addr_desc
+		FROM
+			tb_insurance AS i
+			INNER JOIN
+			tb_user AS u
+			ON u.user_id = i.user_id
+		WHERE
+			i.user_id = #{loginId}
+			AND
+			i.insurance_code = #{insuranceCode};
+		
+	</select>
+	
 	<select id="getInsuranceInfoById" parameterType="String" resultMap="insuranceResultMap">
-		/* 보험 정보 조회 */
+	/* 보험 정보 조회(로그인아이디) */
 		SELECT
 			i.insurance_code,
 			i.goods_code,
@@ -136,7 +174,11 @@
 			i.rental_code,
 			i.insurance_available,
 			SUBSTRING(i.insurance_sign_up_time, 1, 10) as insurance_sign_up_time,
-			r.rental_end_date
+			r.rental_end_date,
+			u.user_name,
+			u.user_email,
+			u.user_phone_number,
+			u.user_addr_desc
 		FROM
 			tb_insurance AS i
 			LEFT JOIN
@@ -145,11 +187,96 @@
 			INNER JOIN
 			tb_rental AS r
 			ON i.rental_code = r.rental_code
+			INNER JOIN
+			tb_user AS u
+			ON u.user_id = i.user_id
 		WHERE
 			i.user_id = #{loginId}
 		ORDER BY
 			i.insurance_code;
 	</select>
+	
+	<select id="getInsuranceInfo" parameterType="String" resultMap="insuranceResultMap">
+	/* 보험 정보 조회(보험코드) */
+	SELECT
+			i.insurance_code,
+			i.user_id,
+			i.goods_code,
+			g.goods_name,
+			i.payment_code,
+			i.rental_code,
+			i.insurance_available,
+			SUBSTRING(i.insurance_sign_up_time, 1, 10) as insurance_sign_up_time,
+			r.rental_end_date,
+			u.user_name,
+			u.user_email,
+			u.user_phone_number,
+			u.user_addr_desc
+		FROM
+			tb_insurance AS i
+			LEFT JOIN
+			tb_goods AS g
+			ON i.goods_code = g.goods_code
+			INNER JOIN
+			tb_rental AS r
+			ON i.rental_code = r.rental_code
+			INNER JOIN
+			tb_user AS u
+			ON u.user_id = i.user_id
+		WHERE
+			i.insurance_code = #{insuranceCode}
+		ORDER BY
+			i.insurance_code;
+	</select>
+	
+	<select id="justifyInsuranceBillRecipt" parameterType="String" resultType="String">
+		SELECT
+			IF(COUNT(1), i.insurance_available, NULL)
+		FROM
+			tb_insurance AS i
+			INNER JOIN
+			tb_insurance_bill_detail AS ibd
+			ON
+			ibd.insurance_code = i.insurance_code
+		WHERE
+			i.insurance_code = #{insuranceCode};
+	</select>
+	
+	<insert id="addInsuranceBillDetail" parameterType="InsuranceBillDetail">
+		/* 보상금 접수증 등록 */
+		INSERT INTO tb_insurance_bill_detail
+		(
+			insurance_bill_detail_code,
+			insurance_code,
+			user_id,
+			goods_code,
+			payment_code,
+			accident_date,
+			accident_type,
+			accident_content,
+			insurance_evidence,
+			bank_name,
+			account_holder,
+			account_number,
+			request_date
+		)
+		VALUES
+		(
+			#{insuranceBillDetailCode},
+			#{insuranceCode},
+			#{userId},
+			#{goodsCode},
+			#{paymentCode},
+			#{accidentDate},
+			#{accidentType},
+			#{accidentContent},
+			#{insuranceEvidence},
+			#{bankName},
+			#{accountHolder},
+			#{accountNumber},
+			NOW()
+		);
+	</insert>
 	
 	<select id="getInsuranceBillDetailInfoById" parameterType="String" resultMap="insuranceBillDetailResultMap">
 		/* 보상금 청구서 조회(보험청구서코드) */
@@ -169,7 +296,9 @@
 			ibd.insurance_bill_detail_code,
 			ibd.goods_code,
 			SUBSTRING(ibd.request_date, 1, 10) as request_date,
-			g.goods_name
+			g.goods_name,
+			ib.insurance_bill_state_code,
+			ibs.insurance_bill_state_name
 		FROM
 			tb_insurance_bill_detail AS ibd
 			LEFT JOIN
@@ -180,6 +309,14 @@
 			tb_goods AS g
 			ON
 			ibd.goods_code = g.goods_code
+			INNER JOIN
+			tb_insurance_bill as ib
+			ON
+			ibd.insurance_bill_detail_code = ib.insurance_bill_detail_code
+			INNER JOIN
+			tb_insurance_bill_state AS ibs
+			ON
+			ib.insurance_bill_state_code = ibs.insurance_bill_state_code
 		WHERE
 			ibd.insurance_bill_detail_code = #{insuranceBillDetailCode};
 			
@@ -228,6 +365,9 @@
 			</if>
 			<if test="accidentType != null and accidentType !=''">
 				,accident_type = #{accidentType}
+			</if>
+			<if test="accidentContent != null and accidentContent !=''">
+				,accident_content = #{accidentContent}
 			</if>
 			<if test="insuranceEvidence != null and insuranceEvidence !=''">
 				,insurance_evidence = #{insuranceEvidence}
@@ -305,36 +445,12 @@
 				ip.insurance_payout_code;
 	</select>
 	
-	<select id="countInsurance"  parameterType="String"  resultType="int">
-		/* 보험내역카운트 */
-		SELECT
-			COUNT(1)
-		FROM
-			tb_insurance AS i
-		WHERE
-			i.user_id = 'id001'
-			AND
-			i.insurance_available = '이용중';
-	</select>
 	
-		<select id="countInsuranceBill"  parameterType="String"  resultType="int">
-		/* 보상금 청구서 카운트 */
-		SELECT
-			COUNT(1)
-		FROM
-			tb_insurance_bill AS ib
+	<delete id="removeInsuranceBillDetail" parameterType="String">
+		/*보상금 접수증 삭제*/
+		DELETE FROM
+			tb_insurance_bill_detail
 		WHERE
-			ib.user_id = #{loginId};
-	</select>
-	
-		<select id="countInsurancePayout"  parameterType="String"  resultType="int">
-		/* 보상금 내역 카운트 */
-		SELECT
-			COUNT(1)
-		FROM
-			tb_insurance_payout AS ip
-		WHERE
-			ip.user_id = #{loginId};
-	</select>
-
+			insurance_bill_detail_code = #{insuranceBillDetailCode};
+	</delete>
 </mapper>

@@ -31,6 +31,16 @@ public class ReviewService {
 		return reviewMapper.modifyReview(review);
 	}
 	
+	public int removeReviewReport(String reviewCode) {
+		
+		return reviewMapper.removeReviewReport(reviewCode);
+	}
+	
+	public int removeReviewMileage(String reviewCode) {
+		
+		return reviewMapper.removeReviewMileage(reviewCode);
+	}
+	
 	public int removeReview(String reviewCode) {
 		
 		return reviewMapper.removeReview(reviewCode);
@@ -55,5 +65,26 @@ public class ReviewService {
 		int reviewListCount = reviewMapper.getReviewListCount(goodsCode);
 		
 		return reviewListCount;
+	}
+	
+	public List<Review> getMyReviewList(String loginId, int startIndex, int pageSize){
+		
+		List<Review> myReviewList = reviewMapper.getMyReviewList(loginId, startIndex, pageSize);
+		
+		return myReviewList;
+	}
+	
+	public int getMyReviewListCount(String loginId) {
+		
+		int myReviewListCount = reviewMapper.getMyReviewListCount(loginId);
+		
+		return myReviewListCount;
+	}
+	
+	public Review getReviewContentByReviewCode(String ReviewCode) {
+		
+		Review reviewContent = reviewMapper.getReviewContentByReviewCode(ReviewCode);
+		
+		return reviewContent;
 	}
 }

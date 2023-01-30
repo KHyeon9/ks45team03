@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout/default}">
+
+	<th:block layout:fragment="customContents">
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+          <div class="page-title">
+
+          </div>
+
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>판매중인 상품 관리 <small>상품상태 (판매중)</small></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="card-box table-responsive">
+                        <p class="text-muted font-13 m-b-30">
+                          회원이 등록한 상품을 조회, 삭제할 수 있습니다.
+                        </p>
+                        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th>등록일자</th>
+                              <th>상품명</th>
+                              <th>카테고리</th>
+                              <th>ID</th>
+                              <th>닉네임</th>
+                              <th>상품가치</th>
+                              <th>일당가격</th>
+                              <th>판매지역</th>
+                              
+                              <th></th>
+                              <th></th>
+                            </tr>
+                          </thead>
+
+
+                          <tbody>
+                            <tr th:each="agl : ${adminGoodsList}" th:if="${not #lists.isEmpty(adminGoodsList)}">
+                              <td th:text="${agl.goodsRegDate}"></td>
+                              <td th:text="${agl.goodsName}"></td>
+                              <td th:text="${agl.goodsCategoryName}"></td>
+                              <td th:text="${agl.userId}"></td>
+                              <td th:text="${agl.userNickname}"></td>
+                              <td th:text="${agl.goodsValuePrice}"></td>
+                              <td th:text="${agl.goodsDayPrice}"></td>
+                              <td th:text="${agl.userRegion}"></td>
+                              <td style="text-align:center; vertical-align:middle; padding:0px;"><a th:href="@{/goods/goodsDetail(userId=${agl.userId}, goodsCode=${agl.goodsCode})}"><button style="padding:3px; margin:0px;" type="button" class="btn btn-info">상품상세</button></a></td>
+                              <td style="text-align:center; vertical-align:middle; padding:0px;">
+                              	<form class="adminRemoveGoodsForm" th:action="@{/admin/goods/adminRemoveGoods}" method="POST">
+	                              	<button
+										style="padding:3px;
+										margin:0px;"
+										type="submit"
+										class="btn btn-danger"
+										th:value="${agl.goodsCode}"
+										name="goodsCode">삭제</button>
+                              	</form>
+                              </td>
+                            </tr>
+                            <tr th:unless="${not #lists.isEmpty(adminGoodsList)}">
+                            	<td colspan="12" style="text-align:center;">등록된 상품이 없습니다.</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- /page content -->
+	</th:block>      
+      
+       
+    <th:block layout:fragment="customScript">
+       	<script th:inline="javascript">
+	
+			$('.btn-danger').click(function(){
+				
+				if(!confirm('상품을 삭제하시겠습니까?')) {
+					return false;
+				}else{
+					$('.adminRemoveGoodsForm').submit();
+					alert('상품이 삭제되었습니다.');
+				}
+			}); 
+	      
+	    </script>
+
+    </th:block>
+      
+      
+      
+      
+      
+      
+      
+
+</html>

@@ -48,7 +48,7 @@
                   <a th:href="@{/}">Home</a>
                 </li>
                 <li>
-                  <a th:href="@{/myPage/myInfo}">myInfo</a>
+                  <a th:href="@{/myPage/myOrderList}">MyPage</a>
                 </li>
                 <li class="active">MY BLOCK LIST</li>
               </ol>
@@ -63,6 +63,8 @@
           
           <div class="row">
             <div class="col-sm-12">
+                          	<div th:replace="~{user/fragments/myPageButtonFragmentForMe :: myPageButtonFragmentForMe}"></div>
+            
               <div class="innerWrapper">
                 <div class="orderBox myAddress wishList">               	
                    <h2 th:text="${loginNickName} + '님 BLOCK LIST'"></h2>

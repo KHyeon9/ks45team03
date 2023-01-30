@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/layout/default}">
+<th:block layout:fragment="customContents">
+	<!-- LIGHT SECTION -->
+	<section class="lightSection clearfix pageHeader">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="page-title">
+						<h2>[[${userNickName}]]님에게 매너 칭찬 남기기</h2>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-right">
+						<li><a th:href="@{/}">Home</a></li>
+						<li><a th:href="@{/userMyPage(userNickName=${userNickName})}">MyPage</a></li>
+						<li class="active">Evaluation</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="mainContent clearfix userProfile">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-lg-12 element-content">
+					<div id="tables" class="element_single">
+					 <div class="col-12">
+					              <div class="btn-group" role="group" aria-label="...">
+					                <a th:href="@{/userMyPage(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>회원 상품</a>
+					                <a th:href="@{/userMyEvaluation(userNickName=${userNickName})}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>회원 평가</a>
+					              </div>
+					              </div>
+						<div class="display-single_element">
+							<p style="font-size: 18px"><i class="fa fa-thumbs-o-up mr-1"></i>어떤 점이 좋았나요?</p>
+							<form id="addUserEvaluationForm" action="/myPage/addUserEvaluation" method="post">
+							<input name="userNickName" th:value="${userNickName}" hidden=hidden>
+							    <div class="form-control my-3" th:each="uet : ${userEvaluationList}">
+							   		<input type="checkbox" name="userEvaluationTypeCodeList" th:value="${uet.userEvaluationTypeCode}" th:text="| ${uet.userEvaluationTypeName}|">
+							    </div>
+								<button type="button" id="evaluationBtn" class="btn btn-primary form-control mb-5" style="float: right">칭찬하기</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript">
+		$('#evaluationBtn').click(function(){
+			if($('input:checkbox[name=userEvaluationTypeCodeList]').is(":checked")== false){
+				alert('선택해주세요.');
+			}else{
+			$('#addUserEvaluationForm').submit();
+			}
+		});
+	
+	</script>
+</th:block>
+</html>

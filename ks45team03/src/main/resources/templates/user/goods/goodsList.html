@@ -125,9 +125,9 @@
                 
 	                <div class="col-sm-12">
 	                  <div class="media flex-wrap productBox">
-	                    <div class="media-left">
-	                      <div class="productImage clearfix">
-	                        <img src="/user/assets/img/products/products-03.jpg" alt="products-img">
+	                    <div class="media-left" style="height:226px">
+	                      <div class="productImage clearfix" >
+	                        <img th:src="@{|/files/${gl.filePath}|}" alt="products-img">
 	                        <div class="productMasking">
 	                          <ul class="list-inline btn-group" role="group">
 	                            <li><a class="btn btn-default" th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}"><i class="fa fa-eye"></i></a></li>
@@ -137,8 +137,7 @@
 	                    </div>
 	                    <div class="media-body">
 	                      <h4 class="media-heading"><a th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}" th:text="${gl.goodsName}"></a></h4>
-	                      <p th:text="|판매자 닉네임: ${gl.userNickname}|"></p>
-	                      <h4 th:text="|렌탈 가능 여부: ${gl.goodsRentalAvailability}|"></h4>
+	                      <p>닉네임: <a th:href="@{/userMyPage(userNickName=${gl.userNickname})}" th:text="${gl.userNickname}" style="color: black"></a></p>
 	                      <h4 th:text="|상품 가치: ${gl.goodsValuePrice}|"></h4>
 	                      <h4 th:text="|카테고리: ${gl.goodsCategoryName}|"></h4>
 	                      <h4 th:text="|일당 가격: ${gl.goodsDayPrice}|"></h4>
@@ -149,8 +148,6 @@
 	                </div>  
                                       
                 </th:block>
-                
-                
                 
               </div>
 				<div class="blogPage" style="display: flex; justify-content: center;" >

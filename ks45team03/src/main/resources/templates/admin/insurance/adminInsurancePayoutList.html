@@ -4,46 +4,65 @@
 	  layout:decorate="~{admin/layout/default}">
 	  
 	  <th:block layout:fragment="customContents">
+
 		<div class="right_col" role="main">
 		  	<h1>관리자보상금지급리스트</h1><br>
 		  	<div class="clearfix"></div>
 	              <div class="col-md-12 col-sm-12  ">
-	                    <div class="table-responsive">
-	                      <table class="table table-striped jambo_table bulk_action text-center">
-	                        <thead>
-	                          <tr class="headings">
-	                            <th>
-	                              <input type="checkbox" id="check-all" class="flat">
-	                            </th>
-	                            <th class="column-title">보험금지급코드</th>
-	                            <th class="column-title">보험가입자아이디</th>
-	                            <th class="column-title">보험상세코드</th>
-	                            <th class="column-title">보험금청구서코드</th>
-	                            <th class="column-title">보상금액수</th>
-	                            <th class="column-title">보상날짜</th>
-	                            <th class="bulk-actions" colspan="7">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                            </th>
-	                          </tr>
-	                        </thead>
-	                        <tbody>
-	                          <tr class="even pointer" th:if="${not #lists.isEmpty(adminInsurancePayoutList)}" th:each="l: ${adminInsurancePayoutList}">
-	                              <td class="a-center "><input type="checkbox" class="flat" name="table_records"></td>
-							      <td th:text="${l.insurancePayoutCode}"></td>
-							      <td th:text="${l.userId}"></td>
-							      <td th:text="${l.insuranceBillDetailCode}"></td>
-							      <td th:text="${l.insuranceBillCode}"></td>
-							      <td th:text="${l.insurancePayoutPrice}"></td>
-							      <td th:text="${l.insurancePayoutDate}"></td>
-					                          </tr>
-	                          <tr th:unless="${not #lists.isEmpty(adminInsurancePayoutList)}">
-				    			<td colspan="9">등록된 상품이 없습니다.</td>
-				    		</tr>
-	                        </tbody>
-	                      </table>
-	                    </div>
-	                  </div>
+	                    <div class="table-responsive"> 
+	                      		<table class="table table-striped jambo_table  text-center " style="vertical-align:middle">
+			                        <thead>
+			                          <tr class="headings">
+			                            <th class="column-title">보험금지급코드</th>
+			                            <th class="column-title">보험가입자아이디</th>
+			                            <th class="column-title">보험상세코드</th>
+			                            <th class="column-title">보험금청구서코드</th>
+			                            <th class="column-title">보상금액수</th>
+			                            <th class="column-title">보상날짜</th>
+			                            <th class="column-title">수정</th>
+			                            <th class="column-title">삭제</th>
+			                          </tr>
+			                        </thead>
+			                        <tbody>
+			                          		<th:block th:if="${not #lists.isEmpty(adminInsurancePayoutList)}" th:each="l: ${adminInsurancePayoutList}">
+			                        	<tr class="even pointer" >
+										      <td th:text="${l.insurancePayoutCode}"></td>
+										      <td th:text="${l.userId}"></td>
+										      <td th:text="${l.insuranceBillDetailCode}"></td>
+										      <td th:text="${l.insuranceBillCode}"></td>
+										      <td th:text="${l.insurancePayoutPrice}"></td>
+										      <td th:text="${l.insurancePayoutDate}"></td>
+										      	<td><a class="btn btn-dark " role="button" th:href="@{/admin/insurance/adminModifyInsurancePayout(insurancePayoutCode=${l.insurancePayoutCode})}">수정</a></td>
+	                    					<td>
+	                    					<form th:action="@{/admin/insurance/adminRemoveInsurancePayout(insurancePayoutCode=${l.insurancePayoutCode})}" method="post">
+										      	<button type="submit" class="btn btn-dark btnRemovePayout">삭제</button>
+			                    			</form>
+			                    			</td>
+								          </tr>
+								    	<tr th:unless="${not #lists.isEmpty(adminInsurancePayoutList)}">
+						    				<td colspan="9">등록된 상품이 없습니다.</td>
+						    			</tr>
+								    		</th:block>
+			                        </tbody>
+			                      </table>
+
+	                    	</div>
+	                  	</div>
 	                </div>
-	  </th:block>
+	  	</th:block>
+	  		   <th:block layout:fragment="customScript">
+	   		<script th:inline="javascript">
+	   			
+				$('.btnRemovePayout').on("click", function () {
+					console.log("true");
+					if(confirm("정말로 삭제하시겠습니까? 복구가 불가능합니다")){
+						
+					}
+					else {
+						return false;
+					}
+				});
+	   		</script>
+	   </th:block>
 	  
 </html>

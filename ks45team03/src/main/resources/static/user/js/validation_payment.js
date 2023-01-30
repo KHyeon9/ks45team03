@@ -1,3 +1,5 @@
+const paymentNumber = /^[0-9]{12,16}$/
+const addrJ = /^[가-힣0-9 ,-@.~_]{2,30}$/
 $('#account').hide();   // 초깃값 설정
 
 $("input[name='payment.paymentType']").change(function(){
@@ -212,6 +214,24 @@ $(function(){
 			$('#mileageUse').addClass('is-invalid');
 			$('#mileageUse').focus();
 			return false;
+		} else {
+			$.ajax({
+				type: 'POST',
+				url: '/order/checkMileage',
+				contentType: "application/json; charset=UTF-8",
+				data: mileageUse,
+				success: function(result){
+					console.log(result);
+					if(!result) {
+						alert('사용할 수 있는 마일리지를 초과했습니다.')
+						return false;
+					}
+					console.log('성공');
+				},
+				error: function(e) {
+				alert("Error : " + e);
+			}
+			})
 		}
 	
 		var regionSidoCode = $('#regionSidoCode').val();
@@ -232,7 +252,6 @@ $(function(){
 		
 		var userAddrDesc = $('#userAddrDesc').val();
 		if(validateValue(userAddrDesc)) {
-			$('#userAddrDescCheck').html('필수정보입니다.');
 			$('#userAddrDesc').addClass('is-invalid');
 			$('#userAddrDesc').focus();
 			return false;
@@ -246,6 +265,13 @@ $(function(){
 				$('#cardNumber').focus();
 				return false;
 			}
+			
+			if(!paymentNumber.test(cardNumber)){
+			$(this).removeClass('is-valid');
+			$(this).addClass('is-invalid');
+			alert('결제 번호를 확인해주세요.')
+			return false;	
+		}
 		}
 		else if($("input[name='payment.paymentType']:checked").val() == '통장'){
 			var accountNumber = $('#accountNumber').val();
@@ -255,6 +281,13 @@ $(function(){
 				$('#accountNumber').focus();
 				return false;
 			}
+			
+			if(!paymentNumber.test(accountNumber)){
+			$(this).removeClass('is-valid');
+			$(this).addClass('is-invalid');
+			alert('결제 번호를 확인해주세요.')
+			return false;	
+		}
 		}
 		
 		if(!addrJ.test(userAddrDesc)){
@@ -263,6 +296,8 @@ $(function(){
 			$('#userAddrDesc').focus();
 			return false;	
 		}
+		
+		
 		
 		
 		

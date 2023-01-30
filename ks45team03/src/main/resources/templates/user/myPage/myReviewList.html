@@ -18,9 +18,9 @@
                 <li>
                   <a th:href="@{/}">Home</a>
                 </li>
-                <li>
-                  <a th:href="@{/myPage/myInfo}">myInfo</a>
-                </li>
+              	<li>
+              		<a th:href="@{/myPage/myOrderList}">MyPage</a>
+              	</li>
                 <li class="active">MY REVIEW</li>
               </ol>
             </div>
@@ -34,11 +34,7 @@
           <div class="row">
             <div class="col-12">
               <div class="btn-group" role="group" aria-label="...">
-                <a href="account-dashboard.html" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>Account Dashboard</a>
-                <a href="account-profile.html" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
-                <a href="account-address.html" class="btn btn-default"><i class="fa fa-map-marker" aria-hidden="true"></i>My Address</a>
-                <a href="account-all-orders.html" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>All Orders</a>
-                <a href="account-wishlist.html" class="btn btn-default active"><i class="fa fa-gift" aria-hidden="true"></i>Wishlist</a>
+              	 <div th:replace="~{user/fragments/myPageButtonFragmentForMe :: myPageButtonFragmentForMe}"></div>
               </div>
             </div>
           </div>
@@ -52,57 +48,86 @@
                       <thead>
                         <tr>
                           <th></th>
-                          <th>Product Name</th>
-                          <th>Unit Price</th>
-                          <th>Stock Status</th>
-                          <th></th>
+                          <th style="text-align:center;">상품명</th>
+                          <th style="text-align:center;">별점</th>
+                          <th style="text-align:center;">상품평</th>
+                          <th style="text-align:center;">등록시간</th>
+                          <th style="text-align:center;">수정</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td class="">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <span class="cartImage"><img src="assets/img/products/cart-image1.jpg" alt="image"></span>
+                        <tr th:each="mrl : ${myReviewList}">
+                          <td class=""  style="text-align:center;">
+                          	<form class="removeMyReviewForm" th:action="@{/review/removeMyReview}" method="post">
+                          		<input type="hidden" th:value="${mrl.reviewCode}" name="reviewCode">
+                         		<button type="submit" class="close removeMyReviewBtn" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </form>
                           </td>
-                          <td>Italian Winter Hat</td>
-                          <td>$ 99.00</td>
-                          <td>In Stock</td>
-                          <td>
-                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <span class="cartImage"><img src="assets/img/products/cart-image2.jpg" alt="image"></span>
-                          </td>
-                          <td>Italian Winter Hat</td>
-                          <td>$ 99.00</td>
-                          <td>In Stock</td>
-                          <td>
-                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <span class="cartImage"><img src="assets/img/products/cart-image3.jpg" alt="image"></span>
-                          </td>
-                          <td>Italian Winter Hat</td>
-                          <td>$ 99.00</td>
-                          <td>In Stock</td>
-                          <td>
-                            <a href="#" class="btn btn-sm btn-secondary-outlined">Add to Cart</a>
+                          <td th:text="${mrl.goodsName}" style="text-align:center;"></td>
+                          <td style="text-align:center;"><i class="fa fa-star" aria-hidden="true" th:each="num : ${#numbers.sequence(1,mrl.goodsEvaluation)}" style="color:rgb(233, 171, 0); "></i></td>
+                          <td th:text="${mrl.reviewContent}" style="text-align:center;"></td>
+                          <td th:text="${mrl.reviewRegDate}" style="text-align:center;"></td>
+                          <td style="text-align:center;">
+                          	<a th:href="@{/review/modifyMyReview(reviewCode=${mrl.reviewCode})}"><button class="btn btn-secondary">수정</button></a>
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
+                
+                
+            <div class="blogPage" style="display: flex; justify-content:center;">
+				<ul class="pagination" style="margin:3px">
+					<li th:if="${pagination.curRange != 1}">
+						<a th:href="@{/myPage/myReviewList}" aria-label="First"><span aria-hidden="true"></span></a>
+					</li>
+					<li th:if="${pagination.curPage != 1}">
+						<a th:href="@{/myPage/myReviewList(curPage=${pagination.prevPage})}" aria-label="Prev"> <span aria-hidden="true">&#60;</span></a>
+					</li>
+					
+					<th:block th:each="pageNum : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+						<li class="active" th:if="${pageNum == pagination.curPage}">
+							<a th:text="${pageNum}"></a>
+						</li>
+						<li th:unless="${pageNum == pagination.curPage} or ${pagination.listCnt == 0}">
+							<a th:href="@{/myPage/myReviewList(curPage=${pageNum})}" th:text="${pageNum}"></a>
+						</li>
+					</th:block>
+
+					<li th:if="${pagination.curPage != pagination.pageCnt && pagination.pageCnt > 0}">
+						<a th:href="@{/myPage/myReviewList(curPage=${pagination.nextPage})}" aria-label="Next"> <span aria-hidden="true">&#62;</span></a>
+					</li>
+					<li th:if="${pagination.curRange != pagination.rangeCnt && pagination.rangeCnt > 0}">
+						<a th:href="@{/myPage/myReviewList(curPage=${pagination.pageCnt})}" aria-label="Last"> <span aria-hidden="true">>></span></a>
+					</li>
+				</ul>
+              </div>
+                
+                
+                
               </div>
             </div>
           </div>
         </div>
       </section>
 	</th:block>
+	
+    <th:block layout:fragment="customScript">
+       	<script th:inline="javascript">
+	
+			$('.removeMyReviewBtn').click(function(){
+				
+				if(!confirm('상품평을 삭제하시겠습니까?')) {
+					return false;
+				}else{
+					$('.removeMyReviewForm').submit();
+					alert('상품평이 삭제되었습니다.');
+				}
+			}); 
+	      
+	    </script>
+
+    </th:block>
+	
 </html>

@@ -24,5 +24,15 @@ public class CommonController implements CommonNewCode {
 
 		out.flush();
 	}
+	
+	public static void alertRemoveAccount(HttpServletResponse response) throws IOException {
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
 
+		out.println("<script language='javascript'>");
+		out.println("alert('탈퇴한 회원입니다.')");
+		out.println("</script>");
+
+		out.flush();
+	}
 }

@@ -1,7 +1,6 @@
 package ks45team03.rentravel.user.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,15 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ks45team03.rentravel.dto.Block;
 import ks45team03.rentravel.dto.Goods;
 import ks45team03.rentravel.dto.GoodsImg;
 import ks45team03.rentravel.dto.LoginInfo;
 import ks45team03.rentravel.dto.Pagination;
 import ks45team03.rentravel.dto.Review;
 import ks45team03.rentravel.dto.Search;
+import ks45team03.rentravel.mapper.CommonNewCode;
 import ks45team03.rentravel.mapper.UserBlockMapper;
 import ks45team03.rentravel.user.service.GoodsService;
 import ks45team03.rentravel.user.service.ReviewService;
@@ -32,6 +35,7 @@ public class GoodsController {
 	
 	private final GoodsService goodsService;
 	private final WishService wishService;
+	private final CommonNewCode commonNewCode;
 
 	private final UserBlockMapper userBlockMapper;
 
@@ -59,6 +63,7 @@ public class GoodsController {
 		
 		Search searchResult = new Search(searchKey, searchValue);
 		
+		
 		if(loginUser == null) {
 			
 			List<Goods> goodsList = goodsService.getGoodsListNotLogin(startIndex, pageSize,goodsCategoryCode,searchKey,searchValue,goodsRentalAvailability);
@@ -84,8 +89,6 @@ public class GoodsController {
 		return "user/goods/goodsList";
 	}
 	
-	
-	
 	@GetMapping("/goodsDetail")
 	public String goodsDetail(Model model
 							 ,@RequestParam(value="goodsCode") String goodsCode
@@ -97,6 +100,7 @@ public class GoodsController {
 		String loginId =null;
 		
 		boolean equalIdFlag = true;
+		
 		
 		if(loginUser != null) {
 			loginId = loginUser.getLoginId();
@@ -130,7 +134,6 @@ public class GoodsController {
 		List<Review> reviewList = reviewService.getReviewList(goodsCode, startIndex, pageSize);
 		
 		
-		
 		model.addAttribute("goodsImgs",goodsImg);
 		model.addAttribute("checkReviewCount",checkReviewCount);
 		model.addAttribute("checkTradeStatus",checkTradeStatus);
@@ -152,10 +155,29 @@ public class GoodsController {
 	
 	@GetMapping("/modifyGoods")
 	public String modifyGoods(Model model
-							 ,@RequestParam(value="goodsCode") String goodsCode) {
+							 ,@RequestParam(value="goodsCode") String goodsCode
+							 ,HttpSession session
+							 ,HttpServletResponse response) throws IOException {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		if (loginUser == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
+		
+		String loginId = loginUser.getLoginId();
+		
+		String loginUserRegion = goodsService.getLoginUserRegion(loginId);
+		
+		List<Goods> goodsCategoryListForGoods = goodsService.getGoodsCategoryListForGoods();
 		
 		Goods goodsDetail = goodsService.getGoodsDetailByGoodsCode(goodsCode);
 		
+		model.addAttribute("goodsCategoryListForGoods", goodsCategoryListForGoods);
+		model.addAttribute("loginId",loginId);
+		model.addAttribute("loginUserRegion",loginUserRegion);
 		model.addAttribute("goodsDetail",goodsDetail);
 		model.addAttribute("title","상품 상세 정보 화면");
 		return "user/goods/modifyGoods";
@@ -165,6 +187,9 @@ public class GoodsController {
 	public String modifyGoods(Goods goods) {
 		
 		goodsService.modifyGoods(goods);
+		
+		goods.setGoodsDetail(goods.getGoodsDetail().replace("\r\n", "<br>"));
+		
 		String goodsCode = goods.getGoodsCode();
 		String userId = goods.getUserId();
 		
@@ -172,15 +197,44 @@ public class GoodsController {
 	}
 	
 	@GetMapping("/addGoods")
-	public String addGoods(Model model) {
+	public String addGoods(Model model,HttpSession session,HttpServletResponse response) throws IOException {
+		
+		LoginInfo loginUser = (LoginInfo) session.getAttribute("S_USER_INFO");
+		
+		if (loginUser == null) {
+			CommonController.alertPlzLogin(response);
+			
+			return "user/user/login";
+		}
+		String loginId = loginUser.getLoginId();
+		
+		List<Goods> goodsCategoryListForGoods = goodsService.getGoodsCategoryListForGoods();
+		
+		String loginUserRegion = goodsService.getLoginUserRegion(loginId);
+		
 		model.addAttribute("title","상품 상세 정보 화면");
+		model.addAttribute("loginId", loginId);
+		model.addAttribute("loginUserRegion", loginUserRegion);
+		model.addAttribute("goodsCategoryListForGoods", goodsCategoryListForGoods);
+		
 		return "user/goods/addGoods";
 	}
 	
 	@PostMapping("/addGoods")
-	public String addGoods(Goods goods) {
+	public String addGoods(Goods goods
+						  ,@RequestPart(value = "uploadfile", required = false) MultipartFile[] uploadfile
+						  ,HttpServletRequest request) {
 		
-		goodsService.addGoods(goods);
+
+
+		String fileRealPath = "/home/springboot/teamproject/files/";
+		String goodsCode = commonNewCode.getCommonNewCode("tb_goods", "goods_code");
+		
+		goods.setGoodsDetail(goods.getGoodsDetail().replace("\r\n", "<br>"));
+		
+		goods.setGoodsCode(goodsCode);
+		
+		goodsService.addGoods(goods,uploadfile,fileRealPath);
 		
 		return "redirect:/goods/goodsList";
 	}

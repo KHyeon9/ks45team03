@@ -36,37 +36,49 @@
               <div class="panel panel-default">
                 <div class="panel-heading"><h3>MODIFY GOODS</h3></div>
                 <div class="panel-body">
-                
-                  <form th:action="@{/goods/modifyGoods}" method="POST" role="form" th:object="${goodsDetail}">
-                    <div class="form-group">
-                      <label for="">상품코드</label>
-                      <input type="text" class="form-control" id="" name="goodsCode" th:value="*{goodsCode}" readonly>
-                    </div>
+                <th:block th:object=${goodsDetail}>
+                  <form th:action="@{/goods/modifyGoods}" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                       <label for="">상품명</label>
-                      <input type="text" class="form-control" id="" name="goodsName" th:value="*{goodsName}">
+                      <input type="text" class="form-control" id="" th:value="*{goodsName}" name="goodsName" required>
+                    </div>
+                      <input type="hidden" class="form-control" id="" th:value="*{goodsCode}" name="goodsCode" required>
+                      <input type="hidden" class="form-control" id="" th:value="${loginId}" name="userId" required>
+                      <input type="hidden" class="form-control" id="" th:value="${loginUserRegion}" name="regionSggCode" required>
+                    <div class="form-group">
+                      <label for="">카테고리</label>
+                      
+                      <select id="goodsCategoryCode" name="goodsCategoryCode" class="form-control">
+						  <th:block th:if="${not #lists.isEmpty(goodsCategoryListForGoods)}" 
+									  th:each="gclfg : ${goodsCategoryListForGoods}">								
+						  	<option th:value="${gclfg.goodsCategoryCode}" th:selected="${gclfg.goodsCategoryName}">[[${gclfg.goodsCategoryName}]]</option>
+						  </th:block>
+						  <th:block th:unless="${not #lists.isEmpty(goodsCategoryListForGoods)}">								
+							<option>등록된 카테고리가 없습니다.</option>
+				     	  </th:block>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="">상품가치</label>
-                      <input type="text" class="form-control" id="" name="goodsValuePrice" th:value="*{goodsValuePrice}">
+                      <input type="number" class="form-control" th:value="*{goodsValuePrice}" id="" name="goodsValuePrice" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="">구매일자</label>
+                      <input class="form-control" id="" th:value="*{goodsPurchaseDate}" min="1973-01-01" type="date" name="goodsPurchaseDate">
                     </div>
                     <div class="form-group">
                       <label for="">일당 가격</label>
-                      <input type="text" class="form-control" id="" name="goodsDayPrice" th:value="*{goodsDayPrice}">
+                      <input type="number" class="form-control" id="" th:value="*{goodsDayPrice}" name="goodsDayPrice" required>
                     </div>
-                    <div class="form-group">
                       <label for="">상품 상세</label>
-                      <input type="text" class="form-control" id="" name="goodsDetail" th:value="*{goodsDetail}">
-                    </div>
+                      <textarea class="form-control" th:text="*{goodsDetail}" id="exampleFormControlTextarea1" placeholder="상세정보를 입력해주세요." name="goodsDetail" rows="9" required></textarea>
+                    <label for="">사진</label>
                     <div class="form-group">
-                      <label for="">카테고리</label>
-                      <input type="text" class="form-control" id="" name="goodsCategoryCode" th:value="*{goodsCategoryCode}">
-                    </div>
-					
-					
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    	<input id="addImage" type="file" name="uploadfile" multiple="multiple"/>
+					</div>
+                    <button type="submit" class="btn btn-primary btn-block">상품수정</button>
                   </form>
-                  
+                </th:block>
                 </div>
               </div>
             </div>

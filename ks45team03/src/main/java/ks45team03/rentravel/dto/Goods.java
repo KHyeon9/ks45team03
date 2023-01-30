@@ -22,9 +22,14 @@ public class Goods {
 	private String goodsDetail;
 	private String goodsRegDate;
 	private String goodsState;
+	private String fileGroupCode;
 	
+	private String filePath;
+	
+	private String regionSggCode;
 	
 	private String countByCategory;
+	
 	
 	private String goodsCategoryName;
 	

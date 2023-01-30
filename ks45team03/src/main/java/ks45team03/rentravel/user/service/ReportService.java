@@ -1,31 +1,24 @@
 package ks45team03.rentravel.user.service;
 
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ks45team03.rentravel.dto.ReportState;
-import ks45team03.rentravel.dto.ReportType;
 import ks45team03.rentravel.mapper.ReportMapper;
+import lombok.AllArgsConstructor;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class ReportService {
 
 	private final ReportMapper reportMapper;
 	
-	public ReportService(ReportMapper reportMapper) {
-	this.reportMapper = reportMapper;
+	public void reportGoodsList(String goodsCode, String reportTypeCode, String userId, String loginId){
+		reportMapper.reportGoodsList(goodsCode, reportTypeCode, userId, loginId);
 	}
 	
-	public List<ReportState> getReportStateList(){
-		List<ReportState> reportStrateList = reportMapper.getReportStateList();
-		return reportStrateList;
-	}
-	
-	public List<ReportType> getReportTypeList(){
-		List<ReportType> reportTypeList = reportMapper.getReportTypeList();
-		return reportTypeList;
+	public void reportReviewList(String reviewCode, String reportTypeCode, String userId, String loginId){
+		reportMapper.reportReviewList(reviewCode, reportTypeCode, userId, loginId);
 	}
 }

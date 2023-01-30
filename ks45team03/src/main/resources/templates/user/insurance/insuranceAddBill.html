@@ -5,14 +5,29 @@
   
 	  <th:block layout:fragment="customContents">
 	  	<div th:replace="~{user/fragments/insuranceBreadCrumbFragment :: insuranceBreadCrumbFragment}"></div>
+	  	
+	 <style>
+	  	.table-bordered {
+			margin-bottom: 4rem;
+		}
+	  	
+		.table-bordered th {
+			background-color: #f0f0f0;
+		}
+		.text-end {
+ 			 text-align: right !important;
 
-	  	<!-- MAIN CONTENT SECTION -->
-	      <section class="mainContent clearfix blogPage">
-	        <div class="container">
-	        	<h1>보험금청구서작성</h1>
-	        	<hr class="my-4"><br/>
-	        	
-			   <!-- progress-wizard SECTION -->
+		}
+		input {
+			border:none;
+			text-align: center;
+		}
+		    		
+	</style>
+ 	<!-- MAIN CONTENT SECTION -->
+     <section class="mainContent clearfix blogPage">
+       <div class="container">       	
+       		 <!-- progress-wizard SECTION -->
 	        	<div class="row">
 		            <div class="col-md-12">
 		              <div class="innerWrapper clearfix stepsPage">
@@ -38,103 +53,213 @@
 		              </div>
 		            </div>
 		         </div>
-
-<!-- 	      		<form id="addInsuranceBillForm" th:action="@{/user/insurance/insuranceAddBill}" method="post"> -->
-	      			<div class="form-group row">
-						<label for="example-text-input" class="col-md-1 col-form-label">보험코드</label>
-						<div class="col-md-5 selectOptions">
-							<select class="form-control select-drop">
-								<option>보험코드</option>
+      		<form id="addInsuranceBillForm" th:action="@{/insurance/insuranceAddBill}" method="post">			
+		    	<h4>01. 인적사항</h4><br/>
+		    	<p>인적사항은 회원의 정보로 자동 기입됩니다.</p>
+			    <table class="table table-bordered">
+			    	<th:block if="${not #lists.isEmpty(insuranceUserInfo)}" th:each="l : ${insuranceUserInfo}" style="text-transform: none;">
+			            <tr class="text-center" >
+			                <th class="col-md-3">성명</th>
+			             <th:block th:object="${l.user}">
+			                <td class="col-md-3" >
+			                	<input type="text" placeholder="Name" name="userName" th:value="*{userName}" readonly/>
+			                </td>
+						 </th:block>
+			                <th class="col-md-3">이메일</th>
+						 <th:block th:object="${l.user}">
+			                <td class="col-md-3" >
+			                	<input type="text" placeholder="Email" name="userEmail" th:value="*{userEmail}" readonly/>
+			                </td>
+						 </th:block>
+			            </tr>
+			            <tr class="text-center">
+			            	<th>연락처</th>
+			                <th:block th:object="${l.user}">
+			                	<td class="col-md-3">
+			                		<input type="text" placeholder="Number" name="userPhoneNumber" th:value="*{userPhoneNumber}" readonly/>
+			                	</td>
+						 	</th:block>
+			                <th>주소</th>
+			                <th:block th:object="${l.user}">
+			                	<td class="col-md-3">
+			                		<input type="text" placeholder="Addr" name="userAddrDesc" th:value="*{userAddrDesc}" readonly/>
+			                	</td>
+						 	</th:block>
+			            </tr>
+		            </th:block>
+		          </table>
+		          	<h4>02. 보험정보</h4><br/>
+			     	<p>청구할 보험코드를 선택해주세요. 보험코드 선택시 상품코드와 상품명은 자동기입됩니다. </p>
+			     	<table class="table table-bordered">
+					<tr class="text-center">
+		                <th class="col-sm-2">보험코드</th>
+		                <td class="col-sm-2">
+							<select id="insuranceCodeSelect" name="insuranceCode" class="text-center" style="width:100%; border:none;">
 								<th:block if="${not #lists.isEmpty(insuranceList)}" th:each="l : ${insuranceList}" style="text-transform: none;">
-									<option th:text="${l.insuranceCode}" id="insuranceInfoOption" th:selected="${l.insuranceCode == insuranceCode}"></option>
+									<option th:text="${l.insuranceCode}" th:selected="${l.insuranceCode == insuranceCode}"></option>
 								</th:block>
 							</select>
-						</div>
-						<hr class="my-4"><br/>
-					</div>
-	      			
-	      			<h4>1. 인적사항</h4><br/>
-						<div class="form-group row">
-							<label for="example-text-input" class="col-md-2 col-form-label text-center">성명</label>
-							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="홍길동">
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">이메일</label>
-							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="email@example.com">
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">연락처</label>
-							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="000-0000-0000">
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">주소</label>
-							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="address">
-							</div>
-						</div>
-						<hr class="my-4">
+						</td>
+						<th:block if="${not #lists.isEmpty(insuranceInfo)}" th:each="l : ${insuranceInfo}">
+							<td><input type="text" name="insuranceAvailable" th:value="${l.insuranceAvailable}" readonly/></td>
+			            	<th class="col-md-2">상품코드</th>
+			                <td class="col-md-2">
+			                	<input type="text" name="goodsCode" th:value="${l.goodsCode}" readonly/>
+			                </td>
+			                <th class="col-md-2">상품명</th>
+			            		<th:block th:object="${l.goods}">
+			            			<td class="col-md-2">
+				                		<input type="text" name="goodsName" th:value="*{goodsName}" readonly/>
+				                	</td>
+				           		</th:block>
+		                </th:block>
+		            </tr>
+				</table>
+		          <h4>03. 사고사항</h4><br/>
+		          <p>사고유형[분실/파손]과 사고일시, 사고내용을 최대한 상세히 적어주세요.</p>
+		          <table class="table table-bordered">
+		            <tr class="text-center">
+		                <th class="col-sm-3">사고유형</th>
+		                <td class="col-sm-3">
+							<select class="text-center" name="accidentType" style="width:100%; border:none;">
+								<option value="분실">분실</option>
+								<option value="파손">파손</option>
+							</select>
+						</td>
+		                <th class="col-md-3">사고일시</th>
+		                <td class="col-md-3">
+		                	<input type="datetime-local" id="example-datetime-local-input" name="accidentDate" required/>
+		                </td>
+		            </tr>
+		            <tr class="text-center">
+		            	<th class="col-md-3">사고내용</th>
+		                <td colspan="3">
+		                	<textarea placeholder="Contents" name="accidentContent" rows="10" style="width:100%; border:none; padding:5px ;" required></textarea>
+		                </td>
+		            </tr>
+		           </table>
+		           <h4>04. 계좌정보</h4><br/>
+		           <p>보상금을 받을 계좌정보를 입력해주세요. </p>
+		           <table class="table table-bordered">
+		            <tr class="text-center">
+		                <th class="col-md-2">은행명</th>
+		                <td class="col-md-2">
+		                	<input type="text" placeholder="Bank" name="bankName" required/>
+		                </td>
+		                <th class="col-md-2">예금주</th>
+		                <td class="col-md-2">
+		                	<input type="text" placeholder="홍길동" name="accountHolder" required/>
+		                </td>
+		                <th class="col-md-2">계좌번호</th>
+		                <td class="col-md-2">
+		                	<input type="number" placeholder="숫자만입력해주세요" name="accountNumber" required/>
+		                </td>
+		            </tr>
+			      </table>
+			      	<h4>05. 첨부파일</h4><br/>
+					<p>사진 등 증빙자료를 제출해주세요.</p>
+					<table class="table table-bordered">
+						<tr>
+							<th class="col-md-2 text-center">첨부파일</th>
+							<td class="col-md-10">
+			                	<input type="file" id="fileUpload"/>
+			             	</td>
+			             </tr>
+					</table>
+					<h5>06. 알림</h5><br/>
+					<p>보상금 청구상태 변경시 알려줍니다.</p>
+					<input id="checkbox-1" class="checkbox-custom form-check-input" name="checkbox-1" type="checkbox" checked>
+					<label for="checkbox-1" class="checkbox-custom-label form-check-label">E-mail</label>
 					
-						<h4>2. 사고사항</h4><br/>
-						<div class="form-group row">
-							<label for="example-text-input" class="col-md-2 col-form-label">사고유형</label>
-							<div class="col-md-10 selectOptions mb-4">
-								<select name="accidentType" class="form-control select-drop">
-									<option disabled selected>사고유형</option>
-									<option>분실</option>
-									<option>파손</option>
-								</select>
-							</div>
-							<label for="example-datetime-local-input" class="col-md-2 col-form-label">사고일시</label>
-							<div class="col-md-10">
-								<input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">사고내용</label>
-							<div class="col-md-10">
-								<textarea class="form-control" placeholder="Contents" cols="50" rows="10"></textarea>
-							</div>
-						</div>
-						<hr class="my-4">
-						
-						<h4>3. 계좌정보</h4><br/>
-						<div class="form-group row">
-							<label for="example-text-input" class="col-md-2 col-form-label">은행</label>
-							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="Bank">
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">계좌번호</label>
-							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="Number">
-							</div>
-							<label for="example-text-input" class="col-md-2 col-form-label">예금주</label>
-							<div class="col-md-10">
-								<input class="form-control" type="text" placeholder="홍길동">
-							</div>
-						</div>
-						<hr class="my-4"><br/>
-						
-						<div class="form-group row mb-4">
-							<label for="example-text-input" class="col-md-2 col-form-label">첨부파일</label>
-							<div class="col-md-10">
-								<input class="form-control"  type="file" id="fileUpload" />
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label for="example-text-input" class="col-md-2 col-form-label">알림</label>
-							<input id="checkbox-1" class="checkbox-custom form-check-input" name="checkbox-1" type="checkbox" checked>
-							<label for="checkbox-1" class="checkbox-custom-label form-check-label">E-mail</label>
-						</div>
-						
-						<div class="form-group row">
-							<a th:href="@{/insurance/insuranceaddBillPersonInfo}" class="btn btn-primary btn-default card-btn billBtn" style="margin-right:auto; ">이전</a>
-							<a th:href="@{/insurance/insuranceBillRecipt/{insuranceCode}(insuranceCode=${insuranceCode})}" class="btn btn-primary btn-default card-btn billBtn" style="margin-left:auto;">제출</a>
-						</div>
-					<!--</form>  -->
-				</div>
-	      </section>
-	  </th:block>
-	  <th:block layout:fragment="customScript">
+					<br/><br/>
+					<a id="btnBefore" class="btn btn-primary btn-default card-btn billBtn float-left" th:href="@{/insurance/insuranceAddBillPersonInfo/{insuranceCode}(insuranceCode=${insuranceCode})}">이전</a>
+					<button id="btnSubmitBill" type="submit" class="btn btn-primary btn-default card-btn billBtn float-right">제출</button>
+ 				</form>
+			</div>
+    	 </section>
+    </th:block>
+	<th:block layout:fragment="customScript">
 		<script th:inline="javascript">
+			$(function() {
+				$('#btnBefore').on("click", function () {
+					console.log("true");
+					if(confirm("작성중이던 내용이 사라집니다. 정말로 돌아가시겠습니까?")) {
+					}
+					else {
+						return false;
+					}
+				});
+			
+				//select 변경시 ajax로 상품코드 상품명 변경
+				$('#insuranceCodeSelect').change(function() {
+					var text = $('#insuranceCodeSelect option:selected').text();
+					var value = $(this).val();
+					console.log($('#insuranceCodeSelect'));
+					console.log(text);
+					console.log(value);
+					
+					request = $.ajax({
+				            url: "/insurance/insuranceAddBill/{insuranceCode}",
+				            type: "GET",
+							data: {'insuranceCode': text},
+							dataType: "text"
+					});
+					
+					//성공
+					request.done(function() {
+						console.log("success");
+						
+						let url = "/insurance/insuranceAddBill/" + text;
+						
+						location.replace(url);
+					});
+				//실패
+					request.fail(function(jqXHR, textStatus){
+						console.log('Request failed: ' + textStatus);
+					});
+				});
+				
+				//유효성 검사
+				//이미 청구서가 작성된 보험코드는 제출 불가
+				  $('#btnSubmitBill').click( function() {
+					  let text = "insuranceCode";
+					  console.log($("select[name=insuranceCode]").val());
+					  var selectedCode = $("select[name=insuranceCode]").val();
+					  
+					  request = $.ajax({
+				            url: "/insurance/insuranceCode?insuranceCode="+selectedCode,
+				            type: "GET"
+					});
+					  //성공시
+					  request.done(function(data) {
+						  var rv = true;
+						  console.log("success");
+						  console.log(data);
+								if(data == "") {
+									console.log("보험접수가능");
+								}
+								else if(data == "만료") {
+									console.log("만료된보험접수");
+									alert("만료된 보험의 보험코드입니다.\n다른 보험코드로 청구해주세요");
+									rv = false;
+								}
+								else {
+									console.log("보험접수불가능");
+									alert("이미 보험청구가 완료된 보험코드입니다.\n다른 보험코드로 청구해주세요");
+									rv = false;
+
+								}
+					  });
+					  
+					  request.fail(function(jqXHR, textStatus){
+							console.log('Request failed: ' + textStatus);
+							rv = false;
+						});
+					  
+					  return rv;
+				  });
+				
+			});
 			
 		</script>
 	</th:block>
