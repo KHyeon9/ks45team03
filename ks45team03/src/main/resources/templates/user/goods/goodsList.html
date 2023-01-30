@@ -125,8 +125,8 @@
                 
 	                <div class="col-sm-12">
 	                  <div class="media flex-wrap productBox">
-	                    <div class="media-left" style="height:226px">
-	                      <div class="productImage clearfix" >
+	                    <div class="media-left" >
+	                      <div class="productImage clearfix" style="height:226px">
 	                        <img th:src="@{|/files/${gl.filePath}|}" alt="products-img">
 	                        <div class="productMasking">
 	                          <ul class="list-inline btn-group" role="group">
@@ -138,6 +138,7 @@
 	                    <div class="media-body">
 	                      <h4 class="media-heading"><a th:href="@{/goods/goodsDetail(goodsCode=${gl.goodsCode}, userId=${gl.userId})}" th:text="${gl.goodsName}"></a></h4>
 	                      <p>닉네임: <a th:href="@{/userMyPage(userNickName=${gl.userNickname})}" th:text="${gl.userNickname}" style="color: black"></a></p>
+	                      <h4 th:text="|대여 가능 여부: ${gl.goodsRentalAvailability}|"></h4>
 	                      <h4 th:text="|상품 가치: ${gl.goodsValuePrice}|"></h4>
 	                      <h4 th:text="|카테고리: ${gl.goodsCategoryName}|"></h4>
 	                      <h4 th:text="|일당 가격: ${gl.goodsDayPrice}|"></h4>
@@ -223,7 +224,7 @@
 	                      </div>
 	                    </div>
 	                    <div class="media-body">
-	                      <h4 class="media-heading">등록된 상품이 없습니다. 이거 이쁘게 꾸미는 법 아시는 분</h4>
+	                      <h4 class="media-heading">등록된 상품이 없습니다.</h4>
 	                    </div>
 	                  </div>
 	                </div>  
