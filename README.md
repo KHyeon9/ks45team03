@@ -30,7 +30,7 @@
 </div>
 
 ### Team
-#### (ksmart45_03Team_Project)
+
 강현구 
 * Github : https://github.com/KHyeon9
 
