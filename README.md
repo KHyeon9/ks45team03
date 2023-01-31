@@ -2,6 +2,8 @@
 ![logo](https://user-images.githubusercontent.com/92162623/215422658-ffd376ab-a766-4bca-8241-8af490e028b3.png)
 
 ### Project Desc
+![image](https://user-images.githubusercontent.com/92162623/215626140-0573a739-1268-4517-b17d-3e461c31e3f1.png)
+
 주제 : 위치 기반 여행 용품 쌍방향 보험 연동 렌탈 플랫폼 <br />
 
 목적
@@ -12,12 +14,7 @@
 5. 서비스 이용자는 물품렌탈 시 보험에 가입되어 안전하게 물품을 렌탈할 수 있다.
 
 
-
-### Main
-![image](https://user-images.githubusercontent.com/92162623/215626140-0573a739-1268-4517-b17d-3e461c31e3f1.png)
-
-
-### Platforms & Language
+### ⚙Platforms & Language
 <div>
 	<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
 	<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
@@ -39,7 +36,7 @@
 
 ### Team
 
-강현구 
+강현구
 * Github : https://github.com/KHyeon9
 
 오경하
