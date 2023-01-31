@@ -36,19 +36,19 @@
 * Github : https://github.com/KHyeon9
 
 오경하
-* Github :
+* Github : https://github.com/kyeonghaoh
 
 남윤희
-* Github :
+* Github : https://github.com/yoohoo513
 
 신지혜
-* Github :
+* Github : https://github.com/jihyejjangjjang
 
 김예진
-* Github :
+* Github : https://github.com/ki5818
 
 김대현
-* Github :
+* Github : https://github.com/toroy12
 
 ### 배포
 http://138.2.120.114/
