@@ -1,5 +1,4 @@
 # RENTravel
-#### (ksmart45_03Team_Project)
 ![logo](https://user-images.githubusercontent.com/92162623/215422658-ffd376ab-a766-4bca-8241-8af490e028b3.png)
 
 ### Project Desc
@@ -31,7 +30,7 @@
 </div>
 
 ### Team
-
+#### (ksmart45_03Team_Project)
 강현구 
 * Github : https://github.com/KHyeon9
 
