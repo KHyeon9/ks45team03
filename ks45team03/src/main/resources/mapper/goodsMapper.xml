@@ -107,7 +107,7 @@
     </select>
     
     <select id="getMainGoodsList" resultMap="goodsResultMap">
-
+/* */
 		SELECT
 			g.goods_code
 			, g.goods_name
@@ -125,7 +125,7 @@
 		ON
 			f.file_code = fg.file_code
 		where
-			goods_rental_availability = 'Y'
+			g.goods_state = 'activate'
 		order by
 			g.goods_reg_date desc
 		LIMIT 8;
