@@ -61,9 +61,9 @@
                   <div id="menu1" class="tab-pane fade show active">
                     <div class="row">
                       <div class="col-lg-3 col-sm-6 col-12" th:each="mgl : ${mainGoodsList}">
-                        <div class="imageBox">
-                          <div class="productImage clearfix" style="height:254.75px;">
-                              <img th:src="@{|/files/${mgl.filePath}|}" alt="goods-img" style="display:flex; vertical-align: center;">
+                        <div class="imageBox" >
+                          <div class="productImage clearfix" >
+                              <img th:src="@{|/files/${mgl.filePath}|}" alt="goods-img" style="display:flex; vertical-align: center; height:254.75px;">
                             <div class="productMasking">
                               <ul class="list-inline btn-group" role="group">
                                 <li><a th:href="@{/goods/goodsDetail(goodsCode=${mgl.goodsCode}, userId=${mgl.userId})}" class="btn btn-default"><i class="fa fa-eye"></i></a></li>
