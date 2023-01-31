@@ -14,7 +14,7 @@
 5. 서비스 이용자는 물품렌탈 시 보험에 가입되어 안전하게 물품을 렌탈할 수 있다.
 
 
-### ⚙Platforms & Language
+### Platforms & Language
 <div>
 	<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
 	<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
