@@ -1,8 +1,9 @@
 # RENTravel
+#### (ksmart45_03Team_Project)
 ![logo](https://user-images.githubusercontent.com/92162623/215422658-ffd376ab-a766-4bca-8241-8af490e028b3.png)
 
 ![image](https://user-images.githubusercontent.com/92162623/215626140-0573a739-1268-4517-b17d-3e461c31e3f1.png)
-#### ksmart45_03Team_Project
+
 
 #### Platforms & Language
 <div>
