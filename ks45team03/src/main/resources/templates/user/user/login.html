@@ -20,13 +20,18 @@
                       <input type="password" class="form-control" id="userPw" name="userPw">
                     </div>
                     <button type="submit" id="submitBtn" class="btn btn-primary btn-default btn-block">log in</button>
+                  </form>
+                  <form action="/login" id="autoLoginForm" method="POST">
+                    <button type="submit" id="autoLoginBtn" class="btn btn-primary btn-default btn-block mt-1">누르시면 자동으로 로그인됩니다.</button>
+                    <input name="userId" th:value="rentravel" hidden="hidden"/>
+                    <input name="userPw" th:value="rentravel" hidden="hidden"/>
+                  </form>
                     <div class="col-md-12 mt-3" style="text-align:center">
 	                  <span>
 		                  <a th:href="@{/findId}" class="btn" style="color: black">아이디</a>/
 		                  <a th:href="@{/findPw}" class="btn" style="color: black">비밀번호 찾기</a>
 	                  </span> 
                     </div>
-                  </form>
                 </div>
               </div>
             </div>
@@ -65,6 +70,10 @@
 		                })
 		
 		            });
+				  
+				  $('#autoLoginBtn').click(function(){
+					  $('#autoLoginForm').submit();
+				  });
 		</script>
 </th:block>
 </html>
