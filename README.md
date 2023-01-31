@@ -2,7 +2,7 @@
 #### (ksmart45_03Team_Project)
 ![logo](https://user-images.githubusercontent.com/92162623/215422658-ffd376ab-a766-4bca-8241-8af490e028b3.png)
 
-#### Project Desc
+### Project Desc
 주제 : 위치 기반 여행 용품 쌍방향 보험 연동 렌탈 플랫폼 <br />
 
 목적
@@ -14,11 +14,11 @@
 
 
 
-#### Main
+### Main
 ![image](https://user-images.githubusercontent.com/92162623/215626140-0573a739-1268-4517-b17d-3e461c31e3f1.png)
 
 
-#### Platforms & Language
+### Platforms & Language
 <div>
 	<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
 	<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
@@ -30,12 +30,25 @@
 	<img src="https://img.shields.io/badge/jQuery-0769AD?style=flat&logo=jQuery&logoColor=white" />
 </div>
 
+### Team
 
-#### Platforms & Language
+강현구 
+* 깃허브 : https://github.com/KHyeon9
 
-#### Team
-<div>
+오경하
+* 깃허브 :
 
-</div>
+남윤희
+* 깃허브 :
 
-배포 : http://138.2.120.114/
+신지혜
+* 깃허브 :
+
+김예진
+* 깃허브 :
+
+김대현
+* 깃허브 :
+
+### 배포
+http://138.2.120.114/
