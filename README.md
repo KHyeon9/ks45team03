@@ -33,22 +33,22 @@
 ### Team
 
 강현구 
-* 깃허브 : https://github.com/KHyeon9
+* Github : https://github.com/KHyeon9
 
 오경하
-* 깃허브 :
+* Github :
 
 남윤희
-* 깃허브 :
+* Github :
 
 신지혜
-* 깃허브 :
+* Github :
 
 김예진
-* 깃허브 :
+* Github :
 
 김대현
-* 깃허브 :
+* Github :
 
 ### 배포
 http://138.2.120.114/
