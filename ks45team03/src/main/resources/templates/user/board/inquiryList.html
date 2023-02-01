@@ -41,9 +41,9 @@
 		                 
 		                  
 		                  <div class="col-md-9 order-md-1">		                  
-		                 <h5 th:if="${session.S_USER_INFO.loginId == inquiry.userId or session.S_USER_INFO.loginLevelName == '관리자'}"><small style="font-size: 15px; margin-right:10px;">[문의]</small><i class="bi bi-unlock-fill"></i><a th:href="@{/board/inquiryDetail(inquiryBoardCode=${inquiry.inquiryBoardCode})}" th:text="문의합니다." style="color:black;"></a>
+		                 <h5 th:if="${session.S_USER_INFO != null and(session.S_USER_INFO.loginId == inquiry.userId or session.S_USER_INFO.loginLevelName == '관리자')}"><small style="font-size: 15px; margin-right:10px;">[문의]</small><i class="bi bi-unlock-fill"></i><a th:href="@{/board/inquiryDetail(inquiryBoardCode=${inquiry.inquiryBoardCode})}" th:text="문의합니다." style="color:black;"></a>
 		                </h5>
-		                <h5 th:unless="${session.S_USER_INFO.loginId == inquiry.userId or session.S_USER_INFO.loginLevelName == '관리자'}">
+		                <h5 th:unless="${session.S_USER_INFO != null and(session.S_USER_INFO.loginId == inquiry.userId or session.S_USER_INFO.loginLevelName == '관리자')}">
 		                <small style="font-size: 15px; margin-right:10px;">[문의]</small><i class="bi bi-lock-fill"></i><span th:text="문의합니다." style="color:black;"></span>
 		                 </h5>
 		                 
@@ -60,9 +60,9 @@
 		                   <div class="col-md-1"></div>
 		                   <div>
 		                 <th:block th:if="${inquiry.inquiryBoardCode == re.inquiryBoardCode}">
-		                 <h5 th:if="${session.S_USER_INFO.loginId == inquiry.userId or session.S_USER_INFO.loginLevelName == '관리자'}"><small style="font-size: 15px; margin-right:10px;"><i class="bi bi-arrow-return-right"></i> [답변]</small><i class="bi bi-unlock-fill"></i><a th:href="@{/board/inquiryReDetail(inquiryReBoardCode=${re.inquiryReBoardCode})}" th:text="|${inquiry.user.userNickName}님 답변입니다.| " style="color:black;"></a> 
+		                 <h5 th:if="${session.S_USER_INFO != null and (session.S_USER_INFO.loginId == inquiry.userId or session.S_USER_INFO.loginLevelName == '관리자')}"><small style="font-size: 15px; margin-right:10px;"><i class="bi bi-arrow-return-right"></i> [답변]</small><i class="bi bi-unlock-fill"></i><a th:href="@{/board/inquiryReDetail(inquiryReBoardCode=${re.inquiryReBoardCode})}" th:text="|${inquiry.user.userNickName}님 답변입니다.| " style="color:black;"></a> 
 		                 </h5>
-		                 <h5  th:unless="${session.S_USER_INFO.loginId == inquiry.userId or session.S_USER_INFO.loginLevelName == '관리자'}">
+		                 <h5  th:unless="${session.S_USER_INFO != null and(session.S_USER_INFO.loginId == inquiry.userId or session.S_USER_INFO.loginLevelName == '관리자')}">
 		                 <small style="font-size: 15px; margin-right:10px;"><i class="bi bi-arrow-return-right"></i> [답변]</small><i class="bi bi-lock-fill"></i><span th:text="|${inquiry.user.userNickName}님 답변입니다.| " style="color:black;"></span> 		                 
 		                 </h5>
 		                 
