@@ -35,7 +35,8 @@ public class InquiryBoardController {
 	
 	@GetMapping("/inquiryList")
 	public String getInquiryBoardList (Model model
-										,@RequestParam(defaultValue="1", required=false) int curPage) {
+										,@RequestParam(defaultValue="1", required=false) int curPage
+										,HttpSession session ) {
 		
 		int listCnt = inquiryBoardMapper.inquiryBoardListCnt();
 		Pagination pagination = new Pagination(listCnt, curPage);
