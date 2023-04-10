@@ -39,21 +39,27 @@
 ### Team
 
 강현구
+* 결제, 렌탈 관리 및 정보 게시판
 * Github : https://github.com/KHyeon9
 
 오경하
+* 수익 관리 및 사용자 차단, 1 대 1 문의 게시판
 * Github : https://github.com/kyeonghaoh
 
 남윤희
+* 상품 관리 및 채팅
 * Github : https://github.com/yoohoo513
 
 신지혜
+* 사용자 신고 관리, 알림 및 적립금
 * Github : https://github.com/jihyejjangjjang
 
 김예진
+* 보험 서비스
 * Github : https://github.com/ki5818
 
 김대현
+* 회원 관리 및 공지사항, FAQ 게시판
 * Github : https://github.com/toroy12
 
 ### 배포
