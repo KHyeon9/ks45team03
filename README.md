@@ -38,7 +38,7 @@
 
 ### Team
 
-강현구
+강현구 (팀장)
 * 결제, 렌탈 관리 및 정보 게시판
 * Github : https://github.com/KHyeon9
 
