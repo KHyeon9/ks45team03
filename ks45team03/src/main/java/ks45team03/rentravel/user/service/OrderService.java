@@ -22,7 +22,9 @@ import ks45team03.rentravel.mapper.GoodsMapper;
 import ks45team03.rentravel.mapper.MileageMapper;
 import ks45team03.rentravel.mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 @Slf4j
 public class OrderService {
@@ -176,7 +178,7 @@ public class OrderService {
 		mileageUse.setMileageUseAmount(useMileage);
 		mileageUse.setMileageGroupCode(mileageUseGroupCode);
 		System.out.println(mileageUse + "mileageUse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
+
 		// 마일리지 적립 셋팅
 		mileagePaymentSave.setMileagePaymentSaveCode(mileageSaveCode);
 		mileagePaymentSave.setUserId(userId);
@@ -184,9 +186,9 @@ public class OrderService {
 		mileagePaymentSave.setMileageSaveAmount(saveMileage);
 		mileagePaymentSave.setMileageGroupCode(mileageSaveGroupCode);
 		System.out.println(mileagePaymentSave + "mileagePaymentSave~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
+
 		// 마일리지 이력에 셋팅
-		
+
 		MileageSaveUse mileageSaveUse = new MileageSaveUse();
 		User user = new User();
 		mileageSaveUse.setUserId(userId);
